@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:gonana/features/controllers/cart/cart_controller.dart';
 import 'package:gonana/features/presentation/page/market/hot_deals.dart';
+import 'package:gonana/features/presentation/page/market/product_checkout.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
 import 'package:gonana/consts.dart';
 
@@ -162,6 +163,7 @@ class _AddressCourierState extends State<AddressCourier> {
                   child: LongGradientButton(
                     title: 'Proceed to pay', 
                     onPressed: () {
+                      Get.to(()=> ProductCheckout());
                       // cartController.checkOut(order, serviceCode)
                     }
                   )

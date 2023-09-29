@@ -32,7 +32,7 @@ class _ProductCheckoutState extends State<ProductCheckout>{
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const SizedBox(
                 width: double.infinity,
@@ -54,6 +54,7 @@ class _ProductCheckoutState extends State<ProductCheckout>{
                   )
                 )
               ),
+              sizeVer(50),
               Container(
                 height: 235,
                 decoration: BoxDecoration(
@@ -62,108 +63,107 @@ class _ProductCheckoutState extends State<ProductCheckout>{
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Accout Details",
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600
-                              ),
-                            ),
-                          ],
-                        ),
-                        const Text(
-                          "Bank Name",
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0xff444444)
-                          )
-                        ),
-                        const Text(
-                          "Gonana Bank",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xff444444)
-                          )
-                        ),
-                        sizeVer(10),
-                        const Text(
-                          "Account Name",
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0xff444444)
-                          )
-                        ),
-                        const Text(
-                          "Gonana/John Doe",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xff444444)
-                          )
-                        ),
-                        sizeVer(10),
-                        const Text(
-                          "Account Number",
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0xff444444)
-                          )
-                        ),
-                        const Text(
-                          "12345678",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xff444444)
-                          )
-                        ),
-                        sizeVer(10),
-                        Center(
-                          child: Container(
-                            height: 60,
-                            width: 125,
-                            decoration: BoxDecoration(
-                              gradient: const LinearGradient(
-                                colors: [Color(0xff29844B), Color(0xff072C27)]
-                              ),
-                              borderRadius: BorderRadius.circular(5)
-                            ),
-                            child: ElevatedButton(
-                              onPressed: (){
-
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.transparent,
-                                shadowColor: Colors.transparent,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                ),
-                                minimumSize: const Size(185, 60),
-                              ),
-                              child: const Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Flexible(child: Text('Share')),
-                                  const SizedBox(width: 10.0),
-                                  const Icon(Icons.content_copy_outlined),
-                                ],
-                              )
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Accout Details",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600
                             ),
                           ),
+                        ],
+                      ),
+                      const Text(
+                        "Bank Name",
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xff444444)
                         )
-                      ],
-                    ),
+                      ),
+                      const Text(
+                        "Gonana Bank",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xff444444)
+                        )
+                      ),
+                      sizeVer(10),
+                      const Text(
+                        "Account Name",
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xff444444)
+                        )
+                      ),
+                      const Text(
+                        "Gonana/John Doe",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xff444444)
+                        )
+                      ),
+                      sizeVer(10),
+                      const Text(
+                        "Account Number",
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xff444444)
+                        )
+                      ),
+                      const Text(
+                        "12345678",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xff444444)
+                        )
+                      ),
+                      sizeVer(10),
+                      Center(
+                        child: Container(
+                          height: 40,
+                          width: 114,
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [Color(0xff29844B), Color(0xff072C27)]
+                            ),
+                            borderRadius: BorderRadius.circular(5)
+                          ),
+                          child: ElevatedButton(
+                            onPressed: (){
+
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              shadowColor: Colors.transparent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                              minimumSize: const Size(185, 60),
+                            ),
+                            child: const Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Flexible(child: Text('Share')),
+                                const SizedBox(width: 10.0),
+                                const Icon(Icons.content_copy_outlined),
+                              ],
+                            )
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),
@@ -171,13 +171,83 @@ class _ProductCheckoutState extends State<ProductCheckout>{
               Container(
                 height: 136,
                 decoration: BoxDecoration(
-                  color: Color(0xffC8E5D3),
+                  color: const Color(0xffC8E5D3),
                   borderRadius: BorderRadius.circular(7),
                 ),
-                child: Column(
-                  children: [
-                    
-                  ]
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children:[
+                          Text("Price of product",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xff444444)
+                            )
+                          ),
+                          Text("#20,000",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xff444444)
+                            )
+                          )
+                        ]
+                      ),
+                      sizeVer(30),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children:[
+                          Text("Price of delivery",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xff444444)
+                            )
+                          ),
+                          Text("#20,000",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xff444444)
+                            )
+                          )
+                        ]
+                      ),
+                      sizeVer(30),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children:[
+                          Text("Total Price",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xff444444)
+                            )
+                          ),
+                          Text("#20,000",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xff444444)
+                            )
+                          )
+                        ]
+                      )
+                    ]
+                  ),
+                )
+              ),
+              const Spacer(),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: LongGradientButton(
+                  title: 'Proceed',
+                  onPressed: (){}
                 )
               )
             ],
