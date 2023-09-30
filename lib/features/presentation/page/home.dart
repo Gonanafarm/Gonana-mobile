@@ -10,7 +10,6 @@ import 'package:gonana/features/controllers/user/user_controller.dart';
 import 'package:gonana/features/presentation/page/feeds/feed_page.dart';
 import 'package:gonana/features/presentation/page/notification/notification.dart';
 import 'package:gonana/features/presentation/page/settings/settings.dart';
-
 import '../../../consts.dart';
 import 'market/market_page.dart';
 import 'wallet/wallet_page.dart';
