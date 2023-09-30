@@ -132,12 +132,7 @@ class _AddressCourierState extends State<AddressCourier> {
                                             textAlign: TextAlign.left),
                                       ),
                                       const SizedBox(height: 20),
-                                      SizedBox(
-                                          child: GetBuilder<CartController>(
-                                              init: CartController(),
-                                              builder: (_) {
-                                                return listAvailableCouriers();
-                                              }))
+                                      SizedBox(child: listAvailableCouriers())
                                     ]),
                               ),
                             ]),
@@ -177,28 +172,30 @@ class _AddressCourierState extends State<AddressCourier> {
   }
 
   Widget listAvailableCouriers() {
-    return cartController.couriers.isNotEmpty
+    return cartController.courierModel! != null
         ? ListView.builder(
-            itemCount: cartController.couriers.length,
+            itemCount: cartController.courierModel?.couriers?.length ?? 0,
             shrinkWrap: true,
             itemBuilder: (context, index) {
               var courierItem = cartController.couriers[index];
               return InkWell(
                 onTap: () {
                   setState(() {
-                    log('selected: ${courierItem.service_code}');
+                    log('selected: ${cartController.courierModel!.couriers![index].serviceCode}');
                     isSelected = !isSelected;
-                    log('${courierItem.service_code} isSelected: $isSelected');
+                    log('${cartController.courierModel!.couriers![index].serviceCode} isSelected: $isSelected');
                   });
                 },
                 child: CourierWidget(
-                  title: courierItem.name!,
-                  imageUrl: courierItem.pin_image!,
+                  title:
+                      "${cartController.courierModel!.couriers![index].name}",
+                  imageUrl:
+                      "${cartController.courierModel!.couriers![index].pinImage}",
                   isSelected: isSelected,
                 ),
               );
             })
-        : SizedBox(child: SvgPicture.asset('assets/placeholder.svg'));
+        : SizedBox(child: SvgPicture.asset('assets/svgs/placeholder.svg'));
   }
 }
 

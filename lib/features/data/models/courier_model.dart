@@ -1,35 +1,59 @@
+// To parse this JSON data, do
+//
+//     final courierModel = courierModelFromJson(jsonString);
+
 import 'dart:convert';
 
-// List<CourierModel> courierModelFromJson(String str) => 
-//   List<CourierModel>.from(json.decode(str).map((x) => 
-//     CourierModel.fromJson(x)));
+CourierModel courierModelFromJson(String str) =>
+    CourierModel.fromJson(json.decode(str));
 
-String courierModelToJson(List<CourierModel> data) => 
-  json.encode(List<dynamic>.from(data.map((x) => 
-    x.toJson())));
+String courierModelToJson(CourierModel data) => json.encode(data.toJson());
 
-class CourierModel{
-  String? name;
-  String? pin_image;
-  String? service_code;
+class CourierModel {
+  bool? success;
+  List<Courier>? couriers;
 
   CourierModel({
-    this.name,
-    this.pin_image,
-    this.service_code,
+    this.success,
+    this.couriers,
   });
 
-  CourierModel fromJson(Map<String, dynamic>json) {
-    return CourierModel(
-      name: json["name"],
-      pin_image: json["pin_image"],
-      service_code: json["service_code"]
-    );
-  }
+  factory CourierModel.fromJson(Map<String, dynamic> json) => CourierModel(
+        success: json["success"],
+        couriers: json["couriers"] == null
+            ? []
+            : List<Courier>.from(
+                json["couriers"]!.map((x) => Courier.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "name" : name,
-    "Pin_image" : pin_image,
-    "service_code" : service_code
-  };
+        "success": success,
+        "couriers": couriers == null
+            ? []
+            : List<dynamic>.from(couriers!.map((x) => x.toJson())),
+      };
+}
+
+class Courier {
+  String? name;
+  String? pinImage;
+  String? serviceCode;
+
+  Courier({
+    this.name,
+    this.pinImage,
+    this.serviceCode,
+  });
+
+  factory Courier.fromJson(Map<String, dynamic> json) => Courier(
+        name: json["name"],
+        pinImage: json["pin_image"],
+        serviceCode: json["service_code"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "pin_image": pinImage,
+        "service_code": serviceCode,
+      };
 }

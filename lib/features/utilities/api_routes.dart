@@ -64,7 +64,7 @@ class ApiRoute {
   static const validateAddress = 'api/logistics/validate-user-address';
 
   //Fetch Courier
-  static const fetchCourier = 'api/catalog/order';
+  static const fetchCourier = 'api/logistics/get-couriers';
 
   //Fetch banks
   static const fetchBanks = 'api/user/bank-details';
