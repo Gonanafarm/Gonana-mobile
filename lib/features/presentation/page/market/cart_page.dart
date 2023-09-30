@@ -188,12 +188,12 @@ class _CartPageState extends State<CartPage> {
                                     setState(() {
                                       isLoading = false;
                                     });
-                                    Get.to(() => const AddressCourier());
                                     for (var product in checkedItems) {
                                       orderList.add(Order(
                                           id: "${product.id}",
                                           units: product.unit));
                                     }
+                                    Get.to(() => const AddressCourier());
                                     // Passes the value here
                                     bool isSuccess = await cartController
                                         .checkOut(orderList);

@@ -8,6 +8,9 @@ import 'package:gonana/features/presentation/page/market/hot_deals.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
 import 'package:gonana/consts.dart';
 
+import '../../../data/models/order_model.dart';
+import 'cart_page.dart';
+
 class AddressCourier extends StatefulWidget {
   const AddressCourier({super.key});
 
@@ -21,6 +24,7 @@ class _AddressCourierState extends State<AddressCourier> {
   String get address => _address.text;
   bool isValidated = false;
   bool isSelected = false;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -145,9 +149,26 @@ class _AddressCourierState extends State<AddressCourier> {
                 Align(
                     alignment: Alignment.bottomCenter,
                     child: LongGradientButton(
+                        isLoading: isLoading,
                         title: 'Proceed to pay',
-                        onPressed: () {
+                        onPressed: () async {
                           // cartController.checkOut(order, serviceCode)
+                          setState(() {
+                            isLoading = true;
+                          });
+                          for (var product in checkedItems) {
+                            orderList.add(Order(
+                                id: "${product.id}", units: product.unit));
+                          }
+                          Get.to(() => const AddressCourier());
+                          // Passes the value here
+                          bool isSuccess =
+                              await cartController.checkOut(orderList);
+                          if (isSuccess) {
+                            setState(() {
+                              isLoading = false;
+                            });
+                          }
                         }))
               ],
             ),
