@@ -140,12 +140,10 @@ class _SettingsProfileState extends State<SettingsProfile> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           if (userController.userModel.value != null &&
-                              userController.userModel.value.user != null &&
-                              userController
-                                      .userModel.value.user!.profilePhoto !=
+                              userController.userModel.value.profilePhoto !=
                                   null &&
-                              userController.userModel.value.user!.profilePhoto!
-                                  .isNotEmpty)
+                              userController
+                                  .userModel.value.profilePhoto!.isNotEmpty)
                             Stack(
                               alignment: AlignmentDirectional.bottomEnd,
                               children: [
@@ -154,7 +152,7 @@ class _SettingsProfileState extends State<SettingsProfile> {
                                   width: 82,
                                   child: ClipOval(
                                     child: getImageWidget(
-                                      "${userController.userModel.value.user!.profilePhoto}",
+                                      "${userController.userModel.value.profilePhoto}",
                                     ),
                                   ),
                                 ),
@@ -186,12 +184,11 @@ class _SettingsProfileState extends State<SettingsProfile> {
                               ],
                             )
                           else if (userController.userModel.value != null &&
-                              userController.userModel.value.user != null &&
-                              userController
-                                      .userModel.value.user!.profilePhoto !=
+                              userController.userModel.value != null &&
+                              userController.userModel.value.profilePhoto !=
                                   null &&
-                              userController.userModel.value.user!.profilePhoto!
-                                  .isNotEmpty)
+                              userController
+                                  .userModel.value.profilePhoto!.isNotEmpty)
                             Obx(() {
                               return Stack(
                                 alignment: AlignmentDirectional.bottomEnd,
@@ -203,7 +200,7 @@ class _SettingsProfileState extends State<SettingsProfile> {
                                       child: FadeInImage(
                                         fit: BoxFit.cover,
                                         image: NetworkImage(
-                                          "${userController.userModel.value.user!.profilePhoto}",
+                                          "${userController.userModel.value.profilePhoto}",
                                         ),
                                         placeholder: const AssetImage(
                                           "assets/images/gonanas_profile.png",
@@ -242,17 +239,16 @@ class _SettingsProfileState extends State<SettingsProfile> {
                           Row(
                             children: [
                               if (userController.userModel.value != null &&
-                                  userController.userModel.value.user != null &&
-                                  userController
-                                          .userModel.value.user!.profilePhoto !=
+                                  userController.userModel.value != null &&
+                                  userController.userModel.value.profilePhoto !=
                                       null &&
-                                  userController.userModel.value.user!
-                                      .profilePhoto!.isNotEmpty)
+                                  userController
+                                      .userModel.value.profilePhoto!.isNotEmpty)
                                 Container(
                                   width:
                                       MediaQuery.of(context).size.width * 0.5,
                                   child: Text(
-                                    '${userController.userModel.value.user!.lastName} ${userController.userModel.value.user!.firstName}',
+                                    '${userController.userModel.value.lastName} ${userController.userModel.value.firstName}',
                                     style: const TextStyle(
                                       overflow: TextOverflow.ellipsis,
                                       fontSize: 24,

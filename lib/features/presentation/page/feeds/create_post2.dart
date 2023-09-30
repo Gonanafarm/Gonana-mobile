@@ -79,7 +79,6 @@ class _CreatePost2State extends State<CreatePost2> {
                                               ? (userController
                                                           .userModel
                                                           .value
-                                                          .user!
                                                           .profilePhoto
                                                           ?.isEmpty ??
                                                       true)
@@ -88,7 +87,7 @@ class _CreatePost2State extends State<CreatePost2> {
                                                       width: 30,
                                                       child: ClipOval(
                                                         child: getImageWidget(
-                                                          "${userController.userModel.value.user!.profilePhoto}",
+                                                          "${userController.userModel.value.profilePhoto}",
                                                         ),
                                                       ),
                                                     )
@@ -100,7 +99,7 @@ class _CreatePost2State extends State<CreatePost2> {
                                                           child: FadeInImage(
                                                             fit: BoxFit.cover,
                                                             image: NetworkImage(
-                                                              "${userController.userModel.value.user!.profilePhoto}",
+                                                              "${userController.userModel.value.profilePhoto}",
                                                             ),
                                                             placeholder:
                                                                 const AssetImage(
@@ -129,7 +128,7 @@ class _CreatePost2State extends State<CreatePost2> {
                                                                 .width *
                                                             0.4,
                                                         child: Text(
-                                                          '${userController.userModel.value.user!.lastName} ${userController.userModel.value.user!.firstName}',
+                                                          '${userController.userModel.value.lastName} ${userController.userModel.value.firstName}',
                                                           style:
                                                               const TextStyle(
                                                             overflow:

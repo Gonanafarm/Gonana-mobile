@@ -37,10 +37,11 @@ class UserController extends GetxController {
       print("email addy ${userEmailAdd}");
       var responseBody = await NetworkApi()
           .authGetData("${ApiRoute.fetchUserByEmail}/$userEmailAdd");
+      print("GOT HERE");
       // final response = jsonDecode(responseBody.body);
       userModel.value = userModelFromJson(responseBody.body);
       update();
-      log("${userModel.value.user!.firstName}");
+      log(" user details gotten ${userModel.value.email}");
       return true;
     } catch (e) {
       print(e);

@@ -9,26 +9,6 @@ UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
 String userModelToJson(UserModel data) => json.encode(data.toJson());
 
 class UserModel {
-  String? token;
-  User? user;
-
-  UserModel({
-    this.token,
-    this.user,
-  });
-
-  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-        token: json["token"],
-        user: json["user"] == null ? null : User.fromJson(json["user"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "token": token,
-        "user": user?.toJson(),
-      };
-}
-
-class User {
   String? id;
   String? email;
   String? firstName;
@@ -44,7 +24,7 @@ class User {
   String? virtualAccountBankName;
   List<dynamic>? address;
 
-  User({
+  UserModel({
     this.id,
     this.email,
     this.firstName,
@@ -61,7 +41,7 @@ class User {
     this.address,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
+  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         id: json["id"],
         email: json["email"],
         firstName: json["first_name"],

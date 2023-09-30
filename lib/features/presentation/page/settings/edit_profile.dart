@@ -61,22 +61,19 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     if (userController.userModel.value != null &&
-        userController.userModel.value.user != null &&
-        userController.userModel.value.user!.firstName != null &&
-        userController.userModel.value.user!.firstName!.isNotEmpty &&
-        userController.userModel.value.user!.lastName != null &&
-        userController.userModel.value.user!.lastName!.isNotEmpty &&
-        userController.userModel.value.user!.email != null &&
-        userController.userModel.value.user!.email!.isNotEmpty &&
-        userController.userModel.value.user!.phone != null &&
-        userController.userModel.value.user!.phone!.isNotEmpty) {
-      firstNameController.text =
-          userController.userModel.value.user!.firstName ?? '';
-      lastNameController.text =
-          userController.userModel.value.user!.lastName ?? '';
-      emailController.text = userController.userModel.value.user!.email ?? '';
-      phoneNumberController.text =
-          userController.userModel.value.user!.phone ?? '';
+        userController.userModel.value != null &&
+        userController.userModel.value.firstName != null &&
+        userController.userModel.value.firstName!.isNotEmpty &&
+        userController.userModel.value.lastName != null &&
+        userController.userModel.value.lastName!.isNotEmpty &&
+        userController.userModel.value.email != null &&
+        userController.userModel.value.email!.isNotEmpty &&
+        userController.userModel.value.phone != null &&
+        userController.userModel.value.phone!.isNotEmpty) {
+      firstNameController.text = userController.userModel.value.firstName ?? '';
+      lastNameController.text = userController.userModel.value.lastName ?? '';
+      emailController.text = userController.userModel.value.email ?? '';
+      phoneNumberController.text = userController.userModel.value.phone ?? '';
     }
     return Scaffold(
       backgroundColor: const Color(0xffF1F1F1),

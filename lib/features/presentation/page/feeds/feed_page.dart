@@ -86,16 +86,16 @@ class _FeedsPageState extends State<FeedsPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          userController.userModel.value?.user != null
-                              ? (userController.userModel.value!.user!
-                                          .profilePhoto?.isEmpty ??
+                          userController.userModel.value != null
+                              ? (userController.userModel.value.profilePhoto
+                                          ?.isEmpty ??
                                       true)
                                   ? Container(
                                       height: 50,
                                       width: 50,
                                       child: ClipOval(
                                         child: getImageWidget(
-                                          "${userController.userModel.value!.user!.profilePhoto}",
+                                          "${userController.userModel.value.profilePhoto}",
                                         ),
                                       ),
                                     )
@@ -107,7 +107,7 @@ class _FeedsPageState extends State<FeedsPage> {
                                           child: FadeInImage(
                                             fit: BoxFit.cover,
                                             image: NetworkImage(
-                                              "${userController.userModel.value!.user!.profilePhoto}",
+                                              "${userController.userModel.value.profilePhoto}",
                                             ),
                                             placeholder: const AssetImage(
                                               "assets/images/gonanas_profile.png",
@@ -130,7 +130,7 @@ class _FeedsPageState extends State<FeedsPage> {
                                       width: MediaQuery.of(context).size.width *
                                           0.4,
                                       child: Text(
-                                        '${userController.userModel.value!.user?.lastName ?? ''} ${userController.userModel.value!.user?.firstName ?? ''}',
+                                        '${userController.userModel.value.lastName ?? ''} ${userController.userModel.value.firstName ?? ''}',
                                         style: const TextStyle(
                                           overflow: TextOverflow.ellipsis,
                                           fontSize: 16,
