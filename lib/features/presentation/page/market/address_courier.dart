@@ -143,7 +143,7 @@ class _AddressCourierState extends State<AddressCourier> {
                                   child: GetBuilder<CartController>(
                                     init: CartController(),
                                     builder: (_){
-                                      return listAvailableTransactions();
+                                      return listAvailableCouriers();
                                     }
                                   )
                                 )
@@ -174,7 +174,7 @@ class _AddressCourierState extends State<AddressCourier> {
     );
   }
 
-  Widget listAvailableTransactions(){
+  Widget listAvailableCouriers(){
     return cartController.couriers.isNotEmpty ?
     ListView.builder(
       itemCount: cartController.couriers.length,
