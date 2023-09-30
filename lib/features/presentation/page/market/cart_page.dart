@@ -195,9 +195,9 @@ class _CartPageState extends State<CartPage> {
                                     }
                                     Get.to(() => const AddressCourier());
                                     // Passes the value here
-                                    bool isSuccess = await cartController
-                                        .checkOut(orderList);
-                                    if (isSuccess) {}
+                                    // bool isSuccess = await cartController
+                                    //     .checkOut(orderList);
+                                    // if (isSuccess) {}
                                     // Wrap it inside a function
                                   },
                                   child: Container(

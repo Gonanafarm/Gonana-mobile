@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:gonana/features/controllers/cart/cart_controller.dart';
 import 'package:gonana/features/presentation/page/market/hot_deals.dart';
+import 'package:gonana/features/presentation/page/market/product_checkout.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
 import 'package:gonana/consts.dart';
 
@@ -23,8 +24,9 @@ class _AddressCourierState extends State<AddressCourier> {
   final TextEditingController _address = TextEditingController();
   String get address => _address.text;
   bool isValidated = false;
-  bool isSelected = false;
+  bool isiTemSelected = false;
   bool isLoading = false;
+  var selectedCourier;
 
   @override
   void initState() {
@@ -41,17 +43,16 @@ class _AddressCourierState extends State<AddressCourier> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            )
-          ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.black,
+              )),
         ),
-      body: SafeArea(
-        child: SingleChildScrollView(
+        body: SafeArea(
+            child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
@@ -133,7 +134,9 @@ class _AddressCourierState extends State<AddressCourier> {
                                             textAlign: TextAlign.left),
                                       ),
                                       const SizedBox(height: 20),
-                                      SizedBox(child: listAvailableCouriers())
+                                      SizedBox(
+                                          child: listAvailableCouriers(
+                                              selectedCourier))
                                     ]),
                               ),
                             ]),
@@ -156,11 +159,12 @@ class _AddressCourierState extends State<AddressCourier> {
                             orderList.add(Order(
                                 id: "${product.id}", units: product.unit));
                           }
-                          Get.to(() => const AddressCourier());
+                          // Get.to(() => const AddressCourier());
                           // Passes the value here
-                          bool isSuccess =
-                              await cartController.checkOut(orderList);
+                          bool isSuccess = await cartController.proceedToPay(
+                              orderList, courierItem.serviceCode, context);
                           if (isSuccess) {
+                            Get.to(() => const ProductCheckout());
                             setState(() {
                               isLoading = false;
                             });
@@ -169,86 +173,116 @@ class _AddressCourierState extends State<AddressCourier> {
               ],
             ),
           ),
-        )
-      )
-    );
+        )));
   }
 
-  Widget listAvailableCouriers() {
-    return cartController.courierModel! != null
+  var courierItem;
+  Widget listAvailableCouriers(var selectedCourier) {
+    return cartController.courierModel != null
         ? ListView.builder(
             itemCount: cartController.courierModel?.couriers?.length ?? 0,
             shrinkWrap: true,
             itemBuilder: (context, index) {
-              var courierItem = cartController.couriers[index];
+              final courierModel = cartController.courierModel;
+
+              if (courierModel == null || courierModel.couriers == null) {
+                // Handle null values as needed, e.g., return a placeholder widget.
+                return SizedBox(child: Container());
+              }
+
+              if (index >= courierModel.couriers!.length) {
+                // Handle the case where the index is out of bounds.
+                return SizedBox(); // Or any other appropriate handling.
+              }
+
+              courierItem = courierModel.couriers![index];
+
               return InkWell(
                 onTap: () {
                   setState(() {
-                    log('selected: ${cartController.courierModel!.couriers![index].serviceCode}');
-                    isSelected = !isSelected;
-                    log('${cartController.courierModel!.couriers![index].serviceCode} isSelected: $isSelected');
+                    selectedCourier = courierItem.serviceCode;
+                    log('selected: ${selectedCourier}');
+                    isSelected = !isiTemSelected;
+                    log('${courierItem.serviceCode} isSelected: $isSelected');
                   });
                 },
                 child: CourierWidget(
-                  title:
-                      "${cartController.courierModel!.couriers![index].name}",
-                  imageUrl:
-                      "${cartController.courierModel!.couriers![index].pinImage}",
-                  isSelected: isSelected,
+                  title: "${courierItem.name}",
+                  imageUrl: "${courierItem.pinImage}",
+                  index: index,
                 ),
               );
-            })
-        : SizedBox(child: SvgPicture.asset('assets/svgs/placeholder.svg'));
+            },
+          )
+        : SizedBox(child: Container());
   }
 }
+
+bool isiTemSelected = false;
 
 class CourierWidget extends StatefulWidget {
   final String title;
   final String imageUrl;
-  final bool isSelected;
-  const CourierWidget({
-    super.key,
+  final int index;
+
+  CourierWidget({
+    Key? key,
     required this.title,
     required this.imageUrl,
-    required this.isSelected,
-  });
+    required this.index,
+  }) : super(key: key);
 
   @override
   State<CourierWidget> createState() => _CourierWidgetState();
 }
 
 class _CourierWidgetState extends State<CourierWidget> {
+  bool isSelected = false; // Local isSelected state for each widget
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-          height: 56,
-          // width: 342,
+    return InkWell(
+      onTap: () {
+        setState(() {
+          isSelected = !isSelected;
+          log('selected: ${widget.title}');
+          log('${widget.title} isSelected: $isSelected');
+          isiTemSelected = true;
+        });
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
           color: Colors.white,
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
-              child: Image.network(widget.imageUrl,
-                  height: 38, width: 38, fit: BoxFit.contain),
-            ),
-            Text(
-              widget.title,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
-              child: SizedBox(
-                  child: widget.isSelected
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
+                child: Image.network(widget.imageUrl,
+                    height: 38, width: 38, fit: BoxFit.contain),
+              ),
+              Text(
+                widget.title,
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
+                child: SizedBox(
+                  child: isSelected
                       ? Image.asset('assets/images/check.png',
                           height: 30, width: 30, fit: BoxFit.fill)
                       : Image.asset('assets/images/checked.png',
-                          height: 30, width: 30, fit: BoxFit.fill)
-                  //isSelected ? const Icon(Icons.arrow_forward_ios) : const
-                  ),
-            ),
-          ])),
+                          height: 30, width: 30, fit: BoxFit.fill),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
