@@ -37,15 +37,15 @@ class _AddressCourierState extends State<AddressCourier> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-                color: Colors.black,
-              )),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            )
+          ),
         ),
-      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -156,7 +156,6 @@ class _AddressCourierState extends State<AddressCourier> {
                     ),
                   ),
                 ),
-              ),
               sizeVer(45),
               Align(
                   alignment: Alignment.bottomCenter,
@@ -170,7 +169,9 @@ class _AddressCourierState extends State<AddressCourier> {
               ],
             ),
           ),
-        )));
+        )
+      )
+    );
   }
 
   Widget listAvailableCouriers(){
