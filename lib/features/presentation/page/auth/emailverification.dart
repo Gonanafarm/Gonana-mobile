@@ -7,6 +7,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:gonana/consts.dart';
 import 'package:gonana/features/presentation/page/auth/register_bank.dart';
 import 'package:gonana/features/presentation/page/market/cart_page.dart';
+import 'package:gonana/features/presentation/page/profile_photo/add_profile_photo1.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../controllers/auth/otp_controller.dart';
 import '../../../controllers/user/user_controller.dart';
@@ -175,7 +176,7 @@ class _VerificationState extends State<Verification> {
                       showDialog(
                         context: context,
                         barrierDismissible:
-                            false, // Set to true if you want to allow dismissing the dialog by tapping outside it
+                            true, // Set to true if you want to allow dismissing the dialog by tapping outside it
                         builder: (BuildContext context) {
                           return BackdropFilter(
                             filter: ImageFilter.blur(
@@ -201,7 +202,7 @@ class _VerificationState extends State<Verification> {
                                     child: DialogGradientButton(
                                       title: 'Proceed',
                                       onPressed: () async {
-                                        Get.to(() => const RegisterBank());
+                                        Get.to(() => const AddProfilePhoto());
                                       },
                                     ),
                                   ),
