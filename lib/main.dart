@@ -144,8 +144,8 @@ class _MyAppState extends State<MyApp> {
           token = prefs!.getString('token');
           print("token: $token");
           return GetMaterialApp(
-              debugShowCheckedModeBanner: false,
-              home: token != null && registrationStage == 5
+            debugShowCheckedModeBanner: false,
+            home:token != null && registrationStage == 5
                   ? UpgradeAlert(child: HomePage(navIndex: 0))
                   : token != null && registrationStage == 4
                       ? const SetPasscode()
@@ -155,10 +155,11 @@ class _MyAppState extends State<MyApp> {
                                   ? const Verification()
                                   : token != null && registrationStage == 1
                                       ? const SignUp()
-                                      : const Splash1());
+                                      : const Splash1()
+          );
         }
-
       },
     );
   }
 }
+
