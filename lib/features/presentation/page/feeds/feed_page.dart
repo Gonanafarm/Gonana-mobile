@@ -86,16 +86,16 @@ class _FeedsPageState extends State<FeedsPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          userController.userModel.value != null
-                              ? (userController.userModel.value.profilePhoto
-                                          ?.isEmpty ??
+                          userController.userModel.value?.user != null
+                              ? (userController.userModel.value!.user!
+                                          .profilePhoto?.isEmpty ??
                                       true)
                                   ? Container(
                                       height: 50,
                                       width: 50,
                                       child: ClipOval(
                                         child: getImageWidget(
-                                          "${userController.userModel.value.profilePhoto}",
+                                          "${userController.userModel.value!.user!.profilePhoto}",
                                         ),
                                       ),
                                     )
@@ -107,7 +107,7 @@ class _FeedsPageState extends State<FeedsPage> {
                                           child: FadeInImage(
                                             fit: BoxFit.cover,
                                             image: NetworkImage(
-                                              "${userController.userModel.value.profilePhoto}",
+                                              "${userController.userModel.value!.user!.profilePhoto}",
                                             ),
                                             placeholder: const AssetImage(
                                               "assets/images/gonanas_profile.png",
@@ -116,7 +116,8 @@ class _FeedsPageState extends State<FeedsPage> {
                                         ),
                                       );
                                     })
-                              : Container(), // Handle the case when userModel.value is null
+                              : Container(),
+                          // Handle the case when userModel.value is null
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.03,
                           ),
@@ -129,7 +130,7 @@ class _FeedsPageState extends State<FeedsPage> {
                                       width: MediaQuery.of(context).size.width *
                                           0.4,
                                       child: Text(
-                                        '${userController.userModel.value.lastName} ${userController.userModel.value.firstName}',
+                                        '${userController.userModel.value!.user?.lastName ?? ''} ${userController.userModel.value!.user?.firstName ?? ''}',
                                         style: const TextStyle(
                                           overflow: TextOverflow.ellipsis,
                                           fontSize: 16,
@@ -137,7 +138,8 @@ class _FeedsPageState extends State<FeedsPage> {
                                         ),
                                       ),
                                     )
-                                  : Container(), // Handle the case when userModel.value is null
+                                  : Container(),
+                              // Handle the case when userModel.value is null
                             ],
                           ),
                         ],
@@ -290,34 +292,37 @@ class _FeedsPageState extends State<FeedsPage> {
                                                     EdgeInsets.symmetric(
                                                         horizontal: 15.0),
                                                 leading: postController
-                                                        .postModel
-                                                        .data![reversedIndex]
-                                                        .ownerPhoto!
-                                                        .isEmpty
+                                                            .postModel
+                                                            .data?[
+                                                                reversedIndex]
+                                                            ?.ownerPhoto
+                                                            ?.isEmpty ??
+                                                        true
                                                     ? Container(
                                                         height: 30,
                                                         width: 30,
                                                         child: ClipOval(
                                                           child: getImageWidget(
-                                                              "${postController.postModel.data![reversedIndex].ownerPhoto!}"),
+                                                            "${postController.postModel.data?[reversedIndex]?.ownerPhoto ?? ''}",
+                                                          ),
                                                         ),
                                                       )
-                                                    : Obx(() {
-                                                        return Container(
-                                                          height: 30,
-                                                          width: 30,
-                                                          child: ClipOval(
-                                                            child: FadeInImage(
-                                                              fit: BoxFit.cover,
-                                                              image: NetworkImage(
-                                                                  "${postController.postModel.data![reversedIndex].ownerPhoto!}"),
-                                                              placeholder:
-                                                                  const AssetImage(
-                                                                      "assets/images/gonanas_profile.png"),
+                                                    : Container(
+                                                        height: 30,
+                                                        width: 30,
+                                                        child: ClipOval(
+                                                          child: FadeInImage(
+                                                            fit: BoxFit.cover,
+                                                            image: NetworkImage(
+                                                              "${postController.postModel.data?[reversedIndex]?.ownerPhoto ?? ''}",
                                                             ),
+                                                            placeholder:
+                                                                const AssetImage(
+                                                                    "assets/images/gonanas_profile.png"),
                                                           ),
-                                                        );
-                                                      }),
+                                                        ),
+                                                      ),
+
                                                 title: Row(
                                                   // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                   children: [
@@ -483,7 +488,8 @@ class _FeedsPageState extends State<FeedsPage> {
                                                                 "product");
                                                         print(postController
                                                             .postModel
-                                                            .data![index]
+                                                            .data![
+                                                                reversedIndex]
                                                             .ownerId);
                                                         if (created) {
                                                           print(postController

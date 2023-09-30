@@ -24,7 +24,7 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void initState() {
     getUserDetails();
-    print("name: ${userController.userModel.value.firstName}");
+    // print("name: ${userController.userModel.value.user!.firstName}");
     // _tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
@@ -60,11 +60,23 @@ class _EditProfileState extends State<EditProfile> {
   final _editProfileKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    if (userController.userModel.value != null) {
-      firstNameController.text = userController.userModel.value.firstName ?? '';
-      lastNameController.text = userController.userModel.value.lastName ?? '';
-      emailController.text = userController.userModel.value.email ?? '';
-      phoneNumberController.text = userController.userModel.value.phone ?? '';
+    if (userController.userModel.value != null &&
+        userController.userModel.value.user != null &&
+        userController.userModel.value.user!.firstName != null &&
+        userController.userModel.value.user!.firstName!.isNotEmpty &&
+        userController.userModel.value.user!.lastName != null &&
+        userController.userModel.value.user!.lastName!.isNotEmpty &&
+        userController.userModel.value.user!.email != null &&
+        userController.userModel.value.user!.email!.isNotEmpty &&
+        userController.userModel.value.user!.phone != null &&
+        userController.userModel.value.user!.phone!.isNotEmpty) {
+      firstNameController.text =
+          userController.userModel.value.user!.firstName ?? '';
+      lastNameController.text =
+          userController.userModel.value.user!.lastName ?? '';
+      emailController.text = userController.userModel.value.user!.email ?? '';
+      phoneNumberController.text =
+          userController.userModel.value.user!.phone ?? '';
     }
     return Scaffold(
       backgroundColor: const Color(0xffF1F1F1),

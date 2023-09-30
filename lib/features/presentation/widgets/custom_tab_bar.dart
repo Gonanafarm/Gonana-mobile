@@ -10,8 +10,8 @@ class CustomTabBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      initialIndex: 1,
-      length: 3,
+      initialIndex: 0,
+      length: 2,
       child: Container(
         // width: MediaQuery.of(context).size.width * 0.3,
         // height: MediaQuery.of(context).size.height * 0.9,
@@ -22,13 +22,13 @@ class CustomTabBar extends StatelessWidget {
               indicatorColor: Color(0xff444444),
               indicatorSize: TabBarIndicatorSize.label,
               tabs: [
-                Text(
-                  'Post',
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xff444444)),
-                ),
+                // Text(
+                //   'Post',
+                //   style: TextStyle(
+                //       fontSize: 14,
+                //       fontWeight: FontWeight.w600,
+                //       color: Color(0xff444444)),
+                // ),
                 Text(
                   'Profile',
                   style: TextStyle(
@@ -49,7 +49,10 @@ class CustomTabBar extends StatelessWidget {
               width: double.infinity,
               height: MediaQuery.of(context).size.height * 0.9,
               child: TabBarView(
-                children: [Posts(), MyDetails(), Store()],
+                children: [
+                  // Posts(),
+                  MyDetails(), Store()
+                ],
               ),
             ),
           ],

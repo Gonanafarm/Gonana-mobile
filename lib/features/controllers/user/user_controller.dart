@@ -16,10 +16,16 @@ class UserController extends GetxController {
   // String token = '';
   String userId = "";
   RxString userEmail = "".obs;
+  RxInt registrationStage = 0.obs;
   var userModel = UserModel().obs;
 
   void updateEmail(String newEmail) {
     userEmail.value = newEmail;
+    update();
+  }
+
+  void updateStage(int newStage) {
+    registrationStage.value = newStage;
     update();
   }
 
@@ -34,7 +40,7 @@ class UserController extends GetxController {
       // final response = jsonDecode(responseBody.body);
       userModel.value = userModelFromJson(responseBody.body);
       update();
-      log("${userModel.value.firstName}");
+      log("${userModel.value.user!.firstName}");
       return true;
     } catch (e) {
       print(e);

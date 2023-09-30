@@ -44,7 +44,7 @@ class VerificationBvn extends StatelessWidget {
                             textAlign: TextAlign.left,
                           ),
                           const Text(
-                            'Enter These details',
+                            'Verify yourself to be able to enjoy the best of Gonana',
                             style: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.w400),
                             textAlign: TextAlign.left,

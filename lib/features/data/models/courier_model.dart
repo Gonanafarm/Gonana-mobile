@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-// List<CourierModel> courierModelFromJson(String str) => 
-//   List<CourierModel>.from(json.decode(str).map((x) => 
-//     CourierModel.fromJson(x)));
+List<CourierModel> courierModelFromJson(String str) => 
+  List<CourierModel>.from(json.decode(str).map((x) => 
+    CourierModel.fromJson(x)));
 
 String courierModelToJson(List<CourierModel> data) => 
   json.encode(List<dynamic>.from(data.map((x) => 
@@ -19,13 +19,11 @@ class CourierModel{
     this.service_code,
   });
 
-  CourierModel fromJson(Map<String, dynamic>json) {
-    return CourierModel(
-      name: json["name"],
-      pin_image: json["pin_image"],
-      service_code: json["service_code"]
-    );
-  }
+  factory CourierModel.fromJson(Map<String, dynamic>json) => CourierModel(
+    name: json["name"],
+    pin_image: json["pin_image"],
+    service_code: json["service_code"]
+  );
 
   Map<String, dynamic> toJson() => {
     "name" : name,

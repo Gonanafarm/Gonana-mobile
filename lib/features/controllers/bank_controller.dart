@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:gonana/features/data/models/bank_model.dart';
 import 'package:gonana/features/data/models/resolve_bank.dart';
 
+import '../presentation/widgets/widgets.dart';
 import '../utilities/api_routes.dart';
 import '../utilities/network.dart';
 
@@ -43,9 +44,10 @@ class BankController extends GetxController {
   }
 
   ResolveBankModel? resolveBankModel;
-  Future<bool> fetchAccountName(String bankName, String accountNumber) async {
+  Future<String?> fetchAccountName(
+      String bankName, String accountNumber) async {
     try {
-      String inputString = "bankName";
+      String inputString = bankName;
       String finalBankName = inputString.replaceAll(' ', '+');
       print(finalBankName);
 
@@ -54,9 +56,35 @@ class BankController extends GetxController {
       final response = jsonDecode(responseBody.body);
       resolveBankModel = resolveBankModelFromJson(responseBody.body);
       log("Account name || $response");
-      if (response['statusCode'] == 200) {
+      if (responseBody.statusCode == 200) {
+        return resolveBankModel!.data!.data!.accountName;
+      } else {
+        return "";
+      }
+    } catch (e) {
+      print(e);
+      return "";
+    }
+  }
+
+  Future<bool> updateBankDetails(
+      String accountNumber, String bank, context) async {
+    try {
+      var data = {
+        'account_number': accountNumber,
+        'bank': bank,
+      };
+      print(data);
+      var responseBody =
+          await NetworkApi().authPostData(data, ApiRoute.updateBankDetail);
+      var response = jsonDecode(responseBody.body);
+      // log("added cart items || $responseBody");
+      log("bank added|| $response");
+      if (responseBody.statusCode == 201) {
+        SuccessSnackbar.show(context, "${response['message']}");
         return true;
       } else {
+        ErrorSnackbar.show(context, "${response['message']}");
         return false;
       }
     } catch (e) {

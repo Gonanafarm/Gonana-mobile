@@ -27,7 +27,7 @@ class SignInController extends GetxController {
       };
       var res = await NetworkApi().postData(data, ApiRoute.login);
       final result = jsonDecode(res.body);
-      print(data);
+      print("Result = $result");
       if (res.statusCode == 201) {
         token = result["token"];
         userEmail = email;
@@ -39,8 +39,9 @@ class SignInController extends GetxController {
         print("Email: $userEmail");
         await userController.fetchUserByEmail();
         print("email: ${userController.userEmail}");
-        SuccessSnackbar.show(context, result['message']);
+        // SuccessSnackbar.show(context, result['message']);
         await Get.to(() => HomePage(navIndex: 0));
+        // log(jsonDecode(res.body));
         return true;
       } else {
         ErrorSnackbar.show(context, result['message']);

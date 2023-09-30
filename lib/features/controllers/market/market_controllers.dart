@@ -140,7 +140,6 @@ class ProductController extends GetxController {
     double? geoLong,
     double? geoLat,
     String? logisticMerchant,
-    String? address
   ) async {
     MultipartFile imagePartFile;
     MultipartFile imagePartFile2;
@@ -188,9 +187,8 @@ class ProductController extends GetxController {
       'weight': weight,
       'geo_long': geoLong,
       'geo_lat': geoLat,
-      'delivery_company': logisticMerchant,
-      'address': address
-      //'logisticMerchant': logisticMerchant,
+      'delivery_company': logisticsMerchant,
+      'address': "4 penguin close zoo estate,ogui junction, Enugu",
     });
     log("FD =>${formData.fields}");
     print("FD =>${formData.fields}");
@@ -200,8 +198,11 @@ class ProductController extends GetxController {
       final result = jsonDecode(res.data);
       log('MarketResult => $result');
       // log(res);
-
-      return true;
+      if (res.statusCode == 201) {
+        return true;
+      } else {
+        return false;
+      }
     } on DioException catch (e, s) {
       log('e=>$e');
       log('s=.>$s');
@@ -237,7 +238,7 @@ class ProductController extends GetxController {
       final response = jsonDecode(responseBody.body);
       //marketModel = marketModelFromJson(responseBody);
       userMarketModel = userPostModelFromJson(responseBody.body);
-      print(userMarketModel!.data![0].location!.coordinates);
+      // print(userMarketModel!.data![0].location!.coordinates);
       log("products || ${response}");
       return true;
     } catch (e, s) {

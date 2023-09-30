@@ -87,8 +87,11 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                         child: Center(
                           child: Obx(() {
                             return Text(
-                              cartController.cartModel!.value.products!.length != null
-                                ? "${cartController.cartItems}" : "",
+                              cartController
+                                          .cartModel!.value.products!.length !=
+                                      null
+                                  ? "${cartController.cartItems}"
+                                  : "",
                               style: const TextStyle(
                                 color: primaryColor,
                               ),
@@ -121,15 +124,14 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                         carouselController: customCarouselController,
                         itemCount: cardList.length,
                         options: CarouselOptions(
-                          height: 341,
-                          viewportFraction: 1,
-                          autoPlay: false,
-                          enableInfiniteScroll: false,
-                          onPageChanged: ((index, reason) =>
-                            setState(() => activeIndex = index)
-                          )
-                        ),
-                        itemBuilder: (BuildContext context, int index, int realIndex) {
+                            height: 341,
+                            viewportFraction: 1,
+                            autoPlay: false,
+                            enableInfiniteScroll: false,
+                            onPageChanged: ((index, reason) =>
+                                setState(() => activeIndex = index))),
+                        itemBuilder:
+                            (BuildContext context, int index, int realIndex) {
                           final cardItem = cardList[index];
                           return buildItem(cardItem, index);
                         },
@@ -146,9 +148,9 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                                 GestureDetector(
                                   onTap: () {
                                     customCarouselController.previousPage(
-                                      duration: const Duration(milliseconds: 300),
-                                      curve: Curves.linear
-                                    );
+                                        duration:
+                                            const Duration(milliseconds: 300),
+                                        curve: Curves.linear);
                                   },
                                   child: Container(
                                     height: 42,
@@ -168,9 +170,9 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                                 GestureDetector(
                                   onTap: () {
                                     customCarouselController.nextPage(
-                                      duration:const Duration(milliseconds: 300),
-                                      curve: Curves.linear
-                                    );
+                                        duration:
+                                            const Duration(milliseconds: 300),
+                                        curve: Curves.linear);
                                   },
                                   child: Container(
                                     height: 42,
@@ -180,10 +182,8 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                                       shape: BoxShape.circle,
                                     ),
                                     child: const Center(
-                                      child: Icon(Icons.arrow_forward_ios,
-                                        color: Colors.white, size: 18.0
-                                      )
-                                    ),
+                                        child: Icon(Icons.arrow_forward_ios,
+                                            color: Colors.white, size: 18.0)),
                                   ),
                                 )
                               ],
@@ -208,12 +208,12 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                               child: Obx(() {
                                 return RichText(
                                     text: TextSpan(
-                                        text: 'NGN ${productController.amount.value}',
+                                        text:
+                                            'NGN ${productController.amount.value}',
                                         style: const TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(0xff29844B)
-                                        ),
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600,
+                                            color: Color(0xff29844B)),
                                         children: const <TextSpan>[
                                       TextSpan(
                                           text: '/Piece',
@@ -228,20 +228,18 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                               // height: 24,
                               width: 57,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   SvgPicture.asset(
-                                    'assets/svgs/emails_messages_icon.svg',
-                                    height: 24,
-                                    width: 24,
-                                    fit: BoxFit.contain
-                                  ),
+                                      'assets/svgs/emails_messages_icon.svg',
+                                      height: 24,
+                                      width: 24,
+                                      fit: BoxFit.contain),
                                   const Text('Chat',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400
-                                      )
-                                    )
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400))
                                 ],
                               ),
                             ),
@@ -262,16 +260,13 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                                           fontWeight: FontWeight.w400),
                                       children: <TextSpan>[
                                     TextSpan(
-                                      text:' ${productController.address.value}',
-                                      style: const TextStyle(
-                                        color: Color(0xff000000),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600
-                                      )
-                                    )
-                                  ]
-                                )
-                              ),
+                                        text:
+                                            ' ${productController.address.value}',
+                                        style: const TextStyle(
+                                            color: Color(0xff000000),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600))
+                                  ])),
                             );
                           })
                         ],
@@ -306,12 +301,10 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                           children: [
                             Obx(() {
                               return Text(
-                                "${productController.quantity.value} available",
-                                style: const TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600
-                                )
-                              );
+                                  "${productController.quantity.value} available",
+                                  style: const TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600));
                             }),
                           ],
                         ),
@@ -320,12 +313,10 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                           children: [
                             Obx(() {
                               return Text(
-                                "${productController.weight.value} KG",
-                                style: const TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600
-                                )
-                              );
+                                  "${productController.weight.value} KG",
+                                  style: const TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600));
                             }),
                           ],
                         ),
@@ -349,12 +340,10 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                                   vertical: 20.0, horizontal: 8),
                               child: Obx(() {
                                 return Text(
-                                  productController.logisticsMerchant.value,
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400
-                                  )
-                                );
+                                    productController.logisticsMerchant.value,
+                                    style: const TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400));
                               }),
                             ),
                           ),
@@ -374,7 +363,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                           });
                           bool created = false;
                           try {
-                            await productController.createProduct(
+                            created = await productController.createProduct(
                               productController.title.value,
                               productController.body.value,
                               productController.image.value,
@@ -387,9 +376,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                               productController.geoLong.value,
                               productController.geoLat.value,
                               productController.logisticsMerchant.value,
-                              productController.address.value
                             );
-                            created = true;
                             log("id: ${taxonomyController.id}");
                           } catch (e, s) {
                             log("e=> $e");

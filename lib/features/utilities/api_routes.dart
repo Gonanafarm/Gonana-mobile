@@ -1,6 +1,6 @@
 class ApiRoute {
   //user urls
-  static const fetchUserByEmail = "api/user/find-by-email";
+  static const fetchUserByEmail = "api/user/get-by-email";
   static const fetchUserById = "api/user/find-by-id";
   static const putUpdateProfile = "api/profile/update-profile";
   static const uploadProfilePhoto = "api/user/update-image";
@@ -18,7 +18,8 @@ class ApiRoute {
   static const otpVerification = "api/auth/verify-otp";
   static const resendOtp = "api/auth/resend-otp";
   static const updateProfile = "api/auth/update-profile";
-  static const resendActivationCredentials = "api/auth/resend-activation-credentials";
+  static const resendActivationCredentials =
+      "api/auth/resend-activation-credentials";
   static const me = "api/auth/me";
 
   // order urls
@@ -60,11 +61,11 @@ class ApiRoute {
   static const transferFunds = "api/user/transfer";
 
   //Validate Address
-  static const validateAddress = 'api/logistics/validate-user-address';
-  
+  static const validateAddress = 'api/profile/validate-address';
+
   //Fetch Courier
-  static const fetchCourier = 'api/logistics/get-couriers';
-  
+  static const fetchCourier = 'api/catalog/order';
+
   //Fetch banks
   static const fetchBanks = 'api/user/bank-details';
 

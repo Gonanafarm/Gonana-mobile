@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gonana/consts.dart';
 import 'package:gonana/features/presentation/page/auth/emailverification.dart';
+import 'package:gonana/features/presentation/page/market/cart_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../controllers/auth/sign_up_controller.dart';
+import '../../../controllers/user/user_controller.dart';
 import '/features/presentation/widgets/widgets.dart';
 import 'number_verification_screen.dart';
 
@@ -28,6 +31,17 @@ class _SignUpState extends State<SignUp> {
   String get bvn => _bvn.text;
   final _signInkey = GlobalKey<FormState>();
   bool isLoading = false;
+  final userController = Get.find<UserController>();
+  @override
+  void initState() {
+    super.initState();
+    setStage();
+  }
+
+  setStage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('registrationStage', 1);
+  }
 
   @override
   Widget build(BuildContext context) {
