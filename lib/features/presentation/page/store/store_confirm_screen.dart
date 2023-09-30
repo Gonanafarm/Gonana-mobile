@@ -417,9 +417,34 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                   Icons.check_circle_outlined,
                 ),
               ),
-              content: const Padding(
+              content: Padding(
                 padding: EdgeInsets.only(left: 30.0),
-                child: Text('Product post succesful'),
+                child: Column(
+                  children: [
+                    const Text('Product post succesful'),
+                    Container(height: 10),
+                    const Flexible(
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          // width: 185,
+                          // height: 82,
+                          child: Text(
+                            'Note:\n\nFor Every succesful transaction there would be 1.5% charge',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color(0xFF444444),
+                              fontSize: 14,
+                              fontFamily: 'Proxima Nova',
+                              fontWeight: FontWeight.w400,
+                              height: 0.07,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
               actions: [
                 Padding(

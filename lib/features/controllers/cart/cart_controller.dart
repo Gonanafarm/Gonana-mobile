@@ -198,7 +198,7 @@ class CartController extends GetxController {
   Future<bool> proceedToPay(
       List<Order> order, String serviceCode, var context) async {
     try {
-      var data = {"orders": order};
+      var data = {"orders": order, "service_code": serviceCode};
       for (var item in order) {
         print('Order ID: ${item.id}');
         print('Units: ${item.units}');
