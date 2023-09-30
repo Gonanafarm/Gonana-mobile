@@ -1,23 +1,26 @@
 // To parse this JSON data, do
 //
-//     final userModel = userModelFromJson(jsonString);
+//     final virtualAccountModel = virtualAccountModelFromJson(jsonString);
 
 import 'dart:convert';
 
-UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
+VirtualAccountModel virtualAccountModelFromJson(String str) =>
+    VirtualAccountModel.fromJson(json.decode(str));
 
-String userModelToJson(UserModel data) => json.encode(data.toJson());
+String virtualAccountModelToJson(VirtualAccountModel data) =>
+    json.encode(data.toJson());
 
-class UserModel {
+class VirtualAccountModel {
   String? token;
   User? user;
 
-  UserModel({
+  VirtualAccountModel({
     this.token,
     this.user,
   });
 
-  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+  factory VirtualAccountModel.fromJson(Map<String, dynamic> json) =>
+      VirtualAccountModel(
         token: json["token"],
         user: json["user"] == null ? null : User.fromJson(json["user"]),
       );

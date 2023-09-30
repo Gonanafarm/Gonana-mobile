@@ -14,6 +14,7 @@ import 'package:gonana/features/presentation/page/store/store_edit_product.dart'
 import 'package:gonana/features/presentation/widgets/custom_tab_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:upgrader/upgrader.dart';
+
 import 'features/controllers/market/market_controllers.dart';
 import 'features/controllers/post/post_controllers.dart';
 import 'features/controllers/user/user_controller.dart';
@@ -83,6 +84,7 @@ GetDetailsController detailsController = Get.put(GetDetailsController());
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Get.put(CartController());
+
   runApp(const MyApp());
 }
 
@@ -94,6 +96,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  UserController userController = Get.put(UserController());
   @override
   void initState() {
     super.initState();
@@ -102,6 +105,13 @@ class _MyAppState extends State<MyApp> {
       // postController.getPosts();
       fetchData = detailsController.getUserDetails();
     });
+    setStage();
+  }
+
+  int? registrationStage;
+  setStage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    registrationStage = prefs.getInt('registrationStage');
   }
 
   void getToken() async {
@@ -133,11 +143,20 @@ class _MyAppState extends State<MyApp> {
           token = prefs!.getString('token');
           print("token: $token");
           return GetMaterialApp(
-            debugShowCheckedModeBanner: false,
-            home: token == null
-                ? const Splash1()
-                : UpgradeAlert(child: HomePage(navIndex: 0)),
-          );
+              debugShowCheckedModeBanner: false,
+              home: token != null && registrationStage == 6
+                  ? UpgradeAlert(child: HomePage(navIndex: 0))
+                  : token != null && registrationStage == 5
+                      ? const SetPasscode()
+                      : token != null && registrationStage == 4
+                          ? const AddProfilePhoto()
+                          : token != null && registrationStage == 3
+                              ? const RegisterBank()
+                              : token != null && registrationStage == 2
+                                  ? const Verification()
+                                  : token != null && registrationStage == 1
+                                      ? const SignUp()
+                                      : const Splash1());
         }
       },
     );

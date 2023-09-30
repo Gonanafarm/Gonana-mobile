@@ -19,7 +19,7 @@ class _MyDetailsState extends State<MyDetails> {
   @override
   void initState() {
     getUserDetails();
-    print("name: ${userController.userModel.value.firstName}");
+    // print("name: ${userController.userModel.value.user!.firstName}");
     // _tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
@@ -32,8 +32,11 @@ class _MyDetailsState extends State<MyDetails> {
   String email = "";
   @override
   Widget build(BuildContext context) {
-    if (userController.userModel.value != null) {
-      email = userController.userModel.value.email ?? '';
+    if (userController.userModel.value != null &&
+        userController.userModel.value.user != null &&
+        userController.userModel.value.user!.email != null &&
+        userController.userModel.value.user!.email!.isNotEmpty) {
+      email = userController.userModel.value.user!.email ?? '';
     }
     return Center(
       child: Padding(

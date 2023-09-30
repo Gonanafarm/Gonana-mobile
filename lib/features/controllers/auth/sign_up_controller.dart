@@ -41,9 +41,9 @@ class SignUpController extends GetxController {
         prefs.setString('token', token);
         print(token);
         userController.updateEmail(email);
-        prefs.setString('userEmail', userEmail);
+        prefs.setString('userEmail', email);
         print("Success $token");
-        print("Email $userEmail");
+        print("Email $email");
         await userController.fetchUserByEmail();
         await Get.to(() => const Verification());
         log("$result");

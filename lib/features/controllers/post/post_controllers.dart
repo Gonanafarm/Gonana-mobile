@@ -55,7 +55,8 @@ class PostController extends GetxController {
       'type': 'post',
       'status': "published",
       'files': files,
-      'delivery_company': "DHL"
+      'delivery_company': "DHL",
+      'address': "4 penguin close zoo estate,ogui junction, Enugu",
     });
     log("FD =>${formData.fields}");
     try {

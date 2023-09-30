@@ -3,7 +3,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gonana/features/controllers/auth/passcode_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../services/local_auth_service.dart';
+import '../../../controllers/user/user_controller.dart';
 import '../../widgets/bottomsheets.dart';
 import '/features/presentation/page/home.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -20,7 +22,19 @@ class SetPasscode extends StatefulWidget {
 class _SetPasscodeState extends State<SetPasscode> {
   final TextEditingController _passCodeController = TextEditingController();
   PasscodeController passcodeController = Get.put(PasscodeController());
+  final userController = Get.find<UserController>();
   String get passCode => _passCodeController.text;
+  @override
+  void initState() {
+    super.initState();
+    setStage();
+  }
+
+  setStage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('registrationStage', 5);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

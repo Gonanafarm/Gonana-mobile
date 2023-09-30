@@ -6,6 +6,7 @@ import 'package:gonana/features/controllers/post/post_controllers.dart';
 import 'package:gonana/features/presentation/widgets/posts_container.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
 
+import '../../../controllers/user/user_controller.dart';
 import '../home.dart';
 
 class CreatePost2 extends StatefulWidget {
@@ -19,6 +20,20 @@ class _CreatePost2State extends State<CreatePost2> {
   PostController postController = Get.put(PostController());
   bool isLoading = false;
   get controller => null;
+  UserController userController = Get.put(UserController());
+
+  String placeholderAssetName = 'assets/images/gonanas_profile.png';
+  Widget getImageWidget(String imageUrl) {
+    if (imageUrl.isNotEmpty && Uri.parse(imageUrl).isAbsolute) {
+      return FadeInImage(
+        placeholder: AssetImage(placeholderAssetName),
+        image: NetworkImage(imageUrl),
+        fit: BoxFit.cover,
+      );
+    } else {
+      return Image.asset(placeholderAssetName);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,11 +74,44 @@ class _CreatePost2State extends State<CreatePost2> {
                                     child: ListTile(
                                       contentPadding: EdgeInsets.symmetric(
                                           horizontal: 15.0),
-                                      leading: Image.asset(
-                                          height: 30,
-                                          width: 30,
-                                          "assets/images/john_david_photo.png"),
-                                      title: const Row(
+                                      leading:
+                                          userController.userModel.value != null
+                                              ? (userController
+                                                          .userModel
+                                                          .value
+                                                          .user!
+                                                          .profilePhoto
+                                                          ?.isEmpty ??
+                                                      true)
+                                                  ? Container(
+                                                      height: 30,
+                                                      width: 30,
+                                                      child: ClipOval(
+                                                        child: getImageWidget(
+                                                          "${userController.userModel.value.user!.profilePhoto}",
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : Obx(() {
+                                                      return Container(
+                                                        height: 50,
+                                                        width: 50,
+                                                        child: ClipOval(
+                                                          child: FadeInImage(
+                                                            fit: BoxFit.cover,
+                                                            image: NetworkImage(
+                                                              "${userController.userModel.value.user!.profilePhoto}",
+                                                            ),
+                                                            placeholder:
+                                                                const AssetImage(
+                                                              "assets/images/gonanas_profile.png",
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      );
+                                                    })
+                                              : Container(),
+                                      title: Row(
                                         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                         children: [
                                           Flexible(
@@ -71,37 +119,34 @@ class _CreatePost2State extends State<CreatePost2> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.spaceEvenly,
                                               children: [
-                                                Text(
-                                                  "John David",
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                ),
-                                                Text(
-                                                  "Vegetable farmer",
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 10,
-                                                      fontWeight:
-                                                          FontWeight.w400),
-                                                )
+                                                userController
+                                                            .userModel.value !=
+                                                        null
+                                                    ? Container(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.4,
+                                                        child: Text(
+                                                          '${userController.userModel.value.user!.lastName} ${userController.userModel.value.user!.firstName}',
+                                                          style:
+                                                              const TextStyle(
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            color: Colors.white,
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                          ),
+                                                        ),
+                                                      )
+                                                    : Container()
                                               ],
                                             ),
                                           ),
                                           SizedBox(width: 15),
-                                          Padding(
-                                            padding:
-                                                EdgeInsets.only(bottom: 15.0),
-                                            child: Text(
-                                              "8h ago",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                          )
                                         ],
                                       ),
                                       trailing: const Padding(
@@ -112,7 +157,7 @@ class _CreatePost2State extends State<CreatePost2> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.fromLTRB(
-                                        15.0, 0, 10, 10),
+                                        30.0, 20, 10, 10),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
@@ -148,126 +193,126 @@ class _CreatePost2State extends State<CreatePost2> {
                                           postController.image.value);
                                     }),
                                   ),
-                                  const Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 25, right: 25, top: 10),
-                                    child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text('Daniel jim and 38 others',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.w400)),
-                                          Text('12 Comments',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.w400))
-                                        ]),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20.0),
-                                    child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                IconButton(
-                                                    icon: const Icon(
-                                                      Icons.favorite_outline,
-                                                      color: Colors.white24,
-                                                    ),
-                                                    onPressed: () {}),
-                                                SvgPicture.asset(
-                                                  "assets/svgs/emails_messages_icon.svg",
-                                                  width: 45,
-                                                  height: 30,
-                                                ),
-                                                SizedBox(width: 10),
-                                                SvgPicture.asset(
-                                                  "assets/svgs/send_icon.svg",
-                                                  width: 45,
-                                                  height: 30,
-                                                ),
-                                              ]),
-                                          //Like and Visit Store
-                                          SizedBox(
-                                            height: 30,
-                                            width: 92.5,
-                                            child: ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
-                                                      Color(0xff29844B),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5.0),
-                                                  ),
-                                                ),
-                                                onPressed: () {},
-                                                child: const Text('Visit Store',
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 10,
-                                                        fontWeight:
-                                                            FontWeight.w600))),
-                                          ),
-                                        ]),
-                                  ),
-                                  //Comment section
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 15.0),
-                                    child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          RichText(
-                                            text: const TextSpan(
-                                                text: 'Daniel Cho',
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 12,
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                                children: [
-                                                  TextSpan(
-                                                      text: ' I love these',
-                                                      style: TextStyle(
-                                                          color:
-                                                              Color(0xff000000),
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w400))
-                                                ]),
-                                          ),
-                                          RichText(
-                                            text: const TextSpan(
-                                                text: 'John Donny',
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 12,
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                                children: [
-                                                  TextSpan(
-                                                      text:
-                                                          ' @john david Can i get these for NGN 2000 ?',
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w400))
-                                                ]),
-                                          )
-                                        ]),
-                                  ),
+                                  // const Padding(
+                                  //   padding: EdgeInsets.only(
+                                  //       left: 25, right: 25, top: 10),
+                                  //   child: Row(
+                                  //       mainAxisAlignment:
+                                  //           MainAxisAlignment.spaceBetween,
+                                  //       children: [
+                                  //         Text('Daniel jim and 38 others',
+                                  //             style: TextStyle(
+                                  //                 color: Colors.white,
+                                  //                 fontSize: 10,
+                                  //                 fontWeight: FontWeight.w400)),
+                                  //         Text('12 Comments',
+                                  //             style: TextStyle(
+                                  //                 color: Colors.white,
+                                  //                 fontSize: 10,
+                                  //                 fontWeight: FontWeight.w400))
+                                  //       ]),
+                                  // ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.symmetric(
+                                  //       horizontal: 20.0),
+                                  //   child: Row(
+                                  //       mainAxisAlignment:
+                                  //           MainAxisAlignment.spaceBetween,
+                                  //       children: [
+                                  //         Row(
+                                  //             mainAxisAlignment:
+                                  //                 MainAxisAlignment.spaceEvenly,
+                                  //             children: [
+                                  //               IconButton(
+                                  //                   icon: const Icon(
+                                  //                     Icons.favorite_outline,
+                                  //                     color: Colors.white24,
+                                  //                   ),
+                                  //                   onPressed: () {}),
+                                  //               SvgPicture.asset(
+                                  //                 "assets/svgs/emails_messages_icon.svg",
+                                  //                 width: 45,
+                                  //                 height: 30,
+                                  //               ),
+                                  //               SizedBox(width: 10),
+                                  //               SvgPicture.asset(
+                                  //                 "assets/svgs/send_icon.svg",
+                                  //                 width: 45,
+                                  //                 height: 30,
+                                  //               ),
+                                  //             ]),
+                                  //         //Like and Visit Store
+                                  //         SizedBox(
+                                  //           height: 30,
+                                  //           width: 92.5,
+                                  //           child: ElevatedButton(
+                                  //               style: ElevatedButton.styleFrom(
+                                  //                 backgroundColor:
+                                  //                     Color(0xff29844B),
+                                  //                 shape: RoundedRectangleBorder(
+                                  //                   borderRadius:
+                                  //                       BorderRadius.circular(
+                                  //                           5.0),
+                                  //                 ),
+                                  //               ),
+                                  //               onPressed: () {},
+                                  //               child: const Text('Visit Store',
+                                  //                   style: TextStyle(
+                                  //                       color: Colors.white,
+                                  //                       fontSize: 10,
+                                  //                       fontWeight:
+                                  //                           FontWeight.w600))),
+                                  //         ),
+                                  //       ]),
+                                  // ),
+                                  // //Comment section
+                                  // Padding(
+                                  //   padding: const EdgeInsets.symmetric(
+                                  //       horizontal: 15.0),
+                                  //   child: Column(
+                                  //       crossAxisAlignment:
+                                  //           CrossAxisAlignment.start,
+                                  //       children: [
+                                  //         RichText(
+                                  //           text: const TextSpan(
+                                  //               text: 'Daniel Cho',
+                                  //               style: TextStyle(
+                                  //                   color: Colors.white,
+                                  //                   fontSize: 12,
+                                  //                   fontWeight:
+                                  //                       FontWeight.w600),
+                                  //               children: [
+                                  //                 TextSpan(
+                                  //                     text: ' I love these',
+                                  //                     style: TextStyle(
+                                  //                         color:
+                                  //                             Color(0xff000000),
+                                  //                         fontSize: 12,
+                                  //                         fontWeight:
+                                  //                             FontWeight.w400))
+                                  //               ]),
+                                  //         ),
+                                  //         RichText(
+                                  //           text: const TextSpan(
+                                  //               text: 'John Donny',
+                                  //               style: TextStyle(
+                                  //                   color: Colors.white,
+                                  //                   fontSize: 12,
+                                  //                   fontWeight:
+                                  //                       FontWeight.w600),
+                                  //               children: [
+                                  //                 TextSpan(
+                                  //                     text:
+                                  //                         ' @john david Can i get these for NGN 2000 ?',
+                                  //                     style: TextStyle(
+                                  //                         color: Colors.white,
+                                  //                         fontSize: 12,
+                                  //                         fontWeight:
+                                  //                             FontWeight.w400))
+                                  //               ]),
+                                  //         )
+                                  //       ]),
+                                  // ),
                                 ],
                               ),
                             ),
@@ -300,7 +345,7 @@ class _CreatePost2State extends State<CreatePost2> {
                         isLoading = false;
                       });
                       await postController.getPosts();
-                      Get.to(() => HomePage(navIndex: 2));
+                      Get.to(() => HomePage(navIndex: 1));
                     }
                   })
             ],

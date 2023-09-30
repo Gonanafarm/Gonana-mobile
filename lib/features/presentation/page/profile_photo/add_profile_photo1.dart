@@ -19,7 +19,7 @@ class AddProfilePhoto extends StatefulWidget {
 }
 
 class _AddProfilePhotoState extends State<AddProfilePhoto> {
-  UserController userController = Get.put(UserController());
+  final userController = Get.find<UserController>();
   final picker = ImagePicker();
   File? imageFile;
   String? imageFilePath;
@@ -36,6 +36,16 @@ class _AddProfilePhotoState extends State<AddProfilePhoto> {
 
   String imageStatus =
       "Profile should be 20 MB or less Upload file as PNG or JPEG.";
+  @override
+  void initState() {
+    super.initState();
+    setStage();
+  }
+
+  setStage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('registrationStage', 4);
+  }
 
   @override
   Widget build(BuildContext context) {

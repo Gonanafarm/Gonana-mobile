@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -10,12 +12,23 @@ import 'package:gonana/features/presentation/page/security/security.dart';
 import 'package:gonana/features/presentation/page/settings/settiings_profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../controllers/post/post_controllers.dart';
+import '../../../controllers/user/user_controller.dart';
+import '../../widgets/widgets.dart';
 import '../bank_account/bank_account.dart';
 import '../home.dart';
 import '../verification/verification.dart';
 
-class Settings extends StatelessWidget {
+class Settings extends StatefulWidget {
   const Settings({super.key});
+
+  @override
+  State<Settings> createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
+  PostController postController = Get.put(PostController());
+  UserController userController = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
@@ -71,8 +84,12 @@ class Settings extends StatelessWidget {
                             ),
                             trailing: IconButton(
                               icon: const Icon(Icons.arrow_forward_ios),
-                              onPressed: () {
+                              onPressed: () async {
                                 Get.to(() => const SettingsProfile());
+                                // bool created = false;
+                                // created = await postController.getPostsById(
+                                //     userController.userModel.value.id, "post");
+                                // print(userController.userModel.value.id);
                               },
                             ),
                             onTap: () {},
@@ -306,14 +323,7 @@ class Settings extends StatelessWidget {
                       )),
                   child: const Text('Logout'),
                   onPressed: () async {
-                    Get.to(() => const Splash4());
-                    bool cleared = false;
-                    SharedPreferences preferences =
-                        await SharedPreferences.getInstance();
-                    cleared = await preferences.clear();
-                    if (cleared) {
-                      print("cleared");
-                    }
+                    successDialog(context);
                   },
                 ),
               ),
@@ -324,4 +334,74 @@ class Settings extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<dynamic> successDialog(BuildContext context) {
+  return showDialog(
+    context: context,
+    barrierDismissible:
+        true, // Set to true if you want to allow dismissing the dialog by tapping outside it
+    builder: (BuildContext context) {
+      return BackdropFilter(
+        filter: ImageFilter.blur(
+            sigmaX: 20, sigmaY: 20), // Adjust the blur intensity as needed
+        child: Container(
+          height: 100,
+          child: AlertDialog(
+            title: const Center(
+              child: Icon(
+                size: 60,
+                Icons.check_circle_outlined,
+              ),
+            ),
+            content: Padding(
+              padding: EdgeInsets.only(left: 0.0),
+              child: Container(
+                height: 50,
+                child: Column(
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Text(
+                        'Are you sure you logout',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            actions: [
+              Center(
+                child: DialogGradientButton(
+                  title: 'Yes, I want to logout',
+                  onPressed: () async {
+                    bool cleared = false;
+                    SharedPreferences preferences =
+                        await SharedPreferences.getInstance();
+                    cleared = await preferences.clear();
+                    if (cleared) {
+                      print("cleared");
+                      Get.to(() => const Splash4());
+                    }
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10, top: 20),
+                child: Center(
+                  child: DialogWhiteButton(
+                    title: 'No, go back',
+                    onPressed: () {
+                      Get.back();
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }

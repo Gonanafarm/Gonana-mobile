@@ -42,7 +42,7 @@ class EnterText extends StatelessWidget {
               border: const OutlineInputBorder(),
               hintText: hint,
               hintStyle: const TextStyle(
-                  color: Color(0xff444444),
+                  color: Color(0xFF444444),
                   fontSize: 14,
                   fontWeight: FontWeight.w400)),
         ),
@@ -505,8 +505,7 @@ class LongFlatButton extends StatelessWidget {
   final String title;
   final VoidCallback onPressed;
   const LongFlatButton(
-    {super.key, required this.title, required this.onPressed}
-  );
+      {super.key, required this.title, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {

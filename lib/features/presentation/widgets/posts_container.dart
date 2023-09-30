@@ -4,12 +4,33 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
 
+import '../../controllers/post/post_controllers.dart';
 import '../page/feeds/share_post_bottomsheet.dart';
 
-class PostsContainer extends StatelessWidget {
+class PostsContainer extends StatefulWidget {
   final Function shareFunction;
   const PostsContainer({Key? key, required this.shareFunction})
       : super(key: key);
+
+  @override
+  State<PostsContainer> createState() => _PostsContainerState();
+}
+
+class _PostsContainerState extends State<PostsContainer> {
+  final postController = Get.find<PostController>();
+  String placeholderAssetName = 'assets/images/gonanas_profile.png';
+  Widget getImageWidget(String imageUrl) {
+    if (imageUrl.isNotEmpty && Uri.parse(imageUrl).isAbsolute) {
+      return FadeInImage(
+        placeholder: AssetImage(placeholderAssetName),
+        image: NetworkImage(imageUrl),
+        fit: BoxFit.cover,
+      );
+    } else {
+      return Image.asset(placeholderAssetName);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     TextEditingController controller = TextEditingController();
@@ -125,7 +146,7 @@ class PostsContainer extends StatelessWidget {
                             SizedBox(width: 10),
                             GestureDetector(
                               onTap: () {
-                                shareFunction;
+                                widget.shareFunction;
                               },
                               child: SvgPicture.asset(
                                 "assets/svgs/send_icon.svg",

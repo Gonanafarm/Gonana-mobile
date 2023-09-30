@@ -51,11 +51,12 @@ class _StoreLogisticsState extends State<StoreLogistics> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(top: 20.0, bottom: 10),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20.0, bottom: 10),
                     child: Text(
                       "Logistics Merchants",
-                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                     ),
                   ),
                   GestureDetector(
@@ -64,18 +65,18 @@ class _StoreLogisticsState extends State<StoreLogistics> {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        border: Border.all(color: const Color(0xff1E1E1E)),
-                        borderRadius: BorderRadius.circular(5)
-                      ),
+                          border: Border.all(color: Color(0xff1E1E1E)),
+                          borderRadius: BorderRadius.circular(5)),
                       child: Padding(
                         padding: const EdgeInsets.all(15.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Obx(() {
-                              return Text(productController.logisticsMerchant.value);
+                              return Text(
+                                  productController.logisticsMerchant.value);
                             }),
-                            const Icon(Icons.arrow_drop_down)
+                            Icon(Icons.arrow_drop_down)
                           ],
                         ),
                       ),
@@ -85,16 +86,15 @@ class _StoreLogisticsState extends State<StoreLogistics> {
               ),
               const Spacer(),
               LongGradientButton(
-                title: 'Proceed',
-                onPressed: () {
-                  Get.to(
-                    () => const ConfirmScreen(),
-                    //     arguments: [
-                    //   {'data': argument}
-                    // ],
-                  );
-                }
-              )
+                  title: 'Proceed',
+                  onPressed: () {
+                    Get.to(
+                      () => ConfirmScreen(),
+                      //     arguments: [
+                      //   {'data': argument}
+                      // ],
+                    );
+                  })
             ],
           ),
         ),
@@ -130,7 +130,7 @@ logisticComapnies(BuildContext context) {
                     ],
                   ),
                 ),
-                const SizedBox(height: 50),
+                SizedBox(height: 50),
                 SizedBox(
                   // height: 60,
                   child: Column(
@@ -158,12 +158,12 @@ logisticComapnies(BuildContext context) {
                               ),
                               textAlign: TextAlign.left),
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: 20),
                         SizedBox(
                           // width: 342,
                           child: SizedBox(
                             width: MediaQuery.of(context).size.width,
-                            child: const TextField(
+                            child: TextField(
                               decoration: InputDecoration(
                                 suffixIcon: Icon(Icons.search),
                                 border: OutlineInputBorder(),
@@ -172,78 +172,73 @@ logisticComapnies(BuildContext context) {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: 20),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: EdgeInsets.all(8.0),
                           child: GestureDetector(
                             onTap: () {
                               Get.back();
-                              productController.updateLogisticsMerchants("Red Star Logistics");
+                              productController.updateLogisticsMerchants(
+                                  "Red Star Logistics");
                             },
                             child: Container(
-                              height: 56,
-                              // width: 342,
-                              color: Colors.white,
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/redstarLogo.png',
-                                      height: 38,
-                                      width: 38,
-                                      fit: BoxFit.contain),
-                                    const Text(
-                                      'Red Star Logistics',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600
+                                height: 56,
+                                // width: 342,
+                                color: Colors.white,
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Image.asset(
+                                          'assets/images/redstarLogo.png',
+                                          height: 38,
+                                          width: 38,
+                                          fit: BoxFit.contain),
+                                      const Text(
+                                        'Red Star Logistics',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600),
                                       ),
-                                    ),
-                                    IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(Icons.arrow_forward_ios)
-                                    ),
-                                  ]
-                                )
-                              ),
+                                      IconButton(
+                                          onPressed: () {},
+                                          icon: const Icon(
+                                              Icons.arrow_forward_ios)),
+                                    ])),
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: 20),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: GestureDetector(
                             onTap: () {
                               Get.back();
-                              productController.updateLogisticsMerchants("DHL Logistics");
+                              productController
+                                  .updateLogisticsMerchants("DHL Logistics");
                             },
                             child: Container(
-                              height: 56,
-                              // width: 342,
-                              color: Colors.white,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Image.asset('assets/images/dhllogo.png',
-                                    height: 38,
-                                    width: 38,
-                                    fit: BoxFit.contain
-                                  ),
-                                  const Text(
-                                    'DHL Logistics',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600
-                                    ),
-                                  ),
-                                  IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.arrow_forward_ios
-                                    )
-                                  ),
-                                ]
-                              )
-                            ),
+                                height: 56,
+                                // width: 342,
+                                color: Colors.white,
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Image.asset('assets/images/dhllogo.png',
+                                          height: 38,
+                                          width: 38,
+                                          fit: BoxFit.contain),
+                                      const Text(
+                                        'DHL Logistics',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      IconButton(
+                                          onPressed: () {},
+                                          icon: const Icon(
+                                              Icons.arrow_forward_ios)),
+                                    ])),
                           ),
                         ),
                       ]),

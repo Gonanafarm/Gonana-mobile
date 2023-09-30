@@ -6,10 +6,12 @@ import 'package:gonana/features/controllers/market/market_controllers.dart';
 import 'package:gonana/features/presentation/page/market/hot_deals_item.dart';
 import 'package:gonana/features/presentation/page/messages/message.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../consts.dart';
 import '../../../controllers/auth/get_details.dart';
 import '../../../controllers/post/post_controllers.dart';
+import '../../../controllers/user/user_controller.dart';
 import '../../widgets/search_page.dart';
 import '../../widgets/warning_widget.dart';
 import 'buy_now.dart';
@@ -26,6 +28,18 @@ class MarketPage extends StatefulWidget {
 class _MarketPageState extends State<MarketPage> {
   final TextEditingController _searchController = TextEditingController();
   PostController postController = Get.put(PostController());
+  final userController = Get.find<UserController>();
+
+  @override
+  void initState() {
+    super.initState();
+    setStage();
+  }
+
+  setStage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('registrationStage', 6);
+  }
 
   @override
   void dispose() {

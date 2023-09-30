@@ -8,7 +8,6 @@ import 'package:gonana/features/controllers/order/order_controller.dart';
 import 'package:gonana/features/controllers/user/user_controller.dart';
 import 'package:gonana/features/data/models/cart_model.dart';
 import 'package:gonana/features/presentation/page/home.dart';
-import 'package:gonana/features/presentation/page/market/address_courier.dart';
 import 'package:gonana/features/presentation/widgets/bottomsheets.dart';
 import 'package:gonana/features/presentation/widgets/search_page.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -66,7 +65,7 @@ class _CartPageState extends State<CartPage> {
                 child: Container(
                     height: 75,
                     width: 75,
-                    child: const CircularProgressIndicator(
+                    child: CircularProgressIndicator(
                       color: Color.fromRGBO(41, 132, 75, 1),
                     )),
               ),
@@ -177,32 +176,32 @@ class _CartPageState extends State<CartPage> {
                               ),
                               sizeHor(10.0),
                               Padding(
-                                padding:  const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
                                 child: GestureDetector(
                                   onTap: () async {
-                                    Get.to(()=> const AddressCourier());
-                                    // setState(() {
-                                    //   isLoading = true;
-                                    // });
-                                    // for (var product in checkedItems) {
-                                    //   orderList.add(Order(
-                                    //       id: "${product.id}",
-                                    //       units: product.unit
-                                    //     )
-                                    //   );
-                                    // }
-                                    // // Passes the value here
-                                    // bool isSuccess = await cartController.checkOut(orderList);
-                                    // if (isSuccess) {
-                                    //   setState(() {
-                                    //     isLoading = false;
-                                    //   });
-                                    //   checkout(context);
-                                    // }
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+                                    for (var product in checkedItems) {
+                                      orderList.add(Order(
+                                          id: "${product.id}",
+                                          units: product.unit));
+                                    }
+                                    // Passes the value here
+                                    bool isSuccess = await cartController
+                                        .checkOut(orderList);
+                                    if (isSuccess) {
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                      checkout(context);
+                                    }
                                     // Wrap it inside a function
                                   },
                                   child: Container(
-                                    width: MediaQuery.of(context).size.width * 0.40,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.40,
                                     height: 60,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5),
@@ -217,38 +216,46 @@ class _CartPageState extends State<CartPage> {
                                         // transform: GradientRotation(89.94 * 3.14 / 180),
                                       ),
                                     ),
-                                    child: isLoading ? 
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: MediaQuery.of(context).size.width *0.16,
-                                            vertical: MediaQuery.of(context).size.height *0.02
-                                          ),
-                                          child: const CircularProgressIndicator( color: Colors.white),
-                                        ):
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Flexible(
-                                              child: Text(
-                                                "CheckOut",
-                                                style: GoogleFonts.montserrat(
-                                                  fontSize: 14,
-                                                  color: primaryColor,
-                                                  fontWeight: FontWeight.w400,
+                                    child: isLoading
+                                        ? Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal:
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.16,
+                                                vertical: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.02),
+                                            child:
+                                                const CircularProgressIndicator(
+                                                    color: Colors.white),
+                                          )
+                                        : Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Flexible(
+                                                child: Text(
+                                                  "CheckOut",
+                                                  style: GoogleFonts.montserrat(
+                                                    fontSize: 14,
+                                                    color: primaryColor,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            sizeHor(5.0),
-                                            const Flexible(
-                                              child: Icon(
-                                                Icons.arrow_forward,
-                                                color: primaryColor,
-                                                size: 30,
-                                              ),
-                                            )
-                                          ],
-                                        ),
+                                              sizeHor(5.0),
+                                              Flexible(
+                                                child: const Icon(
+                                                  Icons.arrow_forward,
+                                                  color: primaryColor,
+                                                  size: 30,
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                   ),
                                 ),
                               )
@@ -262,8 +269,7 @@ class _CartPageState extends State<CartPage> {
               ),
             );
           }
-        }
-      );
+        });
   }
 }
 
@@ -301,7 +307,7 @@ class _CartCardState extends State<CartCard> {
               width: 20.0,
               child: Checkbox(
                 value: this.value,
-                activeColor: const Color(0xff29844B),
+                activeColor: Color(0xff29844B),
                 onChanged: (value) async {
                   setState(() {
                     this.value = value!;
@@ -399,14 +405,14 @@ class _CartCardState extends State<CartCard> {
                                   null
                               ? "${cartController.cartModel!.value.products![widget.index].body}"
                               : "",
-                          style: const TextStyle(color: darkColor),
+                          style: TextStyle(color: darkColor),
                         ),
                       ),
                       IconButton(
                         onPressed: () {
                           successDialog(context, widget.index);
                         },
-                        icon: const Icon(Icons.delete_outlined),
+                        icon: Icon(Icons.delete_outlined),
                         color: Colors.red,
                       ),
                     ],
@@ -427,8 +433,8 @@ class _CartCardState extends State<CartCard> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.only(top: 8.0),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
                         // child: Column(
                         //   crossAxisAlignment: CrossAxisAlignment.start,
                         //   children: [
@@ -520,7 +526,8 @@ class _CartCardState extends State<CartCard> {
                                 horizontal: 8.0, vertical: 8.0),
                             child: Text(
                               '$_count',
-                              style: GoogleFonts.montserrat(fontSize: 12, fontWeight: FontWeight.w400),
+                              style: GoogleFonts.montserrat(
+                                  fontSize: 12, fontWeight: FontWeight.w400),
                             ),
                           ),
                           IconButton(
@@ -595,10 +602,10 @@ Future<dynamic> successDialog(BuildContext context, int index) {
               ),
             ),
             content: Padding(
-              padding: const EdgeInsets.only(left: 0.0),
+              padding: EdgeInsets.only(left: 0.0),
               child: Container(
                 height: 50,
-                child: const Column(
+                child: Column(
                   // crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Center(
