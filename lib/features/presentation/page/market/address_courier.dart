@@ -256,7 +256,8 @@ class _AddressCourierState extends State<AddressCourier> {
                     ),
                   ),
                 ),
-                sizeVer(45),
+              ),
+              sizeVer(45),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: LongGradientButton(
@@ -267,7 +268,6 @@ class _AddressCourierState extends State<AddressCourier> {
                     }
                   )
                 )
-              )
             ],
           ),
         )
