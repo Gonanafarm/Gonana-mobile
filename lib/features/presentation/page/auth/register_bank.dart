@@ -10,6 +10,7 @@ import '../../../controllers/user/user_controller.dart';
 import '../../widgets/custom_dropdown.dart';
 import '../../widgets/widgets.dart';
 import '../profile_photo/add_profile_photo1.dart';
+import '../store/store_confirm_screen.dart';
 
 class RegisterBank extends StatefulWidget {
   const RegisterBank({Key? key}) : super(key: key);
@@ -29,12 +30,6 @@ class _RegisterBankState extends State<RegisterBank> {
   void initState() {
     super.initState();
     bankController.fetchBank();
-    setStage();
-  }
-
-  setStage() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt('registrationStage', 3);
   }
 
   Future<List<String>> fetchData() async {
@@ -213,7 +208,7 @@ class _RegisterBankState extends State<RegisterBank> {
                     isCreated = await bankController.updateBankDetails(
                         _accountNumber.text.trim(), selectedBank, context);
                     if (isCreated) {
-                      Get.to(() => const AddProfilePhoto());
+                      Get.to(() => const ConfirmScreen());
                       setState(() {
                         isLoading = false;
                       });

@@ -244,11 +244,7 @@ class CartController extends GetxController {
       //courierModel = courierModelFromJson(res.body);
       if (res.statusCode == 200) {
         log("Couriers: $result");
-        var data = List<Map<String, dynamic>>.from(result["couriers"]);
-        List<CourierModel> list = data.map((e)=> CourierModel().fromJson(e)).toList();
-        couriers.value.addAll(list);
-        log("all: ${couriers.value.first}");
-        update();
+        courierModel = courierModelFromJson(res.body);
         return true;
       }else{
         log("Fail Couriers: $result");
