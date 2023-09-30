@@ -26,7 +26,7 @@ class CartController extends GetxController {
   RxInt totalPrice = 0.obs;
   String item = "";
   var couriers = <CourierModel>[].obs;
-  
+
   void updateQuantityPerItem(int newQuantity) {
     quantity.value = newQuantity;
     update();
@@ -195,7 +195,8 @@ class CartController extends GetxController {
     }
   }
 
-  Future<bool> checkOut(List<Order> order) async {
+  Future<bool> proceedToPay(
+      List<Order> order, String serviceCode, var context) async {
     try {
       var data = {"orders": order};
       for (var item in order) {
@@ -207,7 +208,11 @@ class CartController extends GetxController {
       print("got here");
       log('Message: $response');
       if (res.statusCode == 201) {
+        SuccessSnackbar.show(context, response['message']);
         return true;
+      } else {
+        // ErrorSnackbar.show(context, response['message']);
+        return false;
       }
     } catch (e, s) {
       log("checkOut Error=> $e");
@@ -246,7 +251,7 @@ class CartController extends GetxController {
         log("Couriers: $result");
         courierModel = courierModelFromJson(res.body);
         return true;
-      }else{
+      } else {
         log("Fail Couriers: $result");
         return false;
       }
@@ -257,4 +262,3 @@ class CartController extends GetxController {
     }
   }
 }
-
