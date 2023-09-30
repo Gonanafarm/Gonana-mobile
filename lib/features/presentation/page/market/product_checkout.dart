@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:gonana/consts.dart';
@@ -225,5 +226,71 @@ class _ProductCheckoutState extends State<ProductCheckout> {
             ],
           ),
         )));
+  }
+}
+
+class ConfirmChoice extends StatelessWidget {
+  const ConfirmChoice({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return  Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(7)
+      ),
+      child: Container(
+        width: 220,
+        height: 366,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5)
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SvgPicture.asset(
+                'assets/svgs/Checkbox.svg',
+                height: 72,
+                width: 72,
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 8),
+                child: Text(
+                  'You\'ve order\nhas been placed',
+                  style: TextStyle(
+                    color: Color(0xff444444),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 8),
+                child: Text(
+                  'Product would be shipped\nout once your payment is\nconfirmed',
+                  style: TextStyle(
+                    color: Color(0xff444444),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: ShortGradientButton(
+                  title: 'Confirmed', 
+                  onPressed: (){
+                    //Take the user back to the market page
+                  }
+                ),
+              ),
+            ]
+          )
+        )
+      ),
+    );
   }
 }
