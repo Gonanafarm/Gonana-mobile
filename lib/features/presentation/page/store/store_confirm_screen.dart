@@ -364,19 +364,20 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                           bool created = false;
                           try {
                             created = await productController.createProduct(
-                                productController.title.value,
-                                productController.body.value,
-                                productController.image.value,
-                                productController.image2.value,
-                                productController.image3.value,
-                                taxonomyController.id.value,
-                                productController.amount.value,
-                                productController.quantity.value,
-                                productController.weight.value,
-                                productController.geoLong.value,
-                                productController.geoLat.value,
-                                productController.logisticsMerchant.value,
-                                productController.address.value);
+                              productController.title.value,
+                              productController.body.value,
+                              productController.image.value,
+                              productController.image2.value,
+                              productController.image3.value,
+                              taxonomyController.id.value,
+                              productController.amount.value,
+                              productController.quantity.value,
+                              productController.weight.value,
+                              productController.geoLong.value,
+                              productController.geoLat.value,
+                              productController.logisticsMerchant.value,
+                              productController.address.value
+                            );
                             log("id: ${taxonomyController.id}");
                           } catch (e, s) {
                             log("e=> $e");
