@@ -32,7 +32,7 @@ class _SetPasscodeState extends State<SetPasscode> {
 
   setStage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt('registrationStage', 5);
+    prefs.setInt('registrationStage', 4);
   }
 
   @override

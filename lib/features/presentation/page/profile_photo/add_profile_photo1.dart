@@ -44,7 +44,7 @@ class _AddProfilePhotoState extends State<AddProfilePhoto> {
 
   setStage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt('registrationStage', 4);
+    prefs.setInt('registrationStage', 3);
   }
 
   @override

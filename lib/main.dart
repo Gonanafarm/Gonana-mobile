@@ -144,14 +144,12 @@ class _MyAppState extends State<MyApp> {
           print("token: $token");
           return GetMaterialApp(
               debugShowCheckedModeBanner: false,
-              home: token != null && registrationStage == 6
+              home: token != null && registrationStage == 5
                   ? UpgradeAlert(child: HomePage(navIndex: 0))
-                  : token != null && registrationStage == 5
+                  : token != null && registrationStage == 4
                       ? const SetPasscode()
-                      : token != null && registrationStage == 4
+                      : token != null && registrationStage == 3
                           ? const AddProfilePhoto()
-                          : token != null && registrationStage == 3
-                              ? const RegisterBank()
                               : token != null && registrationStage == 2
                                   ? const Verification()
                                   : token != null && registrationStage == 1

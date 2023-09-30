@@ -38,7 +38,7 @@ class _MarketPageState extends State<MarketPage> {
 
   setStage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt('registrationStage', 6);
+    prefs.setInt('registrationStage', 5);
   }
 
   @override

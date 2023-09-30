@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:gonana/features/controllers/geolocator/geoservices.dart';
 import 'package:gonana/features/controllers/taxonomy/taxonomy_controller.dart';
 import 'package:gonana/features/data/models/taxonomy_model.dart';
+import 'package:gonana/features/presentation/page/auth/register_bank.dart';
 import 'package:gonana/features/presentation/page/store/store_logistics.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
 
@@ -322,7 +323,7 @@ class _AddProduct2State extends State<AddProduct2> {
                 onPressed: () {
                   log('$currentPosition');
                   Get.to(
-                    () => StoreLogistics(),
+                    () => const RegisterBank(),
                   );
                 })
           ],
