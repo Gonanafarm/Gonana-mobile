@@ -140,6 +140,7 @@ class ProductController extends GetxController {
     double? geoLong,
     double? geoLat,
     String? logisticMerchant,
+    String? address
   ) async {
     MultipartFile imagePartFile;
     MultipartFile imagePartFile2;
@@ -188,7 +189,7 @@ class ProductController extends GetxController {
       'geo_long': geoLong,
       'geo_lat': geoLat,
       'delivery_company': logisticsMerchant,
-      'address': "4 penguin close zoo estate,ogui junction, Enugu",
+      'address': address,
     });
     log("FD =>${formData.fields}");
     print("FD =>${formData.fields}");
