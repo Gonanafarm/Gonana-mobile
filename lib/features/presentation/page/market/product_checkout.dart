@@ -1,5 +1,8 @@
 import "package:flutter/material.dart";
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:gonana/consts.dart';
+import 'package:gonana/features/controllers/cart/cart_controller.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
 
 class ProductCheckout extends StatefulWidget {
@@ -8,6 +11,8 @@ class ProductCheckout extends StatefulWidget {
   @override
   State<ProductCheckout> createState() => _ProductCheckoutState();
 }
+
+final cartController = Get.find<CartController>();
 
 class _ProductCheckoutState extends State<ProductCheckout> {
   @override
@@ -75,8 +80,11 @@ class _ProductCheckoutState extends State<ProductCheckout> {
                                     fontSize: 10,
                                     fontWeight: FontWeight.w400,
                                     color: Color(0xff444444))),
-                            const Text("Gonana Bank",
-                                style: TextStyle(
+                            Text(
+                                cartController
+                                        .succesfullTransactionModel!.bankName ??
+                                    "",
+                                style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
                                     color: Color(0xff444444))),
@@ -86,8 +94,11 @@ class _ProductCheckoutState extends State<ProductCheckout> {
                                     fontSize: 10,
                                     fontWeight: FontWeight.w400,
                                     color: Color(0xff444444))),
-                            const Text("Gonana/John Doe",
-                                style: TextStyle(
+                            Text(
+                                cartController.succesfullTransactionModel!
+                                        .accountName ??
+                                    "",
+                                style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
                                     color: Color(0xff444444))),
@@ -97,8 +108,11 @@ class _ProductCheckoutState extends State<ProductCheckout> {
                                     fontSize: 10,
                                     fontWeight: FontWeight.w400,
                                     color: Color(0xff444444))),
-                            const Text("12345678",
-                                style: TextStyle(
+                            Text(
+                                cartController.succesfullTransactionModel!
+                                        .accountNumber ??
+                                    "",
+                                style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
                                     color: Color(0xff444444))),
@@ -150,49 +164,52 @@ class _ProductCheckoutState extends State<ProductCheckout> {
                           child: Column(
                               //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                const Row(
+                                Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text("Price of product",
+                                      const Text("Price of product",
                                           style: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w400,
                                               color: Color(0xff444444))),
-                                      Text("#20,000",
-                                          style: TextStyle(
+                                      Text(
+                                          "#${cartController.succesfullTransactionModel!.productCost ?? ""}",
+                                          style: const TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w600,
                                               color: Color(0xff444444)))
                                     ]),
                                 sizeVer(30),
-                                const Row(
+                                Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text("Price of delivery",
+                                      const Text("Price of delivery",
                                           style: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w400,
                                               color: Color(0xff444444))),
-                                      Text("#20,000",
-                                          style: TextStyle(
+                                      Text(
+                                          "#${cartController.succesfullTransactionModel!.totalShippingCost ?? ""}",
+                                          style: const TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w600,
                                               color: Color(0xff444444)))
                                     ]),
                                 sizeVer(30),
-                                const Row(
+                                Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text("Total Price",
+                                      const Text("Total Price",
                                           style: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w400,
                                               color: Color(0xff444444))),
-                                      Text("#20,000",
-                                          style: TextStyle(
+                                      Text(
+                                          "#${cartController.succesfullTransactionModel!.totalShippingCost! + cartController.succesfullTransactionModel!.productCost! ?? ""}",
+                                          style: const TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w600,
                                               color: Color(0xff444444)))

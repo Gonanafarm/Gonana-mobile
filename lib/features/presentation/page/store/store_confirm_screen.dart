@@ -323,31 +323,31 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                         const Divider(
                           thickness: 2,
                         ),
-                        const SizedBox(height: 10),
-                        const Text('Delivery',
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w600)),
-                        const SizedBox(height: 10),
-                        Container(
-                          // height: 100,
-                          width: 130,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Color(0xff1E1E1E))),
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 20.0, horizontal: 8),
-                              child: Obx(() {
-                                return Text(
-                                    productController.logisticsMerchant.value,
-                                    style: const TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400));
-                              }),
-                            ),
-                          ),
-                        ),
+                        // const SizedBox(height: 10),
+                        // const Text('Delivery',
+                        //     style: TextStyle(
+                        //         fontSize: 16, fontWeight: FontWeight.w600)),
+                        // const SizedBox(height: 10),
+                        // Container(
+                        //   // height: 100,
+                        //   width: 130,
+                        //   decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(10),
+                        //       border: Border.all(color: Color(0xff1E1E1E))),
+                        //   child: Center(
+                        //     child: Padding(
+                        //       padding: const EdgeInsets.symmetric(
+                        //           vertical: 20.0, horizontal: 8),
+                        //       child: Obx(() {
+                        //         return Text(
+                        //             productController.logisticsMerchant.value,
+                        //             style: const TextStyle(
+                        //                 fontSize: 12,
+                        //                 fontWeight: FontWeight.w400));
+                        //       }),
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
@@ -364,20 +364,19 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                           bool created = false;
                           try {
                             created = await productController.createProduct(
-                              productController.title.value,
-                              productController.body.value,
-                              productController.image.value,
-                              productController.image2.value,
-                              productController.image3.value,
-                              taxonomyController.id.value,
-                              productController.amount.value,
-                              productController.quantity.value,
-                              productController.weight.value,
-                              productController.geoLong.value,
-                              productController.geoLat.value,
-                              productController.logisticsMerchant.value,
-                              productController.address.value
-                            );
+                                productController.title.value,
+                                productController.body.value,
+                                productController.image.value,
+                                productController.image2.value,
+                                productController.image3.value,
+                                taxonomyController.id.value,
+                                productController.amount.value,
+                                productController.quantity.value,
+                                productController.weight.value,
+                                productController.geoLong.value,
+                                productController.geoLat.value,
+                                productController.logisticsMerchant.value,
+                                productController.address.value);
                             log("id: ${taxonomyController.id}");
                           } catch (e, s) {
                             log("e=> $e");
@@ -418,9 +417,37 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                   Icons.check_circle_outlined,
                 ),
               ),
-              content: const Padding(
+              content: Padding(
                 padding: EdgeInsets.only(left: 30.0),
-                child: Text('Product post succesful'),
+                child: Container(
+                  height: 150,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text('Product post succesful'),
+                      Container(height: 10),
+                      const Flexible(
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            // width: 185,
+                            // height: 82,
+                            child: Text(
+                              'Note:\n\nFor Every succesful transaction there would be 1.5% charge',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Color(0xFF444444),
+                                fontSize: 14,
+                                fontFamily: 'Proxima Nova',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
               ),
               actions: [
                 Padding(

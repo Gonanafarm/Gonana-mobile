@@ -128,9 +128,7 @@ class _AddProduct2State extends State<AddProduct2> {
                           child: Text(
                             'Create Product',
                             style: TextStyle(
-                              fontSize: 24, 
-                              fontWeight: FontWeight.w600
-                            ),
+                                fontSize: 24, fontWeight: FontWeight.w600),
                             textAlign: TextAlign.left,
                           ),
                         ),
@@ -182,18 +180,17 @@ class _AddProduct2State extends State<AddProduct2> {
                         //     )),
                         const SizedBox(height: 10),
                         SizedBox(
-                          // height: 82,
-                          width: MediaQuery.of(context).size.width,
-                          child: EnterText(
-                            onChanged: (price) {
-                              productController.updateAmount(price);
-                            },
-                            controller: _price,
-                            keyboardType: TextInputType.number,
-                            label: 'Price',
-                            hint: 'Enter the amount',
-                          )
-                        ),
+                            // height: 82,
+                            width: MediaQuery.of(context).size.width,
+                            child: EnterText(
+                              onChanged: (price) {
+                                productController.updateAmount(price);
+                              },
+                              controller: _price,
+                              keyboardType: TextInputType.number,
+                              label: 'Price',
+                              hint: 'Enter the amount',
+                            )),
                         const SizedBox(height: 10),
                         SizedBox(
                             // height: 82,
@@ -209,30 +206,27 @@ class _AddProduct2State extends State<AddProduct2> {
                             )),
                         const SizedBox(height: 10),
                         SizedBox(
-                          // height: 82,
-                          width: MediaQuery.of(context).size.width,
-                          child: EnterText(
-                            onChanged: (weight) {
-                              productController.updateWeight(weight);
-                            },
-                            controller: _weight,
-                            keyboardType: TextInputType.number,
-                            label: 'Weight',
-                            hint: 'Weight in KG',
-                          )
-                        ),
+                            // height: 82,
+                            width: MediaQuery.of(context).size.width,
+                            child: EnterText(
+                              onChanged: (weight) {
+                                productController.updateWeight(weight);
+                              },
+                              controller: _weight,
+                              keyboardType: TextInputType.number,
+                              label: 'Weight',
+                              hint: 'Weight in KG',
+                            )),
                         const SizedBox(height: 10),
                         SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: EnterText(
-                            onChanged: (weight) {
-                              productController.updateAddress(address);
-                            },
-                            controller: _address,
-                            label: 'Product Address',
-                            hint: 'Enter address for pick up'
-                          )
-                        ),
+                            width: MediaQuery.of(context).size.width,
+                            child: EnterText(
+                                onChanged: (weight) {
+                                  productController.updateAddress(address);
+                                },
+                                controller: _address,
+                                label: 'Product Address',
+                                hint: 'Enter address for pick up')),
                         // Column(
                         //   children: [
                         //     const SizedBox(
@@ -262,76 +256,76 @@ class _AddProduct2State extends State<AddProduct2> {
                         //     )
                         //   ]
                         // ),
-                        const SizedBox(height: 10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text("  Product Category"),
-                            const SizedBox(height: 5),
-                            GetBuilder<TaxonomyController>(builder: (_) {
-                              if (taxonomyController.taxonomies.isEmpty) {
-                                taxonomyController.getTaxonomy();
-                              } else {
-                                if (selectedTaxonomy.value.isBlank!) {
-                                  selectedTaxonomy.update((val) {
-                                    selectedTaxonomy.value =
-                                        taxonomyController.taxonomies[0];
-                                  });
-                                }
-                              }
-                              return Obx(
-                                () => Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.9,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.grey),
-                                      borderRadius: BorderRadius.circular(5)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: DropdownButton<String>(
-                                        isExpanded: true,
-                                        underline: const SizedBox(),
-                                        dropdownColor: Theme.of(context)
-                                            .scaffoldBackgroundColor,
-                                        focusColor: Colors.transparent,
-                                        value: selectedTaxonomy.value != null &&
-                                                selectedTaxonomy.value!.id !=
-                                                    null
-                                            ? selectedTaxonomy.value!.id
-                                                .toString()
-                                            : null,
-                                        hint: const Text(
-                                            'Select your product category'),
-                                        items: taxonomyController
-                                                .taxonomies.isNotEmpty
-                                            ? taxonomyController.taxonomies
-                                                .map((e) {
-                                                return DropdownMenuItem<String>(
-                                                  value: e.id.toString(),
-                                                  child:
-                                                      Text(e.name.toString()),
-                                                );
-                                              }).toList()
-                                            : [],
-                                        onChanged: (e) {
-                                          if (e!.isNotEmpty) {
-                                            selectedTaxonomy.value =
-                                                taxonomyController.taxonomies
-                                                    .firstWhere((element) =>
-                                                        element.id.toString() ==
-                                                        e);
-                                            taxonomyController.updateId(
-                                                selectedTaxonomy.value!.id
-                                                    .toString());
-                                          }
-                                          log('${selectedTaxonomy.value!.id}');
-                                        }),
-                                  ),
-                                ),
-                              );
-                            })
-                          ],
-                        ),
+                        // const SizedBox(height: 10),
+                        // Column(
+                        //   crossAxisAlignment: CrossAxisAlignment.start,
+                        //   children: [
+                        //     const Text("  Product Category"),
+                        //     const SizedBox(height: 5),
+                        //     GetBuilder<TaxonomyController>(builder: (_) {
+                        //       if (taxonomyController.taxonomies.isEmpty) {
+                        //         taxonomyController.getTaxonomy();
+                        //       } else {
+                        //         if (selectedTaxonomy.value.isBlank!) {
+                        //           selectedTaxonomy.update((val) {
+                        //             selectedTaxonomy.value =
+                        //                 taxonomyController.taxonomies[0];
+                        //           });
+                        //         }
+                        //       }
+                        //       return Obx(
+                        //         () => Container(
+                        //           width:
+                        //               MediaQuery.of(context).size.width * 0.9,
+                        //           decoration: BoxDecoration(
+                        //               border: Border.all(color: Colors.grey),
+                        //               borderRadius: BorderRadius.circular(5)),
+                        //           child: Padding(
+                        //             padding: const EdgeInsets.all(8.0),
+                        //             child: DropdownButton<String>(
+                        //                 isExpanded: true,
+                        //                 underline: const SizedBox(),
+                        //                 dropdownColor: Theme.of(context)
+                        //                     .scaffoldBackgroundColor,
+                        //                 focusColor: Colors.transparent,
+                        //                 value: selectedTaxonomy.value != null &&
+                        //                         selectedTaxonomy.value!.id !=
+                        //                             null
+                        //                     ? selectedTaxonomy.value!.id
+                        //                         .toString()
+                        //                     : null,
+                        //                 hint: const Text(
+                        //                     'Select your product category'),
+                        //                 items: taxonomyController
+                        //                         .taxonomies.isNotEmpty
+                        //                     ? taxonomyController.taxonomies
+                        //                         .map((e) {
+                        //                         return DropdownMenuItem<String>(
+                        //                           value: e.id.toString(),
+                        //                           child:
+                        //                               Text(e.name.toString()),
+                        //                         );
+                        //                       }).toList()
+                        //                     : [],
+                        //                 onChanged: (e) {
+                        //                   if (e!.isNotEmpty) {
+                        //                     selectedTaxonomy.value =
+                        //                         taxonomyController.taxonomies
+                        //                             .firstWhere((element) =>
+                        //                                 element.id.toString() ==
+                        //                                 e);
+                        //                     taxonomyController.updateId(
+                        //                         selectedTaxonomy.value!.id
+                        //                             .toString());
+                        //                   }
+                        //                   log('${selectedTaxonomy.value!.id}');
+                        //                 }),
+                        //           ),
+                        //         ),
+                        //       );
+                        //     })
+                        //   ],
+                        // ),
                       ]),
                 ],
               ),
