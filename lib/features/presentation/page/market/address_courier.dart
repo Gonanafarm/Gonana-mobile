@@ -17,33 +17,33 @@ class AddressCourier extends StatefulWidget {
 
 class _AddressCourierState extends State<AddressCourier> {
   CartController cartController = Get.put(CartController());
-  final TextEditingController _address =TextEditingController();
+  final TextEditingController _address = TextEditingController();
   String get address => _address.text;
   bool isValidated = false;
   bool isSelected = false;
   
   @override
-  void initState(){
+  void initState() {
     super.initState();
     cartController.fetchActiveCourier();
   }
 
   @override
-  Widget build(BuildContext context) { 
+  Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: const Color(0xffF1F1F1),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          )
+        resizeToAvoidBottomInset: false,
+        backgroundColor: const Color(0xffF1F1F1),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.black,
+              )),
         ),
       ),
       body: SafeArea(
@@ -156,8 +156,9 @@ class _AddressCourierState extends State<AddressCourier> {
                     ),
                   ),
                 ),
-                sizeVer(45),
-                Align(
+              ),
+              sizeVer(45),
+              Align(
                   alignment: Alignment.bottomCenter,
                   child: LongGradientButton(
                     title: 'Proceed to pay', 
@@ -169,9 +170,7 @@ class _AddressCourierState extends State<AddressCourier> {
               ],
             ),
           ),
-        )
-      )
-    );
+        )));
   }
 
   Widget listAvailableCouriers(){

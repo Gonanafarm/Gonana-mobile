@@ -38,7 +38,7 @@ class SignInController extends GetxController {
         print("Success $token");
         print("Email: $userEmail");
         await userController.fetchUserByEmail();
-        print("email: ${userController.userEmail}");
+        print("model email: ${userController.userModel.value.email}");
         // SuccessSnackbar.show(context, result['message']);
         await Get.to(() => HomePage(navIndex: 0));
         // log(jsonDecode(res.body));

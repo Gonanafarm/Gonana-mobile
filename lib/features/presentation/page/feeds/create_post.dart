@@ -90,7 +90,7 @@ class _CreatePostState extends State<CreatePost> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             userController.userModel.value != null
-                                ? (userController.userModel.value.user!.profilePhoto
+                                ? (userController.userModel.value.profilePhoto
                                             ?.isEmpty ??
                                         true)
                                     ? Container(
@@ -98,7 +98,7 @@ class _CreatePostState extends State<CreatePost> {
                                         width: 30,
                                         child: ClipOval(
                                           child: getImageWidget(
-                                            "${userController.userModel.value.user!.profilePhoto}",
+                                            "${userController.userModel.value.profilePhoto}",
                                           ),
                                         ),
                                       )
@@ -110,7 +110,7 @@ class _CreatePostState extends State<CreatePost> {
                                             child: FadeInImage(
                                               fit: BoxFit.cover,
                                               image: NetworkImage(
-                                                "${userController.userModel.value.user!.profilePhoto}",
+                                                "${userController.userModel.value.profilePhoto}",
                                               ),
                                               placeholder: const AssetImage(
                                                 "assets/images/gonanas_profile.png",
@@ -133,7 +133,7 @@ class _CreatePostState extends State<CreatePost> {
                                             MediaQuery.of(context).size.width *
                                                 0.4,
                                         child: Text(
-                                          '${userController.userModel.value.user!.lastName} ${userController.userModel.value.user!.firstName}',
+                                          '${userController.userModel.value.lastName} ${userController.userModel.value.firstName}',
                                           style: const TextStyle(
                                             overflow: TextOverflow.ellipsis,
                                             fontSize: 16,

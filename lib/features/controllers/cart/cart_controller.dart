@@ -206,7 +206,9 @@ class CartController extends GetxController {
       var response = jsonDecode(res.body);
       print("got here");
       log('Message: $response');
-      return true;
+      if (res.statusCode == 201) {
+        return true;
+      }
     } catch (e, s) {
       log("checkOut Error=> $e");
       log("checkOut Stack=> $s");
@@ -214,38 +216,33 @@ class CartController extends GetxController {
     return false;
   }
 
-  Future<bool> validateAddress(
-    String address
-  )async{
-    try{
-      var data = {
-        'address' : address
-      };
+  Future<bool> validateAddress(String address) async {
+    try {
+      var data = {'address': address};
       var res = await NetworkApi().authPostData(data, ApiRoute.validateAddress);
       final result = jsonDecode(res.body);
-      if(res.statusCode == 201){
+      if (res.statusCode == 201) {
         log('statcode: ${res.statusCode}');
         log('rezz: $result');
         return true;
-      }else{
+      } else {
         log('rezzzz: $result');
         return false;
       }
-    }catch(e,s){
+    } catch (e, s) {
       log("vaalidate Error=> $e");
       log("vaalidate Stack=> $s");
       return false;
     }
   }
 
-
   CourierModel? courierModel;
-  Future<bool> fetchActiveCourier()async{
-    try{
-      var res = await NetworkApi().authGetData( ApiRoute.fetchCourier);
+  Future<bool> fetchActiveCourier() async {
+    try {
+      var res = await NetworkApi().authGetData(ApiRoute.fetchCourier);
       final result = jsonDecode(res.body);
       //courierModel = courierModelFromJson(res.body);
-      if(res.statusCode == 200){
+      if (res.statusCode == 200) {
         log("Couriers: $result");
         var data = List<Map<String, dynamic>>.from(result["couriers"]);
         List<CourierModel> list = data.map((e)=> CourierModel().fromJson(e)).toList();
@@ -257,7 +254,7 @@ class CartController extends GetxController {
         log("Fail Couriers: $result");
         return false;
       }
-    }catch(e, s){
+    } catch (e, s) {
       log("fetchActiveCourier Error=> $e");
       log("fetchActiveCourier Stack=> $s");
       return false;

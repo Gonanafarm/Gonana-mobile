@@ -8,6 +8,7 @@ import 'package:gonana/features/controllers/order/order_controller.dart';
 import 'package:gonana/features/controllers/user/user_controller.dart';
 import 'package:gonana/features/data/models/cart_model.dart';
 import 'package:gonana/features/presentation/page/home.dart';
+import 'package:gonana/features/presentation/page/market/product_checkout.dart';
 import 'package:gonana/features/presentation/widgets/bottomsheets.dart';
 import 'package:gonana/features/presentation/widgets/search_page.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,6 +16,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../consts.dart';
 import '../../../data/models/order_model.dart';
 import '../../widgets/widgets.dart';
+import 'address_courier.dart';
 
 Future<bool>? fetchData;
 
@@ -158,15 +160,15 @@ class _CartPageState extends State<CartPage> {
                                               )),
                                           Obx(() {
                                             return Text(
-                                              cartController.cartModel != null
-                                                  ? "NGN ${cartController.totalPrice}"
-                                                  : "NGN",
-                                              style: GoogleFonts.montserrat(
-                                                fontSize: 14,
-                                                color:const Color(0xff29844B),
-                                                fontWeight: FontWeight.w600,
-                                              )
-                                            );
+                                                cartController.cartModel != null
+                                                    ? "NGN ${cartController.totalPrice}"
+                                                    : "NGN",
+                                                style: GoogleFonts.montserrat(
+                                                  fontSize: 14,
+                                                  color:
+                                                      const Color(0xff29844B),
+                                                  fontWeight: FontWeight.w600,
+                                                ));
                                           }),
                                         ],
                                       ),
@@ -183,6 +185,10 @@ class _CartPageState extends State<CartPage> {
                                     setState(() {
                                       isLoading = true;
                                     });
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                    Get.to(() => const AddressCourier());
                                     for (var product in checkedItems) {
                                       orderList.add(Order(
                                           id: "${product.id}",
@@ -191,12 +197,7 @@ class _CartPageState extends State<CartPage> {
                                     // Passes the value here
                                     bool isSuccess = await cartController
                                         .checkOut(orderList);
-                                    if (isSuccess) {
-                                      setState(() {
-                                        isLoading = false;
-                                      });
-                                      checkout(context);
-                                    }
+                                    if (isSuccess) {}
                                     // Wrap it inside a function
                                   },
                                   child: Container(

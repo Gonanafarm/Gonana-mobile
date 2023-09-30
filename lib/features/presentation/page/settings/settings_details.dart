@@ -33,10 +33,10 @@ class _MyDetailsState extends State<MyDetails> {
   @override
   Widget build(BuildContext context) {
     if (userController.userModel.value != null &&
-        userController.userModel.value.user != null &&
-        userController.userModel.value.user!.email != null &&
-        userController.userModel.value.user!.email!.isNotEmpty) {
-      email = userController.userModel.value.user!.email ?? '';
+        userController.userModel.value != null &&
+        userController.userModel.value.email != null &&
+        userController.userModel.value.email!.isNotEmpty) {
+      email = userController.userModel.value.email ?? '';
     }
     return Center(
       child: Padding(
