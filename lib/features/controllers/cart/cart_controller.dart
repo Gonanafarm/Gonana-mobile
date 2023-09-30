@@ -25,6 +25,8 @@ class CartController extends GetxController {
   RxInt cartItems = 0.obs;
   RxInt totalPrice = 0.obs;
   String item = "";
+  var couriers = <CourierModel>[].obs;
+  
   void updateQuantityPerItem(int newQuantity) {
     quantity.value = newQuantity;
     update();
@@ -242,9 +244,14 @@ class CartController extends GetxController {
       //courierModel = courierModelFromJson(res.body);
       if (res.statusCode == 200) {
         log("Couriers: $result");
+        var data = List<Map<String, dynamic>>.from(result["couriers"]);
+        List<CourierModel> list = data.map((e)=> CourierModel().fromJson(e)).toList();
+        couriers.value.addAll(list);
+        log("all: ${couriers.value.first}");
+        update();
         return true;
-      } else {
-        log("Couriers: $result");
+      }else{
+        log("Fail Couriers: $result");
         return false;
       }
     } catch (e, s) {
@@ -254,3 +261,4 @@ class CartController extends GetxController {
     }
   }
 }
+
