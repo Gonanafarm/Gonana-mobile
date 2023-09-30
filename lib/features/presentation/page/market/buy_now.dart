@@ -256,58 +256,58 @@ class _BuyNowPageState extends State<BuyNowPage> {
                   ],
                 ),
                 sizeVer(10),
-                Divider(
-                  thickness: 1.0,
-                  color: Colors.grey[300],
-                ),
-                sizeVer(10.0),
-                Text("Delivery",
-                    style: GoogleFonts.montserrat(
-                        fontSize: 16,
-                        color: darkColor,
-                        fontWeight: FontWeight.w600)),
-                sizeVer(10.0),
-                Row(
-                  children: [
-                    Container(
-                      width: 125,
-                      height: 45,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: darkColor, width: 1),
-                      ),
-                      child: Center(
-                        child: Text(
-                            widget.productModel!.product!.deliveryCompany !=
-                                    null
-                                ? "${widget.productModel!.product!.deliveryCompany}"
-                                : "",
-                            style: GoogleFonts.montserrat(
-                              fontSize: 10,
-                              color: darkColor,
-                            )),
-                      ),
-                    ),
-                    sizeHor(20.0),
-                    // Flexible(
-                    //   child: Container(
-                    //     width: 125,
-                    //     height: 45,
-                    //     decoration: BoxDecoration(
-                    //       borderRadius: BorderRadius.circular(5),
-                    //       border: Border.all(color: darkColor, width: 1),
-                    //     ),
-                    //     child: Center(
-                    //       child: Text("My own Logistics",
-                    //           style: GoogleFonts.montserrat(
-                    //             fontSize: 10,
-                    //             color: darkColor,
-                    //           )),
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
-                ),
+                // Divider(
+                //   thickness: 1.0,
+                //   color: Colors.grey[300],
+                // ),
+                // sizeVer(10.0),
+                // Text("Delivery",
+                //     style: GoogleFonts.montserrat(
+                //         fontSize: 16,
+                //         color: darkColor,
+                //         fontWeight: FontWeight.w600)),
+                // sizeVer(10.0),
+                // Row(
+                //   children: [
+                //     Container(
+                //       width: 125,
+                //       height: 45,
+                //       decoration: BoxDecoration(
+                //         borderRadius: BorderRadius.circular(5),
+                //         border: Border.all(color: darkColor, width: 1),
+                //       ),
+                //       child: Center(
+                //         child: Text(
+                //             widget.productModel!.product!.deliveryCompany !=
+                //                     null
+                //                 ? "${widget.productModel!.product!.deliveryCompany}"
+                //                 : "",
+                //             style: GoogleFonts.montserrat(
+                //               fontSize: 10,
+                //               color: Colors.black,
+                //             )),
+                //       ),
+                //     ),
+                //     sizeHor(20.0),
+                //     // Flexible(
+                //     //   child: Container(
+                //     //     width: 125,
+                //     //     height: 45,
+                //     //     decoration: BoxDecoration(
+                //     //       borderRadius: BorderRadius.circular(5),
+                //     //       border: Border.all(color: darkColor, width: 1),
+                //     //     ),
+                //     //     child: Center(
+                //     //       child: Text("My own Logistics",
+                //     //           style: GoogleFonts.montserrat(
+                //     //             fontSize: 10,
+                //     //             color: darkColor,
+                //     //           )),
+                //     //     ),
+                //     //   ),
+                //     // ),
+                //   ],
+                // ),
                 sizeVer(10.0),
                 Divider(
                   thickness: 1.0,
@@ -375,6 +375,7 @@ class _BuyNowPageState extends State<BuyNowPage> {
                 ),
                 sizeVer(20.0),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
                       onTap: () async {
@@ -415,50 +416,50 @@ class _BuyNowPageState extends State<BuyNowPage> {
                         ),
                       ),
                     ),
-                    sizeHor(15.0),
-                    Flexible(
-                      child: GestureDetector(
-                        onTap: () {
-                          checkout(context);
-                        },
-                        child: Container(
-                          width: 172.5,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            gradient: const LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              stops: [0.04, 0.9994],
-                              colors: [
-                                Color(0xff072C27),
-                                Color(0xff29844B),
-                              ],
-                              transform: GradientRotation(89.94 * 3.14 / 180),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Buy now",
-                                style: GoogleFonts.montserrat(
-                                  fontSize: 14,
-                                  color: primaryColor,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              sizeHor(5.0),
-                              const Icon(
-                                Icons.arrow_forward,
-                                color: primaryColor,
-                                size: 35,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    )
+                    // sizeHor(15.0),
+                    // Flexible(
+                    //   child: GestureDetector(
+                    //     onTap: () {
+                    //       checkout(context);
+                    //     },
+                    //     child: Container(
+                    //       width: 172.5,
+                    //       height: 60,
+                    //       decoration: BoxDecoration(
+                    //         borderRadius: BorderRadius.circular(5),
+                    //         gradient: const LinearGradient(
+                    //           begin: Alignment.topCenter,
+                    //           end: Alignment.bottomCenter,
+                    //           stops: [0.04, 0.9994],
+                    //           colors: [
+                    //             Color(0xff072C27),
+                    //             Color(0xff29844B),
+                    //           ],
+                    //           transform: GradientRotation(89.94 * 3.14 / 180),
+                    //         ),
+                    //       ),
+                    //       child: Row(
+                    //         mainAxisAlignment: MainAxisAlignment.center,
+                    //         children: [
+                    //           Text(
+                    //             "Buy now",
+                    //             style: GoogleFonts.montserrat(
+                    //               fontSize: 14,
+                    //               color: primaryColor,
+                    //               fontWeight: FontWeight.w400,
+                    //             ),
+                    //           ),
+                    //           sizeHor(5.0),
+                    //           const Icon(
+                    //             Icons.arrow_forward,
+                    //             color: primaryColor,
+                    //             size: 35,
+                    //           )
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ),
+                    // )
                   ],
                 ),
                 sizeVer(20.0),

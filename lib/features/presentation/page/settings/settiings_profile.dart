@@ -139,103 +139,99 @@ class _SettingsProfileState extends State<SettingsProfile> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (userController.userModel.value != null &&
-                              userController.userModel.value.profilePhoto !=
-                                  null &&
-                              userController
-                                  .userModel.value.profilePhoto!.isNotEmpty)
-                            Stack(
-                              alignment: AlignmentDirectional.bottomEnd,
-                              children: [
-                                Container(
-                                  height: 82,
-                                  width: 82,
-                                  child: ClipOval(
-                                    child: getImageWidget(
-                                      "${userController.userModel.value.profilePhoto}",
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    bottom: 0.0,
-                                    right: 0,
-                                  ),
-                                  child: GestureDetector(
-                                    onTap: () async {
-                                      pickImage();
-                                    },
-                                    child: Container(
-                                      width: 30, // Adjust as needed
-                                      height:
-                                          30, // Should be equal to width for a perfect circle
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.white,
-                                      ),
-                                      child: Center(
-                                        child: SvgPicture.asset(
-                                          "assets/svgs/camera.svg",
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          else if (userController.userModel.value != null &&
-                              userController.userModel.value != null &&
-                              userController.userModel.value.profilePhoto !=
-                                  null &&
-                              userController
-                                  .userModel.value.profilePhoto!.isNotEmpty)
-                            Obx(() {
-                              return Stack(
-                                alignment: AlignmentDirectional.bottomEnd,
-                                children: [
-                                  Container(
-                                    height: 82,
-                                    width: 82,
-                                    child: ClipOval(
-                                      child: FadeInImage(
-                                        fit: BoxFit.cover,
-                                        image: NetworkImage(
-                                          "${userController.userModel.value.profilePhoto}",
-                                        ),
-                                        placeholder: const AssetImage(
-                                          "assets/images/gonanas_profile.png",
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      bottom: 0.0,
-                                      right: 0,
-                                    ),
-                                    child: GestureDetector(
-                                      onTap: () async {
-                                        pickImage();
-                                      },
-                                      child: Container(
-                                        width: 30, // Adjust as needed
-                                        height:
-                                            30, // Should be equal to width for a perfect circle
-                                        decoration: const BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Colors.white,
-                                        ),
-                                        child: Center(
-                                          child: SvgPicture.asset(
-                                            "assets/svgs/camera.svg",
+                          userController.userModel.value != null
+                              ? (userController.userModel.value.profilePhoto
+                                          ?.isEmpty ??
+                                      true)
+                                  ? Stack(
+                                      alignment: AlignmentDirectional.bottomEnd,
+                                      children: [
+                                        Container(
+                                          height: 82,
+                                          width: 82,
+                                          child: ClipOval(
+                                            child: getImageWidget(
+                                              "${userController.userModel.value.profilePhoto}",
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            }),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                            bottom: 0.0,
+                                            right: 0,
+                                          ),
+                                          child: GestureDetector(
+                                            onTap: () async {
+                                              pickImage();
+                                            },
+                                            child: Container(
+                                              width: 30, // Adjust as needed
+                                              height:
+                                                  30, // Should be equal to width for a perfect circle
+                                              decoration: const BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.white,
+                                              ),
+                                              child: Center(
+                                                child: SvgPicture.asset(
+                                                  "assets/svgs/camera.svg",
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  : Obx(() {
+                                      return Stack(
+                                        alignment:
+                                            AlignmentDirectional.bottomEnd,
+                                        children: [
+                                          Container(
+                                            height: 82,
+                                            width: 82,
+                                            child: ClipOval(
+                                              child: FadeInImage(
+                                                fit: BoxFit.cover,
+                                                image: NetworkImage(
+                                                  "${userController.userModel.value.profilePhoto}",
+                                                ),
+                                                placeholder: const AssetImage(
+                                                  "assets/images/gonanas_profile.png",
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 0.0,
+                                              right: 0,
+                                            ),
+                                            child: GestureDetector(
+                                              onTap: () async {
+                                                pickImage();
+                                              },
+                                              child: Container(
+                                                width: 30, // Adjust as needed
+                                                height:
+                                                    30, // Should be equal to width for a perfect circle
+                                                decoration: const BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.white,
+                                                ),
+                                                child: Center(
+                                                  child: SvgPicture.asset(
+                                                    "assets/svgs/camera.svg",
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    })
+                              : Container(),
+
                           Row(
                             children: [
                               if (userController.userModel.value != null &&
