@@ -156,8 +156,7 @@ class _AddressCourierState extends State<AddressCourier> {
                             isLoading = true;
                           });
                           for (var product in checkedItems) {
-                            orderList.add(Order(
-                                id: "${product.id}", units: product.unit));
+                            orderList.add(Order(id: "${product.id}", units: product.unit));
                           }
                           // Get.to(() => const AddressCourier());
                           // Passes the value here
