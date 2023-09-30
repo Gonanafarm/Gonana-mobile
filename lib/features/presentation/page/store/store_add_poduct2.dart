@@ -128,11 +128,13 @@ class _AddProduct2State extends State<AddProduct2> {
                           child: Text(
                             'Create Product',
                             style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.w600),
+                              fontSize: 24, 
+                              fontWeight: FontWeight.w600
+                            ),
                             textAlign: TextAlign.left,
                           ),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         // SizedBox(
                         //     // height: 122,
                         //     width: MediaQuery.of(context).size.width,
@@ -178,20 +180,21 @@ class _AddProduct2State extends State<AddProduct2> {
                         //         )
                         //       ],
                         //     )),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         SizedBox(
-                            // height: 82,
-                            width: MediaQuery.of(context).size.width,
-                            child: EnterText(
-                              onChanged: (price) {
-                                productController.updateAmount(price);
-                              },
-                              controller: _price,
-                              keyboardType: TextInputType.number,
-                              label: 'Price',
-                              hint: 'Enter the amount',
-                            )),
-                        SizedBox(height: 10),
+                          // height: 82,
+                          width: MediaQuery.of(context).size.width,
+                          child: EnterText(
+                            onChanged: (price) {
+                              productController.updateAmount(price);
+                            },
+                            controller: _price,
+                            keyboardType: TextInputType.number,
+                            label: 'Price',
+                            hint: 'Enter the amount',
+                          )
+                        ),
+                        const SizedBox(height: 10),
                         SizedBox(
                             // height: 82,
                             width: MediaQuery.of(context).size.width,
@@ -204,52 +207,67 @@ class _AddProduct2State extends State<AddProduct2> {
                               label: 'Quantity',
                               hint: 'Unit number of items',
                             )),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         SizedBox(
-                            // height: 82,
-                            width: MediaQuery.of(context).size.width,
-                            child: EnterText(
-                              onChanged: (weight) {
-                                productController.updateWeight(weight);
-                              },
-                              controller: _weight,
-                              keyboardType: TextInputType.number,
-                              label: 'Weight',
-                              hint: 'Weight in KG',
-                            )),
-                        SizedBox(height: 10),
-                        Column(children: [
-                          const SizedBox(
-                              width: double.infinity,
-                              child: Padding(
-                                padding: EdgeInsets.all(4.0),
-                                child: Text(
-                                  'Product Location',
-                                  textAlign: TextAlign.left,
-                                ),
-                              )),
-                          Container(
-                              height: 58,
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(
-                                border:
-                                    Border.all(width: 1, color: Colors.grey),
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(5)),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(8, 20, 0, 0),
-                                child: Text('$currentAddress',
-                                    style: const TextStyle(),
-                                    textAlign: TextAlign.left),
-                              ))
-                        ]),
-                        SizedBox(height: 10),
+                          // height: 82,
+                          width: MediaQuery.of(context).size.width,
+                          child: EnterText(
+                            onChanged: (weight) {
+                              productController.updateWeight(weight);
+                            },
+                            controller: _weight,
+                            keyboardType: TextInputType.number,
+                            label: 'Weight',
+                            hint: 'Weight in KG',
+                          )
+                        ),
+                        const SizedBox(height: 10),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: EnterText(
+                            onChanged: (weight) {
+                              productController.updateAddress(address);
+                            },
+                            controller: _address,
+                            label: 'Product Address',
+                            hint: 'Enter address for pick up'
+                          )
+                        ),
+                        // Column(
+                        //   children: [
+                        //     const SizedBox(
+                        //       width: double.infinity,
+                        //       child: Padding(
+                        //         padding: EdgeInsets.all(4.0),
+                        //         child: Text(
+                        //           'Product Location',
+                        //           textAlign: TextAlign.left,
+                        //         ),
+                        //       )
+                        //     ),
+                        //     Container(
+                        //       height: 58,
+                        //       width: MediaQuery.of(context).size.width,
+                        //       decoration: BoxDecoration(
+                        //         border: Border.all(width: 1, color: Colors.grey),
+                        //         borderRadius: const BorderRadius.all(Radius.circular(5)),
+                        //       ),
+                        //       child: Padding(
+                        //         padding: const EdgeInsets.fromLTRB(8, 20, 0, 0),
+                        //         child: Text('$currentAddress',
+                        //           style: const TextStyle(),
+                        //           textAlign: TextAlign.left
+                        //         ),
+                        //       )
+                        //     )
+                        //   ]
+                        // ),
+                        const SizedBox(height: 10),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("  Product Category"),
-                            SizedBox(height: 5),
+                            const Text("  Product Category"),
+                            const SizedBox(height: 5),
                             GetBuilder<TaxonomyController>(builder: (_) {
                               if (taxonomyController.taxonomies.isEmpty) {
                                 taxonomyController.getTaxonomy();

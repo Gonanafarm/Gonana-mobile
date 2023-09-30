@@ -130,11 +130,12 @@ class _MyAppState extends State<MyApp> {
             color: Colors.white,
             child: Center(
               child: Container(
-                  height: 75,
-                  width: 75,
-                  child: CircularProgressIndicator(
-                    color: Color.fromRGBO(41, 132, 75, 1),
-                  )),
+                height: 75,
+                width: 75,
+                child: CircularProgressIndicator(
+                  color: Color.fromRGBO(41, 132, 75, 1),
+                )
+              ),
             ),
           ); // Show a loading indicator while waiting
         } else if (snapshot.hasError) {
@@ -156,6 +157,7 @@ class _MyAppState extends State<MyApp> {
                                       ? const SignUp()
                                       : const Splash1());
         }
+
       },
     );
   }
