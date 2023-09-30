@@ -8,6 +8,7 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:gonana/features/data/models/order_model.dart';
 import 'package:gonana/features/data/models/courier_model.dart';
+import 'package:gonana/features/data/models/succesful_transaction_model.dart';
 
 import '../../data/models/cart_model.dart';
 import '../../presentation/widgets/widgets.dart';
@@ -195,6 +196,7 @@ class CartController extends GetxController {
     }
   }
 
+  SuccesfullTransactionModel? succesfullTransactionModel;
   Future<bool> proceedToPay(
       List<Order> order, String serviceCode, var context) async {
     try {
@@ -208,6 +210,8 @@ class CartController extends GetxController {
       print("got here");
       log('Message: $response');
       if (res.statusCode == 201) {
+        succesfullTransactionModel =
+            succesfullTransactionModelFromJson(res.body);
         SuccessSnackbar.show(context, response['message']);
         return true;
       } else {
