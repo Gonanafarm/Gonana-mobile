@@ -209,13 +209,14 @@ class CartController extends GetxController {
       var response = jsonDecode(res.body);
       print("got here");
       log('Message: $response');
+      log('status code: ${res.statusCode}');
       if (res.statusCode == 201) {
         succesfullTransactionModel =
             succesfullTransactionModelFromJson(res.body);
-        SuccessSnackbar.show(context, response['message']);
+        SuccessSnackbar.show(context, "successful");
         return true;
       } else {
-        // ErrorSnackbar.show(context, response['message']);
+        ErrorSnackbar.show(context, "No access to your current location");
         return false;
       }
     } catch (e, s) {

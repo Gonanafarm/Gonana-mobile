@@ -24,7 +24,7 @@ class _AddressCourierState extends State<AddressCourier> {
   final TextEditingController _address = TextEditingController();
   String get address => _address.text;
   bool isValidated = false;
-  bool isiTemSelected = false;
+  // bool isiTemSelected = false;
   bool isLoading = false;
   var selectedCourier;
 
@@ -135,6 +135,10 @@ class _AddressCourierState extends State<AddressCourier> {
                                       ),
                                       const SizedBox(height: 20),
                                       SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.5,
                                           child: listAvailableCouriers(
                                               selectedCourier))
                                     ]),
@@ -152,21 +156,27 @@ class _AddressCourierState extends State<AddressCourier> {
                         title: 'Proceed to pay',
                         onPressed: () async {
                           // cartController.checkOut(order, serviceCode)
-                          setState(() {
-                            isLoading = true;
-                          });
                           for (var product in checkedItems) {
-                            orderList.add(Order(id: "${product.id}", units: product.unit));
+                            orderList.add(Order(
+                                id: "${product.id}", units: product.unit));
                           }
                           // Get.to(() => const AddressCourier());
                           // Passes the value here
-                          bool isSuccess = await cartController.proceedToPay(
-                              orderList, courierItem.serviceCode, context);
-                          if (isSuccess) {
-                            Get.to(() => const ProductCheckout());
+                          if (isValidated && isiTemSelected) {
                             setState(() {
-                              isLoading = false;
+                              isLoading = true;
                             });
+                            bool isSuccess = await cartController.proceedToPay(
+                                orderList, courierItem.serviceCode, context);
+                            if (isSuccess) {
+                              Get.to(() => const ProductCheckout());
+                              setState(() {
+                                isLoading = false;
+                              });
+                            }
+                          } else {
+                            ErrorSnackbar.show(context,
+                                "Validate your address and select your Courier service");
                           }
                         }))
               ],
@@ -201,7 +211,9 @@ class _AddressCourierState extends State<AddressCourier> {
                   setState(() {
                     selectedCourier = courierItem.serviceCode;
                     log('selected: ${selectedCourier}');
-                    isSelected = !isiTemSelected;
+                    setState(() {
+                      isiTemSelected = !isiTemSelected;
+                    });
                     log('${courierItem.serviceCode} isSelected: $isSelected');
                   });
                 },
