@@ -156,10 +156,6 @@ class _AddressCourierState extends State<AddressCourier> {
                         title: 'Proceed to pay',
                         onPressed: () async {
                           // cartController.checkOut(order, serviceCode)
-                          for (var product in checkedItems) {
-                            orderList.add(Order(
-                                id: "${product.id}", units: product.unit));
-                          }
                           // Get.to(() => const AddressCourier());
                           // Passes the value here
                           if (isValidated && isiTemSelected) {

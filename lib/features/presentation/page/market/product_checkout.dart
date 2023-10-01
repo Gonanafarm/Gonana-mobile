@@ -201,7 +201,7 @@ class _ProductCheckoutState extends State<ProductCheckout> {
                                               fontWeight: FontWeight.w400,
                                               color: Color(0xff444444))),
                                       Text(
-                                          "NGN ${cartController.succesfullTransactionModel!.checkoutData!.packageAmount ?? ""}",
+                                          "NGN ${cartController.succesfullTransactionModel!.productCost ?? ""}",
                                           style: const TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w600,
@@ -235,7 +235,7 @@ class _ProductCheckoutState extends State<ProductCheckout> {
                                               fontWeight: FontWeight.w400,
                                               color: Color(0xff444444))),
                                       Text(
-                                          "NGN ${cartController.succesfullTransactionModel!.totalShippingCost! + cartController.succesfullTransactionModel!.checkoutData!.packageAmount! ?? ""}",
+                                          "NGN ${cartController.succesfullTransactionModel!.totalShippingCost! + cartController.succesfullTransactionModel!.productCost! ?? ""}",
                                           style: const TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w600,
