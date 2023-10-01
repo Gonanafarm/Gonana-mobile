@@ -193,7 +193,9 @@ class _CartPageState extends State<CartPage> {
                                           id: "${product.id}",
                                           units: product.unit));
                                     }
-                                    Get.to(() => const AddressCourier());
+                                    if (checkedItems.isNotEmpty) {
+                                      Get.to(() => const AddressCourier());
+                                    }
                                     // Passes the value here
                                     // bool isSuccess = await cartController
                                     //     .checkOut(orderList);
