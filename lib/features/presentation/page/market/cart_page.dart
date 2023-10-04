@@ -12,8 +12,10 @@ import 'package:gonana/features/presentation/page/market/product_checkout.dart';
 import 'package:gonana/features/presentation/widgets/bottomsheets.dart';
 import 'package:gonana/features/presentation/widgets/search_page.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../consts.dart';
+import '../../../controllers/transaction_controller.dart';
 import '../../../data/models/order_model.dart';
 import '../../widgets/widgets.dart';
 import 'address_courier.dart';
@@ -29,13 +31,22 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   final TextEditingController _searchController = TextEditingController();
+  TransactionController transactionController =
+      Get.put(TransactionController());
   @override
   void initState() {
     super.initState();
     setState(() {
       // postController.getPosts();
       fetchData = getCartItems();
+      getBVNStatus();
     });
+  }
+
+  bool? BVNisSubmited = false;
+  getBVNStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    BVNisSubmited = prefs.getBool('bvnSubmission');
   }
 
   Future<bool> getCartItems() async {
@@ -182,25 +193,52 @@ class _CartPageState extends State<CartPage> {
                                     const EdgeInsets.symmetric(horizontal: 8.0),
                                 child: GestureDetector(
                                   onTap: () async {
-                                    setState(() {
-                                      isLoading = true;
-                                    });
-                                    setState(() {
-                                      isLoading = false;
-                                    });
-                                    for (var product in checkedItems) {
-                                      orderList.add(Order(
-                                          id: "${product.id}",
-                                          units: product.unit));
+                                    SharedPreferences prefs =
+                                        await SharedPreferences.getInstance();
+                                    BVNisSubmited =
+                                        prefs.getBool('bvnSubmission');
+                                    if (userController.userModel.value
+                                            .virtualAccountNumber!.isNotEmpty ||
+                                        userController.userModel.value
+                                                .virtualAccountNumber !=
+                                            null) {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                      for (var product in checkedItems) {
+                                        orderList.add(Order(
+                                            id: "${product.id}",
+                                            units: product.unit));
+                                      }
+                                      if (checkedItems.isNotEmpty) {
+                                        Get.to(() => const AddressCourier());
+                                      }
+                                    } else if ((userController
+                                                .userModel
+                                                .value
+                                                .virtualAccountNumber!
+                                                .isNotEmpty ||
+                                            userController.userModel.value
+                                                    .virtualAccountNumber ==
+                                                null) &&
+                                        BVNisSubmited!) {
+                                      ErrorSnackbar.show(context,
+                                          "Your BVN is awaiting verification");
+                                    } else if ((userController
+                                                .userModel
+                                                .value
+                                                .virtualAccountNumber!
+                                                .isNotEmpty ||
+                                            userController.userModel.value
+                                                    .virtualAccountNumber ==
+                                                null) &&
+                                        BVNisSubmited!) {
+                                      ErrorSnackbar.show(context,
+                                          "Please kindly go to verifications and submit your BVN for verification to create your virtual account ");
                                     }
-                                    if (checkedItems.isNotEmpty) {
-                                      Get.to(() => const AddressCourier());
-                                    }
-                                    // Passes the value here
-                                    // bool isSuccess = await cartController
-                                    //     .checkOut(orderList);
-                                    // if (isSuccess) {}
-                                    // Wrap it inside a function
                                   },
                                   child: Container(
                                     width: MediaQuery.of(context).size.width *

@@ -67,8 +67,11 @@ class ApiRoute {
   static const fetchCourier = 'api/logistics/get-couriers';
 
   //Fetch banks
-  static const fetchBanks = 'api/user/bank-details';
+  static const fetchBanks = 'api/transaction/bank-details';
 
   //Update bank details
-  static const updateBankDetail = 'api/user/save-account-number';
+  static const updateBankDetail = 'api/transaction/save-account-number';
+
+  // verify BVN
+  static const verifyBVN = 'api/transaction/create-virtual-account';
 }

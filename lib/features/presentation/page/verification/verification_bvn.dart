@@ -1,16 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:gonana/features/controllers/transaction_controller.dart';
+import 'package:gonana/features/presentation/page/home.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../consts.dart';
 
-class VerificationBvn extends StatelessWidget {
+class VerificationBvn extends StatefulWidget {
   VerificationBvn({super.key});
 
+  @override
+  State<VerificationBvn> createState() => _VerificationBvnState();
+}
+
+class _VerificationBvnState extends State<VerificationBvn> {
   final TextEditingController _bvn = TextEditingController();
+
   String get bvn => _bvn.text;
+
   final _bvnKey = GlobalKey<FormState>();
+
+  TransactionController transactionController =
+      Get.put(TransactionController());
+
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,10 +93,24 @@ class VerificationBvn extends StatelessWidget {
                       ),
                     ),
                     LongGradientButton(
+                        isLoading: isLoading,
                         title: 'Proceed',
-                        onPressed: () {
+                        onPressed: () async {
+                          setState(() {
+                            isLoading = true;
+                          });
                           bool isValid = _bvnKey.currentState!.validate();
-                          Get.back();
+                          if (isValid) {
+                            bool created = await transactionController
+                                .verifyBVN(_bvn.text, context);
+                            if (created) {
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setBool('bvnSubmission', true);
+                              Get.to(() => HomePage(navIndex: 2));
+                              isLoading = false;
+                            }
+                          }
                         })
                   ])),
         ));

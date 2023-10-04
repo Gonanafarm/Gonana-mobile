@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gonana/features/controllers/auth/get_details.dart';
 import 'package:gonana/features/controllers/cart/cart_controller.dart';
+import 'package:gonana/features/controllers/transaction_controller.dart';
 import 'package:gonana/features/presentation/page/feeds/create_post2.dart';
 import 'package:gonana/features/presentation/page/home.dart';
 import 'package:gonana/features/presentation/page/market/cart_page.dart';
@@ -112,6 +113,8 @@ class _MyAppState extends State<MyApp> {
   setStage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     registrationStage = prefs.getInt('registrationStage');
+    bool? BVNisSubmited = prefs.getBool('bvnSubmission');
+    print("BVN status $BVNisSubmited");
   }
 
   void getToken() async {
@@ -143,22 +146,20 @@ class _MyAppState extends State<MyApp> {
           token = prefs!.getString('token');
           print("token: $token");
           return GetMaterialApp(
-            debugShowCheckedModeBanner: false,
-            home:token != null && registrationStage == 5
+              debugShowCheckedModeBanner: false,
+              home: token != null && registrationStage == 5
                   ? UpgradeAlert(child: HomePage(navIndex: 0))
                   : token != null && registrationStage == 4
                       ? const SetPasscode()
                       : token != null && registrationStage == 3
                           ? const AddProfilePhoto()
-                              : token != null && registrationStage == 2
-                                  ? const Verification()
-                                  : token != null && registrationStage == 1
-                                      ? const SignUp()
-                                      : const Splash1()
-          );
+                          : token != null && registrationStage == 2
+                              ? const Verification()
+                              : token != null && registrationStage == 1
+                                  ? const SignUp()
+                                  : const Splash1());
         }
       },
     );
   }
 }
-
