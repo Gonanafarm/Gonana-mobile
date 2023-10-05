@@ -60,12 +60,12 @@ class _ProductCheckoutState extends State<ProductCheckout> {
                                 fontSize: 14, fontWeight: FontWeight.w400))),
                     sizeVer(50),
                     Container(
-                      height: 235,
+                      // height: 235,
                       decoration: BoxDecoration(
                           color: const Color(0xffC8E5D3),
                           borderRadius: BorderRadius.circular(7)),
                       child: Padding(
-                        padding: const EdgeInsets.all(20.0),
+                        padding: const EdgeInsets.all(30.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.start,

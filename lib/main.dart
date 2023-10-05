@@ -79,6 +79,7 @@ import 'features/presentation/page/wallet/wallet_deposit.dart';
 import 'features/presentation/page/wallet/wallet_withdrawal.dart';
 import 'features/presentation/page/wallet/wallet_withdrawal_bank.dart';
 import 'features/presentation/page/market/address_courier.dart';
+import 'features/presentation/page/web2_wallet/deposit.dart';
 import 'features/presentation/page/web2_wallet/send_to_users.dart';
 
 late Future<bool> fetchData;
@@ -159,7 +160,7 @@ class _MyAppState extends State<MyApp> {
             //                 : token != null && registrationStage == 1
             //                     ? const SignUp()
             //                     : const Splash1(),
-            home: SendToUsers(),
+            home: Deposit(),
           );
         }
       },
