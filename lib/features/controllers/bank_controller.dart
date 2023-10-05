@@ -52,7 +52,7 @@ class BankController extends GetxController {
       print(finalBankName);
 
       var responseBody = await NetworkApi().authGetData(
-          "api/user/resolve-account-number?account_number=$accountNumber&bank=$finalBankName");
+          "api/transaction/resolve-account-number?account_number=$accountNumber&bank=$finalBankName");
       final response = jsonDecode(responseBody.body);
       resolveBankModel = resolveBankModelFromJson(responseBody.body);
       log("Account name || $response");

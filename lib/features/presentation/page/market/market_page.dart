@@ -34,6 +34,7 @@ class _MarketPageState extends State<MarketPage> {
   void initState() {
     super.initState();
     setStage();
+    getBVNStatus();
   }
 
   setStage() async {
@@ -45,6 +46,12 @@ class _MarketPageState extends State<MarketPage> {
   void dispose() {
     _searchController.dispose();
     super.dispose();
+  }
+
+  bool? BVNisSubmited = false;
+  getBVNStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    BVNisSubmited = prefs.getBool('bvnSubmission');
   }
 
   @override
@@ -168,7 +175,7 @@ class _MarketPageState extends State<MarketPage> {
                     },
                   ),
                 ),
-                const WarningWidget(),
+                BVNisSubmited! || userController.userModel.value.virtualAccountNumber!.isNotEmpty ? Container(height: 1) : WarningWidget(),
                 sizeVer(15),
                 marketController.marketModel?.data!.length == 0
                     ? Center(
