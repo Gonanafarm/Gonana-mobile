@@ -155,8 +155,8 @@ class _DepositState extends State<Deposit> {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
-                                          content:
-                                              Text("Text copied to clipboard"),
+                                          content: Text(
+                                              "Account number copied to clipboard"),
                                         ),
                                       );
                                     },
