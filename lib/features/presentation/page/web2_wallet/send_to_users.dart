@@ -3,8 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:gonana/features/presentation/page/auth/auth_splash1.dart';
-import 'package:gonana/features/presentation/page/settings/settiings_profile.dart';
+import 'package:gonana/consts.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../../services/local_auth_service.dart';
@@ -12,10 +11,126 @@ import '../../../controllers/auth/passcode_controller.dart';
 import '../../widgets/numpad.dart';
 import '../../widgets/widgets.dart';
 
-class DeletePassoce extends StatelessWidget {
+class SendToUsers extends StatefulWidget {
+  const SendToUsers({Key? key}) : super(key: key);
+
+  @override
+  State<SendToUsers> createState() => _SendToUsersState();
+}
+
+class _SendToUsersState extends State<SendToUsers> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController amountController = TextEditingController();
+  final TextEditingController narrationController = TextEditingController();
+  final _sendKey = GlobalKey<FormState>();
+  bool isLoading = false;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xffF1F1F1),
+      appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              })),
+      body: SafeArea(
+        child: Padding(
+            padding: const EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 10.0),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Send to gonana user',
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.w600),
+                          textAlign: TextAlign.left,
+                        ),
+                        const Text(
+                          'Enter the amount you want to send',
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w400),
+                          textAlign: TextAlign.left,
+                        ),
+                        Form(
+                          key: _sendKey,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 20, 0, 8.0),
+                                child: SizedBox(
+                                  child: EnterFormText(
+                                      controller: emailController,
+                                      validator: emailValidator,
+                                      keyboardType: TextInputType.emailAddress,
+                                      label: 'Email',
+                                      hint:
+                                          'Enter the email of the account you want to transfer to'),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 10, 0, 8.0),
+                                child: SizedBox(
+                                  child: EnterFormText(
+                                      controller: amountController,
+                                      validator: inputValidator,
+                                      keyboardType: TextInputType.number,
+                                      label: 'Amount',
+                                      hint:
+                                          'Enter the amount you want to send'),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 10, 0, 8.0),
+                                child: SizedBox(
+                                  child: EnterFormText(
+                                      controller: narrationController,
+                                      keyboardType: TextInputType.text,
+                                      label: 'Narration(optional)',
+                                      hint: 'Enter your narration'),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  LongGradientButton(
+                      isLoading: isLoading,
+                      title: 'Proceed',
+                      onPressed: () async {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        bool isValid = _sendKey.currentState!.validate();
+                        if (isValid) {
+                          Get.to(() => SendPasscode());
+                        }
+                      })
+                ])),
+      ),
+    );
+  }
+}
+
+class SendPasscode extends StatelessWidget {
   PasscodeController passcodeController = Get.put(PasscodeController());
   final TextEditingController _passCodeController = TextEditingController();
-  String get passCode => _passCodeController.text;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,7 +237,7 @@ class DeletePassoce extends StatelessWidget {
                                                         const EdgeInsets.only(
                                                             left: 60.0),
                                                     child: Text(
-                                                        'Account Succesfully deleted'),
+                                                        'Transaction Successful'),
                                                   ),
                                                   actions: [
                                                     Padding(
@@ -132,10 +247,7 @@ class DeletePassoce extends StatelessWidget {
                                                       child:
                                                           DialogGradientButton(
                                                         title: 'Proceed',
-                                                        onPressed: () async {
-                                                          Get.to(() =>
-                                                              SettingsProfile());
-                                                        },
+                                                        onPressed: () async {},
                                                       ),
                                                     ),
                                                   ],
@@ -159,51 +271,43 @@ class DeletePassoce extends StatelessWidget {
                 padding: const EdgeInsets.all(20.0),
                 child: LongGradientButton(
                   onPressed: () async {
-                    bool created = false;
-                    print("passcode: $passCode");
-                    created = await passcodeController.deletePasscode(
-                        passCode, context);
-                    if (created) {
-                      showDialog(
-                        context: context,
-                        barrierDismissible:
-                            false, // Set to true if you want to allow dismissing the dialog by tapping outside it
-                        builder: (BuildContext context) {
-                          return BackdropFilter(
-                            filter: ImageFilter.blur(
-                                sigmaX: 20,
-                                sigmaY:
-                                    20), // Adjust the blur intensity as needed
-                            child: Container(
-                              height: 100,
-                              child: AlertDialog(
-                                title: Center(
-                                  child: Icon(
-                                    size: 60,
-                                    Icons.check_circle_outlined,
-                                  ),
+                    showDialog(
+                      context: context,
+                      barrierDismissible:
+                          false, // Set to true if you want to allow dismissing the dialog by tapping outside it
+                      builder: (BuildContext context) {
+                        return BackdropFilter(
+                          filter: ImageFilter.blur(
+                              sigmaX: 20,
+                              sigmaY:
+                                  20), // Adjust the blur intensity as needed
+                          child: Container(
+                            height: 100,
+                            child: AlertDialog(
+                              title: const Center(
+                                child: Icon(
+                                  size: 60,
+                                  Icons.check_circle_outlined,
                                 ),
-                                content: Padding(
-                                  padding: const EdgeInsets.only(left: 60.0),
-                                  child: Text('Account Succesfully deleted'),
-                                ),
-                                actions: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 30.0),
-                                    child: DialogGradientButton(
-                                      title: 'Proceed',
-                                      onPressed: () async {
-                                        Get.to(() => Splash1());
-                                      },
-                                    ),
-                                  ),
-                                ],
                               ),
+                              content: const Padding(
+                                padding: EdgeInsets.only(left: 60.0),
+                                child: Text('Transaction Successful'),
+                              ),
+                              actions: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 30.0),
+                                  child: DialogGradientButton(
+                                    title: 'Proceed',
+                                    onPressed: () async {},
+                                  ),
+                                ),
+                              ],
                             ),
-                          );
-                        },
-                      );
-                    }
+                          ),
+                        );
+                      },
+                    );
                   },
                   title: 'Proceed',
                 ),

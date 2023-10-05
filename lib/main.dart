@@ -79,6 +79,7 @@ import 'features/presentation/page/wallet/wallet_deposit.dart';
 import 'features/presentation/page/wallet/wallet_withdrawal.dart';
 import 'features/presentation/page/wallet/wallet_withdrawal_bank.dart';
 import 'features/presentation/page/market/address_courier.dart';
+import 'features/presentation/page/web2_wallet/send_to_users.dart';
 
 late Future<bool> fetchData;
 GetDetailsController detailsController = Get.put(GetDetailsController());
@@ -145,19 +146,21 @@ class _MyAppState extends State<MyApp> {
         } else {
           token = prefs!.getString('token');
           print("token: $token");
-          return GetMaterialApp(
-              debugShowCheckedModeBanner: false,
-              home: token != null && registrationStage == 5
-                  ? UpgradeAlert(child: HomePage(navIndex: 0))
-                  : token != null && registrationStage == 4
-                      ? const SetPasscode()
-                      : token != null && registrationStage == 3
-                          ? const AddProfilePhoto()
-                          : token != null && registrationStage == 2
-                              ? const Verification()
-                              : token != null && registrationStage == 1
-                                  ? const SignUp()
-                                  : const Splash1());
+          return const GetMaterialApp(
+            debugShowCheckedModeBanner: false,
+            // home: token != null && registrationStage == 5
+            //     ? UpgradeAlert(child: HomePage(navIndex: 0))
+            //     : token != null && registrationStage == 4
+            //         ? const SetPasscode()
+            //         : token != null && registrationStage == 3
+            //             ? const AddProfilePhoto()
+            //             : token != null && registrationStage == 2
+            //                 ? const Verification()
+            //                 : token != null && registrationStage == 1
+            //                     ? const SignUp()
+            //                     : const Splash1(),
+            home: SendToUsers(),
+          );
         }
       },
     );

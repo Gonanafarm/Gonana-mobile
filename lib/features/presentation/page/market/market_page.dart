@@ -175,7 +175,15 @@ class _MarketPageState extends State<MarketPage> {
                     },
                   ),
                 ),
-                BVNisSubmited! || userController.userModel.value.virtualAccountNumber!.isNotEmpty ? Container(height: 1) : WarningWidget(),
+                (BVNisSubmited != null && BVNisSubmited!) ||
+                        (userController.userModel != null &&
+                            userController
+                                    .userModel.value.virtualAccountNumber !=
+                                null &&
+                            userController.userModel.value.virtualAccountNumber!
+                                .isNotEmpty)
+                    ? Container(height: 1)
+                    : WarningWidget(),
                 sizeVer(15),
                 marketController.marketModel?.data!.length == 0
                     ? Center(
