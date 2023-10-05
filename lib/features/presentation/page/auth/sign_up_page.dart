@@ -32,6 +32,7 @@ class _SignUpState extends State<SignUp> {
   final _signInkey = GlobalKey<FormState>();
   bool isLoading = false;
   final userController = Get.find<UserController>();
+  bool visibility = false;
   @override
   void initState() {
     super.initState();
@@ -120,27 +121,49 @@ class _SignUpState extends State<SignUp> {
                                         validator: emailValidator,
                                         label: 'Email',
                                         hint: 'Click Here'),
-                                    EnterFormText(
-                                        controller: _password,
-                                        validator: passwordValidator,
-                                        label: 'Password',
-                                        hint: 'Click Here'),
+                                    TextFormField(
+                                      controller: _password,
+                                      obscureText: visibility,
+                                      validator: passwordValidator,
+                                      decoration: InputDecoration(
+                                          suffixIcon: IconButton(
+                                            onPressed: () {
+                                              visibility == true
+                                                  ? setState(() {
+                                                      visibility = false;
+                                                    })
+                                                  : setState(() {
+                                                      visibility = true;
+                                                    });
+                                            },
+                                            icon: visibility == true
+                                                ? const Icon(
+                                                    Icons.visibility_outlined,
+                                                  )
+                                                : const Icon(
+                                                    Icons
+                                                        .visibility_off_outlined,
+                                                  ),
+                                          ),
+                                          border: const OutlineInputBorder(),
+                                          hintText: 'Enter your password'),
+                                    ),
                                     const SizedBox(height: 10),
-                                    EnterFormText(
-                                        controller: _bvn,
-                                        validator: bvnValidator,
-                                        label: 'BVN',
-                                        hint:
-                                            'Enter your Bank Verification Number'),
-                                    const SizedBox(
-                                      width: double.infinity,
-                                      child: Text(
-                                        'Dial the USSD code *565*0# to check your BVN',
-                                        style: TextStyle(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    )
+                                    // EnterFormText(
+                                    //     controller: _bvn,
+                                    //     validator: bvnValidator,
+                                    //     label: 'BVN',
+                                    //     hint:
+                                    //         'Enter your Bank Verification Number'),
+                                    // const SizedBox(
+                                    //   width: double.infinity,
+                                    //   child: Text(
+                                    //     'Dial the USSD code *565*0# to check your BVN',
+                                    //     style: TextStyle(
+                                    //         fontSize: 10,
+                                    //         fontWeight: FontWeight.w600),
+                                    //   ),
+                                    // )
                                   ]),
                                 ),
                               )
@@ -166,7 +189,6 @@ class _SignUpState extends State<SignUp> {
                             phoneNumber,
                             email,
                             password,
-                            bvn,
                             context,
                           );
                           if (isSuccess) {

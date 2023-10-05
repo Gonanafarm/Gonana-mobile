@@ -215,17 +215,17 @@ class _AddProfilePhotoState extends State<AddProfilePhoto> {
                                 ],
                               ),
                             ),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.03),
-                      const Text(
-                        'John David',
-                        style: TextStyle(
-                          color: Color(0xFF29844B),
-                          fontSize: 24,
-                          fontFamily: 'Proxima Nova',
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      // SizedBox(
+                      //     height: MediaQuery.of(context).size.height * 0.03),
+                      // const Text(
+                      //   'John David',
+                      //   style: TextStyle(
+                      //     color: Color(0xFF29844B),
+                      //     fontSize: 24,
+                      //     fontFamily: 'Proxima Nova',
+                      //     fontWeight: FontWeight.w600,
+                      //   ),
+                      // ),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.01),
                       Padding(

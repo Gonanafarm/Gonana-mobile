@@ -43,37 +43,54 @@ class PageConst {
   static const String checkoutPage = "checkoutpage";
 }
 
-String? emailValidator(value){
-  RegExp emailRegex = RegExp(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b');
-  if(!emailRegex.hasMatch(value)){
+String? emailValidator(value) {
+  RegExp emailRegex =
+      RegExp(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b');
+  if (!emailRegex.hasMatch(value)) {
     return 'Enter a valid email';
-  }else{
+  } else {
     return null;
   }
 }
 
-String? inputValidator(value){
-  if(value == null || value.isEmpty){
+String? inputValidator(value) {
+  if (value == null || value.isEmpty) {
     return 'Field must not be empty';
-  }else{
+  } else {
     return null;
   }
 }
-String? passwordValidator(value){
-  RegExp passwordRegex = RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$');
-  if(!passwordRegex.hasMatch(value)){
-    return 'Your password must be at least 8 characters,\ncontaining at least one uppercase letter,\none lowercase letter, and one digit';
-  }return null;
+
+String? passwordValidator(value) {
+  RegExp passwordRegex =
+      RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W_]{8,}$');
+  if (!passwordRegex.hasMatch(value)) {
+    return 'Your password must be at least 8 characters,\n'
+        'containing at least one uppercase letter, one lowercase letter, and one digit.\n'
+        'Special characters are allowed but not required.';
+  }
+  return null;
 }
-String? phoneValidator(value){
+
+// String? passwordValidator(value){
+//   RegExp passwordRegex = RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$');
+//   if(!passwordRegex.hasMatch(value)){
+//     return 'Your password must be at least 8 characters,\ncontaining at least one uppercase letter,\none lowercase letter, and one digit';
+//   }return null;
+// }
+
+String? phoneValidator(value) {
   RegExp phoneRegex = RegExp(r'^\d{10,}$');
-  if(!phoneRegex.hasMatch(value)){
+  if (!phoneRegex.hasMatch(value)) {
     return 'Enter valid phone number';
-  }return null;
+  }
+  return null;
 }
-String? bvnValidator(value){
+
+String? bvnValidator(value) {
   RegExp bvnRegex = RegExp(r'^.{1,11}$');
-  if(!bvnRegex.hasMatch(value)){
+  if (!bvnRegex.hasMatch(value)) {
     return 'Input should have up to 11 characters';
-  }return null;
+  }
+  return null;
 }

@@ -11,6 +11,7 @@ import 'package:gonana/features/presentation/page/feeds/user_store.dart';
 import 'package:gonana/features/presentation/page/market/cart_page.dart';
 import 'package:gonana/features/presentation/widgets/posts_container.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../consts.dart';
 import '../../../controllers/cart/cart_controller.dart';
@@ -30,7 +31,7 @@ class _FeedsPageState extends State<FeedsPage> {
   UserController userController = Get.put(UserController());
   PostModel postModel = PostModel();
   CartController cartController = Get.put(CartController());
-  @override
+  // @override
   // void initState() {
   //   super.initState();
   //   postController.fetchPosts();
@@ -55,6 +56,19 @@ class _FeedsPageState extends State<FeedsPage> {
     } else {
       return Image.asset(placeholderAssetName);
     }
+  }
+
+  bool? BVNisSubmited = false;
+  getBVNStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    BVNisSubmited = prefs.getBool('bvnSubmission');
+    print("${userController.userModel.value!.virtualAccountNumber}");
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getBVNStatus();
   }
 
   @override
@@ -229,7 +243,11 @@ class _FeedsPageState extends State<FeedsPage> {
                           ? Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const WarningWidget(),
+                                BVNisSubmited! ||
+                                        userController.userModel.value
+                                            .virtualAccountNumber!.isNotEmpty
+                                    ? Container(height: 1)
+                                    : WarningWidget(),
                                 sizeVer(
                                     MediaQuery.of(context).size.height * 0.1),
                                 Center(
@@ -269,7 +287,11 @@ class _FeedsPageState extends State<FeedsPage> {
                             )
                           : Column(
                               children: [
-                                const WarningWidget(),
+                                BVNisSubmited! ||
+                                        userController.userModel.value
+                                            .virtualAccountNumber!.isNotEmpty
+                                    ? Container(height: 1)
+                                    : WarningWidget(),
                                 Container(
                                   height:
                                       MediaQuery.of(context).size.height * 0.7,

@@ -7,7 +7,11 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:gonana/consts.dart';
+import 'package:gonana/features/controllers/transaction_controller.dart';
+import 'package:gonana/features/controllers/user/user_controller.dart';
 import 'package:gonana/features/presentation/widgets/warning_widget.dart';
+import 'package:gonana/features/presentation/widgets/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../controllers/geolocator/geoservices.dart';
 import '../../../controllers/market/market_controllers.dart';
@@ -24,7 +28,20 @@ class Store extends StatefulWidget {
 
 class _StoreState extends State<Store> {
   final marketController = Get.put(ProductController());
+  final userController = Get.find<UserController>();
+  TransactionController transactionController =
+      Get.put(TransactionController());
+  bool? BVNisSubmited = false;
+  getBVNStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    BVNisSubmited = prefs.getBool('bvnSubmission');
+  }
 
+  @override
+  void initState() {
+    super.initState();
+    getBVNStatus();
+  }
   String produceImage =
       'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Ffarm-produce&psig=AOvVaw3UESSS4OmdGAYQoRSD5Nmd&ust=1683293590093000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCNC2o7bj2_4CFQAAAAAdAAAAABAE';
   @override
@@ -47,8 +64,29 @@ class _StoreState extends State<Store> {
                     borderRadius: BorderRadius.circular(5.0),
                   ),
                 ),
-                onPressed: () {
-                  Get.to(() => AddProduct());
+                onPressed: () async{
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  BVNisSubmited = prefs.getBool('bvnSubmission');
+                  if (userController
+                          .userModel.value.virtualAccountNumber!.isNotEmpty ||
+                      userController.userModel.value.virtualAccountNumber !=
+                          null) {
+                    Get.to(() => AddProduct());
+                  } else if ((userController.userModel.value
+                              .virtualAccountNumber!.isNotEmpty ||
+                          userController.userModel.value.virtualAccountNumber ==
+                              null) &&
+                      BVNisSubmited!) {
+                    ErrorSnackbar.show(
+                        context, "Your BVN is awaiting verification");
+                  } else if ((userController.userModel.value
+                              .virtualAccountNumber!.isNotEmpty ||
+                          userController.userModel.value.virtualAccountNumber ==
+                              null) &&
+                      BVNisSubmited!) {
+                    ErrorSnackbar.show(context,
+                        "Please kindly go to verifications and submit your BVN for verification to create your virtual account ");
+                  }
                 },
                 child: const Center(
                   child: Row(
@@ -68,7 +106,7 @@ class _StoreState extends State<Store> {
           ),
         ),
         sizeVer(10),
-        const WarningWidget(),
+        BVNisSubmited! || userController.userModel.value.virtualAccountNumber!.isNotEmpty ? Container(height: 1) :  WarningWidget(),
         marketController.userMarketModel == null ||
                 marketController.userMarketModel?.data == null ||
                 marketController.userMarketModel!.data!.isEmpty
@@ -243,7 +281,7 @@ class _StoreState extends State<Store> {
                                                                           5.0),
                                                             ),
                                                           ),
-                                                          child: Center(
+                                                          child: const Center(
                                                             child: Text(
                                                               "View",
                                                               style: TextStyle(
