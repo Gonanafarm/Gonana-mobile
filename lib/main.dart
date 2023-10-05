@@ -147,20 +147,19 @@ class _MyAppState extends State<MyApp> {
         } else {
           token = prefs!.getString('token');
           print("token: $token");
-          return const GetMaterialApp(
+          return GetMaterialApp(
             debugShowCheckedModeBanner: false,
-            // home: token != null && registrationStage == 5
-            //     ? UpgradeAlert(child: HomePage(navIndex: 0))
-            //     : token != null && registrationStage == 4
-            //         ? const SetPasscode()
-            //         : token != null && registrationStage == 3
-            //             ? const AddProfilePhoto()
-            //             : token != null && registrationStage == 2
-            //                 ? const Verification()
-            //                 : token != null && registrationStage == 1
-            //                     ? const SignUp()
-            //                     : const Splash1(),
-            home: Deposit(),
+            home: token != null && registrationStage == 5
+                ? UpgradeAlert(child: HomePage(navIndex: 0))
+                : token != null && registrationStage == 4
+                    ? const SetPasscode()
+                    : token != null && registrationStage == 3
+                        ? const AddProfilePhoto()
+                        : token != null && registrationStage == 2
+                            ? const Verification()
+                            : token != null && registrationStage == 1
+                                ? const SignUp()
+                                : const Splash1(),
           );
         }
       },
