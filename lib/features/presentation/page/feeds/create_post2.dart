@@ -344,7 +344,7 @@ class _CreatePost2State extends State<CreatePost2> {
                         isLoading = false;
                       });
                       await postController.getPosts();
-                      Get.to(() => HomePage(navIndex: 1));
+                      Get.to(() => HomePage(navIndex: 2));
                     }
                   })
             ],

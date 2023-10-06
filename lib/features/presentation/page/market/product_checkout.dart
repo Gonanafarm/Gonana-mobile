@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import "package:flutter/material.dart";
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -142,39 +143,52 @@ class _ProductCheckoutState extends State<ProductCheckout> {
                                   ),
                                 ),
                               ],
+                            ),
+                            sizeVer(10),
+                            Center(
+                              child: Container(
+                                height: 40,
+                                width: 114,
+                                decoration: BoxDecoration(
+                                    gradient: const LinearGradient(colors: [
+                                      Color(0xff29844B),
+                                      Color(0xff072C27)
+                                    ]),
+                                    borderRadius: BorderRadius.circular(5)),
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      Clipboard.setData(ClipboardData(
+                                          text: cartController
+                                                  .succesfullTransactionModel!
+                                                  .accountName ??
+                                              ""));
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                              "Account number copied to clipboard"),
+                                        ),
+                                      );
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.transparent,
+                                      shadowColor: Colors.transparent,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                      ),
+                                      minimumSize: const Size(185, 60),
+                                    ),
+                                    child: const Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Flexible(child: Text('Copy')),
+                                        const SizedBox(width: 10.0),
+                                        const Icon(Icons.content_copy_outlined),
+                                      ],
+                                    )),
+                              ),
                             )
-                            // sizeVer(10),
-                            // Center(
-                            //   child: Container(
-                            //     height: 40,
-                            //     width: 114,
-                            //     decoration: BoxDecoration(
-                            //         gradient: const LinearGradient(colors: [
-                            //           Color(0xff29844B),
-                            //           Color(0xff072C27)
-                            //         ]),
-                            //         borderRadius: BorderRadius.circular(5)),
-                            //     child: ElevatedButton(
-                            //         onPressed: () {},
-                            //         style: ElevatedButton.styleFrom(
-                            //           backgroundColor: Colors.transparent,
-                            //           shadowColor: Colors.transparent,
-                            //           shape: RoundedRectangleBorder(
-                            //             borderRadius:
-                            //                 BorderRadius.circular(5.0),
-                            //           ),
-                            //           minimumSize: const Size(185, 60),
-                            //         ),
-                            //         child: const Row(
-                            //           mainAxisSize: MainAxisSize.min,
-                            //           children: [
-                            //             Flexible(child: Text('Share')),
-                            //             const SizedBox(width: 10.0),
-                            //             const Icon(Icons.content_copy_outlined),
-                            //           ],
-                            //         )),
-                            //   ),
-                            // )
                           ],
                         ),
                       ),

@@ -11,6 +11,7 @@ import 'package:gonana/features/presentation/page/feeds/feed_page.dart';
 import 'package:gonana/features/presentation/page/notification/notification.dart';
 import 'package:gonana/features/presentation/page/settings/settings.dart';
 import '../../../consts.dart';
+import 'fiat_wallet/wallet_home.dart';
 import 'market/market_page.dart';
 import 'wallet/wallet_page.dart';
 
@@ -28,6 +29,7 @@ class _HomePageState extends State<HomePage> {
   final screens = [
     const MarketPage(),
     // const WalletPage(),
+    const FiatWalletHome(),
     const FeedsPage(),
     // const Notifications(),
     const Settings(),
@@ -131,13 +133,13 @@ class _HomePageState extends State<HomePage> {
             label: "Market",
             //backgroundColor: greenColor
           ),
-          // BottomNavigationBarItem(
-          //   icon: SvgPicture.asset(
-          //     "assets/svgs/money.svg",
-          //   ),
-          //   label: "Wallet",
-          //   //backgroundColor: greenColor
-          // ),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              "assets/svgs/money.svg",
+            ),
+            label: "Wallet",
+            //backgroundColor: greenColor
+          ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               "assets/svgs/feed.svg",

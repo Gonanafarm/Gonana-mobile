@@ -25,7 +25,7 @@ import 'features/presentation/page/auth/facial_recognition.dart';
 import 'features/presentation/page/auth/facial_capture.dart';
 import 'features/presentation/page/auth/forgotpassword.dart';
 import 'features/presentation/page/auth/number_verification_screen.dart';
-import 'features/presentation/page/auth/register_bank.dart';
+import 'features/presentation/page/fiat_wallet/register_bank.dart';
 import 'features/presentation/page/auth/setpassword.dart';
 import 'features/presentation/page/auth/auth_splash1.dart';
 import 'features/presentation/page/auth/sign_in_page.dart';
@@ -80,7 +80,7 @@ import 'features/presentation/page/wallet/wallet_withdrawal.dart';
 import 'features/presentation/page/wallet/wallet_withdrawal_bank.dart';
 import 'features/presentation/page/market/address_courier.dart';
 import 'features/presentation/page/fiat_wallet/send_to_users.dart';
-
+import 'features/presentation/page/fiat_wallet/deposit.dart';
 
 late Future<bool> fetchData;
 GetDetailsController detailsController = Get.put(GetDetailsController());
@@ -147,20 +147,20 @@ class _MyAppState extends State<MyApp> {
         } else {
           token = prefs!.getString('token');
           print("token: $token");
-          return const GetMaterialApp(
+          return GetMaterialApp(
             debugShowCheckedModeBanner: false,
-            // home: token != null && registrationStage == 5
-            //     ? UpgradeAlert(child: HomePage(navIndex: 0))
-            //     : token != null && registrationStage == 4
-            //         ? const SetPasscode()
-            //         : token != null && registrationStage == 3
-            //             ? const AddProfilePhoto()
-            //             : token != null && registrationStage == 2
-            //                 ? const Verification()
-            //                 : token != null && registrationStage == 1
-            //                     ? const SignUp()
-            //                     : const Splash1(),
-            home: Deposit(),
+            home: token != null && registrationStage == 5
+                ? UpgradeAlert(child: HomePage(navIndex: 0))
+                : token != null && registrationStage == 4
+                    ? const SetPasscode()
+                    : token != null && registrationStage == 3
+                        ? const AddProfilePhoto()
+                        : token != null && registrationStage == 2
+                            ? const Verification()
+                            : token != null && registrationStage == 1
+                                ? const SignUp()
+                                : const Splash1(),
+            // home: Deposit(),
           );
         }
       },

@@ -58,7 +58,7 @@ class ApiRoute {
   static const verifyPasscode = "api/profile/verify-passcode";
 
   //Payment url
-  static const transferFunds = "api/user/transfer";
+  static const transferFunds = "api/transaction/transfer";
 
   //Validate Address
   static const validateAddress = 'api/logistics/validate-user-address';
@@ -74,4 +74,10 @@ class ApiRoute {
 
   // verify BVN
   static const verifyBVN = 'api/transaction/create-virtual-account';
+
+  // get wallet balance
+  static const getWalletBalance = 'api/transaction/user-balance';
+
+  // get wallet transactions
+  static const getWalletTransactions = 'api/transaction/user-transactions';
 }

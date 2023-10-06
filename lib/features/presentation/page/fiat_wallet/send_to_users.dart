@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:gonana/consts.dart';
+import 'package:gonana/features/presentation/page/home.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../../services/local_auth_service.dart';
@@ -114,11 +115,11 @@ class _SendToUsersState extends State<SendToUsers> {
                       isLoading: isLoading,
                       title: 'Proceed',
                       onPressed: () async {
-                        setState(() {
-                          isLoading = true;
-                        });
                         bool isValid = _sendKey.currentState!.validate();
                         if (isValid) {
+                          setState(() {
+                            isLoading = true;
+                          });
                           Get.to(() => SendPasscode());
                         }
                       })
@@ -247,7 +248,10 @@ class SendPasscode extends StatelessWidget {
                                                       child:
                                                           DialogGradientButton(
                                                         title: 'Proceed',
-                                                        onPressed: () async {},
+                                                        onPressed: () async {
+                                                          Get.to(() => HomePage(
+                                                              navIndex: 1));
+                                                        },
                                                       ),
                                                     ),
                                                   ],
