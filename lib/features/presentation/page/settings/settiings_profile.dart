@@ -98,7 +98,7 @@ class _SettingsProfileState extends State<SettingsProfile> {
           elevation: 0,
           leading: IconButton(
               onPressed: () {
-                Get.to(() => HomePage(navIndex: 2));
+                Get.to(() => HomePage(navIndex: 3));
               },
               icon: const Icon(
                 Icons.arrow_back,

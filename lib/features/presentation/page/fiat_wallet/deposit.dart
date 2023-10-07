@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:gonana/features/controllers/user/user_controller.dart';
 
 import '../../../../consts.dart';
 import '../../widgets/widgets.dart';
@@ -18,6 +19,7 @@ class Deposit extends StatefulWidget {
 }
 
 class _DepositState extends State<Deposit> {
+  UserController userController = Get.put(UserController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,29 +85,31 @@ class _DepositState extends State<Deposit> {
                                     fontSize: 10,
                                     fontWeight: FontWeight.w400,
                                     color: Color(0xff444444))),
-                            const Text("Gonan MINTYN",
-                                style: TextStyle(
+                            Text(
+                                "${userController.userModel.value.virtualAccountBankName}",
+                                style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
                                     color: Color(0xff444444))),
                             sizeVer(10),
-                            const Text("Account Name",
-                                style: TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(0xff444444))),
-                            const Text("User account",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xff444444))),
-                            sizeVer(10),
+                            // const Text("Account Name",
+                            //     style: TextStyle(
+                            //         fontSize: 10,
+                            //         fontWeight: FontWeight.w400,
+                            //         color: Color(0xff444444))),
+                            // const Text("User account",
+                            //     style: TextStyle(
+                            //         fontSize: 14,
+                            //         fontWeight: FontWeight.w600,
+                            //         color: Color(0xff444444))),
+                            // sizeVer(10),
                             const Text("Account Number",
                                 style: TextStyle(
                                     fontSize: 10,
                                     fontWeight: FontWeight.w400,
                                     color: Color(0xff444444))),
-                            Text("123456789",
+                            Text(
+                                "${userController.userModel.value.virtualAccountNumber}",
                                 style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
@@ -155,8 +159,8 @@ class _DepositState extends State<Deposit> {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
-                                          content:
-                                              Text("Text copied to clipboard"),
+                                          content: Text(
+                                              "Account number copied to clipboard"),
                                         ),
                                       );
                                     },
@@ -312,7 +316,9 @@ Future<dynamic> successDialog(BuildContext context) {
                 padding: const EdgeInsets.only(right: 30.0),
                 child: DialogGradientButton(
                   title: 'Proceed',
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(() => HomePage(navIndex: 1));
+                  },
                 ),
               ),
             ],

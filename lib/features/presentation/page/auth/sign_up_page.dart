@@ -178,11 +178,11 @@ class _SignUpState extends State<SignUp> {
                       isLoading: isLoading,
                       title: 'Proceed',
                       onPressed: () async {
-                        setState(() {
-                          isLoading = true;
-                        });
                         bool isValid = _signInkey.currentState!.validate();
                         if (isValid) {
+                          setState(() {
+                            isLoading = true;
+                          });
                           bool isSuccess = await signUpController.signUp(
                             firstName,
                             lastName,

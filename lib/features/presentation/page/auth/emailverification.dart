@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:gonana/consts.dart';
-import 'package:gonana/features/presentation/page/auth/register_bank.dart';
+import 'package:gonana/features/presentation/page/fiat_wallet/register_bank.dart';
 import 'package:gonana/features/presentation/page/market/cart_page.dart';
 import 'package:gonana/features/presentation/page/profile_photo/add_profile_photo1.dart';
 import 'package:shared_preferences/shared_preferences.dart';

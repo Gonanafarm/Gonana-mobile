@@ -23,7 +23,7 @@ class Security extends StatelessWidget {
                 color: Colors.black,
               ),
               onPressed: () {
-                Get.to(() => HomePage(navIndex: 2));
+                Get.to(() => HomePage(navIndex: 3));
               })),
       body: SafeArea(
         child: Padding(
