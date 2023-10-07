@@ -33,7 +33,7 @@ class _FiatWithdrawalState extends State<FiatWithdrawal> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
+              const SizedBox(
                 width: double.infinity,
                 child: Text(
                   'Withdrawal',
@@ -44,7 +44,7 @@ class _FiatWithdrawalState extends State<FiatWithdrawal> {
                   )
                 )
               ),
-              SizedBox(
+              const SizedBox(
                 width: double.infinity,
                 child: Text(
                   'Enter the amount you want to withdraw',
@@ -58,7 +58,13 @@ class _FiatWithdrawalState extends State<FiatWithdrawal> {
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: Container(
-                  
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Colors.black)
+                  ),
+                  child: Row(
+                    
+                  )
                 )
               )
             ]

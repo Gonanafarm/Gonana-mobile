@@ -60,7 +60,7 @@ android {
         minSdkVersion 21
         multiDexEnabled true
         targetSdkVersion flutter.targetSdkVersion
-        versionCode 2
+        versionCode 3
         versionName "2.1"
     }
 
