@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:gonana/consts.dart';
-import 'package:gonana/features/controllers/transaction_controller.dart';
+import 'package:gonana/features/controllers/fiat_wallet/transaction_controller.dart';
 import 'package:gonana/features/presentation/page/market/cart_page.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../services/local_auth_service.dart';
 import '../../../controllers/auth/passcode_controller.dart';
-import '../../../controllers/bank_controller.dart';
+import '../../../controllers/fiat_wallet/bank_controller.dart';
 import '../../../controllers/user/user_controller.dart';
 import '../../widgets/custom_dropdown.dart';
 import '../../widgets/numpad.dart';

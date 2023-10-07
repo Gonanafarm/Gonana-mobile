@@ -119,16 +119,22 @@ class _FiatWithdrawalState extends State<FiatWithdrawal> {
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w400,
-                                      ))
-                                ]),
+                                      
+                                    ))
+                                ]
+                              ),
                           ],
                         ),
                         const Icon(Icons.arrow_forward_ios)
-                      ]),
+                      ]
+                    ),
                 ),
               ),
             ),
-          ]),
-        )));
+          ]
+        ),
+      )
+    )
+  );
   }
 }

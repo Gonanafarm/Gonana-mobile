@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'package:gonana/features/data/models/get_balance_model.dart';
 import 'package:gonana/features/data/models/get_transaction_model.dart';
 
-import '../presentation/widgets/widgets.dart';
-import '../utilities/api_routes.dart';
-import '../utilities/network.dart';
+import '../../presentation/widgets/widgets.dart';
+import '../../utilities/api_routes.dart';
+import '../../utilities/network.dart';
 
 class TransactionController extends GetxController {
   Future<bool> verifyBVN(String bvn, var context) async {

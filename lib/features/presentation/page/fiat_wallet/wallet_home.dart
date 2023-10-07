@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import 'package:get/get.dart';
 import 'package:gonana/consts.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gonana/features/controllers/transaction_controller.dart';
+import 'package:gonana/features/controllers/fiat_wallet/transaction_controller.dart';
 import 'package:gonana/features/presentation/page/fiat_wallet/deposit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
