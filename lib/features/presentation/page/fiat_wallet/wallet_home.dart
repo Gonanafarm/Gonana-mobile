@@ -36,8 +36,7 @@ class _FiatWalletHomeState extends State<FiatWalletHome> {
     getBVNStatus();
   }
 
-  TransactionController transactionController =
-      Get.put(TransactionController());
+  TransactionController transactionController = Get.put(TransactionController());
   UserController userController = Get.put(UserController());
   @override
   Widget build(BuildContext context) {

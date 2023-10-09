@@ -10,6 +10,8 @@ import '../../utilities/api_routes.dart';
 import '../../utilities/network.dart';
 
 class TransactionController extends GetxController {
+
+
   Future<bool> verifyBVN(String bvn, var context) async {
     try {
       var data = {

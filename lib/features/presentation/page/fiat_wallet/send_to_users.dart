@@ -1,12 +1,13 @@
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:gonana/consts.dart';
+import 'package:gonana/features/controllers/fiat_wallet/transaction_controller.dart';
 import 'package:gonana/features/presentation/page/home.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-
 import '../../../../services/local_auth_service.dart';
 import '../../../controllers/auth/passcode_controller.dart';
 import '../../widgets/numpad.dart';
@@ -20,9 +21,10 @@ class SendToUsers extends StatefulWidget {
 }
 
 class _SendToUsersState extends State<SendToUsers> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController amountController = TextEditingController();
-  final TextEditingController narrationController = TextEditingController();
+  TransactionController transactionController = Get.put(TransactionController());
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _amount = TextEditingController();
+  final TextEditingController _narration = TextEditingController();
   final _sendKey = GlobalKey<FormState>();
   bool isLoading = false;
   @override
@@ -53,14 +55,12 @@ class _SendToUsersState extends State<SendToUsers> {
                       children: [
                         const Text(
                           'Send to gonana user',
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.w600),
+                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
                           textAlign: TextAlign.left,
                         ),
                         const Text(
                           'Enter the amount you want to send',
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w400),
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                           textAlign: TextAlign.left,
                         ),
                         Form(
@@ -73,12 +73,24 @@ class _SendToUsersState extends State<SendToUsers> {
                                     const EdgeInsets.fromLTRB(0, 20, 0, 8.0),
                                 child: SizedBox(
                                   child: EnterFormText(
-                                      controller: emailController,
-                                      validator: emailValidator,
-                                      keyboardType: TextInputType.emailAddress,
-                                      label: 'Email',
-                                      hint:
-                                          'Enter the email of the account you want to transfer to'),
+                                    controller: _email,
+                                    validator: emailValidator,
+                                    keyboardType: TextInputType.emailAddress,
+                                    label: 'Email',
+                                    hint:'Enter the email of the account you want to transfer to'
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 10, 0, 8.0),
+                                child: SizedBox(
+                                  child: EnterFormText(
+                                    controller: _amount,
+                                    validator: inputValidator,
+                                    keyboardType: TextInputType.number,
+                                    label: 'Amount',
+                                    hint: 'Enter the amount you want to send'
+                                  ),
                                 ),
                               ),
                               Padding(
@@ -86,23 +98,11 @@ class _SendToUsersState extends State<SendToUsers> {
                                     const EdgeInsets.fromLTRB(0, 10, 0, 8.0),
                                 child: SizedBox(
                                   child: EnterFormText(
-                                      controller: amountController,
-                                      validator: inputValidator,
-                                      keyboardType: TextInputType.number,
-                                      label: 'Amount',
-                                      hint:
-                                          'Enter the amount you want to send'),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(0, 10, 0, 8.0),
-                                child: SizedBox(
-                                  child: EnterFormText(
-                                      controller: narrationController,
+                                      controller: _narration,
                                       keyboardType: TextInputType.text,
                                       label: 'Narration(optional)',
-                                      hint: 'Enter your narration'),
+                                      hint: 'Enter your narration'
+                                    ),
                                 ),
                               ),
                             ],
@@ -112,18 +112,28 @@ class _SendToUsersState extends State<SendToUsers> {
                     ),
                   ),
                   LongGradientButton(
-                      isLoading: isLoading,
-                      title: 'Proceed',
-                      onPressed: () async {
-                        bool isValid = _sendKey.currentState!.validate();
-                        if (isValid) {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          Get.to(() => SendPasscode());
-                        }
-                      })
-                ])),
+                    isLoading: isLoading,
+                    title: 'Proceed',
+                    onPressed: () async {
+                      bool isValid = _sendKey.currentState!.validate();
+                      if (isValid) {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        Get.to(
+                          () => SendPasscode(),
+                          arguments: {
+                            "email" : _email.text,
+                            "amount": _amount.text,
+                            "narration": _narration.text
+                          }
+                        );
+                      }
+                    }
+                  )
+                ]
+              )
+            ),
       ),
     );
   }
@@ -131,7 +141,14 @@ class _SendToUsersState extends State<SendToUsers> {
 
 class SendPasscode extends StatelessWidget {
   PasscodeController passcodeController = Get.put(PasscodeController());
+  TransactionController transactionController = Get.put(TransactionController());
   final TextEditingController _passCodeController = TextEditingController();
+  dynamic argument = Get.arguments;
+  late String email = argument['email'];
+  late String amount = argument['amount'];
+  late String narration = argument['narration'];
+
+  SendPasscode({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -175,13 +192,16 @@ class SendPasscode extends StatelessWidget {
                                           fontSize: 24,
                                           fontWeight: FontWeight.w600)),
                                   const Text(
-                                      'Enter you four digit password to delete your account',
+                                      'Enter you four digit password to verify your transaction',
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400)),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400
+                                      )
+                                  ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 50.0, vertical: 50.0),
+                                      horizontal: 50.0, vertical: 50.0
+                                    ),
                                     child: PinCodeTextField(
                                       controller: _passCodeController,
                                       obscureText: true,
@@ -275,43 +295,61 @@ class SendPasscode extends StatelessWidget {
                 padding: const EdgeInsets.all(20.0),
                 child: LongGradientButton(
                   onPressed: () async {
-                    showDialog(
-                      context: context,
-                      barrierDismissible:
-                          false, // Set to true if you want to allow dismissing the dialog by tapping outside it
-                      builder: (BuildContext context) {
-                        return BackdropFilter(
-                          filter: ImageFilter.blur(
-                              sigmaX: 20,
-                              sigmaY:
-                                  20), // Adjust the blur intensity as needed
-                          child: Container(
-                            height: 100,
-                            child: AlertDialog(
-                              title: const Center(
-                                child: Icon(
-                                  size: 60,
-                                  Icons.check_circle_outlined,
-                                ),
-                              ),
-                              content: const Padding(
-                                padding: EdgeInsets.only(left: 60.0),
-                                child: Text('Transaction Successful'),
-                              ),
-                              actions: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 30.0),
-                                  child: DialogGradientButton(
-                                    title: 'Proceed',
-                                    onPressed: () async {},
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    );
+                    bool isPasscode = await passcodeController.verifyPasscode(_passCodeController.text);
+                    if(isPasscode == true){
+                      log("Correct passcode");
+                      bool transactionSucces = await transactionController.gonanaTransfer(
+                        email,
+                        amount as int,
+                        narration
+                      );
+                      if(transactionSucces == true){
+                        log("Successfull Transaction");
+                        SuccessSnackbar.show(context, 'Succesfull Transaction');
+                      }else{
+                        log("Failed Transaction");
+                        ErrorSnackbar.show(context, 'Transaction Failed');
+                      }
+                    }else{
+
+                    }
+                    // showDialog(
+                    //   context: context,
+                    //   barrierDismissible:
+                    //       false, // Set to true if you want to allow dismissing the dialog by tapping outside it
+                    //   builder: (BuildContext context) {
+                    //     return BackdropFilter(
+                    //       filter: ImageFilter.blur(
+                    //           sigmaX: 20,
+                    //           sigmaY:
+                    //               20), // Adjust the blur intensity as needed
+                    //       child: Container(
+                    //         height: 100,
+                    //         child: AlertDialog(
+                    //           title: const Center(
+                    //             child: Icon(
+                    //               size: 60,
+                    //               Icons.check_circle_outlined,
+                    //             ),
+                    //           ),
+                    //           content: const Padding(
+                    //             padding: EdgeInsets.only(left: 60.0),
+                    //             child: Text('Transaction Successful'),
+                    //           ),
+                    //           actions: [
+                    //             Padding(
+                    //               padding: const EdgeInsets.only(right: 30.0),
+                    //               child: DialogGradientButton(
+                    //                 title: 'Proceed',
+                    //                 onPressed: () async {},
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //     );
+                    //   },
+                    // );
                   },
                   title: 'Proceed',
                 ),
