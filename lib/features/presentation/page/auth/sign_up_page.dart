@@ -120,33 +120,42 @@ class _SignUpState extends State<SignUp> {
                                         controller: _email,
                                         validator: emailValidator,
                                         label: 'Email',
-                                        hint: 'Click Here'),
-                                    TextFormField(
-                                      controller: _password,
-                                      obscureText: visibility,
-                                      validator: passwordValidator,
-                                      decoration: InputDecoration(
-                                          suffixIcon: IconButton(
-                                            onPressed: () {
-                                              visibility == true
-                                                  ? setState(() {
-                                                      visibility = false;
-                                                    })
-                                                  : setState(() {
-                                                      visibility = true;
-                                                    });
-                                            },
-                                            icon: visibility == true
-                                                ? const Icon(
-                                                    Icons.visibility_outlined,
-                                                  )
-                                                : const Icon(
-                                                    Icons
-                                                        .visibility_off_outlined,
-                                                  ),
-                                          ),
-                                          border: const OutlineInputBorder(),
-                                          hintText: 'Enter your password'),
+                                        hint: 'Click Here'
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text('Password'),
+                                        sizeVer(4),
+                                        TextFormField(
+                                          controller: _password,
+                                          obscureText: visibility,
+                                          validator: passwordValidator,
+                                          decoration: InputDecoration(
+                                              suffixIcon: IconButton(
+                                                onPressed: () {
+                                                  visibility == true
+                                                      ? setState(() {
+                                                          visibility = false;
+                                                        })
+                                                      : setState(() {
+                                                          visibility = true;
+                                                        });
+                                                },
+                                                icon: visibility == true
+                                                    ? const Icon(
+                                                        Icons.visibility_outlined,
+                                                      )
+                                                    : const Icon(
+                                                        Icons
+                                                            .visibility_off_outlined,
+                                                      ),
+                                              ),
+                                              border: const OutlineInputBorder(),
+                                              hintText: 'Enter your password'),
+                                        ),
+                                      ],
                                     ),
                                     const SizedBox(height: 10),
                                     // EnterFormText(
