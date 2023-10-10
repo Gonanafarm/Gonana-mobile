@@ -7,7 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:gonana/consts.dart';
-import 'package:gonana/features/controllers/transaction_controller.dart';
+import 'package:gonana/features/controllers/fiat_wallet/transaction_controller.dart';
 import 'package:gonana/features/controllers/user/user_controller.dart';
 import 'package:gonana/features/presentation/widgets/warning_widget.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';

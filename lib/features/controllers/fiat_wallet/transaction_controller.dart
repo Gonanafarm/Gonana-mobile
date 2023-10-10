@@ -5,11 +5,13 @@ import 'package:get/get.dart';
 import 'package:gonana/features/data/models/get_balance_model.dart';
 import 'package:gonana/features/data/models/get_transaction_model.dart';
 
-import '../presentation/widgets/widgets.dart';
-import '../utilities/api_routes.dart';
-import '../utilities/network.dart';
+import '../../presentation/widgets/widgets.dart';
+import '../../utilities/api_routes.dart';
+import '../../utilities/network.dart';
 
 class TransactionController extends GetxController {
+
+
   Future<bool> verifyBVN(String bvn, var context) async {
     try {
       var data = {
@@ -79,8 +81,8 @@ class TransactionController extends GetxController {
     }
   }
 
-  Future<bool> transferFunds(int amount, String accountNumber, String bankName,
-      String narration, var context) async {
+  Future<bool> transferFunds(double amount, String accountNumber,
+      String bankName, String narration, var context) async {
     try {
       var data = {
         'amount': amount,
@@ -104,6 +106,34 @@ class TransactionController extends GetxController {
       }
     } catch (e) {
       print(e);
+      return false;
+    }
+  }
+
+  Future<bool> gonanaTransfer(
+    String email,
+    int amount,
+    String narration,
+  ) async {
+    try {
+      var data = {
+        "email": email, 
+        "amount": amount, 
+        "narration": narration
+      };
+      var res = await NetworkApi().authPostData(data, ApiRoute.gonanaTransfer);
+      var response = jsonDecode(res.body);
+      log("data: $data || response: $response");
+      if (res.statusCode == 200){
+
+        return true;
+      } else{
+
+        return false;
+      }
+    } catch (e, s) {
+      log('gonanatransfererror: $e');
+      log('gonanatransfestack: $s');
       return false;
     }
   }

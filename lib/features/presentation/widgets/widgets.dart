@@ -436,7 +436,9 @@ class DialogWhiteButton extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           color: Colors.white,
-          border: Border.all(color: Color(0xff29844B))),
+          border: Border.all(color: Color(0xff29844B) 
+        )
+      ),
       child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(

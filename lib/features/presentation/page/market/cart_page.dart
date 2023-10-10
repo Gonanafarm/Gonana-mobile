@@ -15,7 +15,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../consts.dart';
-import '../../../controllers/transaction_controller.dart';
+import '../../../controllers/fiat_wallet/transaction_controller.dart';
 import '../../../data/models/order_model.dart';
 import '../../widgets/widgets.dart';
 import 'address_courier.dart';

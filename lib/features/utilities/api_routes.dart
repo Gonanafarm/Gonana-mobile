@@ -80,4 +80,5 @@ class ApiRoute {
 
   // get wallet transactions
   static const getWalletTransactions = 'api/transaction/user-transactions';
+  static const gonanaTransfer = 'api/transaction/transfer-to-user';
 }

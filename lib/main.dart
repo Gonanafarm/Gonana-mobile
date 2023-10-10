@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gonana/features/controllers/auth/get_details.dart';
 import 'package:gonana/features/controllers/cart/cart_controller.dart';
-import 'package:gonana/features/controllers/transaction_controller.dart';
+import 'package:gonana/features/controllers/fiat_wallet/transaction_controller.dart';
 import 'package:gonana/features/presentation/page/feeds/create_post2.dart';
 import 'package:gonana/features/presentation/page/home.dart';
 import 'package:gonana/features/presentation/page/market/cart_page.dart';

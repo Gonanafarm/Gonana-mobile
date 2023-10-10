@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'package:gonana/features/data/models/bank_model.dart';
 import 'package:gonana/features/data/models/resolve_bank.dart';
 
-import '../presentation/widgets/widgets.dart';
-import '../utilities/api_routes.dart';
-import '../utilities/network.dart';
+import '../../presentation/widgets/widgets.dart';
+import '../../utilities/api_routes.dart';
+import '../../utilities/network.dart';
 
 class BankController extends GetxController {
   BankModel? bankModel;
