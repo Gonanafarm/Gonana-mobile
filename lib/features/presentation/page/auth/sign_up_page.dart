@@ -96,38 +96,39 @@ class _SignUpState extends State<SignUp> {
                                   key: _signInkey,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
-                                  child: Column(children: [
-                                    EnterFormText(
-                                        controller: _firstName,
-                                        validator: inputValidator,
-                                        label: 'First Name',
-                                        hint: 'Click Here'),
-                                    const SizedBox(height: 10),
-                                    EnterFormText(
-                                        controller: _lastName,
-                                        validator: inputValidator,
-                                        label: 'Surname',
-                                        hint: 'Click Here'),
-                                    const SizedBox(height: 10),
-                                    EnterFormText(
-                                        controller: _phoneNumber,
-                                        validator: phoneValidator,
-                                        keyboardType: TextInputType.number,
-                                        label: 'Phone number',
-                                        hint: 'Click Here'),
-                                    const SizedBox(height: 10),
-                                    EnterFormText(
-                                        controller: _email,
-                                        validator: emailValidator,
-                                        label: 'Email',
-                                        hint: 'Click Here'
-                                    ),
-                                    const SizedBox(height: 10),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Text('Password'),
-                                        sizeVer(4),
+                                        EnterFormText(
+                                            controller: _firstName,
+                                            validator: inputValidator,
+                                            label: 'First Name',
+                                            hint: 'Click Here'),
+                                        const SizedBox(height: 10),
+                                        EnterFormText(
+                                            controller: _lastName,
+                                            validator: inputValidator,
+                                            label: 'Surname',
+                                            hint: 'Click Here'),
+                                        const SizedBox(height: 10),
+                                        EnterFormText(
+                                            controller: _phoneNumber,
+                                            validator: phoneValidator,
+                                            keyboardType: TextInputType.number,
+                                            label: 'Phone number',
+                                            hint: 'Click Here'),
+                                        const SizedBox(height: 10),
+                                        EnterFormText(
+                                            controller: _email,
+                                            validator: emailValidator,
+                                            label: 'Email',
+                                            hint: 'Click Here'),
+                                        sizeVer(20),
+                                        const Text(
+                                          "  Password",
+                                          textAlign: TextAlign.left,
+                                        ),
                                         TextFormField(
                                           controller: _password,
                                           obscureText: visibility,
@@ -145,35 +146,35 @@ class _SignUpState extends State<SignUp> {
                                                 },
                                                 icon: visibility == true
                                                     ? const Icon(
-                                                        Icons.visibility_outlined,
+                                                        Icons
+                                                            .visibility_outlined,
                                                       )
                                                     : const Icon(
                                                         Icons
                                                             .visibility_off_outlined,
                                                       ),
                                               ),
-                                              border: const OutlineInputBorder(),
+                                              border:
+                                                  const OutlineInputBorder(),
                                               hintText: 'Enter your password'),
                                         ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 10),
-                                    // EnterFormText(
-                                    //     controller: _bvn,
-                                    //     validator: bvnValidator,
-                                    //     label: 'BVN',
-                                    //     hint:
-                                    //         'Enter your Bank Verification Number'),
-                                    // const SizedBox(
-                                    //   width: double.infinity,
-                                    //   child: Text(
-                                    //     'Dial the USSD code *565*0# to check your BVN',
-                                    //     style: TextStyle(
-                                    //         fontSize: 10,
-                                    //         fontWeight: FontWeight.w600),
-                                    //   ),
-                                    // )
-                                  ]),
+                                        const SizedBox(height: 10),
+                                        // EnterFormText(
+                                        //     controller: _bvn,
+                                        //     validator: bvnValidator,
+                                        //     label: 'BVN',
+                                        //     hint:
+                                        //         'Enter your Bank Verification Number'),
+                                        // const SizedBox(
+                                        //   width: double.infinity,
+                                        //   child: Text(
+                                        //     'Dial the USSD code *565*0# to check your BVN',
+                                        //     style: TextStyle(
+                                        //         fontSize: 10,
+                                        //         fontWeight: FontWeight.w600),
+                                        //   ),
+                                        // )
+                                      ]),
                                 ),
                               )
                             ])
