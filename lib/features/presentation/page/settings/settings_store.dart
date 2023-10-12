@@ -35,6 +35,9 @@ class _StoreState extends State<Store> {
   getBVNStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     BVNisSubmited = prefs.getBool('bvnSubmission');
+    if (BVNisSubmited == null) {
+      BVNisSubmited = false;
+    }
   }
 
   @override
@@ -42,6 +45,7 @@ class _StoreState extends State<Store> {
     super.initState();
     getBVNStatus();
   }
+
   String produceImage =
       'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Ffarm-produce&psig=AOvVaw3UESSS4OmdGAYQoRSD5Nmd&ust=1683293590093000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCNC2o7bj2_4CFQAAAAAdAAAAABAE';
   @override
@@ -64,28 +68,25 @@ class _StoreState extends State<Store> {
                     borderRadius: BorderRadius.circular(5.0),
                   ),
                 ),
-                onPressed: () async{
-                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                onPressed: () async {
+                  print(BVNisSubmited);
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
                   BVNisSubmited = prefs.getBool('bvnSubmission');
-                  if (userController
-                          .userModel.value.virtualAccountNumber!.isNotEmpty ||
-                      userController.userModel.value.virtualAccountNumber !=
-                          null) {
+                  if (userController.userModel.value.virtualAccountNumber !=
+                      null) {
                     Get.to(() => AddProduct());
-                  } else if ((userController.userModel.value
-                              .virtualAccountNumber!.isNotEmpty ||
-                          userController.userModel.value.virtualAccountNumber ==
-                              null) &&
-                      BVNisSubmited!) {
-                    ErrorSnackbar.show(
-                        context, "Your BVN is awaiting verification");
-                  } else if ((userController.userModel.value
-                              .virtualAccountNumber!.isNotEmpty ||
-                          userController.userModel.value.virtualAccountNumber ==
-                              null) &&
-                      BVNisSubmited!) {
-                    ErrorSnackbar.show(context,
-                        "Please kindly go to verifications and submit your BVN for verification to create your virtual account ");
+                  } else if ((userController
+                              .userModel.value.virtualAccountNumber ==
+                          null) &&
+                      BVNisSubmited != null) {
+                    if (BVNisSubmited!) {
+                      ErrorSnackbar.show(
+                          context, "Your BVN is awaiting verification");
+                    } else {
+                      ErrorSnackbar.show(context,
+                          "Please kindly go to verifications and submit your BVN for verification to create your virtual account ");
+                    }
                   }
                 },
                 child: const Center(
@@ -106,7 +107,14 @@ class _StoreState extends State<Store> {
           ),
         ),
         sizeVer(10),
-        BVNisSubmited! || userController.userModel.value.virtualAccountNumber!.isNotEmpty ? Container(height: 1) :  WarningWidget(),
+        (BVNisSubmited != null && BVNisSubmited!) ||
+                (userController.userModel != null &&
+                    userController.userModel.value.virtualAccountNumber !=
+                        null &&
+                    userController
+                        .userModel.value.virtualAccountNumber!.isNotEmpty)
+            ? Container(height: 1)
+            : WarningWidget(),
         marketController.userMarketModel == null ||
                 marketController.userMarketModel?.data == null ||
                 marketController.userMarketModel!.data!.isEmpty

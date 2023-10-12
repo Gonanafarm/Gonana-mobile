@@ -10,6 +10,7 @@ import 'package:gonana/features/controllers/user/user_controller.dart';
 import 'package:gonana/features/presentation/page/feeds/feed_page.dart';
 import 'package:gonana/features/presentation/page/notification/notification.dart';
 import 'package:gonana/features/presentation/page/settings/settings.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../consts.dart';
 import 'fiat_wallet/wallet_home.dart';
 import 'market/market_page.dart';
@@ -26,6 +27,20 @@ class _HomePageState extends State<HomePage> {
   PostController postsController = Get.put(PostController());
   ProductController productController = Get.put(ProductController());
   UserController userController = Get.put(UserController());
+
+  getBVNStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getBool('bvnSubmission') == null) {
+      prefs.setBool('bvnSubmission', false);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getBVNStatus();
+  }
+
   final screens = [
     const MarketPage(),
     // const WalletPage(),

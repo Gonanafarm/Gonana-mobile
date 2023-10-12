@@ -22,6 +22,7 @@ class UserModel {
   bool? emailActivated;
   String? virtualAccountNumber;
   String? virtualAccountBankName;
+  String? virtual_account_name;
   List<dynamic>? address;
 
   UserModel({
@@ -38,6 +39,7 @@ class UserModel {
     this.emailActivated,
     this.virtualAccountNumber,
     this.virtualAccountBankName,
+    this.virtual_account_name,
     this.address,
   });
 
@@ -55,6 +57,7 @@ class UserModel {
         emailActivated: json["email_activated"],
         virtualAccountNumber: json["virtual_account_number"],
         virtualAccountBankName: json["virtual_account_bank_name"],
+    virtual_account_name: json["virtual_account_name"],
         address: json["address"] == null
             ? []
             : List<dynamic>.from(json["address"]!.map((x) => x)),
@@ -74,6 +77,7 @@ class UserModel {
         "email_activated": emailActivated,
         "virtual_account_number": virtualAccountNumber,
         "virtual_account_bank_name": virtualAccountBankName,
+        "virtual_account_name": virtualAccountBankName,
         "address":
             address == null ? [] : List<dynamic>.from(address!.map((x) => x)),
       };

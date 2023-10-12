@@ -213,31 +213,24 @@ class _CartPageState extends State<CartPage> {
                                             id: "${product.id}",
                                             units: product.unit));
                                       }
-                                      if (checkedItems.isNotEmpty) {
+                                      if (checkedItems.isNotEmpty &&
+                                          (userController.userModel.value
+                                                  .virtualAccountNumber ==
+                                              null) &&
+                                          BVNisSubmited != null) {
                                         Get.to(() => const AddressCourier());
                                       }
-                                    } else if ((userController
-                                                .userModel
-                                                .value
-                                                .virtualAccountNumber!
-                                                .isNotEmpty ||
-                                            userController.userModel.value
-                                                    .virtualAccountNumber ==
-                                                null) &&
-                                        BVNisSubmited!) {
-                                      ErrorSnackbar.show(context,
-                                          "Your BVN is awaiting verification");
-                                    } else if ((userController
-                                                .userModel
-                                                .value
-                                                .virtualAccountNumber!
-                                                .isNotEmpty ||
-                                            userController.userModel.value
-                                                    .virtualAccountNumber ==
-                                                null) &&
-                                        BVNisSubmited!) {
-                                      ErrorSnackbar.show(context,
-                                          "Please kindly go to verifications and submit your BVN for verification to create your virtual account ");
+                                    } else if ((userController.userModel.value
+                                                .virtualAccountNumber ==
+                                            null) &&
+                                        BVNisSubmited != null) {
+                                      if (BVNisSubmited!) {
+                                        ErrorSnackbar.show(context,
+                                            "Your BVN is awaiting verification");
+                                      } else {
+                                        ErrorSnackbar.show(context,
+                                            "Please kindly go to verifications and submit your BVN for verification to create your virtual account ");
+                                      }
                                     }
                                   },
                                   child: Container(

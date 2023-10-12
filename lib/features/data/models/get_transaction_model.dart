@@ -39,31 +39,31 @@ class GetTransactionModel {
 class Transaction {
   String? sessionId;
   String? type;
-  int? amountSent;
   int? amountSettled;
   DateTime? time;
+  String? id;
 
   Transaction({
     this.sessionId,
     this.type,
-    this.amountSent,
     this.amountSettled,
     this.time,
+    this.id,
   });
 
   factory Transaction.fromJson(Map<String, dynamic> json) => Transaction(
-        sessionId: json["sessionId"], // Change this line
-        type: json["type"],
-        amountSent: json["amountSent"],
-        amountSettled: json["amountSettled"],
-        time: json["time"] == null ? null : DateTime.parse(json["time"]),
+        sessionId: json["Session_id"],
+        type: json["Type"],
+        amountSettled: json["AmountSettled"],
+        time: json["Time"] == null ? null : DateTime.parse(json["Time"]),
+        id: json["_id"],
       );
 
   Map<String, dynamic> toJson() => {
-        "session_id": sessionId,
-        "type": type,
-        "amountSent": amountSent,
-        "amountSettled": amountSettled,
-        "time": time?.toIso8601String(),
+        "Session_id": sessionId,
+        "Type": type,
+        "AmountSettled": amountSettled,
+        "Time": time?.toIso8601String(),
+        "_id": id,
       };
 }

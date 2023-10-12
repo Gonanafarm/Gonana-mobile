@@ -10,8 +10,6 @@ import '../../utilities/api_routes.dart';
 import '../../utilities/network.dart';
 
 class TransactionController extends GetxController {
-
-
   Future<bool> verifyBVN(String bvn, var context) async {
     try {
       var data = {
@@ -38,7 +36,7 @@ class TransactionController extends GetxController {
     }
   }
 
-  GetBalanceModel? balanceModel;
+  var balanceModel = GetBalanceModel().obs;
   Future<bool> fetchBalance() async {
     try {
       var responseBody =
@@ -46,8 +44,9 @@ class TransactionController extends GetxController {
       final response = jsonDecode(responseBody.body);
       print("wallet balance got here");
       if (responseBody.statusCode == 200) {
-        balanceModel = getBalanceModelFromJson(responseBody.body);
+        balanceModel.value = getBalanceModelFromJson(responseBody.body);
         log("Wallet balance || $response");
+        log("Wallet balance || ${balanceModel.value.balance}");
         return true;
       } else {
         log(response);
@@ -59,7 +58,7 @@ class TransactionController extends GetxController {
     }
   }
 
-  GetTransactionModel? transactionModel;
+  var transactionModel = GetTransactionModel().obs;
   Future<bool> fetchTransactions() async {
     try {
       var responseBody =
@@ -67,8 +66,10 @@ class TransactionController extends GetxController {
       final response = jsonDecode(responseBody.body);
       print("Wallet transactions got here");
       if (responseBody.statusCode == 200) {
-        transactionModel = getTransactionModelFromJson(responseBody.body);
+        transactionModel.value = getTransactionModelFromJson(responseBody.body);
         print("Wallet transactions || $response");
+        print(
+            "Wallet transactions || ${transactionModel!.value.transactions![0].sessionId}");
         return true;
       } else {
         print("Wallet transactions got here again (error)");
@@ -82,7 +83,7 @@ class TransactionController extends GetxController {
   }
 
   Future<bool> transferFunds(double amount, String accountNumber,
-      String bankName, String narration, var context) async {
+      String bankName, String narration) async {
     try {
       var data = {
         'amount': amount,
@@ -98,10 +99,8 @@ class TransactionController extends GetxController {
       log("funds transfer || $response");
       if (responseBody.statusCode == 201) {
         print(responseBody.statusCode);
-        SuccessSnackbar.show(context, response['message']);
         return true;
       } else {
-        ErrorSnackbar.show(context, "${response['message']}");
         return false;
       }
     } catch (e) {
@@ -111,24 +110,16 @@ class TransactionController extends GetxController {
   }
 
   Future<bool> gonanaTransfer(
-    String email,
-    int amount,
-    String narration,
-  ) async {
+      String email, int amount, String narration) async {
     try {
-      var data = {
-        "email": email, 
-        "amount": amount, 
-        "narration": narration
-      };
+      var data = {"email": email, "amount": amount, "narration": narration};
       var res = await NetworkApi().authPostData(data, ApiRoute.gonanaTransfer);
       var response = jsonDecode(res.body);
       log("data: $data || response: $response");
-      if (res.statusCode == 200){
-
+      if (res.statusCode == 200) {
+        print("success");
         return true;
-      } else{
-
+      } else {
         return false;
       }
     } catch (e, s) {

@@ -57,6 +57,16 @@ class _DepositState extends State<Deposit> {
                             "Transfer the funds into this account details",
                             style: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.w400))),
+                    sizeVer(10),
+                    const Text(
+                      'Note: You would be charged NGN 10 from your virtual account wallet ',
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 14,
+                        fontFamily: 'Proxima Nova',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                     sizeVer(50),
                     Container(
                       // height: 235,
@@ -73,7 +83,7 @@ class _DepositState extends State<Deposit> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Accout Details",
+                                  "Account Details",
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w600),
@@ -115,6 +125,18 @@ class _DepositState extends State<Deposit> {
                                     fontWeight: FontWeight.w600,
                                     color: Color(0xff444444))),
                             sizeVer(10),
+                            const Text("Account name",
+                                style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xff444444))),
+                            Text(
+                                "${userController.userModel.value.virtual_account_name}",
+                                style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xff444444))),
+                            sizeVer(10),
                             const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -127,7 +149,7 @@ class _DepositState extends State<Deposit> {
                                 Flexible(
                                   child: Text(
                                     textAlign: TextAlign.left,
-                                    "Once you've made the transfer you would get an email",
+                                    "Once you've made the transfer you would get an email ",
                                     style: TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w500),
