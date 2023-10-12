@@ -66,7 +66,7 @@ String? passwordValidator(value) {
       RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W_]{8,}$');
   if (!passwordRegex.hasMatch(value)) {
     return 'Your password must be at least 8 characters,\n'
-        'containing at least one uppercase letter, one lowercase letter, and one digit.\n'
+        'containing at least one uppercase letter,\none lowercase letter, and one digit.\n'
         'Special characters are allowed but not required.';
   }
   return null;
