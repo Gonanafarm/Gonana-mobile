@@ -49,7 +49,7 @@ class _FiatWithdrawalState extends State<FiatWithdrawal> {
                         fontWeight: FontWeight.w400,
                         color: Colors.black))),
             sizeVer(30),
-            GestureDetector(
+            InkWell(
               onTap: () {
                 Get.to(() => const SendToUsers());
               },
@@ -68,19 +68,19 @@ class _FiatWithdrawalState extends State<FiatWithdrawal> {
                             SvgPicture.asset('assets/svgs/send_user.svg'),
                             sizeHor(20),
                             const Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Gonana User',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                      )),
-                                  Text('Send to a Gonana user',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                      ))
-                                ]),
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Gonana User',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    )),
+                                Text('Send to a Gonana user',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    ))
+                              ]),
                           ],
                         ),
                         const Icon(Icons.arrow_forward_ios)
@@ -89,7 +89,7 @@ class _FiatWithdrawalState extends State<FiatWithdrawal> {
               ),
             ),
             sizeVer(20),
-            GestureDetector(
+            InkWell(
               onTap: () {
                 Get.to(() => const RegisterBank());
               },

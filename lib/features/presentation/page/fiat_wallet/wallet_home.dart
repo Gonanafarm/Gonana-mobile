@@ -91,26 +91,27 @@ class _FiatWalletHomeState extends State<FiatWalletHome> {
                                           child: SizedBox(
                                             height: 50,
                                             child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: [
-                                                  SvgPicture.asset(
-                                                    'assets/svgs/withdrawal.svg',
-                                                    colorFilter:
-                                                        const ColorFilter.mode(
-                                                            Colors.white,
-                                                            BlendMode.srcIn),
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceEvenly,
+                                              children: [
+                                                SvgPicture.asset(
+                                                  'assets/svgs/withdrawal.svg',
+                                                  colorFilter: const ColorFilter.mode(
+                                                    Colors.white,
+                                                    BlendMode.srcIn
                                                   ),
-                                                  const Text(
-                                                    'Withdraw',
-                                                    style: TextStyle(
-                                                        color: primaryColor,
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.w400),
-                                                  )
-                                                ]),
+                                                ),
+                                                const Text(
+                                                  'Withdraw',
+                                                  style: TextStyle(
+                                                    color: primaryColor,
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w400
+                                                  ),
+                                                )
+                                              ]
+                                            ),
                                           ),
                                         ),
                                         InkWell(
