@@ -73,44 +73,47 @@ class _FiatWalletHomeState extends State<FiatWalletHome> {
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 24,
-                                fontWeight: FontWeight.w600));
-                      }),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: Center(
-                            child: SizedBox(
-                                width: 180,
-                                child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          Get.to(() => const FiatWithdrawal());
-                                        },
-                                        child: SizedBox(
-                                          height: 50,
-                                          child: Column(
+                                fontWeight: FontWeight.w600)),
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10.0),
+                          child: Center(
+                              child: SizedBox(
+                                  width: 180,
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            Get.to(
+                                                () => const FiatWithdrawal());
+                                          },
+                                          child: SizedBox(
+                                            height: 50,
+                                            child: Column(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
+                                                  MainAxisAlignment
+                                                      .spaceEvenly,
                                               children: [
                                                 SvgPicture.asset(
                                                   'assets/svgs/withdrawal.svg',
-                                                  colorFilter:
-                                                      const ColorFilter.mode(
-                                                          Colors.white,
-                                                          BlendMode.srcIn),
+                                                  colorFilter: const ColorFilter.mode(
+                                                    Colors.white,
+                                                    BlendMode.srcIn
+                                                  ),
                                                 ),
                                                 const Text(
                                                   'Withdraw',
                                                   style: TextStyle(
-                                                      color: primaryColor,
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w400),
+                                                    color: primaryColor,
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w400
+                                                  ),
                                                 )
-                                              ]),
+                                              ]
+                                            ),
+                                          ),
                                         ),
                                       ),
                                       InkWell(
