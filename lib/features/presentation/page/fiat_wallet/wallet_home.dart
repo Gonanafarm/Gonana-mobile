@@ -73,78 +73,72 @@ class _FiatWalletHomeState extends State<FiatWalletHome> {
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 24,
-                                fontWeight: FontWeight.w600)),
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: Center(
-                              child: SizedBox(
-                                  width: 180,
-                                  child: Row(
+                                fontWeight: FontWeight.w600));
+                      }),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: Center(
+                        child: SizedBox(
+                          width: 180,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  Get.to(() => const FiatWithdrawal());
+                                },
+                                child: SizedBox(
+                                  height: 50,
+                                  child: Column(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        InkWell(
-                                          onTap: () {
-                                            Get.to(
-                                                () => const FiatWithdrawal());
-                                          },
-                                          child: SizedBox(
-                                            height: 50,
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceEvenly,
-                                              children: [
-                                                SvgPicture.asset(
-                                                  'assets/svgs/withdrawal.svg',
-                                                  colorFilter: const ColorFilter.mode(
-                                                    Colors.white,
-                                                    BlendMode.srcIn
-                                                  ),
-                                                ),
-                                                const Text(
-                                                  'Withdraw',
-                                                  style: TextStyle(
-                                                    color: primaryColor,
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w400
-                                                  ),
-                                                )
-                                              ]
-                                            ),
-                                          ),
+                                        SvgPicture.asset(
+                                          'assets/svgs/withdrawal.svg',
+                                          colorFilter: const ColorFilter.mode(
+                                              Colors.white, BlendMode.srcIn),
                                         ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          Get.to(() => const Deposit());
-                                        },
-                                        child: SizedBox(
-                                          height: 50,
-                                          child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                SvgPicture.asset(
-                                                  'assets/svgs/money1.svg',
-                                                  colorFilter:
-                                                      const ColorFilter.mode(
-                                                          Colors.white,
-                                                          BlendMode.srcIn),
-                                                ),
-                                                const Text(
-                                                  'Deposit',
-                                                  style: TextStyle(
-                                                      color: primaryColor,
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w400),
-                                                )
-                                              ]),
+                                        const Text(
+                                          'Withdraw',
+                                          style: TextStyle(
+                                              color: primaryColor,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400),
+                                        )
+                                      ]),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Get.to(() => const Deposit());
+                                },
+                                child: SizedBox(
+                                  height: 50,
+                                  child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        SvgPicture.asset(
+                                          'assets/svgs/money1.svg',
+                                          colorFilter: const ColorFilter.mode(
+                                              Colors.white, BlendMode.srcIn),
                                         ),
-                                      )
-                                    ]))))
+                                        const Text(
+                                          'Deposit',
+                                          style: TextStyle(
+                                              color: primaryColor,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400),
+                                        )
+                                      ]),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   ]),
             ),
           ),
