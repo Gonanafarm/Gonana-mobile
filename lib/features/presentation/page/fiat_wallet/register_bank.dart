@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -92,6 +93,16 @@ class _RegisterBankState extends State<RegisterBank> {
                       'Enter the amount and account you want to withdraw to ',
                       style: TextStyle(
                         color: Colors.black,
+                        fontSize: 14,
+                        fontFamily: 'Proxima Nova',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    sizeVer(10),
+                    const Text(
+                      'Note: You would be charged NGN 15  for your withdrawal ',
+                      style: TextStyle(
+                        color: Colors.red,
                         fontSize: 14,
                         fontFamily: 'Proxima Nova',
                         fontWeight: FontWeight.w400,
@@ -265,8 +276,8 @@ class _RegisterBankState extends State<RegisterBank> {
                             dropDownError = "";
                           });
                     String balance =
-                        transactionController.balanceModel!.balance ?? '';
-                    if (_amount.text.compareTo(balance) < 0) {
+                        transactionController.balanceModel!.value.balance ?? '';
+                    if (int.parse(_amount.text) < 0) {
                       ErrorSnackbar.show(
                           context, "You can't withdraw this amount");
                     } else if (_amount.text.compareTo(balance) > 0) {
@@ -283,11 +294,17 @@ class _RegisterBankState extends State<RegisterBank> {
                               .accountName!.isNotEmpty) {
                         if (isValid! &&
                             bankController.resolveBankModel!.data!.data!
-                                .accountName!.isNotEmpty) {
+                                .accountName!.isNotEmpty &&
+                            selectedBank.isNotEmpty) {
                           setState(() {
                             isLoading = true;
                           });
-                          Get.to(() => SendPasscode());
+                          Get.to(() => SendPasscode(), arguments: {
+                            "bankName": selectedBank,
+                            "accountNumber": _accountNumber.text,
+                            "amount": _amount.text,
+                            "narration": _narration.text
+                          });
                         }
                       }
                     }
@@ -300,9 +317,31 @@ class _RegisterBankState extends State<RegisterBank> {
   }
 }
 
-class SendPasscode extends StatelessWidget {
+class SendPasscode extends StatefulWidget {
+  @override
+  State<SendPasscode> createState() => _SendPasscodeState();
+}
+
+class _SendPasscodeState extends State<SendPasscode> {
+  bool isLoading = false;
+
   PasscodeController passcodeController = Get.put(PasscodeController());
+
+  TransactionController transactionController =
+      Get.put(TransactionController());
+
   final TextEditingController _passCodeController = TextEditingController();
+
+  dynamic argument = Get.arguments;
+
+  late String bankName = argument['bankName'];
+
+  late String accountNumber = argument['accountNumber'];
+
+  late String amount = argument['amount'];
+
+  late String narration = argument['narration'];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -379,57 +418,57 @@ class SendPasscode extends StatelessWidget {
                                       child: NumPad(
                                     controller: _passCodeController,
                                     delete: () {},
-                                    faceIdFunction: () async {
-                                      final bool authenticate =
-                                          await LocalAuth.authenticate();
-                                      if (authenticate) {
-                                        print("Face is authenticated");
-                                        showDialog(
-                                          context: context,
-                                          barrierDismissible:
-                                              true, // Set to true if you want to allow dismissing the dialog by tapping outside it
-                                          builder: (BuildContext context) {
-                                            return BackdropFilter(
-                                              filter: ImageFilter.blur(
-                                                  sigmaX: 20,
-                                                  sigmaY:
-                                                      20), // Adjust the blur intensity as needed
-                                              child: Container(
-                                                height: 100,
-                                                child: AlertDialog(
-                                                  title: Center(
-                                                    child: Icon(
-                                                      size: 60,
-                                                      Icons
-                                                          .check_circle_outlined,
-                                                    ),
-                                                  ),
-                                                  content: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 60.0),
-                                                    child: Text(
-                                                        'Transaction Successful'),
-                                                  ),
-                                                  actions: [
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              right: 30.0),
-                                                      child:
-                                                          DialogGradientButton(
-                                                        title: 'Proceed',
-                                                        onPressed: () async {},
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      }
-                                    },
+                                    // faceIdFunction: () async {
+                                    //   final bool authenticate =
+                                    //       await LocalAuth.authenticate();
+                                    //   if (authenticate) {
+                                    //     print("Face is authenticated");
+                                    //     showDialog(
+                                    //       context: context,
+                                    //       barrierDismissible:
+                                    //           true, // Set to true if you want to allow dismissing the dialog by tapping outside it
+                                    //       builder: (BuildContext context) {
+                                    //         return BackdropFilter(
+                                    //           filter: ImageFilter.blur(
+                                    //               sigmaX: 20,
+                                    //               sigmaY:
+                                    //                   20), // Adjust the blur intensity as needed
+                                    //           child: Container(
+                                    //             height: 100,
+                                    //             child: AlertDialog(
+                                    //               title: Center(
+                                    //                 child: Icon(
+                                    //                   size: 60,
+                                    //                   Icons
+                                    //                       .check_circle_outlined,
+                                    //                 ),
+                                    //               ),
+                                    //               content: Padding(
+                                    //                 padding:
+                                    //                     const EdgeInsets.only(
+                                    //                         left: 60.0),
+                                    //                 child: Text(
+                                    //                     'Transaction Successful'),
+                                    //               ),
+                                    //               actions: [
+                                    //                 Padding(
+                                    //                   padding:
+                                    //                       const EdgeInsets.only(
+                                    //                           right: 30.0),
+                                    //                   child:
+                                    //                       DialogGradientButton(
+                                    //                     title: 'Proceed',
+                                    //                     onPressed: () async {},
+                                    //                   ),
+                                    //                 ),
+                                    //               ],
+                                    //             ),
+                                    //           ),
+                                    //         );
+                                    //       },
+                                    //     );
+                                    //   }
+                                    // },
                                   )),
                                 ],
                               ),
@@ -442,46 +481,73 @@ class SendPasscode extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: LongGradientButton(
+                  isLoading: isLoading,
                   onPressed: () async {
-                    showDialog(
-                      context: context,
-                      barrierDismissible:
-                          false, // Set to true if you want to allow dismissing the dialog by tapping outside it
-                      builder: (BuildContext context) {
-                        return BackdropFilter(
-                          filter: ImageFilter.blur(
-                              sigmaX: 20,
-                              sigmaY:
-                                  20), // Adjust the blur intensity as needed
-                          child: Container(
-                            height: 100,
-                            child: AlertDialog(
-                              title: const Center(
-                                child: Icon(
-                                  size: 60,
-                                  Icons.check_circle_outlined,
-                                ),
-                              ),
-                              content: const Padding(
-                                padding: EdgeInsets.only(left: 60.0),
-                                child: Text('Transaction Successful'),
-                              ),
-                              actions: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 30.0),
-                                  child: DialogGradientButton(
-                                    title: 'Proceed',
-                                    onPressed: () async {
-                                      Get.to(() => HomePage(navIndex: 1));
-                                    },
+                    setState(() {
+                      isLoading = true;
+                    });
+                    bool isPasscode = await passcodeController
+                        .verifyPasscode(_passCodeController.text);
+                    if (isPasscode == true) {
+                      log("Correct passcode");
+                      bool transactionSucces =
+                          await transactionController.transferFunds(
+                              double.parse(amount),
+                              accountNumber,
+                              bankName,
+                              narration);
+                      if (transactionSucces == true) {
+                        setState(() {
+                          isLoading = false;
+                        });
+                        log("Successfull Transaction");
+                        SuccessSnackbar.show(context, 'Succesfull Transaction');
+                        showDialog(
+                          context: context,
+                          barrierDismissible:
+                              false, // Set to true if you want to allow dismissing the dialog by tapping outside it
+                          builder: (BuildContext context) {
+                            return BackdropFilter(
+                              filter: ImageFilter.blur(
+                                  sigmaX: 20,
+                                  sigmaY:
+                                      20), // Adjust the blur intensity as needed
+                              child: Container(
+                                height: 100,
+                                child: AlertDialog(
+                                  title: const Center(
+                                    child: Icon(
+                                      size: 60,
+                                      Icons.check_circle_outlined,
+                                    ),
                                   ),
+                                  content: const Padding(
+                                    padding: EdgeInsets.only(left: 60.0),
+                                    child: Text('Transaction Successful'),
+                                  ),
+                                  actions: [
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 30.0),
+                                      child: DialogGradientButton(
+                                        title: 'Finish',
+                                        onPressed: () async {
+                                          print("Proceeded");
+                                          Get.to(() => HomePage(navIndex: 1));
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
+                              ),
+                            );
+                          },
                         );
-                      },
-                    );
+                      } else {
+                        log("Failed Transaction");
+                        ErrorSnackbar.show(context, 'Transaction Failed');
+                      }
+                    } else {}
                   },
                   title: 'Proceed',
                 ),

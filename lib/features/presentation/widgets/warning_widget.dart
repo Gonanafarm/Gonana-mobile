@@ -88,20 +88,6 @@ class _WarningWidgetState extends State<WarningWidget> {
                           ),
                         ),
                       ),
-                      sizeVer(10),
-                      const Padding(
-                        padding: EdgeInsets.only(left: .0),
-                        child: Text(
-                          'Kindly wait while your bvn is being verified ',
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 10,
-                            fontFamily: 'Proxima Nova',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 )

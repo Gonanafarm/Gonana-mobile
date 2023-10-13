@@ -224,25 +224,25 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                                     ]));
                               }),
                             ),
-                            SizedBox(
-                              // height: 24,
-                              width: 57,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SvgPicture.asset(
-                                      'assets/svgs/emails_messages_icon.svg',
-                                      height: 24,
-                                      width: 24,
-                                      fit: BoxFit.contain),
-                                  const Text('Chat',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400))
-                                ],
-                              ),
-                            ),
+                            // SizedBox(
+                            //   // height: 24,
+                            //   width: 57,
+                            //   child: Row(
+                            //     mainAxisAlignment:
+                            //         MainAxisAlignment.spaceBetween,
+                            //     children: [
+                            //       SvgPicture.asset(
+                            //           'assets/svgs/emails_messages_icon.svg',
+                            //           height: 24,
+                            //           width: 24,
+                            //           fit: BoxFit.contain),
+                            //       const Text('Chat',
+                            //           style: TextStyle(
+                            //               fontSize: 12,
+                            //               fontWeight: FontWeight.w400))
+                            //     ],
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),

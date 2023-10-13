@@ -19,7 +19,11 @@ class PasscodeController extends GetxController {
       final response = jsonDecode(responseBody.body);
       log("passcode response || $responseBody");
       print(responseBody.statusCode);
-      return true;
+      if (responseBody.statusCode == 201) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       log("create passcode Error=> $e");
       return false;
@@ -36,7 +40,11 @@ class PasscodeController extends GetxController {
       final response = jsonDecode(responseBody.body);
       log("passcode response || ${responseBody.body}");
       print(responseBody.statusCode);
-      return true;
+      if (responseBody.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       log("verify passcode Error=> $e");
       return false;
