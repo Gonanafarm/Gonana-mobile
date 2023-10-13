@@ -56,6 +56,7 @@ class CartController extends GetxController {
       final response = jsonDecode(responseBody.body);
       print("cart got here");
       cartModel.value = cartModelFromJson(responseBody.body);
+      print(cartModel.value.products!.length);
       log("all cart items || $response");
       return true;
     } catch (e) {
@@ -216,7 +217,8 @@ class CartController extends GetxController {
         SuccessSnackbar.show(context, "successful");
         return true;
       } else {
-        ErrorSnackbar.show(context, "No access to your current location");
+        ErrorSnackbar.show(context,
+            "No access to your current location,\ntry selecting another delivery company");
         return false;
       }
     } catch (e, s) {

@@ -13,6 +13,7 @@ import 'package:gonana/features/data/models/post_model.dart';
 import 'package:gonana/features/data/models/user_model.dart';
 import 'package:gonana/features/data/models/user_post_model.dart';
 import 'package:gonana/features/presentation/page/store/store_logistics.dart';
+import '../../../consts.dart';
 import '../../data/models/get_post_model.dart';
 import '../../data/models/market_model.dart';
 import '../../utilities/api_routes.dart';
@@ -222,6 +223,7 @@ class ProductController extends GetxController {
       // marketModel = [postModel];
       // print(marketModel);
       print(marketModel!.data![0].product!.location!.coordinates);
+      print(response);
       // log("products || ${response}");
       return true;
     } catch (e, s) {
@@ -331,6 +333,28 @@ class ProductController extends GetxController {
     } catch (e) {
       // return "Error converting coordinates to address: $e";
       return " ";
+    }
+  }
+
+  Future<String?> productAddress(int index) async {
+    if (marketModel! != null &&
+        marketModel!.data![index] != null &&
+        marketModel!.data![index].product! != null &&
+        marketModel!.data![index].product!.address![0] != null) {
+      String? state;
+      String? addressString =
+          marketModel!.data![index].product!.address![0].address;
+      List<String> components = addressString!.split(", ");
+      for (String component in components) {
+        if (nigerianStates.contains(component)) {
+          state = component;
+          break;
+        }
+      }
+      print("State now: $state");
+      return state;
+    } else {
+      return "";
     }
   }
 }

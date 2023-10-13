@@ -163,12 +163,19 @@ class _HotDealsPageState extends State<HotDealsPage> {
 
 ProductController productController = Get.put(ProductController());
 
-class HotDealsCard extends StatelessWidget {
+class HotDealsCard extends StatefulWidget {
   final int index;
   const HotDealsCard({
     super.key,
     required this.index,
   });
+
+  @override
+  State<HotDealsCard> createState() => _HotDealsCardState();
+}
+
+class _HotDealsCardState extends State<HotDealsCard> {
+  final marketController = Get.find<ProductController>();
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +188,7 @@ class HotDealsCard extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, PageConst.checkoutPage);
+                  // Navigator.pushNamed(context, PageConst.checkoutPage);
                 },
                 child: Container(
                   width: 115,
@@ -194,18 +201,18 @@ class HotDealsCard extends StatelessWidget {
                     // ),
                   ),
                   child: productController.discountMarketModel!.data != null &&
-                          index >= 0 &&
-                          index <
+                          widget.index >= 0 &&
+                          widget.index <
                               productController
                                   .discountMarketModel!.data!.length &&
-                          productController
-                                  .discountMarketModel!.data![index].images !=
+                          productController.discountMarketModel!
+                                  .data![widget.index].images !=
                               null &&
-                          productController.discountMarketModel!.data![index]
-                              .images!.isNotEmpty
+                          productController.discountMarketModel!
+                              .data![widget.index].images!.isNotEmpty
                       ? ClipRRect(
                           child: Image.network(
-                            "${productController.discountMarketModel!.data![index].images![0]}",
+                            "${productController.discountMarketModel!.data![widget.index].images![0]}",
                             fit: BoxFit.cover,
                           ),
                         )
@@ -237,12 +244,12 @@ class HotDealsCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${productController.discountMarketModel!.data![index].body}',
+                  '${productController.discountMarketModel!.data![widget.index].body}',
                   style: TextStyle(color: darkColor),
                 ),
                 sizeVer(10),
                 Text(
-                  "${productController.discountMarketModel!.data![index].amount}",
+                  "${productController.discountMarketModel!.data![widget.index].amount}",
                   style: TextStyle(
                       fontSize: 20,
                       color: greenColor,
@@ -252,30 +259,15 @@ class HotDealsCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Text("NGN 30000",
-                          //     style: GoogleFonts.montserrat(
-                          //       color: const Color.fromRGBO(0, 0, 0, 1),
-                          //       fontSize: 10,
-                          //       decoration: TextDecoration.lineThrough,
-                          //       decorationColor: Colors.black,
-                          //       decorationThickness: 2.0,
-                          //     )),
-                          // sizeVer(5.0),
-                          FutureBuilder<String>(
+                    Flexible(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Container(
+                          child: FutureBuilder<String?>(
                             future:
-                                productController.convertCoordinatesToAddress([
-                              double.parse(
-                                  "${productController.discountMarketModel!.data![index].location!.coordinates![0]}"),
-                              double.parse(
-                                  "${productController.discountMarketModel!.data![index].location!.coordinates![1]}")
-                            ]),
+                                marketController.productAddress(widget.index),
                             builder: (BuildContext context,
-                                AsyncSnapshot<String> snapshot) {
+                                AsyncSnapshot<String?> snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
                                 return CircularProgressIndicator();
@@ -288,25 +280,30 @@ class HotDealsCard extends StatelessWidget {
                               } else {
                                 return Text(
                                   snapshot.data ?? "",
-                                  style: GoogleFonts.sourceSansPro(
-                                    color: const Color.fromRGBO(0, 0, 0, 1),
-                                    fontSize: 12,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontFamily: 'Proxima Nova',
+                                    fontWeight: FontWeight.w400,
+                                    height: 0.92,
                                   ),
                                 );
                               }
                             },
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                    sizeHor(20),
-                    Flexible(
+                    Container(
+                      height: 60,
+                      width: MediaQuery.of(context).size.width * 0.2,
                       child: ElevatedButton(
                         onPressed: () async {
                           bool created = false;
                           created = await cartController.addToCart(
                               productController
-                                  .discountMarketModel!.data![index].id,
+                                  .discountMarketModel!.data![widget.index].id,
                               context);
                           if (created) {
                             await cartController.fetchCart();

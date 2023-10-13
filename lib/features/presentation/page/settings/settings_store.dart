@@ -229,18 +229,15 @@ class _StoreState extends State<Store> {
                                                           //       fontWeight: FontWeight.w400,
                                                           //       color: Color(0xff444444)),
                                                           // ),
-                                                          FutureBuilder<String>(
+                                                          FutureBuilder<
+                                                              String?>(
                                                             future: marketController
-                                                                .convertCoordinatesToAddress([
-                                                              double.parse(
-                                                                  "${marketController.userMarketModel!.data![index].location!.coordinates![0]}"),
-                                                              double.parse(
-                                                                  "${marketController.userMarketModel!.data![index].location!.coordinates![1]}")
-                                                            ]),
+                                                                .productAddress(
+                                                                    index),
                                                             builder: (BuildContext
                                                                     context,
                                                                 AsyncSnapshot<
-                                                                        String>
+                                                                        String?>
                                                                     snapshot) {
                                                               if (snapshot
                                                                       .connectionState ==
@@ -270,6 +267,7 @@ class _StoreState extends State<Store> {
                                                           onPressed: () {
                                                             Get.to(() =>
                                                                 StoreViewProducts(
+                                                                  index: index,
                                                                   userPostModel:
                                                                       marketController
                                                                           .userMarketModel!

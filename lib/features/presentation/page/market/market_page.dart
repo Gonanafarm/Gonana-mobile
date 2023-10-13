@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:gonana/features/controllers/fiat_wallet/transaction_controller.dart';
 import 'package:gonana/features/controllers/market/market_controllers.dart';
 import 'package:gonana/features/presentation/page/market/hot_deals_item.dart';
 import 'package:gonana/features/presentation/page/messages/message.dart';
@@ -28,6 +29,8 @@ class MarketPage extends StatefulWidget {
 class _MarketPageState extends State<MarketPage> {
   final TextEditingController _searchController = TextEditingController();
   PostController postController = Get.put(PostController());
+  TransactionController transactionController =
+      Get.put(TransactionController());
   final userController = Get.find<UserController>();
 
   @override
@@ -35,6 +38,7 @@ class _MarketPageState extends State<MarketPage> {
     super.initState();
     setStage();
     getBVNStatus();
+    transactionController.fetchTransactions();
   }
 
   setStage() async {
@@ -293,6 +297,7 @@ class HotDealsCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         Get.to(() => HotDealsItem(
+              index: index,
               productModel: productModel![index],
             ));
       },
@@ -365,14 +370,9 @@ class HotDealsCard extends StatelessWidget {
           //       decorationThickness: 2.0,
           //     )),
           sizeVer(8.0),
-          FutureBuilder<String>(
-            future: marketController.convertCoordinatesToAddress([
-              double.parse(
-                  "${marketController.discountMarketModel!.data![index].location!.coordinates![0]}"),
-              double.parse(
-                  "${marketController.discountMarketModel!.data![index].location!.coordinates![1]}")
-            ]),
-            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          FutureBuilder<String?>(
+            future: marketController.productAddress(index),
+            builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return CircularProgressIndicator();
               } else if (snapshot.hasError) {
@@ -405,13 +405,13 @@ class BuyNowCard extends StatelessWidget {
     Key? key,
     required this.index,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     var productModel = marketController.marketModel!.data;
     return InkWell(
       onTap: () {
         Get.to(() => BuyNowPage(
+              index: index,
               productModel: productModel![index],
             ));
       },
@@ -495,14 +495,9 @@ class BuyNowCard extends StatelessWidget {
           //       decorationThickness: 2.0,
           //     )),
           sizeVer(8.0),
-          FutureBuilder<String>(
-            future: marketController.convertCoordinatesToAddress([
-              double.parse(
-                  "${marketController.marketModel!.data![index].product!.location!.coordinates![0]}"),
-              double.parse(
-                  "${marketController.marketModel!.data![index].product!.location!.coordinates![1]}")
-            ]),
-            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          FutureBuilder<String?>(
+            future: marketController.productAddress(index),
+            builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return CircularProgressIndicator();
               } else if (snapshot.hasError) {

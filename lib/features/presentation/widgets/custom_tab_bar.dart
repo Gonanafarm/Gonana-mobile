@@ -10,7 +10,7 @@ class CustomTabBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      initialIndex: 0,
+      initialIndex: 1,
       length: 2,
       child: Container(
         // width: MediaQuery.of(context).size.width * 0.3,
