@@ -403,7 +403,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
     return showDialog(
       context: context,
       barrierDismissible:
-          true, // Set to true if you want to allow dismissing the dialog by tapping outside it
+          false, // Set to true if you want to allow dismissing the dialog by tapping outside it
       builder: (BuildContext context) {
         return BackdropFilter(
           filter: ImageFilter.blur(

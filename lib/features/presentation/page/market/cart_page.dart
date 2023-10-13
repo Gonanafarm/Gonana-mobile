@@ -198,10 +198,8 @@ class _CartPageState extends State<CartPage> {
                                     BVNisSubmited =
                                         prefs.getBool('bvnSubmission');
                                     if (userController.userModel.value
-                                            .virtualAccountNumber!.isNotEmpty ||
-                                        userController.userModel.value
-                                                .virtualAccountNumber !=
-                                            null) {
+                                            .virtualAccountNumber !=
+                                        null) {
                                       setState(() {
                                         isLoading = true;
                                       });

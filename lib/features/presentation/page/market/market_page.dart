@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:gonana/features/controllers/fiat_wallet/transaction_controller.dart';
 import 'package:gonana/features/controllers/market/market_controllers.dart';
 import 'package:gonana/features/presentation/page/market/hot_deals_item.dart';
 import 'package:gonana/features/presentation/page/messages/message.dart';
@@ -28,6 +29,8 @@ class MarketPage extends StatefulWidget {
 class _MarketPageState extends State<MarketPage> {
   final TextEditingController _searchController = TextEditingController();
   PostController postController = Get.put(PostController());
+  TransactionController transactionController =
+      Get.put(TransactionController());
   final userController = Get.find<UserController>();
 
   @override
@@ -35,6 +38,7 @@ class _MarketPageState extends State<MarketPage> {
     super.initState();
     setStage();
     getBVNStatus();
+    transactionController.fetchTransactions();
   }
 
   setStage() async {

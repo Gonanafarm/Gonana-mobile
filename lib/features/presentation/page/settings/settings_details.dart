@@ -30,6 +30,9 @@ class _MyDetailsState extends State<MyDetails> {
   }
 
   String email = "";
+  String firstName = "";
+  String lastName = "";
+  String phoneNumber = "";
   @override
   Widget build(BuildContext context) {
     if (userController.userModel.value != null &&
@@ -37,6 +40,9 @@ class _MyDetailsState extends State<MyDetails> {
         userController.userModel.value.email != null &&
         userController.userModel.value.email!.isNotEmpty) {
       email = userController.userModel.value.email ?? '';
+      firstName = userController.userModel.value.firstName ?? '';
+      lastName = userController.userModel.value.lastName ?? '';
+      phoneNumber = userController.userModel.value.phone ?? '';
     }
     return Center(
       child: Padding(
@@ -87,6 +93,84 @@ class _MyDetailsState extends State<MyDetails> {
                     Flexible(
                       flex: 1,
                       child: Text(email,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xff292D32))),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(height: 20),
+              SizedBox(
+                // width: 174,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const Flexible(
+                      flex: 1,
+                      child: Text('LastName',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xff292D32))),
+                    ),
+                    Flexible(
+                      flex: 1,
+                      child: Text(lastName,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xff292D32))),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(height: 20),
+              SizedBox(
+                // width: 174,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const Flexible(
+                      flex: 1,
+                      child: Text('First name',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xff292D32))),
+                    ),
+                    Flexible(
+                      flex: 1,
+                      child: Text(firstName,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xff292D32))),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(height: 20),
+              SizedBox(
+                // width: 174,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const Flexible(
+                      flex: 1,
+                      child: Text('Phone number',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xff292D32))),
+                    ),
+                    Flexible(
+                      flex: 1,
+                      child: Text(phoneNumber,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                               fontSize: 12,
