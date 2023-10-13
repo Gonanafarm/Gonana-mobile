@@ -18,6 +18,7 @@ import '../../widgets/widgets.dart';
 import '../bank_account/bank_account.dart';
 import '../home.dart';
 import '../verification/verification.dart';
+import '../store/store_add_poduct.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -29,6 +30,7 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   PostController postController = Get.put(PostController());
   UserController userController = Get.put(UserController());
+  bool? BVNisSubmited = false;
 
   @override
   Widget build(BuildContext context) {
@@ -302,6 +304,54 @@ class _SettingsState extends State<Settings> {
                     ),
                   ),
                 ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+              child: Container(
+                height: 46,
+                width: 243,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    gradient: const LinearGradient(
+                        colors: [Color(0xff29844B), Color(0xff072C27)])),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      shadowColor: Colors.transparent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                      )),
+                  child: const Text('Add product '),
+                  onPressed: () async {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    BVNisSubmited = prefs.getBool('bvnSubmission');
+                    if (userController
+                            .userModel.value.virtualAccountNumber!.isNotEmpty ||
+                        userController.userModel.value.virtualAccountNumber !=
+                            null) {
+                      Get.to(() => AddProduct());
+                    } else if ((userController.userModel.value
+                                .virtualAccountNumber!.isNotEmpty ||
+                            userController
+                                    .userModel.value.virtualAccountNumber ==
+                                null) &&
+                        BVNisSubmited!) {
+                      ErrorSnackbar.show(
+                          context, "Your BVN is awaiting verification");
+                    } else if ((userController.userModel.value
+                                .virtualAccountNumber!.isNotEmpty ||
+                            userController
+                                    .userModel.value.virtualAccountNumber ==
+                                null) &&
+                        BVNisSubmited!) {
+                      ErrorSnackbar.show(context,
+                          "Please kindly go to verifications and submit your BVN for verification to create your virtual account ");
+                    }
+                  },
+                ),
               ),
             ),
             Padding(
