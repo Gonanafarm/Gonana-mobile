@@ -24,10 +24,9 @@ class SavingsSplashScreen extends StatelessWidget {
         // alignment: AlignmentDirectional.bottomCenter,
         children: [
           SvgPicture.asset(
-            // height: MediaQuery.of(context).size.height * 0.6,
-            width: MediaQuery.of(context).size.width,
-            "assets/svgs/splash3.svg"
-          ),
+              // height: MediaQuery.of(context).size.height * 0.6,
+              width: MediaQuery.of(context).size.width,
+              "assets/svgs/splash3.svg"),
           Padding(
             padding: EdgeInsets.only(
               left: 20.0,

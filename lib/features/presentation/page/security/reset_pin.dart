@@ -19,7 +19,6 @@ class ResetPin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       // backgroundColor: const Color(0xff1E1E1E),
       appBar: AppBar(
@@ -55,10 +54,7 @@ class ResetPin extends StatelessWidget {
             ),
           ),
           EnterText(
-            controller: _newPin,
-            label: 'New Pin', 
-            hint: 'Enter New Pin'
-          ),
+              controller: _newPin, label: 'New Pin', hint: 'Enter New Pin'),
           EnterText(
             controller: _confirmPin,
             label: 'Confirm New Pin',
@@ -66,11 +62,10 @@ class ResetPin extends StatelessWidget {
           ),
           const Spacer(),
           LongGradientButton(
-            title: 'Confirm',
-            onPressed: () {
-              Get.to(() => const ConfirmPin());
-            }
-          )
+              title: 'Confirm',
+              onPressed: () {
+                Get.to(() => const ConfirmPin());
+              })
         ]),
       ),
     );

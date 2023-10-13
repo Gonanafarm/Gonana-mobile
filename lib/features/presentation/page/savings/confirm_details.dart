@@ -175,13 +175,12 @@ class _ConfirmDetailsState extends State<ConfirmDetails> {
                         ),
                       ),
                       LongGradientButton(
-                        title: 'Save now',
-                        onPressed: () {
-                          savingsController.addTokens();
-                          savingsController.addSavingsAmount();
-                          Get.to(() => SavingsPasscode());
-                        }
-                      )
+                          title: 'Save now',
+                          onPressed: () {
+                            savingsController.addTokens();
+                            savingsController.addSavingsAmount();
+                            Get.to(() => SavingsPasscode());
+                          })
                     ],
                   ),
                 ),

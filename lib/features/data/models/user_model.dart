@@ -57,7 +57,7 @@ class UserModel {
         emailActivated: json["email_activated"],
         virtualAccountNumber: json["virtual_account_number"],
         virtualAccountBankName: json["virtual_account_bank_name"],
-    virtual_account_name: json["virtual_account_name"],
+        virtual_account_name: json["virtual_account_name"],
         address: json["address"] == null
             ? []
             : List<dynamic>.from(json["address"]!.map((x) => x)),

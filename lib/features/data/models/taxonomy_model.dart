@@ -8,7 +8,6 @@ import 'package:json_annotation/json_annotation.dart';
 // String taxonomyModelToJson(List<TaxonomyModel> data) =>
 //     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-
 @JsonSerializable()
 class TaxonomyModel {
   String? id;

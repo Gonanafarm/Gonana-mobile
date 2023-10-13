@@ -73,47 +73,44 @@ class _FiatWalletHomeState extends State<FiatWalletHome> {
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 24,
-                                fontWeight: FontWeight.w600)),
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: Center(
-                              child: SizedBox(
-                                  width: 180,
-                                  child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        InkWell(
-                                          onTap: () {
-                                            Get.to(
-                                                () => const FiatWithdrawal());
-                                          },
-                                          child: SizedBox(
-                                            height: 50,
-                                            child: Column(
+                                fontWeight: FontWeight.w600));
+                      }),
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: Center(
+                            child: SizedBox(
+                                width: 180,
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          Get.to(() => const FiatWithdrawal());
+                                        },
+                                        child: SizedBox(
+                                          height: 50,
+                                          child: Column(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceEvenly,
+                                                  MainAxisAlignment.spaceEvenly,
                                               children: [
                                                 SvgPicture.asset(
                                                   'assets/svgs/withdrawal.svg',
-                                                  colorFilter: const ColorFilter.mode(
-                                                    Colors.white,
-                                                    BlendMode.srcIn
-                                                  ),
+                                                  colorFilter:
+                                                      const ColorFilter.mode(
+                                                          Colors.white,
+                                                          BlendMode.srcIn),
                                                 ),
                                                 const Text(
                                                   'Withdraw',
                                                   style: TextStyle(
-                                                    color: primaryColor,
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w400
-                                                  ),
+                                                      color: primaryColor,
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w400),
                                                 )
-                                              ]
-                                            ),
-                                          ),
+                                              ]),
                                         ),
                                       ),
                                       InkWell(
@@ -455,43 +452,54 @@ class _DebitWidgetState extends State<DebitWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        child: Container(
-            height: 56,
-            width: 342,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SvgPicture.asset('assets/svgs/debit_icon.svg'),
-                  const Column(children: [
-                    Text('Sent to Jane Doe',
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black)),
-                    Text('07:06 PM THU, Sep 14 2023',
-                        style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0xff5F5E5E)))
-                  ]),
-                  const Column(children: [
-                    Text('Debit',
-                        style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: redColor)),
-                    Text('₦ 11,000',
-                        style: TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black)),
-                  ])
-                ])));
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      child: Container(
+        height: 56,
+        width: 342,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            SvgPicture.asset('assets/svgs/debit_icon.svg'),
+            const Column(children: [
+              Text('Sent to Jane Doe',
+                style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black
+                  )
+                ),
+              Text('07:06 PM THU, Sep 14 2023',
+                style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xff5F5E5E)
+                  )
+                )
+            ]),
+            const Column(children: [
+              Text('Debit',
+                style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: redColor
+                  )
+                ),
+              Text('₦ 11,000',
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black
+                )
+              ),
+            ])
+          ]
+        )
+      )
+    );
   }
 }
 
@@ -508,41 +516,41 @@ class _CreditWidgetState extends State<CreditWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        child: Container(
-            height: 56,
-            width: 342,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SvgPicture.asset('assets/svgs/credit_icon.svg'),
-                  const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('07:06 PM THU, Sep 14 2023',
-                            style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xff5F5E5E)))
-                      ]),
-                  const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Credit',
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                color: greenColor)),
-                        Text('₦ 11,000',
-                            style: TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black)),
-                      ])
-                ])));
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      child: Container(
+          height: 56,
+          width: 342,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SvgPicture.asset('assets/svgs/credit_icon.svg'),
+                const Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('07:06 PM THU, Sep 14 2023',
+                          style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xff5F5E5E)))
+                    ]),
+                const Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Credit',
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: greenColor)),
+                      Text('₦ 11,000',
+                          style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black)),
+                    ])
+              ])));
   }
 }

@@ -27,15 +27,13 @@ class _DeleteAccountState extends State<DeleteAccount> {
     return Scaffold(
       backgroundColor: Color(0xffF5F5F5),
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: InkWell(
-          onTap: () {
-            Get.back();
-          },
-          child: const Icon(Icons.arrow_back, color: Colors.black)
-        )
-      ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: InkWell(
+              onTap: () {
+                Get.back();
+              },
+              child: const Icon(Icons.arrow_back, color: Colors.black))),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: SafeArea(
@@ -48,8 +46,8 @@ class _DeleteAccountState extends State<DeleteAccount> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text('Delete account',
-                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600)
-                        ),
+                            style: TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.w600)),
                         SizedBox(height: 10),
                         ListTile(
                           contentPadding:
@@ -113,7 +111,8 @@ class _DeleteAccountState extends State<DeleteAccount> {
                           ),
                         ),
                         ListTile(
-                          contentPadding: const EdgeInsets.symmetric(horizontal: -4.0),
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: -4.0),
                           title: const Text('Other issues'),
                           leading: Radio<DeleteOptions>(
                             activeColor: Colors.black,

@@ -127,21 +127,20 @@ class ProductController extends GetxController {
   }
 
   Future<bool> createProduct(
-    String? title,
-    String? body,
-    //  List<File> images,
-    File? image,
-    File? image2,
-    File? image3,
-    String? categories,
-    int? amount,
-    int? quantity,
-    double? weight,
-    double? geoLong,
-    double? geoLat,
-    String? logisticMerchant,
-    String? address
-  ) async {
+      String? title,
+      String? body,
+      //  List<File> images,
+      File? image,
+      File? image2,
+      File? image3,
+      String? categories,
+      int? amount,
+      int? quantity,
+      double? weight,
+      double? geoLong,
+      double? geoLat,
+      String? logisticMerchant,
+      String? address) async {
     MultipartFile imagePartFile;
     MultipartFile imagePartFile2;
     MultipartFile imagePartFile3;

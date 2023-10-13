@@ -225,8 +225,7 @@ SavingsTokenModal(BuildContext context) {
                     ),
                   ),
                   const Text(
-                    'Select the token you want to use for your savings.'
-                  ),
+                      'Select the token you want to use for your savings.'),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.07),
                   TokensContainers(
                     leading: 'gona_logo',
