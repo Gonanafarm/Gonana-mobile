@@ -56,12 +56,10 @@ class _IntPassportState extends State<IntPassport> {
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 20),
                         child: SizedBox(
-                          child: EnterText(
-                            controller: _passportNumber,
-                            label: 'Passport Number',
-                            hint: 'Enter Number here'
-                          )
-                        ),
+                            child: EnterText(
+                                controller: _passportNumber,
+                                label: 'Passport Number',
+                                hint: 'Enter Number here')),
                       ),
                       Padding(
                           padding: const EdgeInsets.symmetric(vertical: 20),

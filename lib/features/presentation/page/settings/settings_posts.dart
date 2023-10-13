@@ -24,7 +24,7 @@ class _PostsState extends State<Posts> {
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 20.0),
-            child: PostsContainer(shareFunction: (){}),
+            child: PostsContainer(shareFunction: () {}),
           ),
           // PostsContainer(),
           // SizedBox(height: 200),

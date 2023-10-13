@@ -58,7 +58,7 @@ class _VerificationVotersCardState extends State<VerificationVotersCard> {
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         child: SizedBox(
                             child: EnterText(
-                              controller: _vin,
+                                controller: _vin,
                                 label: 'VIN Number',
                                 hint: 'Enter Number here')),
                       ),

@@ -361,9 +361,7 @@ class _AddProductState extends State<AddProduct> {
                         title: 'Proceed',
                         isLoading: false,
                         onPressed: () {
-                          Get.to(
-                            () => AddProduct2()
-                          );
+                          Get.to(() => AddProduct2());
                         }),
                   ),
                 )

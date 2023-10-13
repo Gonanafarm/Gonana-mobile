@@ -34,7 +34,7 @@ class VerificationNin extends StatelessWidget {
                       width: double.infinity,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children:  [
+                        children: [
                           Text(
                             'NIN',
                             style: TextStyle(
@@ -51,7 +51,7 @@ class VerificationNin extends StatelessWidget {
                             padding: EdgeInsets.symmetric(vertical: 20),
                             child: SizedBox(
                                 child: EnterText(
-                                  controller: _nin,
+                                    controller: _nin,
                                     label: 'NIN Number',
                                     hint: 'Enter you NIN Number here')),
                           )

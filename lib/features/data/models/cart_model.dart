@@ -71,5 +71,4 @@ class Product {
         "From": from,
         "image": image == null ? [] : List<dynamic>.from(image!.map((x) => x)),
       };
-
 }

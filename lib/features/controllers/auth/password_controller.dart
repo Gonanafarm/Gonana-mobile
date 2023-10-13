@@ -4,82 +4,67 @@ import 'package:gonana/features/utilities/network.dart';
 import 'package:get/get.dart';
 import 'package:gonana/features/utilities/api_routes.dart';
 
-class ForgotPassWordController extends GetxController{
-  Future<bool> forgotPassword(
-    String email
-  )async{
-    try{
+class ForgotPassWordController extends GetxController {
+  Future<bool> forgotPassword(String email) async {
+    try {
       var data = {
         'email': email,
       };
       var res = await NetworkApi().postData(data, ApiRoute.forgottenPassword);
       final result = jsonDecode(res.body);
       log(result.toString());
-      if(res.statusCode == 200){
+      if (res.statusCode == 200) {
         log("Success ${res.statusCode}");
         return true;
-      }else{
+      } else {
         log("Failed ${res.statusCode}");
         return false;
       }
-    }catch(e, s){
+    } catch (e, s) {
       log("forgotpassword Error=> $e");
       log("forgotpassword Stack=> $s");
       return false;
     }
   }
 
-  Future<bool> resetPassword(
-    String email,
-    String password
-  )
-  async{
-    try{
-      var data = {
-        'email': email,
-        'password': password
-      };
+  Future<bool> resetPassword(String email, String password) async {
+    try {
+      var data = {'email': email, 'password': password};
       var res = await NetworkApi().postData(data, ApiRoute.resetPassword);
       final result = jsonDecode(res.body);
-      if(res.statusCode== 200){
+      if (res.statusCode == 200) {
         log('$result');
         log("Success ${res.statusCode}");
         return true;
-      }else{
+      } else {
         log("Failed ${res.statusCode}");
         return false;
       }
-    }catch(e,s){
+    } catch (e, s) {
       log("resetPassword Error=> $e");
       log("resetpasswordStak: $s");
       return false;
     }
   }
 
-  Future<bool> verifyOtp(
-    String otp
-  )async{
-    try{
-      var data = {
-        'otp': otp
-      };
+  Future<bool> verifyOtp(String otp) async {
+    try {
+      var data = {'otp': otp};
       var res = await NetworkApi().postData(data, ApiRoute.verifyPasswordotp);
       final result = jsonDecode(res.body);
-      if(res.statusCode == 200){
+      if (res.statusCode == 200) {
         log("Success ${res.body}");
         log("$result");
         return true;
-      }else{
+      } else {
         log("Failed ${res.body}");
         //log(result);
         return false;
       }
-    }catch(e,s){
+    } catch (e, s) {
       log('error: $e');
       log('stack: $s');
       return false;
     }
   }
-
-  
 }

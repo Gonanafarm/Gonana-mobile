@@ -14,7 +14,7 @@ class _ProgressIndicatorBarState extends State<ProgressIndicatorBar> {
     return Container(
       height: 200,
       width: 342,
-      child:  const Column(
+      child: const Column(
         children: [
           Text('Uploading Your Snapshot To Verify'),
           StepProgressIndicator(
@@ -23,13 +23,10 @@ class _ProgressIndicatorBarState extends State<ProgressIndicatorBar> {
             size: 8,
             padding: 0,
             roundedEdges: Radius.circular(10),
-            selectedGradientColor:LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color(0xff29844B),
-              Color(0xff072C27)
-            ]),
+            selectedGradientColor: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Color(0xff29844B), Color(0xff072C27)]),
             unselectedColor: Colors.grey,
           )
         ],

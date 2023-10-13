@@ -33,6 +33,7 @@ class _SendToUsersState extends State<SendToUsers> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xffF1F1F1),
       appBar: AppBar(
           backgroundColor: Colors.transparent,

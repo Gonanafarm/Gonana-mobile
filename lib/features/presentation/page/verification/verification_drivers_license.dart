@@ -60,7 +60,7 @@ class _VerificationDriversLicenseState
                         padding: EdgeInsets.symmetric(vertical: 20),
                         child: SizedBox(
                             child: EnterText(
-                              controller: _cardNumber,
+                                controller: _cardNumber,
                                 label: 'Card Number',
                                 hint: 'Enter Number here')),
                       ),
