@@ -19,6 +19,8 @@ import 'buy_now.dart';
 import 'cart_page.dart';
 import 'hot_deals.dart';
 
+GetDetailsController detailsController = Get.put(GetDetailsController());
+
 class MarketPage extends StatefulWidget {
   const MarketPage({Key? key}) : super(key: key);
 
@@ -38,6 +40,7 @@ class _MarketPageState extends State<MarketPage> {
     super.initState();
     setStage();
     getBVNStatus();
+    detailsController.getUserDetails();
     transactionController.fetchTransactions();
   }
 
