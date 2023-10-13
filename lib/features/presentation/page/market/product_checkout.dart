@@ -55,144 +55,9 @@ class _ProductCheckoutState extends State<ProductCheckout> {
                                 fontSize: 24, fontWeight: FontWeight.w600))),
                     const SizedBox(
                         width: double.infinity,
-                        child: Text(
-                            "Use the details below to pay for your goods ",
+                        child: Text("This is the total cost you're to pay",
                             style: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.w400))),
-                    sizeVer(50),
-                    Container(
-                      // height: 235,
-                      decoration: BoxDecoration(
-                          color: const Color(0xffC8E5D3),
-                          borderRadius: BorderRadius.circular(7)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(30.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Accout Details",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ],
-                            ),
-                            const Text("Bank Name",
-                                style: TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(0xff444444))),
-                            Text(
-                                cartController
-                                        .succesfullTransactionModel!.bankName ??
-                                    "",
-                                style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xff444444))),
-                            sizeVer(10),
-                            const Text("Account Name",
-                                style: TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(0xff444444))),
-                            Text(
-                                cartController.succesfullTransactionModel!
-                                        .accountName ??
-                                    "",
-                                style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xff444444))),
-                            sizeVer(10),
-                            const Text("Account Number",
-                                style: TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(0xff444444))),
-                            Text(
-                                cartController.succesfullTransactionModel!
-                                        .accountNumber ??
-                                    "",
-                                style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xff444444))),
-                            sizeVer(10),
-                            const Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "NOTE:  ",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                Flexible(
-                                  child: Text(
-                                    textAlign: TextAlign.center,
-                                    "Once you've made payment and your order has been confirmed you would get and email",
-                                    style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            sizeVer(10),
-                            Center(
-                              child: Container(
-                                height: 40,
-                                width: 114,
-                                decoration: BoxDecoration(
-                                    gradient: const LinearGradient(colors: [
-                                      Color(0xff29844B),
-                                      Color(0xff072C27)
-                                    ]),
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: ElevatedButton(
-                                    onPressed: () {
-                                      Clipboard.setData(ClipboardData(
-                                          text: cartController
-                                                  .succesfullTransactionModel!
-                                                  .accountName ??
-                                              ""));
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                              "Account number copied to clipboard"),
-                                        ),
-                                      );
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.transparent,
-                                      shadowColor: Colors.transparent,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(5.0),
-                                      ),
-                                      minimumSize: const Size(185, 60),
-                                    ),
-                                    child: const Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Flexible(child: Text('Copy')),
-                                        const SizedBox(width: 10.0),
-                                        const Icon(Icons.content_copy_outlined),
-                                      ],
-                                    )),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
                     sizeVer(20),
                     Container(
                         // height: 136,
@@ -257,6 +122,78 @@ class _ProductCheckoutState extends State<ProductCheckout> {
                                     ])
                               ]),
                         )),
+                    sizeVer(20),
+                    Container(
+                      // height: 235,
+                      decoration: BoxDecoration(
+                          color: const Color(0xffC8E5D3),
+                          borderRadius: BorderRadius.circular(7)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(30.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "NOTE:  ",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    textAlign: TextAlign.center,
+                                    "Once payment has been confirmed you would get and email",
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            sizeVer(20),
+                            Center(
+                              child: Container(
+                                // height: 40,
+                                // width: 114,
+                                decoration: BoxDecoration(
+                                    gradient: const LinearGradient(colors: [
+                                      Color(0xff29844B),
+                                      Color(0xff072C27)
+                                    ]),
+                                    borderRadius: BorderRadius.circular(5)),
+                                child: ElevatedButton(
+                                    onPressed: () {},
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.transparent,
+                                      shadowColor: Colors.transparent,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                      ),
+                                      minimumSize: const Size(185, 60),
+                                    ),
+                                    child: const Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Flexible(
+                                            child: Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text('Pay with wallet'),
+                                        )),
+                                        const SizedBox(width: 10.0),
+                                        // const Icon(Icons.content_copy_outlined),
+                                      ],
+                                    )),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

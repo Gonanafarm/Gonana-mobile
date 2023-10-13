@@ -17,7 +17,7 @@ class _ImageSliderState extends State<ImageSlider> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 200,
+      height: 280,
       child: Stack(
         children: [
           PageView.builder(

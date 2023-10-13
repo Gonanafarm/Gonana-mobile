@@ -11,6 +11,45 @@ const yellowColor = Color(0xffFFD700);
 const darkColor = Color.fromRGBO(0, 0, 0, 1);
 const greyColor = Color.fromRGBO(41, 45, 50, 1);
 const navColor = Color.fromRGBO(241, 241, 241, 1);
+List<String> nigerianStates = [
+  "Abia",
+  "Adamawa",
+  "Akwa Ibom",
+  "Anambra",
+  "Bauchi",
+  "Bayelsa",
+  "Benue",
+  "Borno",
+  "Cross River",
+  "Delta",
+  "Ebonyi",
+  "Edo",
+  "Ekiti",
+  "Enugu",
+  "Gombe",
+  "Imo",
+  "Jigawa",
+  "Kaduna",
+  "Kano",
+  "Katsina",
+  "Kebbi",
+  "Kogi",
+  "Kwara",
+  "Lagos",
+  "Nasarawa",
+  "Niger",
+  "Ogun",
+  "Ondo",
+  "Osun",
+  "Oyo",
+  "Plateau",
+  "Rivers",
+  "Sokoto",
+  "Taraba",
+  "Yobe",
+  "Zamfara",
+  "Federal Capital Territory"
+];
 
 Widget sizeVer(double height) {
   return SizedBox(

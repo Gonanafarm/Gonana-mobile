@@ -18,7 +18,9 @@ final marketController = Get.put(ProductController());
 
 class StoreViewProducts extends StatefulWidget {
   final Datum userPostModel;
-  const StoreViewProducts({super.key, required this.userPostModel});
+  final int index;
+  const StoreViewProducts(
+      {super.key, required this.userPostModel, required this.index});
 
   @override
   State<StoreViewProducts> createState() => _StoreViewProductsState();
@@ -172,7 +174,7 @@ class _StoreViewProductsState extends State<StoreViewProducts> {
                     //Price and location
                     children: [
                       SizedBox(
-                        height: 80,
+                        // height: 80,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -197,7 +199,7 @@ class _StoreViewProductsState extends State<StoreViewProducts> {
                                   ])),
                             ),
                             SizedBox(
-                              height: 82,
+                              // height: 82,
                               width: 170,
                               child: Column(
                                 mainAxisAlignment:
@@ -225,73 +227,68 @@ class _StoreViewProductsState extends State<StoreViewProducts> {
                                   //     ),
                                   //   ),
                                   // ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        'Location: ',
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                      FutureBuilder<String>(
-                                        future: marketController
-                                            .convertCoordinatesToAddress([
-                                          double.parse(widget.userPostModel!
-                                              .location!.coordinates![0]
-                                              .toString()),
-                                          double.parse(widget.userPostModel!
-                                              .location!.coordinates![1]
-                                              .toString())
-                                        ]),
-                                        builder: (BuildContext context,
-                                            AsyncSnapshot<String> snapshot) {
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.waiting) {
-                                            return CircularProgressIndicator();
-                                          } else if (snapshot.hasError) {
-                                            return Text(
-                                                "Error: ${snapshot.error}",
-                                                style: TextStyle(
-                                                    color: Color(0xff000000),
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.w700));
-                                          } else {
-                                            return Text(snapshot.data ?? "");
-                                          }
-                                        },
-                                      )
-                                      // RichText(
-                                      //     text: TextSpan(
-                                      //         text: 'Location:',
-                                      //         style: TextStyle(
-                                      //             color: Color(0xffD9D9D9),
-                                      //             fontSize: 10,
-                                      //             fontWeight: FontWeight.w600),
-                                      //         children: <TextSpan>[
-                                      //       TextSpan(
-                                      //           text: widget
-                                      //                   .userPostModel!
-                                      //                   .location!
-                                      //                   .coordinates!
-                                      //                   .isEmpty
-                                      //               ? ""
-                                      //               : '${widget.userPostModel!.location!.coordinates}',
-                                      //           style: TextStyle(
-                                      //               color: Color(0xff000000),
-                                      //               fontSize: 14,
-                                      //               fontWeight:
-                                      //                   FontWeight.w700))
-                                      //     ])),
-                                    ],
-                                  )
                                 ],
                               ),
                             )
                           ],
                         ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            'Location: ',
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          Flexible(
+                            child: Container(
+                              child: FutureBuilder<String?>(
+                                future: marketController
+                                    .productAddress(widget.index),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<String?> snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return CircularProgressIndicator();
+                                  } else if (snapshot.hasError) {
+                                    return Text("Error: ${snapshot.error}",
+                                        style: TextStyle(
+                                            color: Color(0xff000000),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w700));
+                                  } else {
+                                    return Text(snapshot.data ?? "");
+                                  }
+                                },
+                              ),
+                            ),
+                          )
+                          // RichText(
+                          //     text: TextSpan(
+                          //         text: 'Location:',
+                          //         style: TextStyle(
+                          //             color: Color(0xffD9D9D9),
+                          //             fontSize: 10,
+                          //             fontWeight: FontWeight.w600),
+                          //         children: <TextSpan>[
+                          //       TextSpan(
+                          //           text: widget
+                          //                   .userPostModel!
+                          //                   .location!
+                          //                   .coordinates!
+                          //                   .isEmpty
+                          //               ? ""
+                          //               : '${widget.userPostModel!.location!.coordinates}',
+                          //           style: TextStyle(
+                          //               color: Color(0xff000000),
+                          //               fontSize: 14,
+                          //               fontWeight:
+                          //                   FontWeight.w700))
+                          //     ])),
+                        ],
                       ),
                       const Divider(),
                       SizedBox(
@@ -358,54 +355,54 @@ class _StoreViewProductsState extends State<StoreViewProducts> {
                         ),
                       ),
                       const Divider(),
-                      SizedBox(
-                        // height: 70,
-                        child: Column(
-                          //mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              width: double.infinity,
-                              child: Text(
-                                'Delivery',
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w600),
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Flexible(
-                                  flex: 1,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: BlackBorderButton(
-                                      title: widget.userPostModel!
-                                                  .deliveryCompany !=
-                                              null
-                                          ? " ${widget.userPostModel!.deliveryCompany}"
-                                          : "",
-                                      onPressed: () {},
-                                    ),
-                                  ),
-                                ),
-                                Flexible(
-                                  flex: 1,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: BlackBorderButton(
-                                      title: 'My own logistics',
-                                      onPressed: () {},
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Divider(),
+                      // SizedBox(
+                      //   // height: 70,
+                      //   child: Column(
+                      //     //mainAxisAlignment: MainAxisAlignment.start,
+                      //     children: [
+                      //       const SizedBox(
+                      //         width: double.infinity,
+                      //         child: Text(
+                      //           'Delivery',
+                      //           style: TextStyle(
+                      //               fontSize: 16, fontWeight: FontWeight.w600),
+                      //           textAlign: TextAlign.left,
+                      //         ),
+                      //       ),
+                      //       Row(
+                      //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      //         crossAxisAlignment: CrossAxisAlignment.start,
+                      //         children: [
+                      //           Flexible(
+                      //             flex: 1,
+                      //             child: Padding(
+                      //               padding: const EdgeInsets.all(8.0),
+                      //               child: BlackBorderButton(
+                      //                 title: widget.userPostModel!
+                      //                             .deliveryCompany !=
+                      //                         null
+                      //                     ? " ${widget.userPostModel!.deliveryCompany}"
+                      //                     : "",
+                      //                 onPressed: () {},
+                      //               ),
+                      //             ),
+                      //           ),
+                      //           Flexible(
+                      //             flex: 1,
+                      //             child: Padding(
+                      //               padding: const EdgeInsets.all(8.0),
+                      //               child: BlackBorderButton(
+                      //                 title: 'My own logistics',
+                      //                 onPressed: () {},
+                      //               ),
+                      //             ),
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      // const Divider(),
                       // SizedBox(
                       //   // height: 75,
                       //   child: Column(

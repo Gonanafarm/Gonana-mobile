@@ -63,12 +63,13 @@ class Datum {
 
 class Product {
   String? id;
-  String? deliveryCompany;
+  List<Address>? address;
   Location? location;
   List<dynamic>? categories;
   int? weight;
   int? quantity;
   int? amount;
+  String? status;
   List<dynamic>? tags;
   String? body;
   List<String>? images;
@@ -82,12 +83,13 @@ class Product {
 
   Product({
     this.id,
-    this.deliveryCompany,
+    this.address,
     this.location,
     this.categories,
     this.weight,
     this.quantity,
     this.amount,
+    this.status,
     this.tags,
     this.body,
     this.images,
@@ -102,7 +104,10 @@ class Product {
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["_id"],
-        deliveryCompany: json["delivery_company"],
+        address: json["address"] == null
+            ? []
+            : List<Address>.from(
+                json["address"]!.map((x) => Address.fromJson(x))),
         location: json["location"] == null
             ? null
             : Location.fromJson(json["location"]),
@@ -112,6 +117,7 @@ class Product {
         weight: json["weight"],
         quantity: json["quantity"],
         amount: json["amount"],
+        status: json["status"],
         tags: json["tags"] == null
             ? []
             : List<dynamic>.from(json["tags"]!.map((x) => x)),
@@ -130,7 +136,9 @@ class Product {
 
   Map<String, dynamic> toJson() => {
         "_id": id,
-        "delivery_company": deliveryCompany,
+        "address": address == null
+            ? []
+            : List<dynamic>.from(address!.map((x) => x.toJson())),
         "location": location?.toJson(),
         "categories": categories == null
             ? []
@@ -138,6 +146,7 @@ class Product {
         "weight": weight,
         "quantity": quantity,
         "amount": amount,
+        "status": status,
         "tags": tags == null ? [] : List<dynamic>.from(tags!.map((x) => x)),
         "body": body,
         "images":
@@ -152,9 +161,29 @@ class Product {
       };
 }
 
+class Address {
+  String? address;
+  int? code;
+
+  Address({
+    this.address,
+    this.code,
+  });
+
+  factory Address.fromJson(Map<String, dynamic> json) => Address(
+        address: json["address"],
+        code: json["code"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "address": address,
+        "code": code,
+      };
+}
+
 class Location {
   String? type;
-  List<int>? coordinates;
+  List<String>? coordinates;
 
   Location({
     this.type,
@@ -163,12 +192,9 @@ class Location {
 
   factory Location.fromJson(Map<String, dynamic> json) => Location(
         type: json["type"],
-        coordinates: (json["coordinates"] as List<dynamic>?)
-            ?.map((dynamic value) => value is int
-                ? value
-                : int.tryParse(value.toString()) ??
-                    0) // Handle non-integer values by providing a default value (0 in this case)
-            .toList(),
+        coordinates: json["coordinates"] == null
+            ? []
+            : List<String>.from(json["coordinates"]!.map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {

@@ -14,7 +14,10 @@ import 'cart_page.dart';
 
 class HotDealsItem extends StatefulWidget {
   final Datum productModel;
-  const HotDealsItem({Key? key, required this.productModel}) : super(key: key);
+  final int index;
+  const HotDealsItem(
+      {Key? key, required this.productModel, required this.index})
+      : super(key: key);
 
   @override
   State<HotDealsItem> createState() => _HotDealsItemState();
@@ -163,39 +166,36 @@ class _HotDealsItemState extends State<HotDealsItem> {
                             color: const Color.fromRGBO(0, 0, 0, 1),
                             fontSize: 14,
                             fontWeight: FontWeight.w400)),
-                    FutureBuilder<String>(
-                      future: marketController.convertCoordinatesToAddress([
-                        double.parse(widget
-                            .productModel!.location!.coordinates![0]
-                            .toString()),
-                        double.parse(widget
-                            .productModel!.location!.coordinates![1]
-                            .toString())
-                      ]),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<String> snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return CircularProgressIndicator();
-                        } else if (snapshot.hasError) {
-                          return Text("Error: ${snapshot.error}",
-                              style: TextStyle(
-                                  color: Color(0xff000000),
+                    Flexible(
+                      child: Container(
+                        child: FutureBuilder<String?>(
+                          future: marketController.productAddress(widget.index),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<String?> snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Text("Error: ${snapshot.error}",
+                                  style: TextStyle(
+                                      color: Color(0xff000000),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700));
+                            } else {
+                              return Text(
+                                snapshot.data ?? "",
+                                style: TextStyle(
+                                  color: Colors.black,
                                   fontSize: 14,
-                                  fontWeight: FontWeight.w700));
-                        } else {
-                          return Text(
-                            snapshot.data ?? "",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontFamily: 'Proxima Nova',
-                              fontWeight: FontWeight.w400,
-                              height: 0.92,
-                            ),
-                          );
-                        }
-                      },
+                                  fontFamily: 'Proxima Nova',
+                                  fontWeight: FontWeight.w400,
+                                  height: 0.92,
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      ),
                     )
                   ],
                 ),
@@ -258,58 +258,58 @@ class _HotDealsItemState extends State<HotDealsItem> {
                   thickness: 1.0,
                   color: Colors.grey[300],
                 ),
-                sizeVer(10.0),
-                Text("Delivery",
-                    style: GoogleFonts.montserrat(
-                        fontSize: 16,
-                        color: darkColor,
-                        fontWeight: FontWeight.w600)),
-                sizeVer(10.0),
-                Row(
-                  children: [
-                    Container(
-                      width: 125,
-                      height: 45,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: darkColor, width: 1),
-                      ),
-                      child: Center(
-                        child: Text(
-                            widget.productModel!.deliveryCompany != null
-                                ? "${widget.productModel!.deliveryCompany}"
-                                : "",
-                            style: GoogleFonts.montserrat(
-                              fontSize: 10,
-                              color: darkColor,
-                            )),
-                      ),
-                    ),
-                    sizeHor(20.0),
-                    Flexible(
-                      child: Container(
-                        width: 125,
-                        height: 45,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(color: darkColor, width: 1),
-                        ),
-                        child: Center(
-                          child: Text("My own Logistics",
-                              style: GoogleFonts.montserrat(
-                                fontSize: 10,
-                                color: darkColor,
-                              )),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                sizeVer(10.0),
-                Divider(
-                  thickness: 1.0,
-                  color: Colors.grey[300],
-                ),
+                // sizeVer(10.0),
+                // Text("Delivery",
+                //     style: GoogleFonts.montserrat(
+                //         fontSize: 16,
+                //         color: darkColor,
+                //         fontWeight: FontWeight.w600)),
+                // sizeVer(10.0),
+                // Row(
+                //   children: [
+                //     Container(
+                //       width: 125,
+                //       height: 45,
+                //       decoration: BoxDecoration(
+                //         borderRadius: BorderRadius.circular(5),
+                //         border: Border.all(color: darkColor, width: 1),
+                //       ),
+                //       child: Center(
+                //         child: Text(
+                //             widget.productModel!.deliveryCompany != null
+                //                 ? "${widget.productModel!.deliveryCompany}"
+                //                 : "",
+                //             style: GoogleFonts.montserrat(
+                //               fontSize: 10,
+                //               color: darkColor,
+                //             )),
+                //       ),
+                //     ),
+                //     sizeHor(20.0),
+                //     Flexible(
+                //       child: Container(
+                //         width: 125,
+                //         height: 45,
+                //         decoration: BoxDecoration(
+                //           borderRadius: BorderRadius.circular(5),
+                //           border: Border.all(color: darkColor, width: 1),
+                //         ),
+                //         child: Center(
+                //           child: Text("My own Logistics",
+                //               style: GoogleFonts.montserrat(
+                //                 fontSize: 10,
+                //                 color: darkColor,
+                //               )),
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // sizeVer(10.0),
+                // Divider(
+                //   thickness: 1.0,
+                //   color: Colors.grey[300],
+                // ),
                 sizeHor(10.0),
                 // Text("Reviews(10)",
                 //     style: GoogleFonts.montserrat(
@@ -359,7 +359,10 @@ class _HotDealsItemState extends State<HotDealsItem> {
                   height: 200,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: 3,
+                    itemCount:
+                        marketController.discountMarketModel!.data!.length <= 3
+                            ? marketController.discountMarketModel!.data!.length
+                            : 3,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.only(right: 10.0),
@@ -370,6 +373,7 @@ class _HotDealsItemState extends State<HotDealsItem> {
                 ),
                 sizeVer(20.0),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
                       onTap: () async {
@@ -410,50 +414,50 @@ class _HotDealsItemState extends State<HotDealsItem> {
                         ),
                       ),
                     ),
-                    sizeHor(15.0),
-                    Flexible(
-                      child: GestureDetector(
-                        onTap: () {
-                          checkout(context);
-                        },
-                        child: Container(
-                          width: 172.5,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            gradient: const LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              stops: [0.04, 0.9994],
-                              colors: [
-                                Color(0xff072C27),
-                                Color(0xff29844B),
-                              ],
-                              transform: GradientRotation(89.94 * 3.14 / 180),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Buy now",
-                                style: GoogleFonts.montserrat(
-                                  fontSize: 14,
-                                  color: primaryColor,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              sizeHor(5.0),
-                              const Icon(
-                                Icons.arrow_forward,
-                                color: primaryColor,
-                                size: 35,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    )
+                    // sizeHor(15.0),
+                    // Flexible(
+                    //   child: GestureDetector(
+                    //     onTap: () {
+                    //       checkout(context);
+                    //     },
+                    //     child: Container(
+                    //       width: 172.5,
+                    //       height: 60,
+                    //       decoration: BoxDecoration(
+                    //         borderRadius: BorderRadius.circular(5),
+                    //         gradient: const LinearGradient(
+                    //           begin: Alignment.topCenter,
+                    //           end: Alignment.bottomCenter,
+                    //           stops: [0.04, 0.9994],
+                    //           colors: [
+                    //             Color(0xff072C27),
+                    //             Color(0xff29844B),
+                    //           ],
+                    //           transform: GradientRotation(89.94 * 3.14 / 180),
+                    //         ),
+                    //       ),
+                    //       child: Row(
+                    //         mainAxisAlignment: MainAxisAlignment.center,
+                    //         children: [
+                    //           Text(
+                    //             "Buy now",
+                    //             style: GoogleFonts.montserrat(
+                    //               fontSize: 14,
+                    //               color: primaryColor,
+                    //               fontWeight: FontWeight.w400,
+                    //             ),
+                    //           ),
+                    //           sizeHor(5.0),
+                    //           const Icon(
+                    //             Icons.arrow_forward,
+                    //             color: primaryColor,
+                    //             size: 35,
+                    //           )
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ),
+                    // )
                   ],
                 ),
                 sizeVer(20.0),

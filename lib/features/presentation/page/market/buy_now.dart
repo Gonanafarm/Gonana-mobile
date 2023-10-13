@@ -14,7 +14,9 @@ import 'cart_page.dart';
 
 class BuyNowPage extends StatefulWidget {
   final Datum productModel;
-  const BuyNowPage({super.key, required this.productModel});
+  final int index;
+  const BuyNowPage(
+      {super.key, required this.productModel, required this.index});
 
   @override
   State<BuyNowPage> createState() => _BuyNowPageState();
@@ -165,39 +167,37 @@ class _BuyNowPageState extends State<BuyNowPage> {
                             color: const Color.fromRGBO(0, 0, 0, 1),
                             fontSize: 14,
                             fontWeight: FontWeight.w400)),
-                    FutureBuilder<String>(
-                      future: marketController.convertCoordinatesToAddress([
-                        double.parse(widget
-                            .productModel!.product!.location!.coordinates![0]
-                            .toString()),
-                        double.parse(widget
-                            .productModel!.product!.location!.coordinates![1]
-                            .toString())
-                      ]),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<String> snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return CircularProgressIndicator();
-                        } else if (snapshot.hasError) {
-                          return Text("Error: ${snapshot.error}",
-                              style: TextStyle(
-                                  color: Color(0xff000000),
+                    Flexible(
+                      child: Container(
+                        child: FutureBuilder<String?>(
+                          future: marketController.productAddress(widget.index),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<String?> snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Text("Error: ${snapshot.error}",
+                                  style: TextStyle(
+                                      color: Color(0xff000000),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700));
+                            } else {
+                              return Text(
+                                "${snapshot.data} " ?? "",
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: Colors.black,
                                   fontSize: 14,
-                                  fontWeight: FontWeight.w700));
-                        } else {
-                          return Text(
-                            snapshot.data ?? "",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontFamily: 'Proxima Nova',
-                              fontWeight: FontWeight.w400,
-                              height: 0.92,
-                            ),
-                          );
-                        }
-                      },
+                                  fontFamily: 'Proxima Nova',
+                                  fontWeight: FontWeight.w400,
+                                  height: 0.92,
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      ),
                     )
                   ],
                 ),

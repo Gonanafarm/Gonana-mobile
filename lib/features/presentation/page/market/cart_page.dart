@@ -65,9 +65,9 @@ class _CartPageState extends State<CartPage> {
     super.dispose();
   }
 
+  CartController cartController = Get.put(CartController());
   @override
   Widget build(BuildContext context) {
-    CartController cartController = Get.put(CartController());
     return FutureBuilder<bool>(
         future: fetchData,
         builder: (context, snapshot) {
@@ -110,8 +110,13 @@ class _CartPageState extends State<CartPage> {
                                       children: [
                                         IconButton(
                                             icon: const Icon(Icons.arrow_back),
-                                            onPressed: () => Get.to(
-                                                () => HomePage(navIndex: 0))),
+                                            onPressed: () {
+                                              Get.to(
+                                                () => HomePage(navIndex: 0),
+                                              );
+                                              cartController.totalPrice.value =
+                                                  0;
+                                            }),
                                       ],
                                     ),
                                   ),
@@ -213,7 +218,7 @@ class _CartPageState extends State<CartPage> {
                                       }
                                       if (checkedItems.isNotEmpty &&
                                           (userController.userModel.value
-                                                  .virtualAccountNumber ==
+                                                  .virtualAccountNumber !=
                                               null) &&
                                           BVNisSubmited != null) {
                                         Get.to(() => const AddressCourier());

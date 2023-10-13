@@ -169,6 +169,10 @@ class _AddressCourierState extends State<AddressCourier> {
                               setState(() {
                                 isLoading = false;
                               });
+                            } else {
+                              setState(() {
+                                isLoading = false;
+                              });
                             }
                           } else {
                             ErrorSnackbar.show(context,
