@@ -25,6 +25,7 @@ import 'features/presentation/page/auth/facial_recognition.dart';
 import 'features/presentation/page/auth/facial_capture.dart';
 import 'features/presentation/page/auth/forgotpassword.dart';
 import 'features/presentation/page/auth/number_verification_screen.dart';
+import 'features/presentation/page/auth/splash.dart';
 import 'features/presentation/page/fiat_wallet/register_bank.dart';
 import 'features/presentation/page/auth/setpassword.dart';
 import 'features/presentation/page/auth/auth_splash1.dart';
@@ -109,6 +110,13 @@ class _MyAppState extends State<MyApp> {
       fetchData = detailsController.getUserDetails();
     });
     setStage();
+    Future.delayed(Duration(seconds: 3), () {
+      if (mounted) {
+        setState(() {
+          showLoading = false;
+        });
+      }
+    });
   }
 
   int? registrationStage;
@@ -123,47 +131,77 @@ class _MyAppState extends State<MyApp> {
     prefs = await SharedPreferences.getInstance();
   }
 
+  bool showLoading = true;
+
   var token;
   SharedPreferences? prefs;
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<bool>(
-      future: fetchData,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Container(
-            color: Colors.white,
-            child: Center(
-              child: Container(
-                  height: 75,
-                  width: 75,
-                  child: CircularProgressIndicator(
-                    color: Color.fromRGBO(41, 132, 75, 1),
-                  )),
-            ),
-          ); // Show a loading indicator while waiting
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        } else {
-          token = prefs!.getString('token');
-          print("token: $token");
-          return GetMaterialApp(
-            debugShowCheckedModeBanner: false,
-            home: token != null && registrationStage == 5
-                ? UpgradeAlert(child: HomePage(navIndex: 0))
-                : token != null && registrationStage == 4
-                    ? const SetPasscode()
-                    : token != null && registrationStage == 3
-                        ? const AddProfilePhoto()
-                        : token != null && registrationStage == 2
-                            ? const Verification()
-                            : token != null && registrationStage == 1
-                                ? const SignUp()
-                                : const Splash1(),
-            // home: Deposit(),
-          );
-        }
-      },
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: FutureBuilder<bool>(
+        future: fetchData,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return showLoading
+                ? Container(
+                    decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topRight,
+                            end: Alignment.bottomLeft,
+                            colors: [Color(0xff29844B), Color(0xff003633)])),
+                    child: Center(
+                      child: Container(
+                        // height: 150,
+                        // width: 150,
+                        child: Stack(
+                          alignment: AlignmentDirectional.center,
+                          children: [
+                            Center(
+                                child: Image.asset('assets/images/whit1.png')),
+                          ],
+                        ),
+                        // CircularProgressIndicator(
+                        //   color: Color.fromRGBO(41, 132, 75, 1),
+                        // )),
+                      ),
+                    ))
+                : Container(
+                    color: Colors.white,
+                    child: Center(
+                      child: Container(
+                        height: 75,
+                        width: 75,
+                        child: CircularProgressIndicator(
+                          color: Color.fromRGBO(41, 132, 75, 1),
+                        ),
+                      ),
+                    ),
+                  );
+            // Show a loading indicator while waiting
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else {
+            token = prefs!.getString('token');
+            print("token: $token");
+            return GetMaterialApp(
+              debugShowCheckedModeBanner: false,
+              home: token != null && registrationStage == 5
+                  ? UpgradeAlert(child: HomePage(navIndex: 0))
+                  : token != null && registrationStage == 4
+                      ? const SetPasscode()
+                      : token != null && registrationStage == 3
+                          ? const AddProfilePhoto()
+                          : token != null && registrationStage == 2
+                              ? const Verification()
+                              : token != null && registrationStage == 1
+                                  ? const SignUp()
+                                  : const Splash1(),
+              // home: Splash(),
+            );
+          }
+        },
+      ),
     );
   }
 }
