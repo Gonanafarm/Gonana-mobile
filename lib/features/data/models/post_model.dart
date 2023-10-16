@@ -192,9 +192,9 @@ class Location {
 
   factory Location.fromJson(Map<String, dynamic> json) => Location(
         type: json["type"],
-        coordinates: json["coordinates"] == null
-            ? []
-            : List<String>.from(json["coordinates"]!.map((x) => x)),
+        coordinates: (json["coordinates"] as List<dynamic>?)
+            ?.map((x) => x.toString())
+            .toList(),
       );
 
   Map<String, dynamic> toJson() => {

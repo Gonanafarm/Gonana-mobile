@@ -10,6 +10,7 @@ class ApiRoute {
   static const fetchCartItem = "api/catalog/cart";
   static const addToCart = "api/catalog/cart";
   static const updateCart = "api/catalog/cart";
+  static const getRates = "api/catalog/cart/get-rates";
   static const placeOrder = "api/catalog/cart/place-order";
 
   //auth urls
