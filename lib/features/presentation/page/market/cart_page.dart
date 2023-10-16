@@ -111,6 +111,7 @@ class _CartPageState extends State<CartPage> {
                                         IconButton(
                                             icon: const Icon(Icons.arrow_back),
                                             onPressed: () {
+                                              orderList.clear();
                                               Get.to(
                                                 () => HomePage(navIndex: 0),
                                               );

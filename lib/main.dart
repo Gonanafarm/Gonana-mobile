@@ -25,7 +25,6 @@ import 'features/presentation/page/auth/facial_recognition.dart';
 import 'features/presentation/page/auth/facial_capture.dart';
 import 'features/presentation/page/auth/forgotpassword.dart';
 import 'features/presentation/page/auth/number_verification_screen.dart';
-import 'features/presentation/page/auth/splash.dart';
 import 'features/presentation/page/fiat_wallet/register_bank.dart';
 import 'features/presentation/page/auth/setpassword.dart';
 import 'features/presentation/page/auth/auth_splash1.dart';

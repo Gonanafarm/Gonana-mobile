@@ -44,6 +44,7 @@ class _AddressCourierState extends State<AddressCourier> {
           elevation: 0,
           leading: IconButton(
               onPressed: () {
+                orderList.clear();
                 Navigator.pop(context);
               },
               icon: const Icon(
@@ -162,18 +163,16 @@ class _AddressCourierState extends State<AddressCourier> {
                             setState(() {
                               isLoading = true;
                             });
-                            bool isSuccess = await cartController.proceedToPay(
+                            bool isSuccess = await cartController.getRates(
                                 orderList, courierItem.serviceCode, context);
                             if (isSuccess) {
-                              Get.to(() => const ProductCheckout());
-                              setState(() {
-                                isLoading = false;
-                              });
-                            } else {
-                              setState(() {
-                                isLoading = false;
+                              Get.to(() => const ProductCheckout(), arguments: {
+                                "courier": courierItem.serviceCode
                               });
                             }
+                            setState(() {
+                              isLoading = false;
+                            });
                           } else {
                             ErrorSnackbar.show(context,
                                 "Validate your address and select your Courier service");

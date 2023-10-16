@@ -128,77 +128,106 @@ class CartController extends GetxController {
     }
   }
 
-  Future<bool> placeOrder() async {
-    String? image;
-    String? product_name;
-    String? product_id;
-    int? quantity;
-    double? amount;
-    double? sum_total;
-    String? payment_method;
-    String? payment_url;
-    String? payment_status;
-    String? status;
-    String? created_at;
-    String? updated_at;
-    try {
-      var data = {
-        'productName': product_name,
-        'productId': product_id,
-        'quantity': quantity,
-        'amount': amount,
-        'sumTotal': sum_total,
-        'paymentMethod': payment_method,
-        'paymentUrl': payment_url,
-        'paymentStatus': payment_status,
-        'status': status,
-        'createAt': created_at,
-        'updatedAt': updated_at,
-      };
-      FormData formData;
-      MultipartFile productImage;
-      if (image!.isNotEmpty) {
-        productImage = await MultipartFile.fromFile(
-          image!,
-          filename: '${image}',
-        );
-
-        formData = FormData.fromMap(data..addAll({"image": productImage}));
-        var responseBody = await NetworkApi().authPostData(
-            data, ApiRoute.placeOrder,
-            multimediaRequest: formData);
-        var response = jsonDecode(responseBody);
-        log("order placed || $responseBody");
-        return true;
-      } else {
-        var data = {
-          'image': image,
-          'productName': product_name,
-          'productId': product_id,
-          'quantity': quantity,
-          'amount': amount,
-          'sumTotal': sum_total,
-          'paymentMethod': payment_method,
-          'paymentUrl': payment_url,
-          'paymentStatus': payment_status,
-          'status': status,
-          'createAt': created_at,
-          'updatedAt': updated_at,
-        };
-        var responseBody =
-            await NetworkApi().authPostData(data, ApiRoute.placeOrder);
-        var response = jsonDecode(responseBody);
-        log("order placed || $responseBody");
-        return true;
-      }
-    } catch (e) {
-      print(e);
-      return false;
-    }
-  }
+  // Future<bool> placeOrder() async {
+  //   String? image;
+  //   String? product_name;
+  //   String? product_id;
+  //   int? quantity;
+  //   double? amount;
+  //   double? sum_total;
+  //   String? payment_method;
+  //   String? payment_url;
+  //   String? payment_status;
+  //   String? status;
+  //   String? created_at;
+  //   String? updated_at;
+  //   try {
+  //     var data = {
+  //       'productName': product_name,
+  //       'productId': product_id,
+  //       'quantity': quantity,
+  //       'amount': amount,
+  //       'sumTotal': sum_total,
+  //       'paymentMethod': payment_method,
+  //       'paymentUrl': payment_url,
+  //       'paymentStatus': payment_status,
+  //       'status': status,
+  //       'createAt': created_at,
+  //       'updatedAt': updated_at,
+  //     };
+  //     FormData formData;
+  //     MultipartFile productImage;
+  //     if (image!.isNotEmpty) {
+  //       productImage = await MultipartFile.fromFile(
+  //         image!,
+  //         filename: '${image}',
+  //       );
+  //
+  //       formData = FormData.fromMap(data..addAll({"image": productImage}));
+  //       var responseBody = await NetworkApi().authPostData(
+  //           data, ApiRoute.placeOrder,
+  //           multimediaRequest: formData);
+  //       var response = jsonDecode(responseBody);
+  //       log("order placed || $responseBody");
+  //       return true;
+  //     } else {
+  //       var data = {
+  //         'image': image,
+  //         'productName': product_name,
+  //         'productId': product_id,
+  //         'quantity': quantity,
+  //         'amount': amount,
+  //         'sumTotal': sum_total,
+  //         'paymentMethod': payment_method,
+  //         'paymentUrl': payment_url,
+  //         'paymentStatus': payment_status,
+  //         'status': status,
+  //         'createAt': created_at,
+  //         'updatedAt': updated_at,
+  //       };
+  //       var responseBody =
+  //           await NetworkApi().authPostData(data, ApiRoute.placeOrder);
+  //       var response = jsonDecode(responseBody);
+  //       log("order placed || $responseBody");
+  //       return true;
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //     return false;
+  //   }
+  // }
 
   SuccesfullTransactionModel? succesfullTransactionModel;
-  Future<bool> proceedToPay(
+  Future<bool> getRates(
+      List<Order> order, String serviceCode, var context) async {
+    try {
+      var data = {"orders": order, "service_code": serviceCode};
+      for (var item in order) {
+        print('Order ID: ${item.id}');
+        print('Units: ${item.units}');
+      }
+      var res = await NetworkApi().authPostData(data, ApiRoute.getRates);
+      var response = jsonDecode(res.body);
+      print("got here");
+      log('Message: $response');
+      log('status code: ${res.statusCode}');
+      if (res.statusCode == 201) {
+        succesfullTransactionModel =
+            succesfullTransactionModelFromJson(res.body);
+        SuccessSnackbar.show(context, "successful");
+        return true;
+      } else {
+        ErrorSnackbar.show(context, response["message"]);
+        return false;
+      }
+    } catch (e, s) {
+      log("checkOut Error=> $e");
+      log("checkOut Stack=> $s");
+    }
+    return false;
+  }
+
+  Future<bool> placeOrder(
       List<Order> order, String serviceCode, var context) async {
     try {
       var data = {"orders": order, "service_code": serviceCode};
@@ -212,13 +241,10 @@ class CartController extends GetxController {
       log('Message: $response');
       log('status code: ${res.statusCode}');
       if (res.statusCode == 201) {
-        succesfullTransactionModel =
-            succesfullTransactionModelFromJson(res.body);
-        SuccessSnackbar.show(context, "successful");
+        SuccessSnackbar.show(context, response["message"]);
         return true;
       } else {
-        ErrorSnackbar.show(context,
-            "No access to your current location,\ntry selecting another delivery company");
+        ErrorSnackbar.show(context, response["message"]);
         return false;
       }
     } catch (e, s) {
