@@ -136,52 +136,54 @@ class _AddressCourierState extends State<AddressCourier> {
                                       ),
                                       const SizedBox(height: 20),
                                       SizedBox(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.5,
-                                          child: listAvailableCouriers(
-                                              selectedCourier))
-                                    ]),
+                                        height: MediaQuery.of(context).size.height * 0.5,
+                                        child: listAvailableCouriers(selectedCourier)
+                                      )
+                                    ]
+                                  ),
                               ),
-                            ]),
+                            ]
+                          ),
                       ),
                     ),
                   ),
                 ),
                 sizeVer(45),
                 Align(
-                    alignment: Alignment.bottomCenter,
-                    child: LongGradientButton(
-                        isLoading: isLoading,
-                        title: 'Proceed to pay',
-                        onPressed: () async {
-                          // cartController.checkOut(order, serviceCode)
-                          // Get.to(() => const AddressCourier());
-                          // Passes the value here
-                          if (isValidated && isiTemSelected) {
-                            setState(() {
-                              isLoading = true;
-                            });
-                            bool isSuccess = await cartController.getRates(
-                                orderList, courierItem.serviceCode, context);
-                            if (isSuccess) {
-                              Get.to(() => const ProductCheckout(), arguments: {
-                                "courier": courierItem.serviceCode
-                              });
-                            }
-                            setState(() {
-                              isLoading = false;
-                            });
-                          } else {
-                            ErrorSnackbar.show(context,
-                                "Validate your address and select your Courier service");
-                          }
-                        }))
+                  alignment: Alignment.bottomCenter,
+                  child: LongGradientButton(
+                    isLoading: isLoading,
+                    title: 'Proceed to pay',
+                    onPressed: () async {
+                      // cartController.checkOut(order, serviceCode)
+                      // Get.to(() => const AddressCourier());
+                      // Passes the value here
+                      if (isValidated && isiTemSelected) {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        bool isSuccess = await cartController.getRates(
+                            orderList, courierItem.serviceCode, context);
+                        if (isSuccess) {
+                          Get.to(() => const ProductCheckout(), arguments: {
+                            "courier": courierItem.serviceCode
+                          });
+                        }
+                        setState(() {
+                          isLoading = false;
+                        });
+                      } else {
+                        ErrorSnackbar.show(context,"Validate your address and select your Courier service");
+                      }
+                    }
+                  )
+                )
               ],
             ),
           ),
-        )));
+        )
+      )
+    );
   }
 
   var courierItem;
@@ -264,29 +266,24 @@ class _CourierWidgetState extends State<CourierWidget> {
         padding: const EdgeInsets.all(8.0),
         child: Container(
           color: Colors.white,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(7)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
-                child: Image.network(widget.imageUrl,
-                    height: 38, width: 38, fit: BoxFit.contain),
+                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
+                child: Image.network(widget.imageUrl, height: 38, width: 38, fit: BoxFit.contain),
               ),
               Text(
                 widget.title,
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
                 child: SizedBox(
                   child: isSelected
-                      ? Image.asset('assets/images/check.png',
-                          height: 30, width: 30, fit: BoxFit.fill)
-                      : Image.asset('assets/images/checked.png',
-                          height: 30, width: 30, fit: BoxFit.fill),
+                    ? Image.asset('assets/images/check.png', height: 30, width: 30, fit: BoxFit.fill)
+                    : Image.asset('assets/images/checked.png', height: 30, width: 30, fit: BoxFit.fill),
                 ),
               ),
             ],
