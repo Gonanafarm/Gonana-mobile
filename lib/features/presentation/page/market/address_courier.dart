@@ -101,9 +101,9 @@ class _AddressCourierState extends State<AddressCourier> {
                 const SizedBox(
                   width: double.infinity,
                   child: Text('Courier Service',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-                      textAlign: TextAlign.left),
+                    style:TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                    textAlign: TextAlign.left
+                  ),
                 ),
                 sizeVer(10),
                 Container(
