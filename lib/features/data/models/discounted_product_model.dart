@@ -157,7 +157,7 @@ class Address {
 
 class Location {
   String? type;
-  List<int>? coordinates;
+  List<dynamic>? coordinates;
 
   Location({
     this.type,
@@ -168,7 +168,9 @@ class Location {
         type: json["type"],
         coordinates: json["coordinates"] == null
             ? []
-            : List<int>.from(json["coordinates"]!.map((x) => x)),
+            : List<double>.from(
+                json["coordinates"]!.map((x) => double.parse(x.toString())),
+              ),
       );
 
   Map<String, dynamic> toJson() => {
