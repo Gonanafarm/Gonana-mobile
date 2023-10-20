@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:gonana/consts.dart';
+import '../../../controllers/auth/get_details.dart';
 import '../../../controllers/auth/password_controller.dart';
 import '../../../controllers/auth/sign_in_controller.dart';
 import '../home.dart';

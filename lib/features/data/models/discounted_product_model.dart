@@ -37,6 +37,8 @@ class DiscountedProductModel {
 
 class Datum {
   String? id;
+  bool? selfShipping;
+  List<Address>? address;
   Location? location;
   List<dynamic>? categories;
   int? weight;
@@ -44,9 +46,8 @@ class Datum {
   int? amount;
   List<dynamic>? tags;
   String? body;
+  List<String>? images;
   String? title;
-  String? deliveryCompany;
-  List<dynamic>? images;
   String? type;
   String? publisherId;
   String? createdAt;
@@ -56,6 +57,8 @@ class Datum {
 
   Datum({
     this.id,
+    this.selfShipping,
+    this.address,
     this.location,
     this.categories,
     this.weight,
@@ -63,9 +66,8 @@ class Datum {
     this.amount,
     this.tags,
     this.body,
-    this.title,
-    this.deliveryCompany,
     this.images,
+    this.title,
     this.type,
     this.publisherId,
     this.createdAt,
@@ -76,6 +78,11 @@ class Datum {
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["_id"],
+        selfShipping: json["self_shipping"],
+        address: json["address"] == null
+            ? []
+            : List<Address>.from(
+                json["address"]!.map((x) => Address.fromJson(x))),
         location: json["location"] == null
             ? null
             : Location.fromJson(json["location"]),
@@ -89,11 +96,10 @@ class Datum {
             ? []
             : List<dynamic>.from(json["tags"]!.map((x) => x)),
         body: json["body"],
-        title: json["title"],
-        deliveryCompany: json["delivery_company"],
         images: json["images"] == null
             ? []
-            : List<dynamic>.from(json["images"]!.map((x) => x)),
+            : List<String>.from(json["images"]!.map((x) => x)),
+        title: json["title"],
         type: json["type"],
         publisherId: json["publisher_id"],
         createdAt: json["created_at"],
@@ -104,6 +110,10 @@ class Datum {
 
   Map<String, dynamic> toJson() => {
         "_id": id,
+        "self_shipping": selfShipping,
+        "address": address == null
+            ? []
+            : List<dynamic>.from(address!.map((x) => x.toJson())),
         "location": location?.toJson(),
         "categories": categories == null
             ? []
@@ -113,10 +123,9 @@ class Datum {
         "amount": amount,
         "tags": tags == null ? [] : List<dynamic>.from(tags!.map((x) => x)),
         "body": body,
-        "title": title,
-        "delivery_company": deliveryCompany,
         "images":
             images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
+        "title": title,
         "type": type,
         "publisher_id": publisherId,
         "created_at": createdAt,
@@ -126,9 +135,29 @@ class Datum {
       };
 }
 
+class Address {
+  String? address;
+  int? code;
+
+  Address({
+    this.address,
+    this.code,
+  });
+
+  factory Address.fromJson(Map<String, dynamic> json) => Address(
+        address: json["address"],
+        code: json["code"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "address": address,
+        "code": code,
+      };
+}
+
 class Location {
   String? type;
-  List<num>? coordinates; // Using num to allow both int and double
+  List<int>? coordinates;
 
   Location({
     this.type,
@@ -139,18 +168,7 @@ class Location {
         type: json["type"],
         coordinates: json["coordinates"] == null
             ? []
-            : List<num>.from(json["coordinates"]!.map((x) {
-                if (x is int) {
-                  return x.toDouble(); // Convert int to double
-                } else if (x is double) {
-                  return x; // Keep double values as-is
-                } else if (x is String) {
-                  return double.tryParse(x) ??
-                      0; // Attempt to parse string as double
-                } else {
-                  return 0; // Default to 0 if value is not recognized
-                }
-              })),
+            : List<int>.from(json["coordinates"]!.map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {

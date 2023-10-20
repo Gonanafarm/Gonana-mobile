@@ -232,7 +232,7 @@ class _StoreState extends State<Store> {
                                                           FutureBuilder<
                                                               String?>(
                                                             future: marketController
-                                                                .productAddress(
+                                                                .userProductAddress(
                                                                     index),
                                                             builder: (BuildContext
                                                                     context,

@@ -4,6 +4,7 @@ import 'package:gonana/consts.dart';
 import 'package:gonana/features/presentation/page/auth/emailverification.dart';
 import 'package:gonana/features/presentation/page/market/cart_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../controllers/auth/get_details.dart';
 import '../../../controllers/auth/sign_up_controller.dart';
 import '../../../controllers/user/user_controller.dart';
 import '/features/presentation/widgets/widgets.dart';
@@ -33,6 +34,7 @@ class _SignUpState extends State<SignUp> {
   bool isLoading = false;
   final userController = Get.find<UserController>();
   bool visibility = false;
+  GetDetailsController detailsController = Get.put(GetDetailsController());
   @override
   void initState() {
     super.initState();
