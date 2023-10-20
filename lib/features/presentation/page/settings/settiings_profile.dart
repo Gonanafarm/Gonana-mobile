@@ -235,16 +235,19 @@ class _SettingsProfileState extends State<SettingsProfile> {
                           Row(
                             children: [
                               if (userController.userModel.value != null &&
-                                  userController.userModel.value != null &&
-                                  userController.userModel.value.profilePhoto !=
+                                  userController.userModel.value.firstName !=
                                       null &&
                                   userController
-                                      .userModel.value.profilePhoto!.isNotEmpty)
+                                      .userModel.value.firstName!.isNotEmpty &&
+                                  userController.userModel.value.lastName !=
+                                      null &&
+                                  userController
+                                      .userModel.value.lastName!.isNotEmpty)
                                 Container(
                                   width:
                                       MediaQuery.of(context).size.width * 0.5,
                                   child: Text(
-                                    '${userController.userModel.value.lastName} ${userController.userModel.value.firstName}',
+                                    '${userController.userModel.value.lastName ?? ""} ${userController.userModel.value.firstName ?? ""}',
                                     style: const TextStyle(
                                       overflow: TextOverflow.ellipsis,
                                       fontSize: 24,
