@@ -64,13 +64,13 @@ class Datum {
 
 class Product {
   String? id;
-  String? deliveryCompany;
+  bool? selfShipping;
+  List<Address>? address;
   Location? location;
   List<dynamic>? categories;
   int? weight;
   int? quantity;
   int? amount;
-  String? status;
   List<dynamic>? tags;
   String? body;
   List<String>? images;
@@ -84,13 +84,13 @@ class Product {
 
   Product({
     this.id,
-    this.deliveryCompany,
+    this.selfShipping,
+    this.address,
     this.location,
     this.categories,
     this.weight,
     this.quantity,
     this.amount,
-    this.status,
     this.tags,
     this.body,
     this.images,
@@ -105,7 +105,11 @@ class Product {
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["_id"],
-        deliveryCompany: json["delivery_company"],
+        selfShipping: json["self_shipping"],
+        address: json["address"] == null
+            ? []
+            : List<Address>.from(
+                json["address"]!.map((x) => Address.fromJson(x))),
         location: json["location"] == null
             ? null
             : Location.fromJson(json["location"]),
@@ -115,7 +119,6 @@ class Product {
         weight: json["weight"],
         quantity: json["quantity"],
         amount: json["amount"],
-        status: json["status"],
         tags: json["tags"] == null
             ? []
             : List<dynamic>.from(json["tags"]!.map((x) => x)),
@@ -134,7 +137,10 @@ class Product {
 
   Map<String, dynamic> toJson() => {
         "_id": id,
-        "delivery_company": deliveryCompany,
+        "self_shipping": selfShipping,
+        "address": address == null
+            ? []
+            : List<dynamic>.from(address!.map((x) => x.toJson())),
         "location": location?.toJson(),
         "categories": categories == null
             ? []
@@ -142,7 +148,6 @@ class Product {
         "weight": weight,
         "quantity": quantity,
         "amount": amount,
-        "status": status,
         "tags": tags == null ? [] : List<dynamic>.from(tags!.map((x) => x)),
         "body": body,
         "images":
@@ -154,6 +159,26 @@ class Product {
         "updated_at": updatedAt,
         "__v": v,
         "id": productId,
+      };
+}
+
+class Address {
+  String? address;
+  int? code;
+
+  Address({
+    this.address,
+    this.code,
+  });
+
+  factory Address.fromJson(Map<String, dynamic> json) => Address(
+        address: json["address"],
+        code: json["code"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "address": address,
+        "code": code,
       };
 }
 
@@ -170,7 +195,9 @@ class Location {
         type: json["type"],
         coordinates: json["coordinates"] == null
             ? []
-            : List<dynamic>.from(json["coordinates"]!.map((x) => x)),
+            : List<double>.from(
+                json["coordinates"]!.map((x) => double.parse(x.toString())),
+              ),
       );
 
   Map<String, dynamic> toJson() => {

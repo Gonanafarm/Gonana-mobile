@@ -112,9 +112,10 @@ class _CartPageState extends State<CartPage> {
                                             icon: const Icon(Icons.arrow_back),
                                             onPressed: () {
                                               orderList.clear();
-                                              Get.to(
-                                                () => HomePage(navIndex: 0),
-                                              );
+                                              // Get.to(
+                                              //   () => HomePage(navIndex: 0),
+                                              // );
+                                              Get.back();
                                               cartController.totalPrice.value =
                                                   0;
                                             }),

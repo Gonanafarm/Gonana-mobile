@@ -12,7 +12,7 @@ String getBalanceModelToJson(GetBalanceModel data) =>
 
 class GetBalanceModel {
   bool? success;
-  String? balance;
+  dynamic balance;
 
   GetBalanceModel({
     this.success,

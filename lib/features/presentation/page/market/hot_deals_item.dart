@@ -169,7 +169,8 @@ class _HotDealsItemState extends State<HotDealsItem> {
                     Flexible(
                       child: Container(
                         child: FutureBuilder<String?>(
-                          future: marketController.productAddress(widget.index),
+                          future: marketController
+                              .discountedProductAddress(widget.index),
                           builder: (BuildContext context,
                               AsyncSnapshot<String?> snapshot) {
                             if (snapshot.connectionState ==

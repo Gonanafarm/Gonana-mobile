@@ -142,41 +142,27 @@ class _MyAppState extends State<MyApp> {
         future: fetchData,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return showLoading
-                ? Container(
-                    decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topRight,
-                            end: Alignment.bottomLeft,
-                            colors: [Color(0xff29844B), Color(0xff003633)])),
-                    child: Center(
-                      child: Container(
-                        // height: 150,
-                        // width: 150,
-                        child: Stack(
-                          alignment: AlignmentDirectional.center,
-                          children: [
-                            Center(
-                                child: Image.asset('assets/images/whit1.png')),
-                          ],
-                        ),
-                        // CircularProgressIndicator(
-                        //   color: Color.fromRGBO(41, 132, 75, 1),
-                        // )),
-                      ),
-                    ))
-                : Container(
-                    color: Colors.white,
-                    child: Center(
-                      child: Container(
-                        height: 75,
-                        width: 75,
-                        child: CircularProgressIndicator(
-                          color: Color.fromRGBO(41, 132, 75, 1),
-                        ),
-                      ),
+            return Container(
+                decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.bottomLeft,
+                        colors: [Color(0xff29844B), Color(0xff003633)])),
+                child: Center(
+                  child: Container(
+                    // height: 150,
+                    // width: 150,
+                    child: Stack(
+                      alignment: AlignmentDirectional.center,
+                      children: [
+                        Center(child: Image.asset('assets/images/whit1.png')),
+                      ],
                     ),
-                  );
+                    // CircularProgressIndicator(
+                    //   color: Color.fromRGBO(41, 132, 75, 1),
+                    // )),
+                  ),
+                ));
             // Show a loading indicator while waiting
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
