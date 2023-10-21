@@ -283,14 +283,17 @@ class CartController extends GetxController {
       if (res.statusCode == 200) {
         log("Couriers: $result");
         courierModel = courierModelFromJson(res.body);
+        update();
         return true;
       } else {
         log("Fail Couriers: $result");
+        update();
         return false;
       }
     } catch (e, s) {
       log("fetchActiveCourier Error=> $e");
       log("fetchActiveCourier Stack=> $s");
+      update();
       return false;
     }
   }
