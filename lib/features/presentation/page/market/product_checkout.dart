@@ -221,13 +221,9 @@ class _ProductCheckoutState extends State<ProductCheckout> {
                 ),
               ),
               Align(
-                alignment: Alignment.bottomCenter,
-                child: LongGradientButton(
-                  title: 'Finish', onPressed: () async {
-                    
-                  }
-                )
-              )
+                  alignment: Alignment.bottomCenter,
+                  child: LongGradientButton(
+                      title: 'Finish', onPressed: () async {}))
             ],
           ),
         )));
@@ -443,7 +439,7 @@ class _SendPasscodeState extends State<PayWithWalletPasscode> {
                                         title: 'Finish',
                                         onPressed: () async {
                                           print("here");
-                                          Get.to(() => HomePage(navIndex: 1));
+                                          Get.to(() => HomePage(navIndex: 0));
                                         },
                                       ),
                                     ),
@@ -459,8 +455,11 @@ class _SendPasscodeState extends State<PayWithWalletPasscode> {
                         });
                       }
                     } else {
-                      log("Failed Transaction");
-                      ErrorSnackbar.show(context, 'Transaction Failed');
+                      log("Passcode Invalid");
+                      ErrorSnackbar.show(context, 'Passcode Invalid');
+                      setState(() {
+                        isLoading = false;
+                      });
                     }
                   },
                   title: 'Proceed',
