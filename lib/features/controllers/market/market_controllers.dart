@@ -177,6 +177,7 @@ class ProductController extends GetxController {
     //   await MultipartFile.fromFile(image3.path, filename: fileName3):'';
 
     FormData formData = FormData.fromMap({
+      //"self_shipping": true,
       'title': title,
       'body': body,
       'type': 'product',
@@ -205,8 +206,8 @@ class ProductController extends GetxController {
         return false;
       }
     } on DioException catch (e, s) {
-      log('e=>$e');
-      log('s=.>$s');
+      log('productError=>$e');
+      log('productErrorStack=.>$s');
       return false;
     }
   }
