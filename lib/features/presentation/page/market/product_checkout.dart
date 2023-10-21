@@ -221,9 +221,13 @@ class _ProductCheckoutState extends State<ProductCheckout> {
                 ),
               ),
               Align(
-                  alignment: Alignment.bottomCenter,
-                  child: LongGradientButton(
-                      title: 'Finish', onPressed: () async {}))
+                alignment: Alignment.bottomCenter,
+                child: LongGradientButton(
+                  title: 'Finish', onPressed: () async {
+                    
+                  }
+                )
+              )
             ],
           ),
         )));
