@@ -46,7 +46,7 @@ class ResetPin extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  'Enter your new password',
+                  'Enter your new pin',
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                   textAlign: TextAlign.left,
                 ),

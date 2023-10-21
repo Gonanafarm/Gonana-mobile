@@ -84,11 +84,12 @@ class _AddressCourierState extends State<AddressCourier> {
                 ShortGradientButton(
                     title: 'Validate',
                     onPressed: () async {
-                      var isSuccess = await cartController.validateAddress(address);
+                      var isSuccess =
+                          await cartController.validateAddress(address);
                       if (isSuccess == true) {
                         log('isSUccess: $isSuccess');
                         SuccessSnackbar.show(
-                          context, 'Address succesfully validated');
+                            context, 'Address succesfully validated');
                         setState(() {
                           isValidated = true;
                         });
@@ -100,9 +101,9 @@ class _AddressCourierState extends State<AddressCourier> {
                 const SizedBox(
                   width: double.infinity,
                   child: Text('Courier Service',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-                    textAlign: TextAlign.left
-                  ),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                      textAlign: TextAlign.left),
                 ),
                 sizeVer(10),
                 Container(
@@ -114,86 +115,120 @@ class _AddressCourierState extends State<AddressCourier> {
                       child: Padding(
                         padding: const EdgeInsets.all(1),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            sizeVer(10),
-                            SizedBox(
-                              // height: 60,
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const SizedBox(
-                                    // width: double.infinity,
-                                    child: Text(
-                                        'These are the logistics companies that we recommend',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                        textAlign: TextAlign.left),
-                                  ),
-                                  const SizedBox(height: 20),
-                                  SizedBox(
-                                    //height: MediaQuery.of(context).size.height * 0.5,
-                                    child: cartController.courierModel != null
-                                        ? ListView.builder(
-                                          itemCount: cartController.courierModel?.couriers?.length ?? 0,
-                                            shrinkWrap: true,
-                                            itemBuilder:
-                                                (context, index) {
-                                              final courierModel = cartController.courierModel;
-                                              if (courierModel == null || courierModel.couriers == null) {
-                                                // Handle null values as needed, e.g., return a placeholder widget.
-                                                return SizedBox(
-                                                  child: Container()
-                                                );
-                                              }
-                                              if (index >= courierModel.couriers!.length) {
-                                                // Handle the case where the index is out of bounds.
-                                                return const SizedBox(); // Or any other appropriate handling.
-                                              }
-                                              courierItem = courierModel.couriers![index];
-                                              return Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: Container(
-                                                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(7)),
-                                                  child: RadioListTile<String>(
-                                                    controlAffinity: ListTileControlAffinity.trailing,
-                                                    toggleable: true,
-                                                    value: courierItem.serviceCode,
-                                                    groupValue: selectedValue,
-                                                    title: Text(
-                                                      courierItem.name,
-                                                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                                                    ),
-                                                    secondary: Image.network(courierItem.pinImage,
-                                                        height: 38, width: 38, fit: BoxFit.contain),
-                                                    onChanged: (value) {
-                                                      log("tapped");
-                                                      setState(() {
-                                                        if (value == null) {
-                                                          selectedValue != value;
-                                                        } else {
-                                                          selectedValue = value;
-                                                        }
-                                                        //selectedValue = widget.value;
-                                                        isiTemSelected = true;
-                                                        log("selectedValue: $selectedValue");
-                                                      });
-                                                    },
-                                                  )
-                                                ),
-                                              );
-                                            },
-                                          )
-                                        : SizedBox(child: Container())
-                                    )
-                                  ]
-                                ),
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              sizeVer(10),
+                              SizedBox(
+                                // height: 60,
+                                child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const SizedBox(
+                                        // width: double.infinity,
+                                        child: Text(
+                                            'These are the logistics companies that we recommend',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                            textAlign: TextAlign.left),
+                                      ),
+                                      const SizedBox(height: 20),
+                                      SizedBox(
+                                          //height: MediaQuery.of(context).size.height * 0.5,
+                                          child: cartController.courierModel !=
+                                                  null
+                                              ? ListView.builder(
+                                                  itemCount: cartController
+                                                          .courierModel
+                                                          ?.couriers
+                                                          ?.length ??
+                                                      0,
+                                                  shrinkWrap: true,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    final courierModel =
+                                                        cartController
+                                                            .courierModel;
+                                                    if (courierModel == null ||
+                                                        courierModel.couriers ==
+                                                            null) {
+                                                      // Handle null values as needed, e.g., return a placeholder widget.
+                                                      return SizedBox(
+                                                          child: Container());
+                                                    }
+                                                    if (index >=
+                                                        courierModel
+                                                            .couriers!.length) {
+                                                      // Handle the case where the index is out of bounds.
+                                                      return const SizedBox(); // Or any other appropriate handling.
+                                                    }
+                                                    courierItem = courierModel
+                                                        .couriers![index];
+                                                    return Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Container(
+                                                          decoration: BoxDecoration(
+                                                              color:
+                                                                  Colors.white,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          7)),
+                                                          child: RadioListTile<
+                                                              String>(
+                                                            controlAffinity:
+                                                                ListTileControlAffinity
+                                                                    .trailing,
+                                                            toggleable: true,
+                                                            value: courierItem
+                                                                .serviceCode,
+                                                            groupValue:
+                                                                selectedValue,
+                                                            title: Text(
+                                                              courierItem.name,
+                                                              style: const TextStyle(
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
+                                                            ),
+                                                            secondary:
+                                                                Image.network(
+                                                                    courierItem
+                                                                        .pinImage,
+                                                                    height: 38,
+                                                                    width: 38,
+                                                                    fit: BoxFit
+                                                                        .contain),
+                                                            onChanged: (value) {
+                                                              log("tapped");
+                                                              setState(() {
+                                                                if (value ==
+                                                                    null) {
+                                                                  selectedValue !=
+                                                                      value;
+                                                                } else {
+                                                                  selectedValue =
+                                                                      value;
+                                                                }
+                                                                //selectedValue = widget.value;
+                                                                isiTemSelected =
+                                                                    true;
+                                                                log("selectedValue: $selectedValue");
+                                                              });
+                                                            },
+                                                          )),
+                                                    );
+                                                  },
+                                                )
+                                              : SizedBox(child: Container()))
+                                    ]),
                               ),
-                            ]
-                          ),                                                                     
+                            ]),
                       ),
                     ),
                   ),
@@ -201,33 +236,33 @@ class _AddressCourierState extends State<AddressCourier> {
                 sizeVer(45),
                 Align(
                     alignment: Alignment.bottomCenter,
-                  child: LongGradientButton(
-                    isLoading: isLoading,
-                    title: 'Proceed to pay',
-                    onPressed: () async {
-                      // cartController.checkOut(order, serviceCode)
-                      // Get.to(() => const AddressCourier());
-                      // Passes the value here
-                      if (isValidated && isiTemSelected) {
-                        setState(() {
-                          isLoading = true;
-                        });
-                        bool isSuccess = await cartController.getRates(
-                          orderList, courierItem.serviceCode, context
-                        );
-                        if (isSuccess) {
-                          Get.to(() => const ProductCheckout(), arguments: {
-                            "courier": courierItem.serviceCode
-                          });
-                        }
-                        setState(() {
-                          isLoading = false;
-                        });
-                      } else {
-                        ErrorSnackbar.show(context,
-                          "Validate your address and select your Courier service");
-                      }
-                    }))
+                    child: LongGradientButton(
+                        isLoading: isLoading,
+                        title: 'Proceed to pay',
+                        onPressed: () async {
+                          // cartController.checkOut(order, serviceCode)
+                          // Get.to(() => const AddressCourier());
+                          // Passes the value here
+                          print(courierItem.serviceCode);
+                          if (isValidated && isiTemSelected) {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            bool isSuccess = await cartController.getRates(
+                                orderList, courierItem.serviceCode, context);
+                            if (isSuccess) {
+                              Get.to(() => const ProductCheckout(), arguments: {
+                                "courier": courierItem.serviceCode
+                              });
+                            }
+                            setState(() {
+                              isLoading = false;
+                            });
+                          } else {
+                            ErrorSnackbar.show(context,
+                                "Validate your address and select your Courier service");
+                          }
+                        }))
               ],
             ),
           ),
@@ -292,33 +327,32 @@ class _CourierWidgetState extends State<CourierWidget> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(7)),
-        child: RadioListTile<String>(
-          controlAffinity: ListTileControlAffinity.trailing,
-          toggleable: true,
-          value: widget.value,
-          groupValue: selectedValue,
-          title: Text(
-            widget.title,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-          ),
-          secondary: Image.network(widget.imageUrl,
-              height: 38, width: 38, fit: BoxFit.contain),
-          onChanged: (value) {
-            log("tapped");
-            setState(() {
-              if (value == null) {
-                selectedValue = null;
-              } else {
-                selectedValue = value;
-              }
-              //selectedValue = widget.value;
-              log("selectedValue: $selectedValue");
-            });
-          },
-        )
-      ),
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(7)),
+          child: RadioListTile<String>(
+            controlAffinity: ListTileControlAffinity.trailing,
+            toggleable: true,
+            value: widget.value,
+            groupValue: selectedValue,
+            title: Text(
+              widget.title,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            ),
+            secondary: Image.network(widget.imageUrl,
+                height: 38, width: 38, fit: BoxFit.contain),
+            onChanged: (value) {
+              log("tapped");
+              setState(() {
+                if (value == null) {
+                  selectedValue = null;
+                } else {
+                  selectedValue = value;
+                }
+                //selectedValue = widget.value;
+                log("selectedValue: $selectedValue");
+              });
+            },
+          )),
     );
   }
 }
@@ -331,7 +365,7 @@ class _CourierWidgetState extends State<CourierWidget> {
 //   log("index: ${widget.index}");
 // });
 
-  // return InkWell(
+// return InkWell(
 //   onTap: () async{
 //     log("literally anything");
 //     // setState(() {

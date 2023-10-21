@@ -242,7 +242,7 @@ class CartController extends GetxController {
       log('Message: $response');
       log('status code: ${res.statusCode}');
       if (res.statusCode == 201) {
-        SuccessSnackbar.show(context, response["message"]);
+        SuccessSnackbar.show(context, "Successful");
         return true;
       } else {
         ErrorSnackbar.show(context, response["message"]);
