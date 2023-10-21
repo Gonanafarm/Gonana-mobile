@@ -5,20 +5,22 @@ import 'package:get/get.dart';
 import 'package:gonana/features/utilities/api_routes.dart';
 
 class ForgotPassWordController extends GetxController {
-  Future<bool> forgotPassword(String email) async {
+  forgotPassword(String email) async {
     try {
       var data = {
         'email': email,
       };
       var res = await NetworkApi().postData(data, ApiRoute.forgottenPassword);
       final result = jsonDecode(res.body);
+      String mssg = result['message'];
       log(result.toString());
+      log(mssg);
       if (res.statusCode == 200) {
         log("Success ${res.statusCode}");
-        return true;
+        return [true, mssg];
       } else {
         log("Failed ${res.statusCode}");
-        return false;
+        return [false, mssg];
       }
     } catch (e, s) {
       log("forgotpassword Error=> $e");

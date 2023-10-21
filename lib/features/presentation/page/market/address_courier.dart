@@ -1,15 +1,12 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:gonana/features/controllers/cart/cart_controller.dart';
-import 'package:gonana/features/presentation/page/market/hot_deals.dart';
 import 'package:gonana/features/presentation/page/market/product_checkout.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
 import 'package:gonana/consts.dart';
 
-import '../../../data/models/order_model.dart';
 import 'cart_page.dart';
 
 class AddressCourier extends StatefulWidget {
@@ -26,7 +23,10 @@ class _AddressCourierState extends State<AddressCourier> {
   bool isValidated = false;
   // bool isiTemSelected = false;
   bool isLoading = false;
-  var selectedCourier;
+  String selectedCourier = " ";
+  var courierItem;
+  bool isiTemSelected = false;
+  var selectedValue = '';
 
   @override
   void initState() {
@@ -84,12 +84,11 @@ class _AddressCourierState extends State<AddressCourier> {
                 ShortGradientButton(
                     title: 'Validate',
                     onPressed: () async {
-                      var isSuccess =
-                          await cartController.validateAddress(address);
+                      var isSuccess = await cartController.validateAddress(address);
                       if (isSuccess == true) {
                         log('isSUccess: $isSuccess');
                         SuccessSnackbar.show(
-                            context, 'Address succesfully validated');
+                          context, 'Address succesfully validated');
                         setState(() {
                           isValidated = true;
                         });
@@ -101,9 +100,9 @@ class _AddressCourierState extends State<AddressCourier> {
                 const SizedBox(
                   width: double.infinity,
                   child: Text('Courier Service',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-                      textAlign: TextAlign.left),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                    textAlign: TextAlign.left
+                  ),
                 ),
                 sizeVer(10),
                 Container(
@@ -115,36 +114,86 @@ class _AddressCourierState extends State<AddressCourier> {
                       child: Padding(
                         padding: const EdgeInsets.all(1),
                         child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              sizeVer(10),
-                              SizedBox(
-                                // height: 60,
-                                child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const SizedBox(
-                                        // width: double.infinity,
-                                        child: Text(
-                                            'These are the logistics companies that we recommend',
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                            textAlign: TextAlign.left),
-                                      ),
-                                      const SizedBox(height: 20),
-                                      SizedBox(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.5,
-                                          child: listAvailableCouriers(
-                                              selectedCourier))
-                                    ]),
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            sizeVer(10),
+                            SizedBox(
+                              // height: 60,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const SizedBox(
+                                    // width: double.infinity,
+                                    child: Text(
+                                        'These are the logistics companies that we recommend',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                        textAlign: TextAlign.left),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  SizedBox(
+                                    //height: MediaQuery.of(context).size.height * 0.5,
+                                    child: cartController.courierModel != null
+                                        ? ListView.builder(
+                                          itemCount: cartController.courierModel?.couriers?.length ?? 0,
+                                            shrinkWrap: true,
+                                            itemBuilder:
+                                                (context, index) {
+                                              final courierModel = cartController.courierModel;
+                                              if (courierModel == null || courierModel.couriers == null) {
+                                                // Handle null values as needed, e.g., return a placeholder widget.
+                                                return SizedBox(
+                                                  child: Container()
+                                                );
+                                              }
+                                              if (index >= courierModel.couriers!.length) {
+                                                // Handle the case where the index is out of bounds.
+                                                return const SizedBox(); // Or any other appropriate handling.
+                                              }
+                                              courierItem = courierModel.couriers![index];
+                                              return Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(7)),
+                                                  child: RadioListTile<String>(
+                                                    controlAffinity: ListTileControlAffinity.trailing,
+                                                    toggleable: true,
+                                                    value: courierItem.serviceCode,
+                                                    groupValue: selectedValue,
+                                                    title: Text(
+                                                      courierItem.name,
+                                                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                                                    ),
+                                                    secondary: Image.network(courierItem.pinImage,
+                                                        height: 38, width: 38, fit: BoxFit.contain),
+                                                    onChanged: (value) {
+                                                      log("tapped");
+                                                      setState(() {
+                                                        if (value == null) {
+                                                          selectedValue != value;
+                                                        } else {
+                                                          selectedValue = value;
+                                                        }
+                                                        //selectedValue = widget.value;
+                                                        isiTemSelected = true;
+                                                        log("selectedValue: $selectedValue");
+                                                      });
+                                                    },
+                                                  )
+                                                ),
+                                              );
+                                            },
+                                          )
+                                        : SizedBox(child: Container())
+                                    )
+                                  ]
+                                ),
                               ),
-                            ]),
+                            ]
+                          ),                                                                     
                       ),
                     ),
                   ),
@@ -152,92 +201,81 @@ class _AddressCourierState extends State<AddressCourier> {
                 sizeVer(45),
                 Align(
                     alignment: Alignment.bottomCenter,
-                    child: LongGradientButton(
-                        isLoading: isLoading,
-                        title: 'Proceed to pay',
-                        onPressed: () async {
-                          // cartController.checkOut(order, serviceCode)
-                          // Get.to(() => const AddressCourier());
-                          // Passes the value here
-                          if (isValidated && isiTemSelected) {
-                            setState(() {
-                              isLoading = true;
-                            });
-                            bool isSuccess = await cartController.getRates(
-                                orderList, courierItem.serviceCode, context);
-                            if (isSuccess) {
-                              Get.to(() => const ProductCheckout(), arguments: {
-                                "courier": courierItem.serviceCode
-                              });
-                            }
-                            setState(() {
-                              isLoading = false;
-                            });
-                          } else {
-                            ErrorSnackbar.show(context,
-                                "Validate your address and select your Courier service");
-                          }
-                        }))
+                  child: LongGradientButton(
+                    isLoading: isLoading,
+                    title: 'Proceed to pay',
+                    onPressed: () async {
+                      // cartController.checkOut(order, serviceCode)
+                      // Get.to(() => const AddressCourier());
+                      // Passes the value here
+                      if (isValidated && isiTemSelected) {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        bool isSuccess = await cartController.getRates(
+                          orderList, courierItem.serviceCode, context
+                        );
+                        if (isSuccess) {
+                          Get.to(() => const ProductCheckout(), arguments: {
+                            "courier": courierItem.serviceCode
+                          });
+                        }
+                        setState(() {
+                          isLoading = false;
+                        });
+                      } else {
+                        ErrorSnackbar.show(context,
+                          "Validate your address and select your Courier service");
+                      }
+                    }))
               ],
             ),
           ),
         )));
   }
 
-  var courierItem;
-  Widget listAvailableCouriers(var selectedCourier) {
-    return cartController.courierModel != null
-        ? ListView.builder(
-            itemCount: cartController.courierModel?.couriers?.length ?? 0,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              final courierModel = cartController.courierModel;
+  // Widget listAvailableCouriers(var selectedCourier) {
+  //   return cartController.courierModel != null
+  //       ? ListView.builder(
+  //           itemCount: cartController.courierModel?.couriers?.length ?? 0,
+  //           shrinkWrap: true,
+  //           itemBuilder: (context, index) {
+  //             final courierModel = cartController.courierModel;
+  //             if (courierModel == null || courierModel.couriers == null) {
+  //               // Handle null values as needed, e.g., return a placeholder widget.
+  //               return SizedBox(child: Container());
+  //             }
+  //             if (index >= courierModel.couriers!.length) {
+  //               // Handle the case where the index is out of bounds.
+  //               return SizedBox(); // Or any other appropriate handling.
+  //             }
+  //             courierItem = courierModel.couriers![index];
+  //             return CourierWidget(
+  //                 title: "${courierItem.name}",
+  //                 value: courierItem.serviceCode,
+  //                 imageUrl: "${courierItem.pinImage}",
+  //                 index: index
+  //               );
 
-              if (courierModel == null || courierModel.couriers == null) {
-                // Handle null values as needed, e.g., return a placeholder widget.
-                return SizedBox(child: Container());
-              }
-
-              if (index >= courierModel.couriers!.length) {
-                // Handle the case where the index is out of bounds.
-                return SizedBox(); // Or any other appropriate handling.
-              }
-
-              courierItem = courierModel.couriers![index];
-
-              return InkWell(
-                onTap: () {
-                  setState(() {
-                    selectedCourier = courierItem.serviceCode;
-                    log('selected: ${selectedCourier}');
-                    setState(() {
-                      isiTemSelected = !isiTemSelected;
-                    });
-                    log('${courierItem.serviceCode} isSelected: $isSelected');
-                  });
-                },
-                child: CourierWidget(
-                  title: "${courierItem.name}",
-                  imageUrl: "${courierItem.pinImage}",
-                  index: index,
-                ),
-              );
-            },
-          )
-        : SizedBox(child: Container());
-  }
+  //           },
+  //         )
+  //       : SizedBox(child: Container());
+  // }
 }
 
-bool isiTemSelected = false;
+// bool isiTemSelected = false;
+String? selectedValue = 'test';
 
 class CourierWidget extends StatefulWidget {
   final String title;
+  final String value;
   final String imageUrl;
   final int index;
 
-  CourierWidget({
+  const CourierWidget({
     Key? key,
     required this.title,
+    required this.value,
     required this.imageUrl,
     required this.index,
   }) : super(key: key);
@@ -251,48 +289,92 @@ class _CourierWidgetState extends State<CourierWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        setState(() {
-          isSelected = !isSelected;
-          log('selected: ${widget.title}');
-          log('${widget.title} isSelected: $isSelected');
-          isiTemSelected = true;
-        });
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          color: Colors.white,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
-                child: Image.network(widget.imageUrl,
-                    height: 38, width: 38, fit: BoxFit.contain),
-              ),
-              Text(
-                widget.title,
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
-                child: SizedBox(
-                  child: isSelected
-                      ? Image.asset('assets/images/check.png',
-                          height: 30, width: 30, fit: BoxFit.fill)
-                      : Image.asset('assets/images/checked.png',
-                          height: 30, width: 30, fit: BoxFit.fill),
-                ),
-              ),
-            ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(7)),
+        child: RadioListTile<String>(
+          controlAffinity: ListTileControlAffinity.trailing,
+          toggleable: true,
+          value: widget.value,
+          groupValue: selectedValue,
+          title: Text(
+            widget.title,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
-        ),
+          secondary: Image.network(widget.imageUrl,
+              height: 38, width: 38, fit: BoxFit.contain),
+          onChanged: (value) {
+            log("tapped");
+            setState(() {
+              if (value == null) {
+                selectedValue = null;
+              } else {
+                selectedValue = value;
+              }
+              //selectedValue = widget.value;
+              log("selectedValue: $selectedValue");
+            });
+          },
+        )
       ),
     );
   }
 }
+
+// setState(() {
+//   isSelected = !isSelected;
+//   log('selected: ${widget.title}');
+//   log('${widget.title} isSelected: $isSelected');
+//   //isiTemSelected = true;
+//   log("index: ${widget.index}");
+// });
+
+  // return InkWell(
+//   onTap: () async{
+//     log("literally anything");
+//     // setState(() {
+//     //   if (selectedCourier != courierItem.serviceCode) {
+//     //     selectedCourier = null;
+//     //   }
+//     //   selectedCourier = courierItem.serviceCode;
+//     //   log('selecccted: ${selectedCourier}');
+//     //   setState(() {
+//     //     isiTemSelected = !isiTemSelected;
+//     //   });
+//     //   log('${courierItem.serviceCode} isSelected: $isSelected');
+//     // });
+//   },
+//   child: CourierWidget(
+//     title: "${courierItem.name}",
+//     imageUrl: "${courierItem.pinImage}",
+//     index: index,
+//   ),
+// );
+
+// child: Row(
+//   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//   children: [
+//     Padding(
+//       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
+//       child: Image.network(widget.imageUrl,
+//         height: 38, width: 38, fit: BoxFit.contain
+//       ),
+//     ),
+//     Text(
+//       widget.title,
+//       style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+//     ),
+//     Padding(
+//       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
+//       child: SizedBox(
+//         child: isSelected
+//           ? Image.asset('assets/images/check.png',
+//             height: 30, width: 30, fit: BoxFit.fill)
+//           : Image.asset('assets/images/checked.png',
+//             height: 30, width: 30, fit: BoxFit.fill),
+//       ),
+//     ),
+//   ],
+// ),

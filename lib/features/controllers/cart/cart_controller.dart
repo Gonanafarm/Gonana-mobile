@@ -231,6 +231,7 @@ class CartController extends GetxController {
       List<Order> order, String serviceCode, var context) async {
     try {
       var data = {"orders": order, "service_code": serviceCode};
+      log("data: $data");
       for (var item in order) {
         print('Order ID: ${item.id}');
         print('Units: ${item.units}');
@@ -283,14 +284,17 @@ class CartController extends GetxController {
       if (res.statusCode == 200) {
         log("Couriers: $result");
         courierModel = courierModelFromJson(res.body);
+        update();
         return true;
       } else {
         log("Fail Couriers: $result");
+        update();
         return false;
       }
     } catch (e, s) {
       log("fetchActiveCourier Error=> $e");
       log("fetchActiveCourier Stack=> $s");
+      update();
       return false;
     }
   }
