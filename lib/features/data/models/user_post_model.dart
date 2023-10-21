@@ -35,10 +35,11 @@ class UserPostModel {
 
 class Datum {
   String? id;
+  bool? selfShipping;
+  List<Address>? address;
   Location? location;
   List<dynamic>? categories;
   int? weight;
-  String? deliveryCompany;
   int? quantity;
   int? amount;
   List<dynamic>? tags;
@@ -54,12 +55,13 @@ class Datum {
 
   Datum({
     this.id,
+    this.selfShipping,
+    this.address,
     this.location,
     this.categories,
     this.weight,
     this.quantity,
     this.amount,
-    this.deliveryCompany,
     this.tags,
     this.body,
     this.images,
@@ -74,6 +76,11 @@ class Datum {
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["_id"],
+        selfShipping: json["self_shipping"],
+        address: json["address"] == null
+            ? []
+            : List<Address>.from(
+                json["address"]!.map((x) => Address.fromJson(x))),
         location: json["location"] == null
             ? null
             : Location.fromJson(json["location"]),
@@ -82,7 +89,6 @@ class Datum {
             : List<dynamic>.from(json["categories"]!.map((x) => x)),
         weight: json["weight"],
         quantity: json["quantity"],
-        deliveryCompany: json["delivery_company"],
         amount: json["amount"],
         tags: json["tags"] == null
             ? []
@@ -102,6 +108,10 @@ class Datum {
 
   Map<String, dynamic> toJson() => {
         "_id": id,
+        "self_shipping": selfShipping,
+        "address": address == null
+            ? []
+            : List<dynamic>.from(address!.map((x) => x.toJson())),
         "location": location?.toJson(),
         "categories": categories == null
             ? []
@@ -109,7 +119,6 @@ class Datum {
         "weight": weight,
         "quantity": quantity,
         "amount": amount,
-        "delivery_company": deliveryCompany,
         "tags": tags == null ? [] : List<dynamic>.from(tags!.map((x) => x)),
         "body": body,
         "images":
@@ -124,9 +133,29 @@ class Datum {
       };
 }
 
+class Address {
+  String? address;
+  int? code;
+
+  Address({
+    this.address,
+    this.code,
+  });
+
+  factory Address.fromJson(Map<String, dynamic> json) => Address(
+        address: json["address"],
+        code: json["code"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "address": address,
+        "code": code,
+      };
+}
+
 class Location {
   String? type;
-  List<int>? coordinates;
+  List<dynamic>? coordinates;
 
   Location({
     this.type,
@@ -134,19 +163,12 @@ class Location {
   });
 
   factory Location.fromJson(Map<String, dynamic> json) => Location(
+        type: json["type"],
         coordinates: json["coordinates"] == null
             ? []
-            : List<int>.from(json["coordinates"].map(
-                (dynamic value) {
-                  if (value is int) {
-                    return value;
-                  } else if (value is String) {
-                    return int.tryParse(value) ??
-                        0; // Convert string to int, default to 0 if parsing fails
-                  }
-                  return 0; // Default value if not int or string
-                },
-              )),
+            : List<double>.from(
+                json["coordinates"]!.map((x) => double.parse(x.toString())),
+              ),
       );
 
   Map<String, dynamic> toJson() => {

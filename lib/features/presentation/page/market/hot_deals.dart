@@ -264,8 +264,8 @@ class _HotDealsCardState extends State<HotDealsCard> {
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Container(
                           child: FutureBuilder<String?>(
-                            future:
-                                marketController.productAddress(widget.index),
+                            future: marketController
+                                .discountedProductAddress(widget.index),
                             builder: (BuildContext context,
                                 AsyncSnapshot<String?> snapshot) {
                               if (snapshot.connectionState ==

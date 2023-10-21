@@ -13,6 +13,7 @@ import 'package:gonana/features/data/models/post_model.dart';
 import 'package:gonana/features/data/models/user_model.dart';
 import 'package:gonana/features/data/models/user_post_model.dart';
 import 'package:gonana/features/presentation/page/store/store_logistics.dart';
+import 'package:gonana/features/presentation/widgets/widgets.dart';
 import '../../../consts.dart';
 import '../../data/models/get_post_model.dart';
 import '../../data/models/market_model.dart';
@@ -141,40 +142,22 @@ class ProductController extends GetxController {
       double? geoLong,
       double? geoLat,
       String? logisticMerchant,
-      String? address) async {
-    MultipartFile imagePartFile;
-    MultipartFile imagePartFile2;
-    MultipartFile imagePartFile3;
+      String? address,
+      var context) async {
+    List<MultipartFile> files = [];
 
-    List files = [];
+    if (image == null && image2 == null && image3 == null) {
+      ErrorSnackbar.show(context, "You have to select an image");
+      return false;
+    }
     String id = DateTime.now().millisecondsSinceEpoch.toString();
-    imagePartFile =
-        await MultipartFile.fromFile(image!.path, filename: '$id/${image!}');
-    imagePartFile2 =
-        await MultipartFile.fromFile(image2!.path, filename: '$id/${image2!}');
-    imagePartFile3 =
-        await MultipartFile.fromFile(image3!.path, filename: '$id/${image3!}');
-
-    files.insert(0, imagePartFile);
-    files.insert(1, imagePartFile2);
-    files.insert(2, imagePartFile3);
-    List category = [];
-    category.insert(0, categories);
-
-    // List<dynamic> attachmentsList = [
-    //   attachments != null
-    //     ? await MultipartFile.fromFile(attachments[0].path,
-    //     filename: fileName1): '',
-    //   attachments != null
-    //     ? await MultipartFile.fromFile(attachments[1].path,
-    //     filename: fileName1): ''
-    // ];
-    //     image != null
-    //   ? await MultipartFile.fromFile(image.path, filename: fileName1):'';
-    // image2 != null?
-    //   await MultipartFile.fromFile(image2.path, filename: fileName2):'';
-    // image3 != null?
-    //   await MultipartFile.fromFile(image3.path, filename: fileName3):'';
+    for (File? image in [image, image2, image3]) {
+      if (image != null && image.path.isNotEmpty) {
+        MultipartFile imagePartFile =
+            await MultipartFile.fromFile(image.path, filename: "$id/${image!}");
+        files.add(imagePartFile);
+      }
+    }
 
     FormData formData = FormData.fromMap({
       //"self_shipping": true,
@@ -183,17 +166,16 @@ class ProductController extends GetxController {
       'type': 'product',
       'status': "published",
       'files': files,
-      'categories': category,
+      'categories': categories,
       'amount': amount,
       'quantity': quantity,
       'weight': weight,
       'geo_long': geoLong,
       'geo_lat': geoLat,
-      'delivery_company': logisticsMerchant,
+      'delivery_company': logisticMerchant,
       'address': address,
     });
-    log("FD =>${formData.fields}");
-    print("FD =>${formData.fields}");
+
     try {
       var res = await NetworkApi()
           .dioPost(formData: formData, routeUrl: ApiRoute.createPost);
@@ -201,8 +183,10 @@ class ProductController extends GetxController {
       log('MarketResult => $result');
       // log(res);
       if (res.statusCode == 201) {
+        SuccessSnackbar.show(context, "Product successfully created");
         return true;
       } else {
+        ErrorSnackbar.show(context, result['message']);
         return false;
       }
     } on DioException catch (e, s) {
@@ -211,6 +195,318 @@ class ProductController extends GetxController {
       return false;
     }
   }
+
+  // Future<bool> createProduct(
+  //     String? title,
+  //     String? body,
+  //     //  List<File> images,
+  //     File? image,
+  //     File? image2,
+  //     File? image3,
+  //     String? categories,
+  //     int? amount,
+  //     int? quantity,
+  //     double? weight,
+  //     double? geoLong,
+  //     double? geoLat,
+  //     String? logisticMerchant,
+  //     String? address,
+  //     var context) async {
+  //   MultipartFile imagePartFile;
+  //   MultipartFile imagePartFile2;
+  //   MultipartFile imagePartFile3;
+  //
+  //   List files = [];
+  //   String id = DateTime.now().millisecondsSinceEpoch.toString();
+  //   if (image != null &&
+  //       image.path.isNotEmpty &&
+  //       image2 != null &&
+  //       image2.path.isNotEmpty &&
+  //       image3 != null &&
+  //       image3.path.isNotEmpty) {
+  //     imagePartFile =
+  //         await MultipartFile.fromFile(image!.path, filename: '$id/${image!}');
+  //     files.insert(0, imagePartFile);
+  //
+  //     imagePartFile2 = await MultipartFile.fromFile(image2!.path,
+  //         filename: '$id/${image2!}');
+  //     files.insert(1, imagePartFile2);
+  //
+  //     imagePartFile3 = await MultipartFile.fromFile(image3!.path,
+  //         filename: '$id/${image3!}');
+  //     files.insert(2, imagePartFile3);
+  //     List category = [];
+  //     category.insert(0, categories);
+  //     FormData formData = FormData.fromMap({
+  //       'title': title,
+  //       'body': body,
+  //       'type': 'product',
+  //       'status': "published",
+  //       'files': files,
+  //       'categories': category,
+  //       'amount': amount,
+  //       'quantity': quantity,
+  //       'weight': weight,
+  //       'geo_long': geoLong,
+  //       'geo_lat': geoLat,
+  //       'delivery_company': logisticsMerchant,
+  //       'address': address,
+  //     });
+  //     log("FD =>${formData.fields}");
+  //     print("FD =>${formData.fields}");
+  //     try {
+  //       var res = await NetworkApi()
+  //           .dioPost(formData: formData, routeUrl: ApiRoute.createPost);
+  //       final result = jsonDecode(res.data);
+  //       log('MarketResult => $result');
+  //       // log(res);
+  //       if (res.statusCode == 201) {
+  //         // SuccessSnackbar.show(context, result['message']);
+  //         return true;
+  //       } else {
+  //         // ErrorSnackbar.show(context, result['message']);
+  //         return false;
+  //       }
+  //     } on DioException catch (e, s) {
+  //       log('e=>$e');
+  //       log('s=.>$s');
+  //       return false;
+  //     }
+  //   } else if (image != null &&
+  //       image.path.isNotEmpty &&
+  //       image2 != null &&
+  //       image2.path.isNotEmpty) {
+  //     imagePartFile =
+  //         await MultipartFile.fromFile(image!.path, filename: '$id/${image!}');
+  //     files.insert(0, imagePartFile);
+  //
+  //     imagePartFile2 = await MultipartFile.fromFile(image2!.path,
+  //         filename: '$id/${image2!}');
+  //     files.insert(1, imagePartFile2);
+  //   } else if (image != null &&
+  //       image.path.isNotEmpty &&
+  //       image3 != null &&
+  //       image3.path.isNotEmpty) {
+  //     imagePartFile =
+  //         await MultipartFile.fromFile(image!.path, filename: '$id/${image!}');
+  //     files.insert(0, imagePartFile);
+  //
+  //     imagePartFile3 = await MultipartFile.fromFile(image3!.path,
+  //         filename: '$id/${image3!}');
+  //     files.insert(2, imagePartFile3);
+  //     List category = [];
+  //     category.insert(0, categories);
+  //     FormData formData = FormData.fromMap({
+  //       'title': title,
+  //       'body': body,
+  //       'type': 'product',
+  //       'status': "published",
+  //       'files': files,
+  //       'categories': category,
+  //       'amount': amount,
+  //       'quantity': quantity,
+  //       'weight': weight,
+  //       'geo_long': geoLong,
+  //       'geo_lat': geoLat,
+  //       'delivery_company': logisticsMerchant,
+  //       'address': address,
+  //     });
+  //     log("FD =>${formData.fields}");
+  //     print("FD =>${formData.fields}");
+  //     try {
+  //       var res = await NetworkApi()
+  //           .dioPost(formData: formData, routeUrl: ApiRoute.createPost);
+  //       final result = jsonDecode(res.data);
+  //       log('MarketResult => $result');
+  //       // log(res);
+  //       if (res.statusCode == 201) {
+  //         // SuccessSnackbar.show(context, result['message']);
+  //         return true;
+  //       } else {
+  //         // ErrorSnackbar.show(context, result['message']);
+  //         return false;
+  //       }
+  //     } on DioException catch (e, s) {
+  //       log('e=>$e');
+  //       log('s=.>$s');
+  //       return false;
+  //     }
+  //   } else if (image2 != null &&
+  //       image2.path.isNotEmpty &&
+  //       image3 != null &&
+  //       image3.path.isNotEmpty) {
+  //     imagePartFile2 = await MultipartFile.fromFile(image2!.path,
+  //         filename: '$id/${image2!}');
+  //     files.insert(1, imagePartFile2);
+  //
+  //     imagePartFile3 = await MultipartFile.fromFile(image3!.path,
+  //         filename: '$id/${image3!}');
+  //     files.insert(2, imagePartFile3);
+  //     List category = [];
+  //     category.insert(0, categories);
+  //     FormData formData = FormData.fromMap({
+  //       'title': title,
+  //       'body': body,
+  //       'type': 'product',
+  //       'status': "published",
+  //       'files': files,
+  //       'categories': category,
+  //       'amount': amount,
+  //       'quantity': quantity,
+  //       'weight': weight,
+  //       'geo_long': geoLong,
+  //       'geo_lat': geoLat,
+  //       'delivery_company': logisticsMerchant,
+  //       'address': address,
+  //     });
+  //     log("FD =>${formData.fields}");
+  //     print("FD =>${formData.fields}");
+  //     try {
+  //       var res = await NetworkApi()
+  //           .dioPost(formData: formData, routeUrl: ApiRoute.createPost);
+  //       final result = jsonDecode(res.data);
+  //       log('MarketResult => $result');
+  //       // log(res);
+  //       if (res.statusCode == 201) {
+  //         // SuccessSnackbar.show(context, result['message']);
+  //         return true;
+  //       } else {
+  //         // ErrorSnackbar.show(context, result['message']);
+  //         return false;
+  //       }
+  //     } on DioException catch (e, s) {
+  //       log('e=>$e');
+  //       log('s=.>$s');
+  //       return false;
+  //     }
+  //   } else if (image != null && image.path.isNotEmpty) {
+  //     imagePartFile =
+  //         await MultipartFile.fromFile(image!.path, filename: '$id/${image!}');
+  //     files.insert(0, imagePartFile);
+  //     List category = [];
+  //     category.insert(0, categories);
+  //     FormData formData = FormData.fromMap({
+  //       'title': title,
+  //       'body': body,
+  //       'type': 'product',
+  //       'status': "published",
+  //       'files': files,
+  //       'categories': category,
+  //       'amount': amount,
+  //       'quantity': quantity,
+  //       'weight': weight,
+  //       'geo_long': geoLong,
+  //       'geo_lat': geoLat,
+  //       'delivery_company': logisticsMerchant,
+  //       'address': address,
+  //     });
+  //     log("FD =>${formData.fields}");
+  //     print("FD =>${formData.fields}");
+  //     try {
+  //       var res = await NetworkApi()
+  //           .dioPost(formData: formData, routeUrl: ApiRoute.createPost);
+  //       final result = jsonDecode(res.data);
+  //       log('MarketResult => $result');
+  //       // log(res);
+  //       if (res.statusCode == 201) {
+  //         // SuccessSnackbar.show(context, result['message']);
+  //         return true;
+  //       } else {
+  //         // ErrorSnackbar.show(context, result['message']);
+  //         return false;
+  //       }
+  //     } on DioException catch (e, s) {
+  //       log('e=>$e');
+  //       log('s=.>$s');
+  //       return false;
+  //     }
+  //   } else if (image2 != null && image2.path.isNotEmpty) {
+  //     imagePartFile = await MultipartFile.fromFile(image2!.path,
+  //         filename: '$id/${image2!}');
+  //     files.insert(1, imagePartFile);
+  //     List category = [];
+  //     category.insert(0, categories);
+  //     FormData formData = FormData.fromMap({
+  //       'title': title,
+  //       'body': body,
+  //       'type': 'product',
+  //       'status': "published",
+  //       'files': files,
+  //       'categories': category,
+  //       'amount': amount,
+  //       'quantity': quantity,
+  //       'weight': weight,
+  //       'geo_long': geoLong,
+  //       'geo_lat': geoLat,
+  //       'delivery_company': logisticsMerchant,
+  //       'address': address,
+  //     });
+  //     log("FD =>${formData.fields}");
+  //     print("FD =>${formData.fields}");
+  //     try {
+  //       var res = await NetworkApi()
+  //           .dioPost(formData: formData, routeUrl: ApiRoute.createPost);
+  //       final result = jsonDecode(res.data);
+  //       log('MarketResult => $result');
+  //       // log(res);
+  //       if (res.statusCode == 201) {
+  //         // SuccessSnackbar.show(context, result['message']);
+  //         return true;
+  //       } else {
+  //         // ErrorSnackbar.show(context, result['message']);
+  //         return false;
+  //       }
+  //     } on DioException catch (e, s) {
+  //       log('e=>$e');
+  //       log('s=.>$s');
+  //       return false;
+  //     }
+  //   } else if (image3 != null && image3.path.isNotEmpty) {
+  //     imagePartFile = await MultipartFile.fromFile(image3!.path,
+  //         filename: '$id/${image3!}');
+  //     files.insert(2, imagePartFile);
+  //     List category = [];
+  //     category.insert(0, categories);
+  //     FormData formData = FormData.fromMap({
+  //       'title': title,
+  //       'body': body,
+  //       'type': 'product',
+  //       'status': "published",
+  //       'files': files,
+  //       'categories': category,
+  //       'amount': amount,
+  //       'quantity': quantity,
+  //       'weight': weight,
+  //       'geo_long': geoLong,
+  //       'geo_lat': geoLat,
+  //       'delivery_company': logisticsMerchant,
+  //       'address': address,
+  //     });
+  //     log("FD =>${formData.fields}");
+  //     print("FD =>${formData.fields}");
+  //     try {
+  //       var res = await NetworkApi()
+  //           .dioPost(formData: formData, routeUrl: ApiRoute.createPost);
+  //       final result = jsonDecode(res.data);
+  //       log('MarketResult => $result');
+  //       // log(res);
+  //       if (res.statusCode == 201) {
+  //         // SuccessSnackbar.show(context, result['message']);
+  //         return true;
+  //       } else {
+  //         // ErrorSnackbar.show(context, result['message']);
+  //         return false;
+  //       }
+  //     } on DioException catch (e, s) {
+  //       log('e=>$e');
+  //       log('s=.>$s');
+  //       return false;
+  //     }
+  //   } else {
+  //     ErrorSnackbar.show(context, "You have to select an image");
+  //     return false;
+  //   }
+  // }
 
   PostModel? marketModel;
   UserPostModel? userMarketModel;
@@ -345,6 +641,49 @@ class ProductController extends GetxController {
       String? state;
       String? addressString =
           marketModel!.data![index].product!.address![0].address;
+      List<String> components = addressString!.split(", ");
+      for (String component in components) {
+        if (nigerianStates.contains(component)) {
+          state = component;
+          break;
+        }
+      }
+      print("State now: $state");
+      return state;
+    } else {
+      return "";
+    }
+  }
+
+  Future<String?> userProductAddress(int index) async {
+    if (userMarketModel! != null &&
+        userMarketModel!.data![index] != null &&
+        userMarketModel!.data![index].address! != null &&
+        userMarketModel!.data![index].address![0].address != null) {
+      String? state;
+      String? addressString = userMarketModel!.data![index].address![0].address;
+      List<String> components = addressString!.split(", ");
+      for (String component in components) {
+        if (nigerianStates.contains(component)) {
+          state = component;
+          break;
+        }
+      }
+      print("State now: $state");
+      return state;
+    } else {
+      return "";
+    }
+  }
+
+  Future<String?> discountedProductAddress(int index) async {
+    if (discountMarketModel! != null &&
+        discountMarketModel!.data![index] != null &&
+        discountMarketModel!.data![index].address! != null &&
+        discountMarketModel!.data![index].address![0].address != null) {
+      String? state;
+      String? addressString =
+          discountMarketModel!.data![index].address![0].address;
       List<String> components = addressString!.split(", ");
       for (String component in components) {
         if (nigerianStates.contains(component)) {

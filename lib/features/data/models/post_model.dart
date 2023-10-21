@@ -183,7 +183,7 @@ class Address {
 
 class Location {
   String? type;
-  List<String>? coordinates;
+  List<dynamic>? coordinates;
 
   Location({
     this.type,
@@ -192,9 +192,11 @@ class Location {
 
   factory Location.fromJson(Map<String, dynamic> json) => Location(
         type: json["type"],
-        coordinates: (json["coordinates"] as List<dynamic>?)
-            ?.map((x) => x.toString())
-            .toList(),
+        coordinates: json["coordinates"] == null
+            ? []
+            : List<double>.from(
+                json["coordinates"]!.map((x) => double.parse(x.toString())),
+              ),
       );
 
   Map<String, dynamic> toJson() => {

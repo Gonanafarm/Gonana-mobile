@@ -159,7 +159,7 @@ class Product {
 
 class Location {
   String? type;
-  List<int>? coordinates;
+  List<dynamic>? coordinates;
 
   Location({
     this.type,
@@ -167,16 +167,18 @@ class Location {
   });
 
   factory Location.fromJson(Map<String, dynamic> json) => Location(
-        type: json["type"],
-        coordinates: json["coordinates"] == null
-            ? []
-            : List<int>.from(json["coordinates"]!.map((x) => x)),
-      );
+    type: json["type"],
+    coordinates: json["coordinates"] == null
+        ? []
+        : List<double>.from(
+      json["coordinates"]!.map((x) => double.parse(x.toString())),
+    ),
+  );
 
   Map<String, dynamic> toJson() => {
-        "type": type,
-        "coordinates": coordinates == null
-            ? []
-            : List<dynamic>.from(coordinates!.map((x) => x)),
-      };
+    "type": type,
+    "coordinates": coordinates == null
+        ? []
+        : List<dynamic>.from(coordinates!.map((x) => x)),
+  };
 }

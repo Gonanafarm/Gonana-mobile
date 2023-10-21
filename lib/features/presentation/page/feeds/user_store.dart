@@ -203,6 +203,7 @@ class _UserStoreState extends State<UserStore> {
 }
 
 ProductController productController = Get.put(ProductController());
+PostController postController = Get.put(PostController());
 CartController cartController = Get.put(CartController());
 
 class HotDealsCard extends StatefulWidget {
@@ -314,16 +315,11 @@ class _HotDealsCardState extends State<HotDealsCard> {
                           //       decorationThickness: 2.0,
                           //     )),
                           // sizeVer(5.0),
-                          FutureBuilder<String>(
+                          FutureBuilder<String?>(
                             future:
-                                productController.convertCoordinatesToAddress([
-                              double.parse(
-                                  "${widget.productId.location!.coordinates![0]}"),
-                              double.parse(
-                                  "${widget.productId.location!.coordinates![1]}")
-                            ]),
+                                postController.postUserIdAddress(widget.index),
                             builder: (BuildContext context,
-                                AsyncSnapshot<String> snapshot) {
+                                AsyncSnapshot<String?> snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
                                 return CircularProgressIndicator();

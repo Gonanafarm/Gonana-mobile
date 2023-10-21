@@ -6,6 +6,7 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:gonana/features/data/models/post_model_id.dart';
 import 'package:gonana/features/data/models/post_model.dart';
+import '../../../consts.dart';
 import '../../data/models/feeds_model.dart';
 import '../../data/models/get_post_model.dart';
 import '../../utilities/api_routes.dart';
@@ -134,6 +135,28 @@ class PostController extends GetxController {
     } catch (e) {
       print(e);
       return false;
+    }
+  }
+
+  Future<String?> postUserIdAddress(int index) async {
+    if (idPostModel! != null &&
+        idPostModel!.data![index] != null &&
+        idPostModel!.data![index].product! != null &&
+        idPostModel!.data![index].product!.address![0] != null) {
+      String? state;
+      String? addressString =
+          idPostModel!.data![index].product!.address![0].address;
+      List<String> components = addressString!.split(", ");
+      for (String component in components) {
+        if (nigerianStates.contains(component)) {
+          state = component;
+          break;
+        }
+      }
+      print("State now: $state");
+      return state;
+    } else {
+      return "";
     }
   }
 

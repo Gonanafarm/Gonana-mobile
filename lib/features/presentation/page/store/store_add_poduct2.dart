@@ -12,6 +12,7 @@ import 'package:gonana/features/presentation/page/store/store_confirm_screen.dar
 import 'package:gonana/features/presentation/page/store/store_logistics.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
 
+import '../../../controllers/cart/cart_controller.dart';
 import '../../../controllers/market/market_controllers.dart';
 
 class AddProduct2 extends StatefulWidget {
@@ -46,6 +47,8 @@ class _AddProduct2State extends State<AddProduct2> {
   double long = 0.0;
   late var coordinates = [lat.toString(), long.toString()];
   Rx<TaxonomyModel?> selectedTaxonomy = TaxonomyModel().obs;
+  CartController cartController = Get.put(CartController());
+  bool isValidated = false;
 
   @override
   void initState() {
@@ -123,6 +126,7 @@ class _AddProduct2State extends State<AddProduct2> {
                 children: [
                   Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(
                           width: double.infinity,
@@ -228,6 +232,24 @@ class _AddProduct2State extends State<AddProduct2> {
                                 controller: _address,
                                 label: 'Product Address',
                                 hint: 'Enter address for pick up')),
+                        const SizedBox(height: 10),
+                        ShortGradientButton(
+                            title: 'Validate',
+                            onPressed: () async {
+                              var isSuccess =
+                                  await cartController.validateAddress(address);
+                              if (isSuccess == true) {
+                                log('isSUccess: $isSuccess');
+                                SuccessSnackbar.show(
+                                    context, 'Address succesfully validated');
+                                setState(() {
+                                  isValidated = true;
+                                });
+                              } else {
+                                ErrorSnackbar.show(
+                                    context, 'Address not validated');
+                              }
+                            }),
                         // Column(
                         //   children: [
                         //     const SizedBox(
@@ -334,10 +356,15 @@ class _AddProduct2State extends State<AddProduct2> {
             LongGradientButton(
                 title: 'Proceed',
                 onPressed: () {
-                  log('$currentPosition');
-                  Get.to(
-                    () => const ConfirmScreen(),
-                  );
+                  if (isValidated) {
+                    log('$currentPosition');
+                    Get.to(
+                      () => const ConfirmScreen(),
+                    );
+                  } else {
+                    ErrorSnackbar.show(
+                        context, "Input and validate your address");
+                  }
                 })
           ],
         ),
