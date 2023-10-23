@@ -297,7 +297,8 @@ class _SendPasscodeState extends State<PayWithWalletPasscode> {
                                           fontWeight: FontWeight.w400)),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 50.0, vertical: 50.0),
+                                      horizontal: 50.0, vertical: 50.0
+                                    ),
                                     child: PinCodeTextField(
                                       controller: _passCodeController,
                                       obscureText: true,

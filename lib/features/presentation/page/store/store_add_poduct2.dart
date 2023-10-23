@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -50,6 +51,7 @@ class _AddProduct2State extends State<AddProduct2> {
   Rx<TaxonomyModel?> selectedTaxonomy = TaxonomyModel().obs;
   CartController cartController = Get.put(CartController());
   bool isValidated = false;
+  bool selfShipping = false;
 
   @override
   void initState() {
@@ -250,25 +252,20 @@ class _AddProduct2State extends State<AddProduct2> {
                           ),
                         ),
                         ShortGradientButton(
-                            title: 'Validate',
-                            onPressed: () async {
-                              bool isValid =
-                                  _productKey.currentState!.validate();
-                              var isSuccess =
-                                  await cartController.validateAddress(address);
-                              if (isSuccess == true) {
-                                log('isSUccess: $isSuccess');
-                                SuccessSnackbar.show(
-                                    context, 'Address succesfully validated');
-                                setState(() {
-                                  isValidated = true;
-                                });
-                              } else {
-                                ErrorSnackbar.show(
-                                    context, 'Address not validated');
-                              }
-                            }),
-                        sizeVer(20),
+                          title: 'Validate',
+                          onPressed: () async {
+                            var isSuccess = await cartController.validateAddress(address);
+                            if (isSuccess == true) {
+                              log('isSUccess: $isSuccess');
+                              SuccessSnackbar.show(context, 'Address succesfully validated');
+                              setState(() {
+                                isValidated = true;
+                              });
+                            } else {
+                              ErrorSnackbar.show(context, 'Address not validated');
+                            }
+                          }),
+                  sizeVer(20),
                         const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
                           child: Text(
@@ -276,106 +273,38 @@ class _AddProduct2State extends State<AddProduct2> {
                             style: TextStyle(color: Colors.red),
                           ),
                         ),
-                        // Column(
-                        //   children: [
-                        //     const SizedBox(
-                        //       width: double.infinity,
-                        //       child: Padding(
-                        //         padding: EdgeInsets.all(4.0),
-                        //         child: Text(
-                        //           'Product Location',
-                        //           textAlign: TextAlign.left,
-                        //         ),
-                        //       )
-                        //     ),
-                        //     Container(
-                        //       height: 58,
-                        //       width: MediaQuery.of(context).size.width,
-                        //       decoration: BoxDecoration(
-                        //         border: Border.all(width: 1, color: Colors.grey),
-                        //         borderRadius: const BorderRadius.all(Radius.circular(5)),
-                        //       ),
-                        //       child: Padding(
-                        //         padding: const EdgeInsets.fromLTRB(8, 20, 0, 0),
-                        //         child: Text('$currentAddress',
-                        //           style: const TextStyle(),
-                        //           textAlign: TextAlign.left
-                        //         ),
-                        //       )
-                        //     )
-                        //   ]
-                        // ),
-                        // const SizedBox(height: 10),
-                        // Column(
-                        //   crossAxisAlignment: CrossAxisAlignment.start,
-                        //   children: [
-                        //     const Text("  Product Category"),
-                        //     const SizedBox(height: 5),
-                        //     GetBuilder<TaxonomyController>(builder: (_) {
-                        //       if (taxonomyController.taxonomies.isEmpty) {
-                        //         taxonomyController.getTaxonomy();
-                        //       } else {
-                        //         if (selectedTaxonomy.value.isBlank!) {
-                        //           selectedTaxonomy.update((val) {
-                        //             selectedTaxonomy.value =
-                        //                 taxonomyController.taxonomies[0];
-                        //           });
-                        //         }
-                        //       }
-                        //       return Obx(
-                        //         () => Container(
-                        //           width:
-                        //               MediaQuery.of(context).size.width * 0.9,
-                        //           decoration: BoxDecoration(
-                        //               border: Border.all(color: Colors.grey),
-                        //               borderRadius: BorderRadius.circular(5)),
-                        //           child: Padding(
-                        //             padding: const EdgeInsets.all(8.0),
-                        //             child: DropdownButton<String>(
-                        //                 isExpanded: true,
-                        //                 underline: const SizedBox(),
-                        //                 dropdownColor: Theme.of(context)
-                        //                     .scaffoldBackgroundColor,
-                        //                 focusColor: Colors.transparent,
-                        //                 value: selectedTaxonomy.value != null &&
-                        //                         selectedTaxonomy.value!.id !=
-                        //                             null
-                        //                     ? selectedTaxonomy.value!.id
-                        //                         .toString()
-                        //                     : null,
-                        //                 hint: const Text(
-                        //                     'Select your product category'),
-                        //                 items: taxonomyController
-                        //                         .taxonomies.isNotEmpty
-                        //                     ? taxonomyController.taxonomies
-                        //                         .map((e) {
-                        //                         return DropdownMenuItem<String>(
-                        //                           value: e.id.toString(),
-                        //                           child:
-                        //                               Text(e.name.toString()),
-                        //                         );
-                        //                       }).toList()
-                        //                     : [],
-                        //                 onChanged: (e) {
-                        //                   if (e!.isNotEmpty) {
-                        //                     selectedTaxonomy.value =
-                        //                         taxonomyController.taxonomies
-                        //                             .firstWhere((element) =>
-                        //                                 element.id.toString() ==
-                        //                                 e);
-                        //                     taxonomyController.updateId(
-                        //                         selectedTaxonomy.value!.id
-                        //                             .toString());
-                        //                   }
-                        //                   log('${selectedTaxonomy.value!.id}');
-                        //                 }),
-                        //           ),
-                        //         ),
-                        //       );
-                        //     })
-                        //   ],
-                        // ),
-                      ]),
+                        const SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Transform.scale(
+                              scale: 1.25 ,
+                              child: Checkbox(
+                                value: selfShipping,
+                                activeColor: greenColor,
+                                visualDensity: VisualDensity.comfortable,
+                                onChanged: (value) {
+                                  setState(() {
+                                    selfShipping = value!;
+                                    log('selfShipping: $selfShipping , value: $value');
+                                    productController.updateShipping(selfShipping);
+                                  });
+                                }
+                              ),
+                            ),
+                            const Text(
+                              'I would like to ship my product myself',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: greenColor
+                              ),
+                              textAlign: TextAlign.left,
+                            )
+                          ],
+                        )
+                      ]
+                    ),
                 ],
               ),
             ),
@@ -396,6 +325,72 @@ class _AddProduct2State extends State<AddProduct2> {
           ],
         ),
       ),
+    );
+  }
+
+  Future<dynamic> confirmationDialog(BuildContext context){
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+          child: Container(
+            height: 100,
+            child: AlertDialog(
+              title: const Center(
+                child: Icon(
+                  size: 60,
+                  Icons.check_circle_outline
+                )
+              ),
+              content: Padding(
+                padding: EdgeInsets.all(10),
+                child: Container(
+                  height: 150,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text('Self shipping'),
+                      sizeVer(10),
+                      const Flexible(
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            // width: 185,
+                            // height: 82,
+                            child: Text(
+                              'By choosing to ship your product yourself, you are taking responsibility for delivering the product. If the product is not delivered in 72 hours, the transaction will be cancelled and the customers funds refunded.',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Color(0xFF444444),
+                                fontSize: 14,
+                                fontFamily: 'Proxima Nova',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ),
+              actions: [
+                Padding(
+                    padding: const EdgeInsets.only(right: 30.0),
+                    child: DialogGradientButton(
+                      title: 'Proceed',
+                      onPressed: () {
+                        //Get.to(() => const ());
+                      },
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        );
+      }
     );
   }
 }
