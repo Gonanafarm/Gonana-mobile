@@ -104,6 +104,7 @@ class _AddProduct2State extends State<AddProduct2> {
     });
   }
 
+  final _productKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -187,55 +188,69 @@ class _AddProduct2State extends State<AddProduct2> {
                         //       ],
                         //     )),
                         const SizedBox(height: 10),
-                        SizedBox(
-                            // height: 82,
-                            width: MediaQuery.of(context).size.width,
-                            child: EnterText(
-                              onChanged: (price) {
-                                productController.updateAmount(price);
-                              },
-                              controller: _price,
-                              keyboardType: TextInputType.number,
-                              label: 'Price',
-                              hint: 'Enter the amount',
-                            )),
-                        const SizedBox(height: 10),
-                        SizedBox(
-                            // height: 82,
-                            width: MediaQuery.of(context).size.width,
-                            child: EnterText(
-                              onChanged: (quantity) {
-                                productController.updateQuantity(quantity);
-                              },
-                              controller: _quantity,
-                              keyboardType: TextInputType.number,
-                              label: 'Quantity',
-                              hint: 'Unit number of items',
-                            )),
-                        const SizedBox(height: 10),
-                        SizedBox(
-                            // height: 82,
-                            width: MediaQuery.of(context).size.width,
-                            child: EnterText(
-                              onChanged: (weight) {
-                                productController.updateWeight(weight);
-                              },
-                              controller: _weight,
-                              keyboardType: TextInputType.number,
-                              label: 'Weight',
-                              hint: 'Weight in KG',
-                            )),
-                        const SizedBox(height: 10),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: EnterText(
-                                onChanged: (weight) {
-                                  productController.updateAddress(address);
-                                },
-                                controller: _address,
-                                label: 'Product Address',
-                                hint: 'Enter address for pick up')),
-                        const SizedBox(height: 10),
+                        Form(
+                          key: _productKey,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                  // height: 82,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: EnterFormText(
+                                    validator: inputValidator,
+                                    onChanged: (price) {
+                                      productController.updateAmount(price);
+                                    },
+                                    controller: _price,
+                                    keyboardType: TextInputType.number,
+                                    label: 'Price',
+                                    hint: 'Enter the amount',
+                                  )),
+                              const SizedBox(height: 10),
+                              SizedBox(
+                                  // height: 82,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: EnterFormText(
+                                    validator: inputValidator,
+                                    onChanged: (quantity) {
+                                      productController
+                                          .updateQuantity(quantity);
+                                    },
+                                    controller: _quantity,
+                                    keyboardType: TextInputType.number,
+                                    label: 'Quantity',
+                                    hint: 'Unit number of items',
+                                    // validator: inputValidator(_quantity.text),
+                                  )),
+                              const SizedBox(height: 10),
+                              SizedBox(
+                                  // height: 82,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: EnterFormText(
+                                    validator: inputValidator,
+                                    onChanged: (weight) {
+                                      productController.updateWeight(weight);
+                                    },
+                                    controller: _weight,
+                                    keyboardType: TextInputType.number,
+                                    label: 'Weight',
+                                    hint: 'Weight in KG',
+                                  )),
+                              const SizedBox(height: 10),
+                              SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: EnterFormText(
+                                      validator: inputValidator,
+                                      onChanged: (weight) {
+                                        productController
+                                            .updateAddress(address);
+                                      },
+                                      controller: _address,
+                                      label: 'Product Address',
+                                      hint: 'Enter address for pick up')),
+                              const SizedBox(height: 10),
+                            ],
+                          ),
+                        ),
                         ShortGradientButton(
                           title: 'Validate',
                           onPressed: () async {
@@ -250,6 +265,14 @@ class _AddProduct2State extends State<AddProduct2> {
                               ErrorSnackbar.show(context, 'Address not validated');
                             }
                           }),
+                  sizeVer(20),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          child: Text(
+                            "Note: You would be charged 1.5% on every successful product sale",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ),
                         const SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -286,18 +309,19 @@ class _AddProduct2State extends State<AddProduct2> {
               ),
             ),
             LongGradientButton(
-              title: 'Proceed',
-              onPressed: () {
-                if (isValidated) {
-                  log('$currentPosition');
-                  Get.to(
-                    () => const ConfirmScreen(),
-                  );
-                } else {
-                  ErrorSnackbar.show(context, "Input and validate your address");
-                }
-              }
-            )
+                title: 'Proceed',
+                onPressed: () {
+                  bool isValid = _productKey.currentState!.validate();
+                  if (isValidated && isValid) {
+                    log('$currentPosition');
+                    Get.to(
+                      () => const ConfirmScreen(),
+                    );
+                  } else {
+                    ErrorSnackbar.show(
+                        context, "Input and validate your address");
+                  }
+                })
           ],
         ),
       ),
