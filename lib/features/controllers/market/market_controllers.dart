@@ -44,6 +44,7 @@ class ProductController extends GetxController {
   RxDouble geoLong = 0.0.obs;
   RxDouble geoLat = 0.0.obs;
   RxList<dynamic> images = [].obs;
+  RxBool selfShipping = false.obs;
 
   void updateTitle(String newTitle) {
     title.value = newTitle;
@@ -128,22 +129,29 @@ class ProductController extends GetxController {
     update();
   }
 
+  void updateShipping(bool newShipping){
+    selfShipping.value = newShipping;
+    update();
+  }
+
   Future<bool> createProduct(
-      String? title,
-      String? body,
-      //  List<File> images,
-      File? image,
-      File? image2,
-      File? image3,
-      String? categories,
-      int? amount,
-      int? quantity,
-      double? weight,
-      double? geoLong,
-      double? geoLat,
-      String? logisticMerchant,
-      String? address,
-      var context) async {
+    String? title,
+    String? body,
+    //  List<File> images,
+    File? image,
+    File? image2,
+    File? image3,
+    String? categories,
+    int? amount,
+    int? quantity,
+    double? weight,
+    double? geoLong,
+    double? geoLat,
+    String? logisticMerchant,
+    String? address,
+    bool? selfShippping,
+    var context
+  ) async {
     List<MultipartFile> files = [];
 
     if (image == null && image2 == null && image3 == null) {
@@ -174,6 +182,7 @@ class ProductController extends GetxController {
       'geo_lat': geoLat,
       'delivery_company': logisticMerchant,
       'address': address,
+      'self_shipping': selfShippping
     });
 
     try {

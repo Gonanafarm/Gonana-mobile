@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:gonana/consts.dart';
 import 'package:gonana/features/controllers/geolocator/geoservices.dart';
 import 'package:gonana/features/controllers/taxonomy/taxonomy_controller.dart';
 import 'package:gonana/features/data/models/taxonomy_model.dart';
@@ -49,6 +50,7 @@ class _AddProduct2State extends State<AddProduct2> {
   Rx<TaxonomyModel?> selectedTaxonomy = TaxonomyModel().obs;
   CartController cartController = Get.put(CartController());
   bool isValidated = false;
+  bool selfShipping = false;
 
   @override
   void initState() {
@@ -234,138 +236,67 @@ class _AddProduct2State extends State<AddProduct2> {
                                 hint: 'Enter address for pick up')),
                         const SizedBox(height: 10),
                         ShortGradientButton(
-                            title: 'Validate',
-                            onPressed: () async {
-                              var isSuccess =
-                                  await cartController.validateAddress(address);
-                              if (isSuccess == true) {
-                                log('isSUccess: $isSuccess');
-                                SuccessSnackbar.show(
-                                    context, 'Address succesfully validated');
-                                setState(() {
-                                  isValidated = true;
-                                });
-                              } else {
-                                ErrorSnackbar.show(
-                                    context, 'Address not validated');
-                              }
-                            }),
-                        // Column(
-                        //   children: [
-                        //     const SizedBox(
-                        //       width: double.infinity,
-                        //       child: Padding(
-                        //         padding: EdgeInsets.all(4.0),
-                        //         child: Text(
-                        //           'Product Location',
-                        //           textAlign: TextAlign.left,
-                        //         ),
-                        //       )
-                        //     ),
-                        //     Container(
-                        //       height: 58,
-                        //       width: MediaQuery.of(context).size.width,
-                        //       decoration: BoxDecoration(
-                        //         border: Border.all(width: 1, color: Colors.grey),
-                        //         borderRadius: const BorderRadius.all(Radius.circular(5)),
-                        //       ),
-                        //       child: Padding(
-                        //         padding: const EdgeInsets.fromLTRB(8, 20, 0, 0),
-                        //         child: Text('$currentAddress',
-                        //           style: const TextStyle(),
-                        //           textAlign: TextAlign.left
-                        //         ),
-                        //       )
-                        //     )
-                        //   ]
-                        // ),
-                        // const SizedBox(height: 10),
-                        // Column(
-                        //   crossAxisAlignment: CrossAxisAlignment.start,
-                        //   children: [
-                        //     const Text("  Product Category"),
-                        //     const SizedBox(height: 5),
-                        //     GetBuilder<TaxonomyController>(builder: (_) {
-                        //       if (taxonomyController.taxonomies.isEmpty) {
-                        //         taxonomyController.getTaxonomy();
-                        //       } else {
-                        //         if (selectedTaxonomy.value.isBlank!) {
-                        //           selectedTaxonomy.update((val) {
-                        //             selectedTaxonomy.value =
-                        //                 taxonomyController.taxonomies[0];
-                        //           });
-                        //         }
-                        //       }
-                        //       return Obx(
-                        //         () => Container(
-                        //           width:
-                        //               MediaQuery.of(context).size.width * 0.9,
-                        //           decoration: BoxDecoration(
-                        //               border: Border.all(color: Colors.grey),
-                        //               borderRadius: BorderRadius.circular(5)),
-                        //           child: Padding(
-                        //             padding: const EdgeInsets.all(8.0),
-                        //             child: DropdownButton<String>(
-                        //                 isExpanded: true,
-                        //                 underline: const SizedBox(),
-                        //                 dropdownColor: Theme.of(context)
-                        //                     .scaffoldBackgroundColor,
-                        //                 focusColor: Colors.transparent,
-                        //                 value: selectedTaxonomy.value != null &&
-                        //                         selectedTaxonomy.value!.id !=
-                        //                             null
-                        //                     ? selectedTaxonomy.value!.id
-                        //                         .toString()
-                        //                     : null,
-                        //                 hint: const Text(
-                        //                     'Select your product category'),
-                        //                 items: taxonomyController
-                        //                         .taxonomies.isNotEmpty
-                        //                     ? taxonomyController.taxonomies
-                        //                         .map((e) {
-                        //                         return DropdownMenuItem<String>(
-                        //                           value: e.id.toString(),
-                        //                           child:
-                        //                               Text(e.name.toString()),
-                        //                         );
-                        //                       }).toList()
-                        //                     : [],
-                        //                 onChanged: (e) {
-                        //                   if (e!.isNotEmpty) {
-                        //                     selectedTaxonomy.value =
-                        //                         taxonomyController.taxonomies
-                        //                             .firstWhere((element) =>
-                        //                                 element.id.toString() ==
-                        //                                 e);
-                        //                     taxonomyController.updateId(
-                        //                         selectedTaxonomy.value!.id
-                        //                             .toString());
-                        //                   }
-                        //                   log('${selectedTaxonomy.value!.id}');
-                        //                 }),
-                        //           ),
-                        //         ),
-                        //       );
-                        //     })
-                        //   ],
-                        // ),
-                      ]),
+                          title: 'Validate',
+                          onPressed: () async {
+                            var isSuccess = await cartController.validateAddress(address);
+                            if (isSuccess == true) {
+                              log('isSUccess: $isSuccess');
+                              SuccessSnackbar.show(context, 'Address succesfully validated');
+                              setState(() {
+                                isValidated = true;
+                              });
+                            } else {
+                              ErrorSnackbar.show(context, 'Address not validated');
+                            }
+                          }),
+                        const SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Transform.scale(
+                              scale: 1.25 ,
+                              child: Checkbox(
+                                value: selfShipping,
+                                activeColor: greenColor,
+                                visualDensity: VisualDensity.comfortable,
+                                onChanged: (value) {
+                                  setState(() {
+                                    selfShipping = value!;
+                                    log('selfShipping: $selfShipping , value: $value');
+                                    productController.updateShipping(selfShipping);
+                                  });
+                                }
+                              ),
+                            ),
+                            const Text(
+                              'I would like to ship my product myself',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: greenColor
+                              ),
+                              textAlign: TextAlign.left,
+                            )
+                          ],
+                        )
+                      ]
+                    ),
                 ],
               ),
             ),
             LongGradientButton(
-                title: 'Proceed',
-                onPressed: () {
-                  if (isValidated) {
-                    log('$currentPosition');
-                    Get.to(
-                      () => const ConfirmScreen(),
-                    );
-                  } else {
-                    ErrorSnackbar.show(
-                        context, "Input and validate your address");
-                  }
-                })
+              title: 'Proceed',
+              onPressed: () {
+                if (isValidated) {
+                  log('$currentPosition');
+                  Get.to(
+                    () => const ConfirmScreen(),
+                  );
+                } else {
+                  ErrorSnackbar.show(context, "Input and validate your address");
+                }
+              }
+            )
           ],
         ),
       ),

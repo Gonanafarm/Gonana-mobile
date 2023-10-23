@@ -377,6 +377,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                                 productController.geoLat.value,
                                 productController.logisticsMerchant.value,
                                 productController.address.value,
+                                productController.selfShipping.value,
                                 context);
                             log("id: ${taxonomyController.id}");
                           } catch (e, s) {
