@@ -142,52 +142,6 @@ class _AddProduct2State extends State<AddProduct2> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        // SizedBox(
-                        //     // height: 122,
-                        //     width: MediaQuery.of(context).size.width,
-                        //     child: Column(
-                        //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        //       children: [
-                        //         // EnterText(
-                        //         //   onChanged: (hashtag) {
-                        //         //     productController.updateHashTags(
-                        //         //       hashtag as List<String>
-                        //         //     );
-                        //         //   },
-                        //         //   controller: _hashTags,
-                        //         //   label: 'HashTags',
-                        //         //   hint: 'eg vegetables',
-                        //         // ),
-                        //         const Row(
-                        //           mainAxisAlignment:
-                        //               MainAxisAlignment.spaceBetween,
-                        //           children: [
-                        //             Expanded(
-                        //                 flex: 1,
-                        //                 child: Text(
-                        //                   'Recomended:',
-                        //                   style: TextStyle(
-                        //                       fontSize: 12,
-                        //                       fontWeight: FontWeight.w400),
-                        //                   textAlign: TextAlign.left,
-                        //                 )),
-                        //             Expanded(
-                        //                 flex: 3,
-                        //                 child: Padding(
-                        //                   padding: EdgeInsets.only(top: 13.0),
-                        //                   child: Text(
-                        //                     'Vegetables Meat Meat Layers Eggs Corn Millet Nigeria Congo Jam Honey',
-                        //                     textAlign: TextAlign.start,
-                        //                     style: TextStyle(
-                        //                         fontSize: 12,
-                        //                         fontWeight: FontWeight.w400),
-                        //                   ),
-                        //                 )),
-                        //           ],
-                        //         )
-                        //       ],
-                        //     )),
-                        const SizedBox(height: 10),
                         Form(
                           key: _productKey,
                           child: Column(
@@ -265,14 +219,7 @@ class _AddProduct2State extends State<AddProduct2> {
                               ErrorSnackbar.show(context, 'Address not validated');
                             }
                           }),
-                  sizeVer(20),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Text(
-                            "Note: You would be charged 1.5% on every successful product sale",
-                            style: TextStyle(color: Colors.red),
-                          ),
-                        ),
+                        
                         const SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -288,6 +235,11 @@ class _AddProduct2State extends State<AddProduct2> {
                                     selfShipping = value!;
                                     log('selfShipping: $selfShipping , value: $value');
                                     productController.updateShipping(selfShipping);
+                                    if(value == true){
+                                      confirmationDialog(context);
+                                    }else{
+                                      return;
+                                    }
                                   });
                                 }
                               ),
@@ -309,19 +261,19 @@ class _AddProduct2State extends State<AddProduct2> {
               ),
             ),
             LongGradientButton(
-                title: 'Proceed',
-                onPressed: () {
-                  bool isValid = _productKey.currentState!.validate();
-                  if (isValidated && isValid) {
-                    log('$currentPosition');
-                    Get.to(
-                      () => const ConfirmScreen(),
-                    );
-                  } else {
-                    ErrorSnackbar.show(
-                        context, "Input and validate your address");
-                  }
-                })
+              title: 'Proceed',
+              onPressed: () {
+                bool isValid = _productKey.currentState!.validate();
+                if (isValidated && isValid) {
+                  log('$currentPosition');
+                  Get.to(
+                    () => const ConfirmScreen(),
+                  );
+                } else {
+                  ErrorSnackbar.show(context, "Input and validate your address");
+                }
+              }
+            )
           ],
         ),
       ),
@@ -345,17 +297,25 @@ class _AddProduct2State extends State<AddProduct2> {
                 )
               ),
               content: Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(8),
                 child: Container(
                   height: 150,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Text('Self shipping'),
-                      sizeVer(10),
+                      const Text(
+                        'Self shipping',
+                        style: TextStyle(
+                          color: Color(0xFF444444),
+                          fontSize: 16,
+                          fontFamily: 'Proxima Nova',
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      sizeVer(3),
                       const Flexible(
                         child: Padding(
-                          padding: EdgeInsets.all(8.0),
+                          padding: EdgeInsets.all(1.0),
                           child: SizedBox(
                             // width: 185,
                             // height: 82,
@@ -364,9 +324,9 @@ class _AddProduct2State extends State<AddProduct2> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Color(0xFF444444),
-                                fontSize: 14,
+                                fontSize: 16,
                                 fontFamily: 'Proxima Nova',
-                                fontWeight: FontWeight.w400,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
@@ -378,14 +338,14 @@ class _AddProduct2State extends State<AddProduct2> {
               ),
               actions: [
                 Padding(
-                    padding: const EdgeInsets.only(right: 30.0),
-                    child: DialogGradientButton(
-                      title: 'Proceed',
-                      onPressed: () {
-                        //Get.to(() => const ());
-                      },
-                    ),
+                  padding: const EdgeInsets.only(right: 30.0),
+                  child: DialogGradientButton(
+                    title: 'Proceed',
+                    onPressed: () {
+                      Get.back();
+                    },
                   ),
+                ),
               ],
             ),
           ),

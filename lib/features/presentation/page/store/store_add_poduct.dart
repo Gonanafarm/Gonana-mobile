@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:gonana/consts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -347,9 +348,21 @@ class _AddProductState extends State<AddProduct> {
                                 hint: 'Tell us about the product',
                               ),
                             ),
-                            const SizedBox(height: 50),
+                            sizeVer(20),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 10.0),
+                              child: Text(
+                                "Note: You would be charged 1.5% on every successful product sale",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.red
+                                ),
+                              ),
+                            ),
                           ],
-                        )),
+                        )
+                      ),
                   ]),
                 ),
                 Padding(

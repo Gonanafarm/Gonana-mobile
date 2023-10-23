@@ -423,9 +423,9 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                 ),
               ),
               content: Padding(
-                padding: EdgeInsets.only(left: 30.0),
+                padding: const EdgeInsets.all(8),
                 child: Container(
-                  height: 150,
+                  height: 105,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -438,7 +438,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                             // width: 185,
                             // height: 82,
                             child: Text(
-                              'Note:\n\nFor Every succesful transaction there would be 1.5% charge',
+                              'Note:\nFor Every succesful transaction there would be 1.5% charge',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Color(0xFF444444),
