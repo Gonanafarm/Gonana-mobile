@@ -289,19 +289,20 @@ class _AddProduct2State extends State<AddProduct2> {
               ),
             ),
             LongGradientButton(
-                title: 'Proceed',
-                onPressed: () {
-                  bool isValid = _productKey.currentState!.validate();
-                  if ((isValidated || selfShipping) && isValid) {
-                    log('$currentPosition');
-                    Get.to(
-                      () => const ConfirmScreen(),
-                    );
-                  } else {
-                    ErrorSnackbar.show(
-                        context, "Input and validate your address");
-                  }
-                })
+              title: 'Proceed',
+              onPressed: () {
+                bool isValid = _productKey.currentState!.validate();
+                if ((isValidated || selfShipping) && isValid) {
+                  log('$currentPosition');
+                  Get.to(
+                    () => const ConfirmScreen(),
+                  );
+                } else {
+                  ErrorSnackbar.show(
+                      context, "Input and validate your address");
+                }
+              }
+            )
           ],
         ),
       ),
@@ -376,7 +377,9 @@ class _AddProduct2State extends State<AddProduct2> {
                 ),
               ],
             ),
-          );
-        });
+          )
+        );
+      }
+    );
   }
 }
