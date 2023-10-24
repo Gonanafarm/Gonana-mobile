@@ -393,8 +393,21 @@ class _AddProductState extends State<AddProduct> {
                                 ],
                               ),
                             ),
+                            sizeVer(20),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 10.0),
+                              child: Text(
+                                "Note: You would be charged 1.5% on every successful product sale",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.red
+                                ),
+                              ),
+                            ),
                           ],
-                        )),
+                        )
+                      ),
                   ]),
                 ),
                 Padding(
