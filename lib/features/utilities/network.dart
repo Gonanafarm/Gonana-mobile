@@ -117,6 +117,7 @@ class NetworkApi {
       receiveTimeout: const Duration(seconds: 60),
     );
     Dio dio = Dio(options);
+    print("here first");
     Response responseBody = await dio.post(
       '$baseurl/$routeUrl',
       data: formData,

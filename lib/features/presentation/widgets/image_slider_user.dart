@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:gonana/features/data/models/user_post_model.dart';
 
 import '../../../consts.dart';
-import '../../data/models/discounted_product_model.dart';
 
-class ImageSliderHotDeals extends StatefulWidget {
+class ImageSliderUserProducts extends StatefulWidget {
   final Datum imageProductModel;
-  const ImageSliderHotDeals({Key? key, required this.imageProductModel})
+  const ImageSliderUserProducts({Key? key, required this.imageProductModel})
       : super(key: key);
 
   @override
-  State<ImageSliderHotDeals> createState() => _ImageSliderHotDealsState();
+  State<ImageSliderUserProducts> createState() => _ImageSliderHotDealsState();
 }
 
-class _ImageSliderHotDealsState extends State<ImageSliderHotDeals> {
+class _ImageSliderHotDealsState extends State<ImageSliderUserProducts> {
   int _currentPage = 0;
   PageController _pageController = PageController(initialPage: 0);
   @override

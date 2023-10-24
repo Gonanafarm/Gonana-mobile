@@ -129,33 +129,34 @@ class ProductController extends GetxController {
     update();
   }
 
-  void updateShipping(bool newShipping){
+  void updateShipping(bool newShipping) {
     selfShipping.value = newShipping;
     update();
   }
 
   Future<bool> createProduct(
-    String? title,
-    String? body,
-    //  List<File> images,
-    File? image,
-    File? image2,
-    File? image3,
-    String? categories,
-    int? amount,
-    int? quantity,
-    double? weight,
-    double? geoLong,
-    double? geoLat,
-    String? logisticMerchant,
-    String? address,
-    bool? selfShippping,
-    var context
-  ) async {
+      String? title,
+      String? body,
+      //  List<File> images,
+      File? image,
+      File? image2,
+      File? image3,
+      String? categories,
+      int? amount,
+      int? quantity,
+      double? weight,
+      double? geoLong,
+      double? geoLat,
+      String? logisticMerchant,
+      String? address,
+      bool? selfShippping,
+      var context) async {
     List<MultipartFile> files = [];
 
-    if (image == null && image2 == null && image3 == null) {
-      ErrorSnackbar.show(context, "You have to select an image");
+    if ((image == null || image!.path.isEmpty) &&
+        (image2 == null || image2!.path.isEmpty) &&
+        (image3 == null || image3!.path.isEmpty)) {
+      ErrorSnackbar.show(context, "You have to select at least one image");
       return false;
     }
     String id = DateTime.now().millisecondsSinceEpoch.toString();
@@ -188,6 +189,7 @@ class ProductController extends GetxController {
     try {
       var res = await NetworkApi()
           .dioPost(formData: formData, routeUrl: ApiRoute.createPost);
+      print("here");
       final result = jsonDecode(res.data);
       log('MarketResult => $result');
       // log(res);

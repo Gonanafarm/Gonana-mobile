@@ -1,5 +1,7 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:gonana/consts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -25,6 +27,7 @@ class _AddProductState extends State<AddProduct> {
   String? _imageFilePath2;
   File? _imageFile3;
   String? _imageFilePath3;
+  bool selfShipping = false;
 
   final productController = Get.put(ProductController());
   Future<void> pickImage() async {
@@ -66,6 +69,7 @@ class _AddProductState extends State<AddProduct> {
   String get body => _body.text;
   bool isLoading = false;
 
+  final _product1Key = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -323,31 +327,72 @@ class _AddProductState extends State<AddProduct> {
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              // height: 82,
-                              width: MediaQuery.of(context).size.width,
-                              child: EnterText(
-                                onChanged: (title) {
-                                  productController.updateTitle(title);
-                                },
-                                controller: _title,
-                                label: 'Title',
-                                hint: 'Enter the title',
+                            Form(
+                              key: _product1Key,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    // height: 82,
+                                    width: MediaQuery.of(context).size.width,
+                                    child: EnterFormText(
+                                      onChanged: (title) {
+                                        productController.updateTitle(title);
+                                      },
+                                      validator: inputValidator,
+                                      controller: _title,
+                                      label: 'Title',
+                                      hint: 'Enter the title',
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    // height: 164,
+                                    width: MediaQuery.of(context).size.width,
+                                    child: EnterLargeText(
+                                      validator: inputValidator,
+                                      controller: _body,
+                                      onChanged: (body) {
+                                        productController.updateBody(body);
+                                      },
+                                      label: 'Overview',
+                                      hint: 'Tell us about the product',
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Transform.scale(
+                                        scale: 1.25,
+                                        child: Checkbox(
+                                            value: selfShipping,
+                                            activeColor: greenColor,
+                                            visualDensity:
+                                                VisualDensity.comfortable,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                selfShipping = value!;
+                                                log('selfShipping: $selfShipping , value: $value');
+                                                productController
+                                                    .updateShipping(
+                                                        selfShipping);
+                                              });
+                                            }),
+                                      ),
+                                      const Text(
+                                        'I would like to ship my product myself',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                            color: greenColor),
+                                        textAlign: TextAlign.left,
+                                      )
+                                    ],
+                                  )
+                                ],
                               ),
                             ),
-                            SizedBox(
-                              // height: 164,
-                              width: MediaQuery.of(context).size.width,
-                              child: EnterLargeText(
-                                controller: _body,
-                                onChanged: (body) {
-                                  productController.updateBody(body);
-                                },
-                                label: 'Overview',
-                                hint: 'Tell us about the product',
-                              ),
-                            ),
-                            const SizedBox(height: 50),
                           ],
                         )),
                   ]),
@@ -361,7 +406,12 @@ class _AddProductState extends State<AddProduct> {
                         title: 'Proceed',
                         isLoading: false,
                         onPressed: () {
-                          Get.to(() => AddProduct2());
+                          bool isValid = _product1Key.currentState!.validate();
+                          if (isValid) {
+                            Get.to(() => AddProduct2(), arguments: [
+                              {"selfShipping": selfShipping}
+                            ]);
+                          }
                         }),
                   ),
                 )

@@ -55,7 +55,7 @@ class _AddProduct2State extends State<AddProduct2> {
 
   @override
   void initState() {
-    taxonomyController.getTaxonomy();
+    // taxonomyController.getTaxonomy();
     locationController.determinePosition();
     getPosition();
     super.initState();
@@ -105,8 +105,10 @@ class _AddProduct2State extends State<AddProduct2> {
   }
 
   final _productKey = GlobalKey<FormState>();
+  dynamic argumentData = Get.arguments;
   @override
   Widget build(BuildContext context) {
+    bool selfShipping = argumentData[0]["selfShipping"];
     return Scaffold(
       backgroundColor: const Color(0xffF1F1F1),
       appBar: AppBar(
@@ -248,24 +250,37 @@ class _AddProduct2State extends State<AddProduct2> {
                                       label: 'Product Address',
                                       hint: 'Enter address for pick up')),
                               const SizedBox(height: 10),
+                              !selfShipping
+                                  ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        ShortGradientButton(
+                                            title: 'Validate',
+                                            onPressed: () async {
+                                              var isSuccess =
+                                                  await cartController
+                                                      .validateAddress(address);
+                                              if (isSuccess == true) {
+                                                log('isSUccess: $isSuccess');
+                                                SuccessSnackbar.show(context,
+                                                    'Address succesfully validated');
+                                                setState(() {
+                                                  isValidated = true;
+                                                });
+                                              } else {
+                                                ErrorSnackbar.show(context,
+                                                    'Address not validated');
+                                              }
+                                            }),
+                                      ],
+                                    )
+                                  : Container(height: 1),
                             ],
                           ),
                         ),
-                        ShortGradientButton(
-                          title: 'Validate',
-                          onPressed: () async {
-                            var isSuccess = await cartController.validateAddress(address);
-                            if (isSuccess == true) {
-                              log('isSUccess: $isSuccess');
-                              SuccessSnackbar.show(context, 'Address succesfully validated');
-                              setState(() {
-                                isValidated = true;
-                              });
-                            } else {
-                              ErrorSnackbar.show(context, 'Address not validated');
-                            }
-                          }),
-                  sizeVer(20),
+
+                        sizeVer(20),
                         const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
                           child: Text(
@@ -273,38 +288,7 @@ class _AddProduct2State extends State<AddProduct2> {
                             style: TextStyle(color: Colors.red),
                           ),
                         ),
-                        const SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Transform.scale(
-                              scale: 1.25 ,
-                              child: Checkbox(
-                                value: selfShipping,
-                                activeColor: greenColor,
-                                visualDensity: VisualDensity.comfortable,
-                                onChanged: (value) {
-                                  setState(() {
-                                    selfShipping = value!;
-                                    log('selfShipping: $selfShipping , value: $value');
-                                    productController.updateShipping(selfShipping);
-                                  });
-                                }
-                              ),
-                            ),
-                            const Text(
-                              'I would like to ship my product myself',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: greenColor
-                              ),
-                              textAlign: TextAlign.left,
-                            )
-                          ],
-                        )
-                      ]
-                    ),
+                      ]),
                 ],
               ),
             ),
@@ -312,7 +296,7 @@ class _AddProduct2State extends State<AddProduct2> {
                 title: 'Proceed',
                 onPressed: () {
                   bool isValid = _productKey.currentState!.validate();
-                  if (isValidated && isValid) {
+                  if ((isValidated || selfShipping) && isValid) {
                     log('$currentPosition');
                     Get.to(
                       () => const ConfirmScreen(),
@@ -328,56 +312,51 @@ class _AddProduct2State extends State<AddProduct2> {
     );
   }
 
-  Future<dynamic> confirmationDialog(BuildContext context){
+  Future<dynamic> confirmationDialog(BuildContext context) {
     return showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-          child: Container(
-            height: 100,
-            child: AlertDialog(
-              title: const Center(
-                child: Icon(
-                  size: 60,
-                  Icons.check_circle_outline
-                )
-              ),
-              content: Padding(
-                padding: EdgeInsets.all(10),
-                child: Container(
-                  height: 150,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text('Self shipping'),
-                      sizeVer(10),
-                      const Flexible(
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            // width: 185,
-                            // height: 82,
-                            child: Text(
-                              'By choosing to ship your product yourself, you are taking responsibility for delivering the product. If the product is not delivered in 72 hours, the transaction will be cancelled and the customers funds refunded.',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color(0xFF444444),
-                                fontSize: 14,
-                                fontFamily: 'Proxima Nova',
-                                fontWeight: FontWeight.w400,
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+            child: Container(
+              height: 100,
+              child: AlertDialog(
+                title: const Center(
+                    child: Icon(size: 60, Icons.check_circle_outline)),
+                content: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Container(
+                      height: 150,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Text('Self shipping'),
+                          sizeVer(10),
+                          const Flexible(
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                // width: 185,
+                                // height: 82,
+                                child: Text(
+                                  'By choosing to ship your product yourself, you are taking responsibility for delivering the product. If the product is not delivered in 72 hours, the transaction will be cancelled and the customers funds refunded.',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Color(0xFF444444),
+                                    fontSize: 14,
+                                    fontFamily: 'Proxima Nova',
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ),
-              actions: [
-                Padding(
+                          )
+                        ],
+                      ),
+                    )),
+                actions: [
+                  Padding(
                     padding: const EdgeInsets.only(right: 30.0),
                     child: DialogGradientButton(
                       title: 'Proceed',
@@ -386,11 +365,10 @@ class _AddProduct2State extends State<AddProduct2> {
                       },
                     ),
                   ),
-              ],
+                ],
+              ),
             ),
-          ),
-        );
-      }
-    );
+          );
+        });
   }
 }
