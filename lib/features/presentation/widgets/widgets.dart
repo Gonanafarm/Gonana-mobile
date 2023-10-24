@@ -113,15 +113,19 @@ class EnterLargeText extends StatelessWidget {
   final String hint;
   final void Function(String)? onChanged;
   final TextEditingController controller;
+  final FormFieldValidator<String>? validator;
+  static String? defaultValidator(String? value) => null;
   const EnterLargeText(
       {super.key,
       required this.label,
       required this.hint,
       required this.controller,
-      this.onChanged});
+      this.onChanged,
+      this.validator});
 
   @override
   Widget build(BuildContext context) {
+    final effectiveValidator = validator ?? defaultValidator;
     return Container(
       // height: 200,
       child: Column(
@@ -135,8 +139,9 @@ class EnterLargeText extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
               )),
-          TextField(
+          TextFormField(
             controller: controller,
+            validator: effectiveValidator,
             onChanged: onChanged,
             keyboardType: TextInputType.multiline,
             maxLines: null,

@@ -11,6 +11,8 @@ import 'package:gonana/features/presentation/page/store/store_edit_product.dart'
 import 'package:gonana/features/presentation/widgets/widgets.dart';
 
 import '../../../controllers/market/market_controllers.dart';
+import '../../widgets/image_slider_discount.dart';
+import '../../widgets/image_slider_user.dart';
 
 late Datum imageUserModel;
 late Datum usrPostModel;
@@ -90,84 +92,8 @@ class _StoreViewProductsState extends State<StoreViewProducts> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Container(
-                  // color: Colors.green,
-                  width: 342,
-                  // height: 342,
-                  child: Stack(children: <Widget>[
-                    CarouselSlider.builder(
-                      carouselController: customCarouselController,
-                      itemCount: cardList.length,
-                      options: CarouselOptions(
-                          height: 341,
-                          viewportFraction: 1,
-                          autoPlay: false,
-                          enableInfiniteScroll: false,
-                          onPageChanged: ((index, reason) =>
-                              setState(() => activeIndex = index))),
-                      itemBuilder:
-                          (BuildContext context, int index, int realIndex) {
-                        final cardItem = cardList[index];
-                        return buildItem(cardItem, index);
-                      },
-                    ),
-                    Positioned(
-                      top: MediaQuery.of(context).size.height * 0.17,
-                      left: MediaQuery.of(context).size.width * 0.06,
-                      child: Center(
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.65,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  customCarouselController.previousPage(
-                                      duration:
-                                          const Duration(milliseconds: 300),
-                                      curve: Curves.linear);
-                                },
-                                child: Container(
-                                  height: 42,
-                                  width: 42,
-                                  decoration: const BoxDecoration(
-                                    color: Color.fromARGB(171, 44, 44, 44),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: const Center(
-                                      child: Icon(
-                                    Icons.arrow_back_ios,
-                                    color: Colors.white,
-                                    size: 18.0,
-                                  )),
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  customCarouselController.nextPage(
-                                      duration:
-                                          const Duration(milliseconds: 300),
-                                      curve: Curves.linear);
-                                },
-                                child: Container(
-                                  height: 42,
-                                  width: 42,
-                                  decoration: const BoxDecoration(
-                                    color: Color.fromARGB(171, 44, 44, 44),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: const Center(
-                                      child: Icon(Icons.arrow_forward_ios,
-                                          color: Colors.white, size: 18.0)),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    )
-                  ]),
-                ),
+                ImageSliderUserProducts(
+                    imageProductModel: widget.userPostModel),
                 Padding(
                   padding: const EdgeInsets.all(24),
                   child: Column(
@@ -674,13 +600,14 @@ class Card2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(4.59),
-      child: Image.network(
-        imageUserModel!.images![1], // height: 341,
-        // width: 341,
-        fit: BoxFit.fill,
-      ),
-    );
+        borderRadius: BorderRadius.circular(4.59),
+        child: imageUserModel!.images![1] == null
+            ? Image.network(
+                imageUserModel!.images![1], // height: 341,
+                // width: 341,
+                fit: BoxFit.fill,
+              )
+            : Container());
   }
 }
 

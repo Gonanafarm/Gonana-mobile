@@ -55,7 +55,7 @@ class _AddProduct2State extends State<AddProduct2> {
 
   @override
   void initState() {
-    taxonomyController.getTaxonomy();
+    // taxonomyController.getTaxonomy();
     locationController.determinePosition();
     getPosition();
     super.initState();
@@ -105,8 +105,10 @@ class _AddProduct2State extends State<AddProduct2> {
   }
 
   final _productKey = GlobalKey<FormState>();
+  dynamic argumentData = Get.arguments;
   @override
   Widget build(BuildContext context) {
+    bool selfShipping = argumentData[0]["selfShipping"];
     return Scaffold(
       backgroundColor: const Color(0xffF1F1F1),
       appBar: AppBar(
@@ -202,6 +204,32 @@ class _AddProduct2State extends State<AddProduct2> {
                                       label: 'Product Address',
                                       hint: 'Enter address for pick up')),
                               const SizedBox(height: 10),
+                              !selfShipping
+                                  ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        ShortGradientButton(
+                                            title: 'Validate',
+                                            onPressed: () async {
+                                              var isSuccess =
+                                                  await cartController
+                                                      .validateAddress(address);
+                                              if (isSuccess == true) {
+                                                log('isSUccess: $isSuccess');
+                                                SuccessSnackbar.show(context,
+                                                    'Address succesfully validated');
+                                                setState(() {
+                                                  isValidated = true;
+                                                });
+                                              } else {
+                                                ErrorSnackbar.show(context,
+                                                    'Address not validated');
+                                              }
+                                            }),
+                                      ],
+                                    )
+                                  : Container(height: 1),
                             ],
                           ),
                         ),
@@ -261,26 +289,26 @@ class _AddProduct2State extends State<AddProduct2> {
               ),
             ),
             LongGradientButton(
-              title: 'Proceed',
-              onPressed: () {
-                bool isValid = _productKey.currentState!.validate();
-                if (isValidated && isValid) {
-                  log('$currentPosition');
-                  Get.to(
-                    () => const ConfirmScreen(),
-                  );
-                } else {
-                  ErrorSnackbar.show(context, "Input and validate your address");
-                }
-              }
-            )
+                title: 'Proceed',
+                onPressed: () {
+                  bool isValid = _productKey.currentState!.validate();
+                  if ((isValidated || selfShipping) && isValid) {
+                    log('$currentPosition');
+                    Get.to(
+                      () => const ConfirmScreen(),
+                    );
+                  } else {
+                    ErrorSnackbar.show(
+                        context, "Input and validate your address");
+                  }
+                })
           ],
         ),
       ),
     );
   }
 
-  Future<dynamic> confirmationDialog(BuildContext context){
+  Future<dynamic> confirmationDialog(BuildContext context) {
     return showDialog(
       context: context,
       barrierDismissible: false,
@@ -348,9 +376,7 @@ class _AddProduct2State extends State<AddProduct2> {
                 ),
               ],
             ),
-          ),
-        );
-      }
-    );
+          );
+        });
   }
 }
