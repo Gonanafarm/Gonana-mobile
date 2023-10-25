@@ -131,160 +131,160 @@ class _AddProduct2State extends State<AddProduct2> {
               child: ListView(
                 children: [
                   Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          width: double.infinity,
-                          child: Text(
-                            'Create Product',
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.w600),
-                            textAlign: TextAlign.left,
-                          ),
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        width: double.infinity,
+                        child: Text(
+                          'Create Product',
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.w600),
+                          textAlign: TextAlign.left,
                         ),
-                        const SizedBox(height: 20),
-                        Form(
-                          key: _productKey,
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                  // height: 82,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: EnterFormText(
-                                    validator: inputValidator,
-                                    onChanged: (price) {
-                                      productController.updateAmount(price);
-                                    },
-                                    controller: _price,
-                                    keyboardType: TextInputType.number,
-                                    label: 'Price',
-                                    hint: 'Enter the amount',
-                                  )),
-                              const SizedBox(height: 10),
-                              SizedBox(
-                                  // height: 82,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: EnterFormText(
-                                    validator: inputValidator,
-                                    onChanged: (quantity) {
-                                      productController
-                                          .updateQuantity(quantity);
-                                    },
-                                    controller: _quantity,
-                                    keyboardType: TextInputType.number,
-                                    label: 'Quantity',
-                                    hint: 'Unit number of items',
-                                    // validator: inputValidator(_quantity.text),
-                                  )),
-                              const SizedBox(height: 10),
-                              SizedBox(
-                                  // height: 82,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: EnterFormText(
-                                    validator: inputValidator,
-                                    onChanged: (weight) {
-                                      productController.updateWeight(weight);
-                                    },
-                                    controller: _weight,
-                                    keyboardType: TextInputType.number,
-                                    label: 'Weight',
-                                    hint: 'Weight in KG',
-                                  )),
-                              const SizedBox(height: 10),
-                              SizedBox(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: EnterFormText(
-                                      validator: inputValidator,
-                                      onChanged: (weight) {
-                                        productController
-                                            .updateAddress(address);
-                                      },
-                                      controller: _address,
-                                      label: 'Product Address',
-                                      hint: 'Enter address for pick up')),
-                              const SizedBox(height: 10),
-                              !selfShipping
-                                  ? Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        ShortGradientButton(
-                                            title: 'Validate',
-                                            onPressed: () async {
-                                              var isSuccess =
-                                                  await cartController
-                                                      .validateAddress(address);
-                                              if (isSuccess == true) {
-                                                log('isSUccess: $isSuccess');
-                                                SuccessSnackbar.show(context,
-                                                    'Address succesfully validated');
-                                                setState(() {
-                                                  isValidated = true;
-                                                });
-                                              } else {
-                                                ErrorSnackbar.show(context,
-                                                    'Address not validated');
-                                              }
-                                            }),
-                                      ],
-                                    )
-                                  : Container(height: 1),
-                            ],
-                          ),
-                        ),
-                        ShortGradientButton(
-                          title: 'Validate',
-                          onPressed: () async {
-                            var isSuccess = await cartController.validateAddress(address);
-                            if (isSuccess == true) {
-                              log('isSUccess: $isSuccess');
-                              SuccessSnackbar.show(context, 'Address succesfully validated');
-                              setState(() {
-                                isValidated = true;
-                              });
-                            } else {
-                              ErrorSnackbar.show(context, 'Address not validated');
-                            }
-                          }),
-                        
-                        const SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      ),
+                      const SizedBox(height: 20),
+                      Form(
+                        key: _productKey,
+                        child: Column(
                           children: [
-                            Transform.scale(
-                              scale: 1.25 ,
-                              child: Checkbox(
-                                value: selfShipping,
-                                activeColor: greenColor,
-                                visualDensity: VisualDensity.comfortable,
-                                onChanged: (value) {
-                                  setState(() {
-                                    selfShipping = value!;
-                                    log('selfShipping: $selfShipping , value: $value');
-                                    productController.updateShipping(selfShipping);
-                                    if(value == true){
-                                      confirmationDialog(context);
-                                    }else{
-                                      return;
-                                    }
-                                  });
-                                }
-                              ),
+                            SizedBox(
+                                // height: 82,
+                                width: MediaQuery.of(context).size.width,
+                                child: EnterFormText(
+                                  validator: inputValidator,
+                                  onChanged: (price) {
+                                    productController.updateAmount(price);
+                                  },
+                                  controller: _price,
+                                  keyboardType: TextInputType.number,
+                                  label: 'Price',
+                                  hint: 'Enter the amount',
+                                )),
+                            const SizedBox(height: 10),
+                            SizedBox(
+                              // height: 82,
+                              width: MediaQuery.of(context).size.width,
+                              child: EnterFormText(
+                                validator: inputValidator,
+                                onChanged: (quantity) {
+                                  productController
+                                      .updateQuantity(quantity);
+                                },
+                                controller: _quantity,
+                                keyboardType: TextInputType.number,
+                                label: 'Quantity',
+                                hint: 'Unit number of items',
+                                // validator: inputValidator(_quantity.text),
+                              )
                             ),
-                            const Text(
-                              'I would like to ship my product myself',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: greenColor
-                              ),
-                              textAlign: TextAlign.left,
-                            )
+                            const SizedBox(height: 10),
+                            SizedBox(
+                              // height: 82,
+                              width: MediaQuery.of(context).size.width,
+                              child: EnterFormText(
+                                validator: inputValidator,
+                                onChanged: (weight) {
+                                  productController.updateWeight(weight);
+                                },
+                                controller: _weight,
+                                keyboardType: TextInputType.number,
+                                label: 'Weight',
+                                hint: 'Weight in KG',
+                              )
+                            ),
+                            const SizedBox(height: 10),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: EnterFormText(
+                                validator: inputValidator,
+                                onChanged: (weight) {
+                                  productController
+                                      .updateAddress(address);
+                                },
+                                controller: _address,
+                                label: 'Product Address',
+                                hint: 'Enter address for pick up'
+                              )
+                            ),
+                            const SizedBox(height: 10),
+                            !selfShipping
+                              ? Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    ShortGradientButton(
+                                      title: 'Validate',
+                                      onPressed: () async {
+                                        var isSuccess = await cartController.validateAddress(address);
+                                        if (isSuccess == true) {
+                                          log('isSUccess: $isSuccess');
+                                          SuccessSnackbar.show(context, 'Address succesfully validated');
+                                          setState(() {
+                                            isValidated = true;
+                                          });
+                                        } else {
+                                          ErrorSnackbar.show(context, 'Address not validated');
+                                        }
+                                      }
+                                    ),
+                                  ],
+                                )
+                              : Container(height: 1),
                           ],
-                        )
-                      ]
-                    ),
+                        ),
+                      ),
+                      ShortGradientButton(
+                        title: 'Validate',
+                        onPressed: () async {
+                          var isSuccess = await cartController.validateAddress(address);
+                          if (isSuccess == true) {
+                            log('isSUccess: $isSuccess');
+                            SuccessSnackbar.show(context, 'Address succesfully validated');
+                            setState(() {
+                              isValidated = true;
+                            });
+                          } else {
+                            ErrorSnackbar.show(context, 'Address not validated');
+                          }
+                        }),
+                      
+                      const SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Transform.scale(
+                            scale: 1.25 ,
+                            child: Checkbox(
+                              value: selfShipping,
+                              activeColor: greenColor,
+                              visualDensity: VisualDensity.comfortable,
+                              onChanged: (value) {
+                                setState(() {
+                                  selfShipping = value!;
+                                  log('selfShipping: $selfShipping , value: $value');
+                                  productController.updateShipping(selfShipping);
+                                  if(value == true){
+                                    confirmationDialog(context);
+                                  }else{
+                                    return;
+                                  }
+                                });
+                              }
+                            ),
+                          ),
+                          const Text(
+                            'I would like to ship my product myself',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: greenColor
+                            ),
+                            textAlign: TextAlign.left,
+                          )
+                        ],
+                      )
+                    ]
+                  ),
                 ],
               ),
             ),
