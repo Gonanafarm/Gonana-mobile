@@ -1,28 +1,37 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:gonana/consts.dart';
 import 'package:gonana/features/presentation/page/security/security.dart';
-
-import '../../../../consts.dart';
 import '../../../controllers/auth/passcode_controller.dart';
-import '../../widgets/widgets.dart';
+import '../savings/view_savings.dart';
+import '/features/presentation/widgets/widgets.dart';
+import 'confirm_changed_pin.dart';
 
-class ResetPin extends StatefulWidget {
-  const ResetPin({Key? key}) : super(key: key);
+class ChangePin extends StatefulWidget {
+  ChangePin({super.key});
 
   @override
-  State<ResetPin> createState() => _ResetPinState();
+  State<ChangePin> createState() => _ChangePinState();
 }
 
-class _ResetPinState extends State<ResetPin> {
-  bool isLoading = false;
-
-  final _resetPinKey = GlobalKey<FormState>();
+class _ChangePinState extends State<ChangePin> {
   final TextEditingController _newPin = TextEditingController();
 
-  final TextEditingController _otp = TextEditingController();
+  final TextEditingController _oldPin = TextEditingController();
 
-  final passcodeController = Get.find<PasscodeController>();
+  String get setPin => _newPin.text;
+
+  String get oldPin => _oldPin.text;
+
+  bool isLoading = false;
+
+  final _pinKey = GlobalKey<FormState>();
+
+  PasscodeController passcodeController = Get.put(PasscodeController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,14 +65,14 @@ class _ResetPinState extends State<ResetPin> {
           ),
           sizeVer(20),
           Form(
-            key: _resetPinKey,
+            key: _pinKey,
             child: Column(
               children: [
                 EnterFormText(
                     validator: inputValidator,
-                    controller: _otp,
-                    label: 'OTP',
-                    hint: 'Enter the otp sent to your email'),
+                    controller: _oldPin,
+                    label: 'Old Pin',
+                    hint: 'Enter your old Pin'),
                 EnterFormText(
                   validator: inputValidator,
                   controller: _newPin,
@@ -78,18 +87,26 @@ class _ResetPinState extends State<ResetPin> {
               isLoading: isLoading,
               title: 'Confirm',
               onPressed: () async {
-                bool isValidated = _resetPinKey.currentState!.validate();
+                bool isValidated = _pinKey.currentState!.validate();
                 if (isValidated) {
                   setState(() {
                     isLoading = true;
                   });
-                  bool isPasscode = await passcodeController.resetPasscodeOtp(
-                      _otp.text, _newPin.text, context);
+                  bool isPasscode =
+                      await passcodeController.verifyPasscode(_oldPin.text);
                   if (isPasscode) {
                     setState(() {
                       isLoading = false;
                     });
-                    Get.to(() => const Security());
+                    if (_oldPin.text != _newPin.text) {
+                      Get.to(() => const ConfirmPin(),
+                          arguments: {"newPin": _newPin.text});
+                    } else {
+                      ErrorSnackbar.show(
+                          context, "Old pin cannot be the same as new pin");
+                    }
+                  } else {
+                    ErrorSnackbar.show(context, "Old pin is incorrect");
                   }
                 }
               })

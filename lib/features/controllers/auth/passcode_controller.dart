@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:get/get.dart';
+import 'package:gonana/features/data/models/reset_pin_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../presentation/widgets/widgets.dart';
@@ -73,6 +74,48 @@ class PasscodeController extends GetxController {
     } catch (e) {
       log("verify passcode Error=> $e");
       ErrorSnackbar.show(context, "Unknown error");
+      return false;
+    }
+  }
+
+  ResetPin? resetPinModel;
+  Future<bool> resetPin(var context) async {
+    try {
+      var responseBody = await NetworkApi().authGetData(ApiRoute.resetPasscode);
+      final response = jsonDecode(responseBody.body);
+      if (responseBody.statusCode == 200) {
+        resetPinModel = resetPinFromJson(responseBody.body);
+        log("$response");
+        SuccessSnackbar.show(context, response['message']);
+        return true;
+      } else {
+        ErrorSnackbar.show(context, response['message']);
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> resetPasscodeOtp(String? otp, String? pin, var context) async {
+    var data = {"otp": otp, "passcode": pin};
+    try {
+      var responseBody =
+          await NetworkApi().authPostData(data, ApiRoute.verifyResetOtp);
+      final response = jsonDecode(responseBody.body);
+      log("passcode response || ${responseBody.body}");
+      print(responseBody.statusCode);
+      if (responseBody.statusCode == 200) {
+        print(response);
+        SuccessSnackbar.show(context, "${response['message']}");
+        return true;
+      } else {
+        ErrorSnackbar.show(context, "${response['message']}");
+        return false;
+      }
+    } catch (e) {
+      log("verify passcode Error=> $e");
       return false;
     }
   }

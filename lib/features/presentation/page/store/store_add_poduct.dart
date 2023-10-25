@@ -387,9 +387,18 @@ class _AddProductState extends State<AddProduct> {
                                             fontWeight: FontWeight.w600,
                                             color: greenColor),
                                         textAlign: TextAlign.left,
-                                      )
+                                      ),
                                     ],
-                                  )
+                                  ),
+                                  sizeVer(10),
+                                  selfShipping
+                                      ? const Text(
+                                          "Note: You have 3 days to send out this package",
+                                          style: TextStyle(
+                                              color: Colors.red,
+                                              fontWeight: FontWeight.w800),
+                                        )
+                                      : Container(height: 1)
                                 ],
                               ),
                             ),

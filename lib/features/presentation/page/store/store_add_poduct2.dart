@@ -311,71 +311,67 @@ class _AddProduct2State extends State<AddProduct2> {
 
   Future<dynamic> confirmationDialog(BuildContext context) {
     return showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-          child: Container(
-            height: 100,
-            child: AlertDialog(
-              title: const Center(
-                child: Icon(
-                  size: 60,
-                  Icons.check_circle_outline
-                )
-              ),
-              content: Padding(
-                padding: const EdgeInsets.all(8),
-                child: Container(
-                  height: 150,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Self shipping',
-                        style: TextStyle(
-                          color: Color(0xFF444444),
-                          fontSize: 16,
-                          fontFamily: 'Proxima Nova',
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      sizeVer(3),
-                      const Flexible(
-                        child: Padding(
-                          padding: EdgeInsets.all(1.0),
-                          child: SizedBox(
-                            // width: 185,
-                            // height: 82,
-                            child: Text(
-                              'By choosing to ship your product yourself, you are taking responsibility for delivering the product. If the product is not delivered in 72 hours, the transaction will be cancelled and the customers funds refunded.',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color(0xFF444444),
-                                fontSize: 16,
-                                fontFamily: 'Proxima Nova',
-                                fontWeight: FontWeight.w600,
-                              ),
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+            child: Container(
+              height: 100,
+              child: AlertDialog(
+                title: const Center(
+                    child: Icon(size: 60, Icons.check_circle_outline)),
+                content: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Container(
+                      height: 150,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Self shipping',
+                            style: TextStyle(
+                              color: Color(0xFF444444),
+                              fontSize: 16,
+                              fontFamily: 'Proxima Nova',
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
-                        ),
-                      )
-                    ],
+                          sizeVer(3),
+                          const Flexible(
+                            child: Padding(
+                              padding: EdgeInsets.all(1.0),
+                              child: SizedBox(
+                                // width: 185,
+                                // height: 82,
+                                child: Text(
+                                  'By choosing to ship your product yourself, you are taking responsibility for delivering the product. If the product is not delivered in 72 hours, the transaction will be cancelled and the customers funds refunded.',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Color(0xFF444444),
+                                    fontSize: 16,
+                                    fontFamily: 'Proxima Nova',
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    )),
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 30.0),
+                    child: DialogGradientButton(
+                      title: 'Proceed',
+                      onPressed: () {
+                        Get.back();
+                      },
+                    ),
                   ),
-                )
+                ],
               ),
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 30.0),
-                  child: DialogGradientButton(
-                    title: 'Proceed',
-                    onPressed: () {
-                      Get.back();
-                    },
-                  ),
-                ),
-              ],
             ),
           )
         );

@@ -111,6 +111,8 @@ class _CartPageState extends State<CartPage> {
                                         IconButton(
                                             icon: const Icon(Icons.arrow_back),
                                             onPressed: () {
+                                              cartController.totalPrice.value =
+                                                  0;
                                               orderList.clear();
                                               // Get.to(
                                               //   () => HomePage(navIndex: 0),

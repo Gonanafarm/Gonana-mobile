@@ -42,6 +42,8 @@ class ApiRoute {
   static const forgottenPassword = 'api/auth/forgotten-password';
   static const resetPassword = 'api/auth/reset-password';
   static const verifyPasswordotp = 'api/auth/VerifyPasswordOtp';
+  static const resetPasscode = 'api/profile/reset-passcode';
+  static const verifyResetOtp = 'api/profile/verify-passcode-otp';
 
   //Taxonomy urls
   static const getTaxonomy = "api/catalog/taxonomy";
