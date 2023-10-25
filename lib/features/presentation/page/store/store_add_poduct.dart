@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:gonana/features/presentation/page/store/store_add_poduct2.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
-
+import 'dart:ui';
 import '../../../controllers/market/market_controllers.dart';
 
 class AddProduct extends StatefulWidget {
@@ -359,87 +359,139 @@ class _AddProductState extends State<AddProduct> {
                                     ),
                                   ),
                                   const SizedBox(height: 10),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Transform.scale(
-                                        scale: 1.25,
-                                        child: Checkbox(
-                                            value: selfShipping,
-                                            activeColor: greenColor,
-                                            visualDensity:
-                                                VisualDensity.comfortable,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                selfShipping = value!;
-                                                log('selfShipping: $selfShipping , value: $value');
-                                                productController
-                                                    .updateShipping(
-                                                        selfShipping);
-                                              });
-                                            }),
-                                      ),
-                                      const Text(
-                                        'I would like to ship my product myself',
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600,
-                                            color: greenColor),
-                                        textAlign: TextAlign.left,
-                                      ),
-                                    ],
-                                  ),
-                                  sizeVer(10),
-                                  selfShipping
-                                      ? const Text(
-                                          "Note: You have 3 days to send out this package",
-                                          style: TextStyle(
-                                              color: Colors.red,
-                                              fontWeight: FontWeight.w800),
-                                        )
-                                      : Container(height: 1)
                                 ],
                               ),
                             ),
-                            sizeVer(20),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10.0),
-                              child: Text(
-                                "Note: You would be charged 1.5% on every successful product sale",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.red
-                                ),
-                              ),
+                            Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Transform.scale(
+                            scale: 1.25 ,
+                            child: Checkbox(
+                              value: selfShipping,
+                              activeColor: greenColor,
+                              visualDensity: VisualDensity.comfortable,
+                              onChanged: (value) {
+                                setState(() {
+                                  selfShipping = value!;
+                                  log('selfShipping: $selfShipping , value: $value');
+                                  productController.updateShipping(selfShipping);
+                                  if(value == true){
+                                    confirmationDialog(context);
+                                  }else{
+                                    return;
+                                  }
+                                });
+                              }
                             ),
-                          ],
+                          ),
+                          const Text(
+                            'I would like to ship my product myself',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: greenColor
+                            ),
+                            textAlign: TextAlign.left,
+                          )
+                        ],
+                      ),
+                      ],
                         )
                       ),
                   ]),
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20),
+                  padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20),
                   child: Align(
                     alignment: AlignmentDirectional.bottomCenter,
                     child: LongGradientButton(
-                        title: 'Proceed',
-                        isLoading: false,
-                        onPressed: () {
-                          bool isValid = _product1Key.currentState!.validate();
-                          if (isValid) {
-                            Get.to(() => AddProduct2(), arguments: [
-                              {"selfShipping": selfShipping}
-                            ]);
-                          }
-                        }),
+                      title: 'Proceed',
+                      isLoading: false,
+                      onPressed: () {
+                        bool isValid = _product1Key.currentState!.validate();
+                        if (isValid) {
+                          Get.to(() => const AddProduct2(), arguments: [
+                            {"selfShipping": selfShipping}
+                          ]);
+                        }
+                      }
+                    ),
                   ),
                 )
               ],
             ),
           ),
-        ));
+        )
+      );
+  }
+
+  Future<dynamic> confirmationDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+          child: Container(
+            height: 150,
+            child: AlertDialog(
+              title: const Center(child: Icon(size: 60, Icons.check_circle_outline)),
+              content: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Container(
+                  height: 200,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Self shipping',
+                        style: TextStyle(
+                          color: Color(0xFF444444),
+                          fontSize: 18,
+                          fontFamily: 'Proxima Nova',
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      sizeVer(3),
+                      const Flexible(
+                        child: Padding(
+                          padding: EdgeInsets.all(1.0),
+                          child: SizedBox(
+                            // width: 185,
+                            // height: 82,
+                            child: Text(
+                              'By choosing to ship your product yourself, you are taking responsibility for delivering the product. If the product is not delivered in 72 hours, the transaction will be cancelled and the customer refunded. Feel free to account for the price of delivery in the product pricing.',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Color(0xFF444444),
+                                fontSize: 16,
+                                fontFamily: 'Proxima Nova',
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 30.0),
+                  child: DialogGradientButton(
+                    title: 'Proceed',
+                    onPressed: () {
+                      Get.back();
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+    );
   }
 }

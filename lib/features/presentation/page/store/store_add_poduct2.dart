@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -160,7 +159,8 @@ class _AddProduct2State extends State<AddProduct2> {
                                   keyboardType: TextInputType.number,
                                   label: 'Price',
                                   hint: 'Enter the amount',
-                                )),
+                                )
+                              ),
                             const SizedBox(height: 10),
                             SizedBox(
                               // height: 82,
@@ -233,56 +233,19 @@ class _AddProduct2State extends State<AddProduct2> {
                           ],
                         ),
                       ),
-                      ShortGradientButton(
-                        title: 'Validate',
-                        onPressed: () async {
-                          var isSuccess = await cartController.validateAddress(address);
-                          if (isSuccess == true) {
-                            log('isSUccess: $isSuccess');
-                            SuccessSnackbar.show(context, 'Address succesfully validated');
-                            setState(() {
-                              isValidated = true;
-                            });
-                          } else {
-                            ErrorSnackbar.show(context, 'Address not validated');
-                          }
-                        }),
-                      
                       const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Transform.scale(
-                            scale: 1.25 ,
-                            child: Checkbox(
-                              value: selfShipping,
-                              activeColor: greenColor,
-                              visualDensity: VisualDensity.comfortable,
-                              onChanged: (value) {
-                                setState(() {
-                                  selfShipping = value!;
-                                  log('selfShipping: $selfShipping , value: $value');
-                                  productController.updateShipping(selfShipping);
-                                  if(value == true){
-                                    confirmationDialog(context);
-                                  }else{
-                                    return;
-                                  }
-                                });
-                              }
-                            ),
-                          ),
-                          const Text(
-                            'I would like to ship my product myself',
+                      sizeVer(20),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          child: Text(
+                            "Note: You would be charged 1.5% on every successful product sale",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
-                              color: greenColor
+                              color: Colors.red
                             ),
-                            textAlign: TextAlign.left,
-                          )
-                        ],
-                      )
+                          ),
+                        )
                     ]
                   ),
                 ],
@@ -309,73 +272,6 @@ class _AddProduct2State extends State<AddProduct2> {
     );
   }
 
-  Future<dynamic> confirmationDialog(BuildContext context) {
-    return showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-          child: Container(
-            height: 100,
-            child: AlertDialog(
-              title: const Center(child: Icon(size: 60, Icons.check_circle_outline)),
-              content: Padding(
-                padding: const EdgeInsets.all(8),
-                child: Container(
-                  height: 150,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Self shipping',
-                        style: TextStyle(
-                          color: Color(0xFF444444),
-                          fontSize: 16,
-                          fontFamily: 'Proxima Nova',
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      sizeVer(3),
-                      const Flexible(
-                        child: Padding(
-                          padding: EdgeInsets.all(1.0),
-                          child: SizedBox(
-                            // width: 185,
-                            // height: 82,
-                            child: Text(
-                              'By choosing to ship your product yourself, you are taking responsibility for delivering the product. If the product is not delivered in 72 hours, the transaction will be cancelled and the customers funds refunded.',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color(0xFF444444),
-                                fontSize: 16,
-                                fontFamily: 'Proxima Nova',
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ),
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 30.0),
-                  child: DialogGradientButton(
-                    title: 'Proceed',
-                    onPressed: () {
-                      Get.back();
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      }
-    );
-  }
+  
 }
 

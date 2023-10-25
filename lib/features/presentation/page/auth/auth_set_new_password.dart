@@ -161,8 +161,8 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                               return BackdropFilter(
                                 filter: ImageFilter.blur(
                                     sigmaX: 20,
-                                    sigmaY:
-                                        20), // Adjust the blur intensity as needed
+                                    sigmaY:20
+                                ), // Adjust the blur intensity as needed
                                 child: SizedBox(
                                   height: 100,
                                   child: AlertDialog(
@@ -174,13 +174,11 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                                     ),
                                     content: const Padding(
                                       padding: EdgeInsets.only(left: 60.0),
-                                      child: Text(
-                                          'Otp Verified, Proceed to set new password'),
+                                      child: Text('Password changed succesfully'),
                                     ),
                                     actions: [
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 30.0),
+                                        padding: const EdgeInsets.only(right: 30.0),
                                         child: DialogGradientButton(
                                           title: 'Proceed',
                                           onPressed: () async {
