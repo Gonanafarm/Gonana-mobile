@@ -285,7 +285,8 @@ class _AddProduct2State extends State<AddProduct2> {
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
                           child: Text(
                             "Note: You would be charged 1.5% on every successful product sale",
-                            style: TextStyle(color: Colors.red),
+                            style: TextStyle(
+                                color: Colors.red, fontWeight: FontWeight.w800),
                           ),
                         ),
                       ]),

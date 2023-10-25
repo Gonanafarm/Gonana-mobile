@@ -24,9 +24,8 @@ class ProductCheckout extends StatefulWidget {
   State<ProductCheckout> createState() => _ProductCheckoutState();
 }
 
-final cartController = Get.find<CartController>();
-
 class _ProductCheckoutState extends State<ProductCheckout> {
+  final cartController = Get.find<CartController>();
   dynamic argument = Get.arguments;
   late String courier = argument['courier'];
   @override
@@ -132,7 +131,7 @@ class _ProductCheckoutState extends State<ProductCheckout> {
                                                   .succesfullTransactionModel !=
                                               null
                                           ? Text(
-                                              "NGN ${cartController.succesfullTransactionModel!.totalShippingCost! + cartController.succesfullTransactionModel!.productCost! ?? ""}",
+                                              "NGN ${cartController.succesfullTransactionModel!.totalShippingCost != null ? (double.parse(cartController.succesfullTransactionModel!.totalShippingCost.toString()) + cartController.succesfullTransactionModel!.productCost!) : cartController.succesfullTransactionModel!.productCost!}",
                                               style: const TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w600,
@@ -165,7 +164,7 @@ class _ProductCheckoutState extends State<ProductCheckout> {
                                 Flexible(
                                   child: Text(
                                     textAlign: TextAlign.center,
-                                    "Once payment has been confirmed you would get and email",
+                                    "Once payment is made processing of package will begin",
                                     style: TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w500),
@@ -220,10 +219,6 @@ class _ProductCheckoutState extends State<ProductCheckout> {
                   ],
                 ),
               ),
-              Align(
-                  alignment: Alignment.bottomCenter,
-                  child: LongGradientButton(
-                      title: 'Finish', onPressed: () async {}))
             ],
           ),
         )));
@@ -297,8 +292,7 @@ class _SendPasscodeState extends State<PayWithWalletPasscode> {
                                           fontWeight: FontWeight.w400)),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                      horizontal: 50.0, vertical: 50.0
-                                    ),
+                                        horizontal: 50.0, vertical: 50.0),
                                     child: PinCodeTextField(
                                       controller: _passCodeController,
                                       obscureText: true,
@@ -407,6 +401,8 @@ class _SendPasscodeState extends State<PayWithWalletPasscode> {
                           isLoading = false;
                         });
                         log("Successfull Transaction");
+                        cartController.totalPrice.value = 0;
+                        orderList.clear();
                         SuccessSnackbar.show(
                             context, 'Order placed successfully');
                         showDialog(

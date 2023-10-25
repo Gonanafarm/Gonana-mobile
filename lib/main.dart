@@ -13,6 +13,7 @@ import 'package:gonana/features/presentation/page/send/send_chart.dart';
 import 'package:gonana/features/presentation/page/settings/delete_account.dart';
 import 'package:gonana/features/presentation/page/store/store_edit_product.dart';
 import 'package:gonana/features/presentation/widgets/custom_tab_bar.dart';
+import 'package:gonana/features/presentation/widgets/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:upgrader/upgrader.dart';
 
@@ -166,6 +167,23 @@ class _MyAppState extends State<MyApp> {
             // Show a loading indicator while waiting
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
+          } else if (!snapshot.data!) {
+            return Container(
+              color: Colors.white,
+              child: const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Text(
+                    'No network connection. Please check your internet connection.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ),
+            );
           } else {
             token = prefs!.getString('token');
             print("token: $token");

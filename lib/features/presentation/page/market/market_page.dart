@@ -84,6 +84,23 @@ class _MarketPageState extends State<MarketPage> {
           // Show a loading indicator while waiting
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
+        } else if (!snapshot.data!) {
+          return Container(
+            color: Colors.white,
+            child: const Center(
+              child: Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Text(
+                  'No network connection. Please check your internet connection.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700),
+                ),
+              ),
+            ),
+          );
         } else {
           return Scaffold(
             backgroundColor: const Color(0xffF1F1F1),
