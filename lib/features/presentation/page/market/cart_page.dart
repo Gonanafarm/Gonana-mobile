@@ -114,6 +114,7 @@ class _CartPageState extends State<CartPage> {
                                               cartController.totalPrice.value =
                                                   0;
                                               orderList.clear();
+                                              checkedItems.clear();
                                               // Get.to(
                                               //   () => HomePage(navIndex: 0),
                                               // );

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -9,6 +11,7 @@ import 'package:gonana/features/presentation/page/security/reset_pin.dart';
 import 'package:gonana/features/presentation/page/settings/settings.dart';
 
 import '../../../controllers/auth/passcode_controller.dart';
+import '../../widgets/widgets.dart';
 
 class Security extends StatefulWidget {
   const Security({super.key});
@@ -138,9 +141,7 @@ class _SecurityState extends State<Security> {
                         vertical: 14.0, horizontal: 0.0),
                     child: GestureDetector(
                       onTap: () async {
-                        bool isPasscode =
-                            await passcodeController.resetPin(context);
-                        Get.to(() => const ResetPin());
+                        await successDialog(context);
                       },
                       child: Container(
                           // width: 342,
@@ -163,7 +164,9 @@ class _SecurityState extends State<Security> {
                               Padding(
                                 padding: const EdgeInsets.only(right: 15.0),
                                 child: IconButton(
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      await successDialog(context);
+                                    },
                                     icon: const Icon(Icons.arrow_forward_ios)),
                               )
                             ],
@@ -211,6 +214,73 @@ class _SecurityState extends State<Security> {
           ),
         ),
       ),
+    );
+  }
+
+  Future<dynamic> successDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      barrierDismissible:
+          true, // Set to true if you want to allow dismissing the dialog by tapping outside it
+      builder: (BuildContext context) {
+        return BackdropFilter(
+          filter: ImageFilter.blur(
+              sigmaX: 20, sigmaY: 20), // Adjust the blur intensity as needed
+          child: Container(
+            height: 100,
+            child: AlertDialog(
+              title: const Center(
+                child: Icon(
+                  size: 60,
+                  Icons.check_circle_outlined,
+                ),
+              ),
+              content: Padding(
+                padding: EdgeInsets.only(left: 0.0),
+                child: Container(
+                  height: 50,
+                  child: Column(
+                    // crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: Text(
+                          'Are you sure you want to reset your pin',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              actions: [
+                Center(
+                  child: DialogGradientButton(
+                    title: 'Yes, I want to reset my pin',
+                    onPressed: () async {
+                      bool isPasscode =
+                          await passcodeController.resetPin(context);
+                      if (isPasscode) {
+                        Get.to(() => const ResetPin());
+                      }
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10, top: 20),
+                  child: Center(
+                    child: DialogWhiteButton(
+                      title: 'No, go back',
+                      onPressed: () {
+                        Get.back();
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

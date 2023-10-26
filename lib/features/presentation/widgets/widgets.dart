@@ -75,15 +75,14 @@ class EnterFormText extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          width: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Text(
-              label,
-              textAlign: TextAlign.left,
-            ),
-          )
-        ),
+            width: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Text(
+                label,
+                textAlign: TextAlign.left,
+              ),
+            )),
         TextFormField(
           onChanged: onChanged,
           controller: controller,
@@ -401,7 +400,7 @@ class DialogGradientButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 60,
-      width: 200,
+      width: 230,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         gradient: const LinearGradient(
@@ -419,7 +418,11 @@ class DialogGradientButton extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(title),
+              Flexible(
+                  child: Text(
+                title,
+                textAlign: TextAlign.center,
+              )),
               const SizedBox(width: 10.0),
               Flexible(child: const Icon(Icons.arrow_forward)),
             ],
