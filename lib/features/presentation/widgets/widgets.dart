@@ -75,14 +75,15 @@ class EnterFormText extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-            width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Text(
-                label,
-                textAlign: TextAlign.left,
-              ),
-            )),
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Text(
+              label,
+              textAlign: TextAlign.left,
+            ),
+          )
+        ),
         TextFormField(
           onChanged: onChanged,
           controller: controller,
