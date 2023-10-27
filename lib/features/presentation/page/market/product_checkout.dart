@@ -38,7 +38,10 @@ class _ProductCheckoutState extends State<ProductCheckout> {
           elevation: 0,
           leading: IconButton(
               onPressed: () {
+                print(orderList);
+                orderList.clear();
                 Navigator.pop(context);
+                print(orderList);
               },
               icon: const Icon(
                 Icons.arrow_back,
@@ -314,19 +317,17 @@ class _SendPasscodeState extends State<PayWithWalletPasscode> {
                                     ),
                                   ),
                                   SizedBox(
-                                    // height: 400,
-                                    // width: 310,
-                                    child: NumPad(
-                                      controller: _passCodeController,
-                                      delete: () {},
-                                    )
-                                  ),
+                                      // height: 400,
+                                      // width: 310,
+                                      child: NumPad(
+                                    controller: _passCodeController,
+                                    delete: () {},
+                                  )),
                                 ],
                               ),
                             ),
                           ],
-                        )
-                      ),
+                        )),
                   ],
                 ),
               ),
@@ -380,12 +381,14 @@ class _SendPasscodeState extends State<PayWithWalletPasscode> {
                                     Padding(
                                       padding:
                                           const EdgeInsets.only(right: 30.0),
-                                      child: DialogGradientButton(
-                                        title: 'Finish',
-                                        onPressed: () async {
-                                          print("here");
-                                          Get.to(() => HomePage(navIndex: 0));
-                                        },
+                                      child: Center(
+                                        child: DialogGradientButton(
+                                          title: 'Finish',
+                                          onPressed: () async {
+                                            print("here");
+                                            Get.to(() => HomePage(navIndex: 0));
+                                          },
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -453,26 +456,21 @@ class ConfirmChoice extends StatelessWidget {
                       child: Text(
                         'Product would be shipped\nout once your payment is\nconfirmed',
                         style: TextStyle(
-                          color: Color(0xff444444),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400
-                        ),
+                            color: Color(0xff444444),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400),
                         textAlign: TextAlign.center,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: ShortGradientButton(
-                        title: 'Confirmed',
-                        onPressed: () {
-                          //Take the user back to the market page
-                        
-                      }),
+                          title: 'Confirmed',
+                          onPressed: () {
+                            //Take the user back to the market page
+                          }),
                     ),
-                  ]
-                )
-              )
-            ),
+                  ]))),
     );
   }
 }
@@ -490,52 +488,48 @@ Future<dynamic> successDialog(BuildContext context) {
           // height: 100,
           child: AlertDialog(
             content: Padding(
-              padding: EdgeInsets.only(left: 30.0),
-              child: Container(
-                // width: 220,
-                height: 230,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(5)),
-                child: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          'assets/svgs/Checkbox.svg',
-                          height: 72,
-                          width: 72,
-                        ),
-                        const Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 8),
-                            child: Text(
-                              'Your order\nhas been placed',
-                              style: TextStyle(
-                                  color: Color(0xff444444),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8),
-                          child: Text(
-                            'Product would be shipped\nout once your payment is\nconfirmed',
-                            style: TextStyle(
-                                color: Color(0xff444444),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ]
-                    )
-                  )
-                )
-              ),
+                padding: EdgeInsets.only(left: 30.0),
+                child: Container(
+                    // width: 220,
+                    height: 230,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(5)),
+                    child: Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                'assets/svgs/Checkbox.svg',
+                                height: 72,
+                                width: 72,
+                              ),
+                              const Center(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 8),
+                                  child: Text(
+                                    'Your order\nhas been placed',
+                                    style: TextStyle(
+                                        color: Color(0xff444444),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w700),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 8),
+                                child: Text(
+                                  'Product would be shipped\nout once your payment is\nconfirmed',
+                                  style: TextStyle(
+                                      color: Color(0xff444444),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ])))),
             actions: [
               Padding(
                 padding: const EdgeInsets.only(right: 30.0),

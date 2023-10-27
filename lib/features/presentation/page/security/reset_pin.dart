@@ -90,6 +90,10 @@ class _ResetPinState extends State<ResetPin> {
                       isLoading = false;
                     });
                     Get.to(() => const Security());
+                  } else {
+                    setState(() {
+                      isLoading = false;
+                    });
                   }
                 }
               })
