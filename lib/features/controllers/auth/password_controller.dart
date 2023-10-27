@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'package:gonana/features/utilities/network.dart';
 import 'package:get/get.dart';
-import 'package:gonana/features/utilities/api_routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../presentation/widgets/widgets.dart';
+import '../../utilities/api_routes.dart';
+import '../../utilities/network.dart';
+
 
 class ForgotPassWordController extends GetxController {
   forgotPassword(String email) async {
@@ -66,6 +69,53 @@ class ForgotPassWordController extends GetxController {
     } catch (e, s) {
       log('error: $e');
       log('stack: $s');
+      return false;
+    }
+  }
+
+  Future<bool> initPasswordReset(var context)async{
+    try{
+      var res = await NetworkApi().authGetData(ApiRoute.resetPassword);
+      final result = jsonDecode(res.body);
+      if(res.statusCode == 200){
+        log("result: $result");
+        SuccessSnackbar.show(context, res['message']);
+        return true;
+      }else{
+        ErrorSnackbar.show(context, res['message']);
+        return false;
+      }
+    }catch(e,s){ 
+      log("initpasser: $e");
+      log("initpassStack: $s");
+      return false;
+    }
+  }
+
+  Future<bool> completePasswordReset(
+    String? otp,
+    String? password,
+    var context
+  )async{
+    var data ={
+      "otp": otp,
+      "password": password,
+    };
+    try{
+      var res = await NetworkApi().authPostData(data, ApiRoute.verifyPasswordotp);
+      final result = jsonDecode(res.body);
+      if(res.statusCode == 200){
+        log("result: $result");
+        SuccessSnackbar.show(context, res['message']);
+        return true;
+      }else{
+        ErrorSnackbar.show(context, res['message']);
+        return false;
+      }
+      return false;
+    }catch(e,s){
+      log("initpasser: $e");
+      log("initpassStack: $s");
       return false;
     }
   }
