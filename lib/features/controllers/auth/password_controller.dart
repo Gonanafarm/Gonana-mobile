@@ -79,10 +79,10 @@ class ForgotPassWordController extends GetxController {
       final result = jsonDecode(res.body);
       if(res.statusCode == 200){
         log("result: $result");
-        SuccessSnackbar.show(context, res['message']);
+        SuccessSnackbar.show(context, res['message'] ?? "Succesful: Check your mail for otp");
         return true;
       }else{
-        ErrorSnackbar.show(context, res['message']);
+        ErrorSnackbar.show(context, res['message'] ?? "Failed: couldn't initiate password reset");
         return false;
       }
     }catch(e,s){ 
