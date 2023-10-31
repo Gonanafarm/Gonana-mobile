@@ -62,6 +62,7 @@ class Datum {
 }
 
 class Product {
+  bool? selfShipping;
   String? id;
   List<Address>? address;
   Location? location;
@@ -82,6 +83,7 @@ class Product {
   String? productId;
 
   Product({
+    this.selfShipping,
     this.id,
     this.address,
     this.location,
@@ -103,6 +105,7 @@ class Product {
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
+        selfShipping: json["self_shipping"],
         id: json["_id"],
         address: json["address"] == null
             ? []
@@ -135,6 +138,7 @@ class Product {
       );
 
   Map<String, dynamic> toJson() => {
+        "self_shipping": selfShipping,
         "_id": id,
         "address": address == null
             ? []
