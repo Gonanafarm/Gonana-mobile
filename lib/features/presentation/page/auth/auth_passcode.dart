@@ -104,18 +104,18 @@ class _SetPasscodeState extends State<SetPasscode> {
                       child: NumPad(
                         controller: _passCodeController,
                         delete: () {},
-                        faceIdFunction: () async {
-                          final bool authenticate =
-                              await LocalAuth.authenticate();
-                          if (authenticate) {
-                            print("Face is authenticated");
-                            showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                builder: (context) =>
-                                    completeVerificationBottomSheet());
-                          }
-                        },
+                        // faceIdFunction: () async {
+                        //   final bool authenticate =
+                        //       await LocalAuth.authenticate();
+                        //   if (authenticate) {
+                        //     print("Face is authenticated");
+                        //     showModalBottomSheet(
+                        //         context: context,
+                        //         isScrollControlled: true,
+                        //         builder: (context) =>
+                        //             completeVerificationBottomSheet());
+                        //   }
+                        // },
                       ),
                     ),
                   ),
