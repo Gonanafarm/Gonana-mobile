@@ -283,16 +283,11 @@ class _MarketPageState extends State<MarketPage> {
                                   Text(
                                     "Buy Now",
                                     style: TextStyle(
-                                        fontSize: 25.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: secondaryColor),
+                                      fontSize: 25.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: secondaryColor
+                                    ),
                                   ),
-                                  // sizeHor(10.0),
-                                  // const Icon(
-                                  //   Icons.arrow_forward,
-                                  //   color: greenColor,
-                                  //   size: 32,
-                                  // )
                                 ],
                               ),
                             ),
@@ -301,13 +296,10 @@ class _MarketPageState extends State<MarketPage> {
                         height: MediaQuery.of(context).size.height * 0.72,
                         child: GridView.builder(
                           // scrollDirection: Axis.horizontal,
-                          itemCount:
-                              marketController.marketModel?.data?.length ?? 0,
+                          itemCount: marketController.marketModel?.data?.length ?? 0,
                           itemBuilder: (context, index) {
                             final reversedIndex =
-                                (marketController.marketModel!.data!.length -
-                                        1) -
-                                    index;
+                                (marketController.marketModel!.data!.length - 1) - index;
                             return Padding(
                               padding: const EdgeInsets.only(right: 10.0),
                               child: BuyNowCard(
