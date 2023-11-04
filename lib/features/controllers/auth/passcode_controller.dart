@@ -1,10 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:get/get.dart';
 import 'package:gonana/features/data/models/reset_pin_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../presentation/widgets/widgets.dart';
 import '../../utilities/api_routes.dart';
 import '../../utilities/network.dart';
@@ -101,8 +99,7 @@ class PasscodeController extends GetxController {
   Future<bool> resetPasscodeOtp(String? otp, String? pin, var context) async {
     var data = {"otp": otp, "passcode": pin};
     try {
-      var responseBody =
-          await NetworkApi().authPostData(data, ApiRoute.verifyResetOtp);
+      var responseBody = await NetworkApi().authPostData(data, ApiRoute.verifyResetOtp);
       final response = jsonDecode(responseBody.body);
       log("passcode response || ${responseBody.body}");
       print(responseBody.statusCode);
