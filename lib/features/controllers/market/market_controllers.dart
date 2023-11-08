@@ -8,8 +8,9 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:gonana/features/controllers/user/user_controller.dart';
-import 'package:gonana/features/data/models/discounted_product_model.dart';
-import 'package:gonana/features/data/models/post_model.dart';
+import 'package:gonana/features/data/models/discounted_product_model.dart'
+    as DiscountedModel;
+import 'package:gonana/features/data/models/post_model.dart' as PostModel;
 import 'package:gonana/features/data/models/user_model.dart';
 import 'package:gonana/features/data/models/user_post_model.dart';
 import 'package:gonana/features/presentation/page/store/store_logistics.dart';
@@ -45,6 +46,19 @@ class ProductController extends GetxController {
   RxDouble geoLat = 0.0.obs;
   RxList<dynamic> images = [].obs;
   RxBool selfShipping = false.obs;
+  RxBool isLoadingMoreRunning = false.obs;
+  RxBool hasMore = false.obs;
+
+  // void updateIsLoadingMoreRunning(bool newIsLoadingMoreRunning) {
+  //   isLoadingMoreRunning.value = newIsLoadingMoreRunning;
+  //   update();
+  //   print("Updated loading: ${isLoadingMoreRunning.value}");
+  // }
+
+  void updateHasMore(bool newHasMore) {
+    hasMore.value = newHasMore;
+    update();
+  }
 
   void updateTitle(String newTitle) {
     title.value = newTitle;
@@ -207,19 +221,26 @@ class ProductController extends GetxController {
     }
   }
 
-  PostModel? marketModel;
+  // PostModel? marketModel;
+  Rx<PostModel.PostModel> marketModel =
+      Rx<PostModel.PostModel>(PostModel.PostModel());
   UserPostModel? userMarketModel;
+  int productLimit = 15;
+  int discountedLimit = 15;
+  int productPage = 1;
   Future<bool> fetchProduct() async {
+    productPage = 1;
     try {
-      var responseBody = await NetworkApi().authGetData(ApiRoute.getProducts);
+      var responseBody = await NetworkApi().authGetData(
+          "api/catalog/posts?page=$productPage&limit=$productLimit&type=product");
       final response = jsonDecode(responseBody.body);
       //marketModel = marketModelFromJson(responseBody);
       print("products abeg $response");
-      marketModel = postModelFromJson(responseBody.body);
-      final postModel = PostModel.fromJson(response);
+      marketModel.value = PostModel.postModelFromJson(responseBody.body);
+      final postModel = PostModel.PostModel.fromJson(response);
       // marketModel = [postModel];
       // print(marketModel);
-      print(marketModel!.data![0].product!.location!.coordinates);
+      // print(marketModel!.data![0].product!.location!.coordinates);
       print(response);
       // log("products || ${response}");
       return true;
@@ -229,6 +250,56 @@ class ProductController extends GetxController {
       return false;
     }
   }
+
+  Future fetchMoreProducts() async {
+    await productPage++;
+    try {
+      print("page test  $productPage");
+      var responseBody = await NetworkApi().authGetData(
+          "api/catalog/posts?page=$productPage&limit=$productLimit&type=product");
+      var response = jsonDecode(responseBody.body);
+      if (response != null &&
+          marketModel.value != null &&
+          marketModel.value.data != null &&
+          marketModel.value.data!.isNotEmpty) {
+        final dataToAdd = (response["data"] as List<dynamic>?)?.map((item) {
+              return PostModel.Datum.fromJson(item);
+            })?.toList() ??
+            [];
+        if (dataToAdd.length < productLimit) {
+          updateHasMore(false);
+        }
+        marketModel.value.data!.addAll(dataToAdd);
+        update();
+        print("pagination got here $productPage");
+        print("New data body: ${marketModel.value.data![1].product!.title}");
+      }
+
+      print(response);
+    } catch (e, s) {
+      print(e);
+      print(s);
+    }
+  }
+
+  // Future<bool> fetchMoreProducts() async {
+  //   page++;
+  //   try {
+  //     var responseBody = await NetworkApi()
+  //         .authGetData("api/catalog/posts?page=$page&$limit=1&type=product");
+  //     var response = jsonDecode(responseBody.body);
+  //     print("products abeg $response");
+  //     if (response != null) {
+  //       marketModel.value.data!.add(response["data"]);
+  //     }
+  //     print(response);
+  //     return true;
+  //   } catch (e, s) {
+  //     print(e);
+  //     print(s);
+  //     return false;
+  //   }
+  // }
 
   Future<bool> fetchUserProduct() async {
     try {
@@ -264,18 +335,21 @@ class ProductController extends GetxController {
     }
   }
 
-  DiscountedProductModel? discountMarketModel;
+  DiscountedModel.DiscountedProductModel? discountMarketModel;
+  int discountedProductPage = 1;
   Future<bool> fetchDiscountedProducts() async {
+    discountedProductPage = 1;
     try {
-      var responseBody =
-          await NetworkApi().authGetData(ApiRoute.getDiscountedProducts);
+      var responseBody = await NetworkApi().authGetData(
+          "api/catalog/posts/discounted-products?page=$discountedProductPage&limit=$discountedLimit");
       if (responseBody == null) {
         print("API response is null");
         return false;
       }
       final response = jsonDecode(responseBody.body);
       //marketModel = marketModelFromJson(responseBody);
-      discountMarketModel = discountedProductModelFromJson(responseBody.body);
+      discountMarketModel =
+          DiscountedModel.discountedProductModelFromJson(responseBody.body);
       print(discountMarketModel);
       log("products || $response");
       return true;
@@ -283,6 +357,40 @@ class ProductController extends GetxController {
       print(e);
       print(s);
       return false;
+    }
+  }
+
+  Future fetchMoreDiscountedProducts() async {
+    await discountedProductPage++;
+    try {
+      print("page test 1 $discountedProductPage");
+      var responseBody = await NetworkApi().authGetData(
+          "api/catalog/posts/discounted-products?page=$discountedProductPage&limit=$discountedLimit");
+      var response = jsonDecode(responseBody.body);
+      if (response != null &&
+          discountMarketModel != null &&
+          discountMarketModel!.data != null &&
+          discountMarketModel!.data!.isNotEmpty) {
+        final dataToAdd = (response["data"] as List<dynamic>?)?.map((item) {
+              return DiscountedModel.Datum.fromJson(item);
+            })?.toList() ??
+            [];
+        // if (dataToAdd.length < limit) {
+        //   updateHasMore(false);
+        // }
+        if (dataToAdd.isNotEmpty) {
+          discountMarketModel!.data!.addAll(dataToAdd);
+          update();
+          print("pagination got here $discountedProductPage");
+          print("New data body: ${discountMarketModel!.data!.length}");
+          print("New data body: ${discountMarketModel!.data![1]!.body}");
+        }
+      }
+
+      print(response);
+    } catch (e, s) {
+      print(e);
+      print(s);
     }
   }
 
@@ -335,12 +443,12 @@ class ProductController extends GetxController {
 
   Future<String?> productAddress(int index) async {
     if (marketModel! != null &&
-        marketModel!.data![index] != null &&
-        marketModel!.data![index].product! != null &&
-        marketModel!.data![index].product!.address![0] != null) {
+        marketModel.value.data![index] != null &&
+        marketModel.value.data![index].product! != null &&
+        marketModel.value.data![index].product!.address![0] != null) {
       String? state;
       String? addressString =
-          marketModel!.data![index].product!.address![0].address;
+          marketModel.value.data![index].product!.address![0].address;
       List<String> components = addressString!.split(", ");
       for (String component in components) {
         if (nigerianStates.contains(component)) {

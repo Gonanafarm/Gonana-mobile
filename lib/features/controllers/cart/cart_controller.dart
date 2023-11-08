@@ -33,6 +33,11 @@ class CartController extends GetxController {
     update();
   }
 
+  void clearPrice() {
+    totalPrice.value = 0;
+    update();
+  }
+
   void updateUnitPerItem(int newQuantity, int index) {
     cartModel.value.products![index].unit = newQuantity;
     update();

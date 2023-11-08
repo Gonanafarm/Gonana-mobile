@@ -170,17 +170,23 @@ class _StoreState extends State<Store> {
                                         SizedBox(
                                             width: 129,
                                             height: 108,
-                                            child: Image.network(marketController
+                                            child: marketController
                                                             .userMarketModel!
                                                             .data![index] !=
-                                                        [] &&
+                                                        null &&
                                                     marketController
                                                         .userMarketModel!
                                                         .data![index]
                                                         .images!
-                                                        .isNotEmpty
-                                                ? "${marketController.userMarketModel!.data![index].images![0]}"
-                                                : produceImage)),
+                                                        .isNotEmpty &&
+                                                    marketController
+                                                            .userMarketModel!
+                                                            .data![index]
+                                                            .images! !=
+                                                        null
+                                                ? Image.network(
+                                                    "${marketController.userMarketModel!.data![index].images![0]}")
+                                                : Container()),
                                         Flexible(
                                           child: Padding(
                                             padding: const EdgeInsets.only(

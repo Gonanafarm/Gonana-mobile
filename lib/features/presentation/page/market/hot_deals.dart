@@ -22,7 +22,33 @@ class _HotDealsPageState extends State<HotDealsPage> {
   @override
   void dispose() {
     _searchController.dispose();
+    scrollController.dispose();
     super.dispose();
+  }
+
+  final marketController = Get.find<ProductController>();
+  ScrollController scrollController = ScrollController();
+  @override
+  void initState() {
+    super.initState();
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        getMoreData();
+      }
+    });
+  }
+
+  bool loading = false;
+  getMoreData() async {
+    print(loading);
+    setState(() {
+      loading = true;
+    });
+    await marketController.fetchMoreDiscountedProducts();
+    setState(() {
+      loading = false;
+    });
   }
 
   @override
@@ -32,127 +58,141 @@ class _HotDealsPageState extends State<HotDealsPage> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(top: 0.0),
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 20.0, 25, 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Icon(Icons.arrow_back),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            // SvgPicture.asset(
-                            //   "assets/svgs/Emails, Messages.svg",
-                            //   width: 45,
-                            //   height: 30,
-                            // ),
-                            // sizeHor(20.0),
-                            GestureDetector(
-                              onTap: () {
-                                Get.to(() => CartPage());
-                              },
-                              child: Stack(
-                                children: [
-                                  SvgPicture.asset(
-                                      height: 40,
-                                      width: 40,
-                                      "assets/svgs/cart.svg"),
-                                  Positioned(
-                                    bottom: 0,
-                                    right: 0,
-                                    child: Container(
-                                      // width: 15,
-                                      // height: 15,
-                                      decoration: BoxDecoration(
-                                        color: Colors.red[500],
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(3.0),
-                                        child: Center(
-                                          child: Obx(() {
-                                            return Text(
-                                              cartController
-                                                          .cartModel!
-                                                          .value
-                                                          .products!
-                                                          .isNotEmpty ||
-                                                      cartController
-                                                              .cartModel! ==
-                                                          null
-                                                  ? "${cartController.cartModel!.value.products!.length}"
-                                                  : "",
-                                              style: const TextStyle(
-                                                color: primaryColor,
-                                              ),
-                                            );
-                                          }),
-                                        ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 20.0, 25, 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Icon(Icons.arrow_back),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          // SvgPicture.asset(
+                          //   "assets/svgs/Emails, Messages.svg",
+                          //   width: 45,
+                          //   height: 30,
+                          // ),
+                          // sizeHor(20.0),
+                          GestureDetector(
+                            onTap: () {
+                              Get.to(() => CartPage());
+                            },
+                            child: Stack(
+                              children: [
+                                SvgPicture.asset(
+                                    height: 40,
+                                    width: 40,
+                                    "assets/svgs/cart.svg"),
+                                Positioned(
+                                  bottom: 0,
+                                  right: 0,
+                                  child: Container(
+                                    // width: 15,
+                                    // height: 15,
+                                    decoration: BoxDecoration(
+                                      color: Colors.red[500],
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(3.0),
+                                      child: Center(
+                                        child: Obx(() {
+                                          return Text(
+                                            cartController.cartModel!.value
+                                                        .products!.isNotEmpty ||
+                                                    cartController.cartModel! ==
+                                                        null
+                                                ? "${cartController.cartModel!.value.products!.length}"
+                                                : "",
+                                            style: const TextStyle(
+                                              color: primaryColor,
+                                            ),
+                                          );
+                                        }),
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  sizeVer(15.0),
-                  SearchWidget(
-                    controller: _searchController,
-                  ),
-                  sizeVer(10.0),
-                  const Text(
-                    "Hot Deals",
-                    style: TextStyle(
-                        fontSize: 25.0,
-                        fontWeight: FontWeight.bold,
-                        color: secondaryColor),
-                  ),
-                  sizeVer(10.0),
-                  const Text(
-                    "These are rear deals, buy them quick because the done last.",
-                    style: TextStyle(fontSize: 15.0, color: secondaryColor),
-                  ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    itemCount:
-                        productController.discountMarketModel!.data!.length,
-                    itemBuilder: (context, index) {
-                      return productController
-                              .discountMarketModel!.data!.isNotEmpty
-                          ? Column(
-                              children: [
-                                HotDealsCard(
-                                  index: index,
-                                ),
-                                Divider(
-                                  thickness: 1,
-                                  color: Colors.grey[300],
                                 ),
                               ],
-                            )
-                          : Container();
-                    },
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
                   ),
-                  sizeVer(15),
-                ],
-              ),
+                ),
+                sizeVer(15.0),
+                SearchWidget(
+                  controller: _searchController,
+                ),
+                sizeVer(10.0),
+                const Text(
+                  "Hot Deals",
+                  style: TextStyle(
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.bold,
+                      color: secondaryColor),
+                ),
+                sizeVer(10.0),
+                const Text(
+                  "These are rare deals, buy them quick because the done last.",
+                  style: TextStyle(fontSize: 15.0, color: secondaryColor),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.6,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          itemCount: marketController
+                              .discountMarketModel!.data!.length,
+                          controller: scrollController,
+                          itemBuilder: (context, index) {
+                            return marketController
+                                    .discountMarketModel!.data!.isNotEmpty
+                                ? Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      HotDealsCard(
+                                        index: index,
+                                      ),
+                                      Divider(
+                                        thickness: 1,
+                                        color: Colors.grey[300],
+                                      ),
+                                    ],
+                                  )
+                                : Container();
+                          },
+                        ),
+                      ),
+                      !loading
+                          ? Container(height: 1)
+                          : const SizedBox(
+                              height: 30,
+                              width: 30,
+                              child: CircularProgressIndicator(
+                                color: Color.fromRGBO(41, 132, 75, 1),
+                              )),
+                      sizeVer(100)
+                    ],
+                  ),
+                ),
+                sizeVer(15),
+              ],
             ),
           ),
         ),
@@ -160,8 +200,7 @@ class _HotDealsPageState extends State<HotDealsPage> {
     );
   }
 }
-
-ProductController productController = Get.put(ProductController());
+// ProductController productController = Get.put(ProductController());
 
 class HotDealsCard extends StatefulWidget {
   final int index;
@@ -200,19 +239,19 @@ class _HotDealsCardState extends State<HotDealsCard> {
                     //   fit: BoxFit.cover,
                     // ),
                   ),
-                  child: productController.discountMarketModel!.data != null &&
+                  child: marketController.discountMarketModel!.data != null &&
                           widget.index >= 0 &&
                           widget.index <
-                              productController
+                              marketController
                                   .discountMarketModel!.data!.length &&
-                          productController.discountMarketModel!
+                          marketController.discountMarketModel!
                                   .data![widget.index].images !=
                               null &&
-                          productController.discountMarketModel!
+                          marketController.discountMarketModel!
                               .data![widget.index].images!.isNotEmpty
                       ? ClipRRect(
                           child: Image.network(
-                            "${productController.discountMarketModel!.data![widget.index].images![0]}",
+                            "${marketController.discountMarketModel!.data![widget.index].images![0]}",
                             fit: BoxFit.cover,
                           ),
                         )
@@ -244,12 +283,12 @@ class _HotDealsCardState extends State<HotDealsCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${productController.discountMarketModel!.data![widget.index].body}',
+                  '${marketController.discountMarketModel!.data![widget.index].body}',
                   style: TextStyle(color: darkColor),
                 ),
                 sizeVer(10),
                 Text(
-                  "${productController.discountMarketModel!.data![widget.index].amount}",
+                  "${marketController.discountMarketModel!.data![widget.index].amount}",
                   style: TextStyle(
                       fontSize: 20,
                       color: greenColor,
@@ -302,7 +341,7 @@ class _HotDealsCardState extends State<HotDealsCard> {
                         onPressed: () async {
                           bool created = false;
                           created = await cartController.addToCart(
-                              productController
+                              marketController
                                   .discountMarketModel!.data![widget.index].id,
                               context);
                           if (created) {

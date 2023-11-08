@@ -28,6 +28,13 @@ class _ProductCheckoutState extends State<ProductCheckout> {
   final cartController = Get.find<CartController>();
   dynamic argument = Get.arguments;
   late String courier = argument['courier'];
+
+  @override
+  void initState() {
+    super.initState();
+    orderList.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

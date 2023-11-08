@@ -362,9 +362,10 @@ class _BuyNowPageState extends State<BuyNowPage> {
                   height: 200,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: marketController.marketModel!.data!.length <= 3
-                        ? marketController.marketModel!.data!.length
-                        : 3,
+                    itemCount:
+                        marketController.marketModel.value.data!.length <= 3
+                            ? marketController.marketModel.value.data!.length
+                            : 3,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.only(right: 10.0),

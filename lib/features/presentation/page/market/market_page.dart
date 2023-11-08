@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -13,6 +15,8 @@ import '../../../../consts.dart';
 import '../../../controllers/auth/get_details.dart';
 import '../../../controllers/post/post_controllers.dart';
 import '../../../controllers/user/user_controller.dart';
+import '../../../data/models/post_model.dart';
+import '../../../utilities/network.dart';
 import '../../widgets/search_page.dart';
 import '../../widgets/warning_widget.dart';
 import 'buy_now.dart';
@@ -34,9 +38,26 @@ class _MarketPageState extends State<MarketPage> {
   TransactionController transactionController =
       Get.put(TransactionController());
   final userController = Get.find<UserController>();
+  ProductController marketController = Get.put(ProductController());
 
   late Future<bool> fetchData;
   GetDetailsController detailsController = Get.put(GetDetailsController());
+  ScrollController scrollController = ScrollController();
+
+  // bool isLoadingMoreRunning = false;
+  int page = 0;
+  PostModel? marketModel;
+  bool loading = false;
+  getMoreData() async {
+    setState(() {
+      loading = true;
+    });
+    await marketController.fetchMoreProducts();
+    setState(() {
+      loading = false;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -44,6 +65,12 @@ class _MarketPageState extends State<MarketPage> {
     getBVNStatus();
     fetchData = detailsController.getUserDetails();
     transactionController.fetchTransactions();
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        getMoreData();
+      }
+    });
   }
 
   setStage() async {
@@ -105,229 +132,265 @@ class _MarketPageState extends State<MarketPage> {
           return Scaffold(
             backgroundColor: const Color(0xffF1F1F1),
             body: SafeArea(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 15.0, vertical: 0.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15.0, vertical: 10.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            // GestureDetector(
-                            //     onTap: () {
-                            //       Get.to(() => Message());
-                            //     },
-                            //     child: SvgPicture.asset(
-                            //         "assets/svgs/Emails, Messages.svg")),
-                            // sizeHor(20.0),
-                            GestureDetector(
-                              onTap: () {
-                                Get.to(() => CartPage());
-                              },
-                              child: Stack(
-                                children: [
-                                  SvgPicture.asset(
-                                      height: 40,
-                                      width: 40,
-                                      "assets/svgs/cart.svg"),
-                                  Positioned(
-                                    bottom: 0,
-                                    right: 0,
-                                    child: Container(
-                                      // width: 15,
-                                      // height: 15,
-                                      decoration: BoxDecoration(
-                                        color: Colors.red[500],
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(3.0),
-                                        child: Center(
-                                          child: Obx(() {
-                                            return Text(
-                                              cartController
-                                                          .cartModel!
-                                                          .value
-                                                          .products!
-                                                          .isNotEmpty ||
-                                                      cartController
-                                                              .cartModel! ==
-                                                          null
-                                                  ? "${cartController.cartModel!.value.products!.length}"
-                                                  : "",
-                                              style: const TextStyle(
-                                                color: primaryColor,
-                                              ),
-                                            );
-                                          }),
+              child: ListView(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15.0, vertical: 0.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15.0, vertical: 10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              // GestureDetector(
+                              //     onTap: () {
+                              //       Get.to(() => Message());
+                              //     },
+                              //     child: SvgPicture.asset(
+                              //         "assets/svgs/Emails, Messages.svg")),
+                              // sizeHor(20.0),
+                              GestureDetector(
+                                onTap: () {
+                                  Get.to(() => CartPage());
+                                },
+                                child: Stack(
+                                  children: [
+                                    SvgPicture.asset(
+                                        height: 40,
+                                        width: 40,
+                                        "assets/svgs/cart.svg"),
+                                    Positioned(
+                                      bottom: 0,
+                                      right: 0,
+                                      child: Container(
+                                        // width: 15,
+                                        // height: 15,
+                                        decoration: BoxDecoration(
+                                          color: Colors.red[500],
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(3.0),
+                                          child: Center(
+                                            child: Obx(() {
+                                              return Text(
+                                                cartController
+                                                            .cartModel!
+                                                            .value
+                                                            .products!
+                                                            .isNotEmpty ||
+                                                        cartController
+                                                                .cartModel! ==
+                                                            null
+                                                    ? "${cartController.cartModel!.value.products!.length}"
+                                                    : "",
+                                                style: const TextStyle(
+                                                  color: primaryColor,
+                                                ),
+                                              );
+                                            }),
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      sizeVer(15.0),
-                      SearchWidget(
-                        controller: _searchController,
-                      ),
-                      sizeVer(10.0),
-                      marketController.discountMarketModel?.data!.length == 0
-                          ? sizeVer(10)
-                          : InkWell(
-                              onTap: () {
-                                Get.to(() => const HotDealsPage());
-                              },
-                              child: Row(
-                                children: [
-                                  const Text(
-                                    "Hot Deals",
-                                    style: TextStyle(
-                                        fontSize: 25.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: secondaryColor),
-                                  ),
-                                  sizeHor(10.0),
-                                  const Icon(
-                                    Icons.arrow_forward,
-                                    color: greenColor,
-                                    size: 32,
-                                  )
-                                ],
-                              ),
-                            ),
-                      SizedBox(
-                        height: marketController
-                                    .discountMarketModel?.data!.length ==
-                                0
-                            ? 0
-                            : 190,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: marketController
-                                  .discountMarketModel?.data?.length ??
-                              0,
-                          itemBuilder: (context, index) {
-                            final reversedIndex = (marketController
-                                        .discountMarketModel!.data!.length -
-                                    1) -
-                                index;
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 10.0),
-                              child: HotDealsCard(
-                                index: reversedIndex,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      (BVNisSubmited != null && BVNisSubmited!) ||
-                              (userController.userModel != null &&
-                                  userController.userModel.value
-                                          .virtualAccountNumber !=
-                                      null &&
-                                  userController.userModel.value
-                                      .virtualAccountNumber!.isNotEmpty)
-                          ? Container(height: 1)
-                          : WarningWidget(),
-                      sizeVer(15),
-                      marketController.marketModel?.data!.length == 0
-                          ? Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  sizeVer(
-                                      MediaQuery.of(context).size.height * 0.1),
-                                  SvgPicture.asset(
-                                    "assets/svgs/empty_product.svg",
-                                    width: 189.71,
-                                    height: 156.03,
-                                  ),
-                                  const Text(
-                                    'Sorry! no product yet',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 24,
-                                      fontFamily: 'Proxima Nova',
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  const Text(
-                                    'All products will be visible here',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                      fontFamily: 'Proxima Nova',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          : InkWell(
-                              onTap: () {
-                                // Get.to(() => const BuyNowPage());
-                              },
-                              child: const Row(
-                                children: [
-                                  Text(
-                                    "Buy Now",
-                                    style: TextStyle(
-                                        fontSize: 25.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: secondaryColor),
-                                  ),
-                                  // sizeHor(10.0),
-                                  // const Icon(
-                                  //   Icons.arrow_forward,
-                                  //   color: greenColor,
-                                  //   size: 32,
-                                  // )
-                                ],
-                              ),
-                            ),
-                      sizeVer(15),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.72,
-                        child: GridView.builder(
-                          // scrollDirection: Axis.horizontal,
-                          itemCount:
-                              marketController.marketModel?.data?.length ?? 0,
-                          itemBuilder: (context, index) {
-                            final reversedIndex =
-                                (marketController.marketModel!.data!.length -
-                                        1) -
-                                    index;
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 10.0),
-                              child: BuyNowCard(
-                                index: reversedIndex,
-                              ),
-                            );
-                          },
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3, // Number of columns
-                            mainAxisExtent: 140, // Maximum width of each item
-                            mainAxisSpacing: 30,
-                            childAspectRatio:
-                                11 / 13, // Width-to-height ratio of each item
+                                  ],
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                      ),
-                    ],
+                        sizeVer(15.0),
+                        SearchWidget(
+                          controller: _searchController,
+                        ),
+                        sizeVer(10.0),
+                        marketController.discountMarketModel?.data!.length == 0
+                            ? sizeVer(10)
+                            : InkWell(
+                                onTap: () {
+                                  Get.to(() => const HotDealsPage());
+                                },
+                                child: Row(
+                                  children: [
+                                    const Text(
+                                      "Hot Deals",
+                                      style: TextStyle(
+                                          fontSize: 25.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: secondaryColor),
+                                    ),
+                                    sizeHor(10.0),
+                                    const Icon(
+                                      Icons.arrow_forward,
+                                      color: greenColor,
+                                      size: 32,
+                                    )
+                                  ],
+                                ),
+                              ),
+                        SizedBox(
+                          height: marketController
+                                      .discountMarketModel?.data!.length ==
+                                  0
+                              ? 0
+                              : 190,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: marketController
+                                        .discountMarketModel?.data?.length ==
+                                    7
+                                ? 6
+                                : marketController
+                                        .discountMarketModel?.data?.length ??
+                                    0,
+                            itemBuilder: (context, index) {
+                              final reversedIndex = (marketController
+                                          .discountMarketModel!.data!.length -
+                                      1) -
+                                  index;
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 10.0),
+                                child: HotDealsCard(
+                                  index: index,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        (BVNisSubmited != null && BVNisSubmited!) ||
+                                (userController.userModel != null &&
+                                    userController.userModel.value
+                                            .virtualAccountNumber !=
+                                        null &&
+                                    userController.userModel.value
+                                        .virtualAccountNumber!.isNotEmpty)
+                            ? Container(height: 1)
+                            : WarningWidget(),
+                        sizeVer(15),
+                        marketController.marketModel.value.data!.isEmpty
+                            ? Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    sizeVer(MediaQuery.of(context).size.height *
+                                        0.1),
+                                    SvgPicture.asset(
+                                      "assets/svgs/empty_product.svg",
+                                      width: 189.71,
+                                      height: 156.03,
+                                    ),
+                                    const Text(
+                                      'Sorry! no product yet',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 24,
+                                        fontFamily: 'Proxima Nova',
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    const Text(
+                                      'All products will be visible here',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontFamily: 'Proxima Nova',
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : InkWell(
+                                onTap: () {
+                                  // Get.to(() => const BuyNowPage());
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Buy now",
+                                      style: TextStyle(
+                                          fontSize: 25.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: secondaryColor),
+                                    ),
+                                    // sizeHor(10.0),
+                                    // const Icon(
+                                    //   Icons.arrow_forward,
+                                    //   color: greenColor,
+                                    //   size: 32,
+                                    // )
+                                  ],
+                                ),
+                              ),
+                        sizeVer(15),
+                        SizedBox(
+                          height: marketController
+                                      .discountMarketModel?.data!.length ==
+                                  0
+                              ? MediaQuery.of(context).size.height * 0.72
+                              : MediaQuery.of(context).size.height * 0.31,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: GridView.builder(
+                                  // scrollDirection: Axis.horizontal,
+                                  controller: scrollController,
+                                  shrinkWrap: true,
+                                  physics: const ScrollPhysics(
+                                    parent: AlwaysScrollableScrollPhysics(),
+                                  ),
+                                  itemCount: marketController
+                                          .marketModel.value.data?.length ??
+                                      0,
+                                  itemBuilder: (context, index) {
+                                    final reversedIndex = (marketController
+                                                .marketModel
+                                                .value
+                                                .data!
+                                                .length -
+                                            1) -
+                                        index;
+                                    return Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 10.0),
+                                      child: BuyNowCard(
+                                        index: index,
+                                      ),
+                                    );
+                                  },
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3, // Number of columns
+                                    mainAxisExtent:
+                                        140, // Maximum width of each item
+                                    mainAxisSpacing: 30,
+                                    childAspectRatio: 11 /
+                                        13, // Width-to-height ratio of each item
+                                  ),
+                                ),
+                              ),
+                              !loading
+                                  ? Container(height: 1)
+                                  : const SizedBox(
+                                      height: 30,
+                                      width: 30,
+                                      child: CircularProgressIndicator(
+                                        color: Color.fromRGBO(41, 132, 75, 1),
+                                      ))
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
             //bottomNavigationBar: NavigationBar(),
@@ -338,23 +401,27 @@ class _MarketPageState extends State<MarketPage> {
   }
 }
 
-final marketController = Get.put(ProductController());
-
-class HotDealsCard extends StatelessWidget {
+class HotDealsCard extends StatefulWidget {
   final int index;
-  const HotDealsCard({
+  HotDealsCard({
     Key? key,
     required this.index,
   }) : super(key: key);
 
+  @override
+  State<HotDealsCard> createState() => _HotDealsCardState();
+}
+
+class _HotDealsCardState extends State<HotDealsCard> {
+  final marketController = Get.find<ProductController>();
   @override
   Widget build(BuildContext context) {
     var productModel = marketController.discountMarketModel!.data;
     return InkWell(
       onTap: () {
         Get.to(() => HotDealsItem(
-              index: index,
-              productModel: productModel![index],
+              index: widget.index,
+              productModel: productModel![widget.index],
             ));
       },
       child: Column(
@@ -372,17 +439,24 @@ class HotDealsCard extends StatelessWidget {
                   //   fit: BoxFit.cover,
                   // ),
                 ),
-                child: marketController
-                            .discountMarketModel!.data![index].images![0] !=
-                        null
+                child: (marketController.discountMarketModel != null &&
+                        marketController.discountMarketModel!.data != null &&
+                        marketController
+                            .discountMarketModel!.data!.isNotEmpty &&
+                        marketController.discountMarketModel!
+                                .data![widget.index].images !=
+                            null &&
+                        marketController.discountMarketModel!
+                            .data![widget.index].images!.isNotEmpty)
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: Image.network(
-                          "${marketController.discountMarketModel!.data![index].images![0]}",
+                          marketController.discountMarketModel!
+                              .data![widget.index].images![0],
                           fit: BoxFit.cover,
                         ),
                       )
-                    : Container(),
+                    : Container(), // Handle the case where data is empty or images are missing
               ),
               // Container(
               //   width: 50,
@@ -405,14 +479,14 @@ class HotDealsCard extends StatelessWidget {
           ),
           sizeVer(5),
           Text(
-            "${marketController.discountMarketModel!.data![index].title}",
+            "${marketController.discountMarketModel!.data![widget.index].title}",
             style: GoogleFonts.montserrat(
                 color: const Color.fromRGBO(0, 0, 0, 1),
                 fontSize: 10,
                 fontWeight: FontWeight.w400),
           ),
           Text(
-            "NGN ${marketController.discountMarketModel!.data![index].amount}",
+            "NGN ${marketController.discountMarketModel!.data![widget.index].amount}",
             style: const TextStyle(
                 fontSize: 14, color: greenColor, fontWeight: FontWeight.w600),
           ),
@@ -427,7 +501,7 @@ class HotDealsCard extends StatelessWidget {
           //     )),
           sizeVer(8.0),
           FutureBuilder<String?>(
-            future: marketController.discountedProductAddress(index),
+            future: marketController.discountedProductAddress(widget.index),
             builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return CircularProgressIndicator();
@@ -457,20 +531,28 @@ class HotDealsCard extends StatelessWidget {
   }
 }
 
-class BuyNowCard extends StatelessWidget {
+class BuyNowCard extends StatefulWidget {
   final int index;
-  const BuyNowCard({
+  BuyNowCard({
     Key? key,
     required this.index,
   }) : super(key: key);
+
+  @override
+  State<BuyNowCard> createState() => _BuyNowCardState();
+}
+
+class _BuyNowCardState extends State<BuyNowCard> {
+  final marketController = Get.find<ProductController>();
+
   @override
   Widget build(BuildContext context) {
-    var productModel = marketController.marketModel!.data;
+    var productModel = marketController.marketModel.value.data;
     return InkWell(
       onTap: () {
         Get.to(() => BuyNowPage(
-              index: index,
-              productModel: productModel![index],
+              index: widget.index,
+              productModel: productModel![widget.index],
             ));
       },
       child: Column(
@@ -489,20 +571,21 @@ class BuyNowCard extends StatelessWidget {
                     //   fit: BoxFit.cover,
                     // ),
                   ),
-                  child: marketController.marketModel!.data != null &&
-                          index >= 0 &&
-                          index < marketController.marketModel!.data!.length &&
-                          marketController
-                                  .marketModel!.data![index].product!.images !=
+                  child: marketController.marketModel.value.data != null &&
+                          widget.index >= 0 &&
+                          widget.index <
+                              marketController.marketModel.value.data!.length &&
+                          marketController.marketModel.value.data![widget.index]
+                                  .product!.images !=
                               null &&
-                          marketController.marketModel!.data![index].product!
-                              .images!.isNotEmpty
+                          marketController.marketModel.value.data![widget.index]
+                              .product!.images!.isNotEmpty
                       ? ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: Image.network(
                             width: 115,
                             height: 103,
-                            "${marketController.marketModel!.data![index].product!.images![0]}",
+                            "${marketController.marketModel.value.data![widget.index].product!.images![0]}",
                             fit: BoxFit.cover,
                           ),
                         )
@@ -530,14 +613,14 @@ class BuyNowCard extends StatelessWidget {
           ),
           sizeVer(5),
           Text(
-            "${marketController.marketModel!.data![index].product!.title}",
+            "${marketController.marketModel.value.data![widget.index].product!.title}",
             style: GoogleFonts.montserrat(
                 color: const Color.fromRGBO(0, 0, 0, 1),
                 fontSize: 10,
                 fontWeight: FontWeight.w400),
           ),
           Text(
-            "${marketController.marketModel!.data![index].product!.amount}",
+            "${marketController.marketModel.value.data![widget.index].product!.amount}",
             style: GoogleFonts.montserrat(
                 fontSize: 14,
                 color: const Color.fromRGBO(41, 132, 75, 1),
@@ -554,7 +637,7 @@ class BuyNowCard extends StatelessWidget {
           //     )),
           sizeVer(8.0),
           FutureBuilder<String?>(
-            future: marketController.productAddress(index),
+            future: marketController.productAddress(widget.index),
             builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return CircularProgressIndicator();
