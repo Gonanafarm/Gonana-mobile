@@ -30,9 +30,9 @@ class _ProductCheckoutState extends State<ProductCheckout> {
   late String courier = argument['courier'];
 
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
     orderList.clear();
+    super.dispose();
   }
 
   @override

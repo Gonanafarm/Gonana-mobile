@@ -32,7 +32,12 @@ class _AddressCourierState extends State<AddressCourier> {
   void initState() {
     super.initState();
     cartController.fetchActiveCourier();
+  }
+
+  @override
+  void dispose() {
     orderList.clear();
+    super.dispose();
   }
 
   @override
