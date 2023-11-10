@@ -8,6 +8,7 @@ import 'package:gonana/features/presentation/widgets/image_slider_discount.dart'
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import '../../../../consts.dart';
+import '../../../controllers/market/market_controllers.dart';
 import '../../widgets/bottomsheets.dart';
 import '../../widgets/widgets.dart';
 import 'cart_page.dart';
@@ -25,6 +26,7 @@ class HotDealsItem extends StatefulWidget {
 
 class _HotDealsItemState extends State<HotDealsItem> {
   final cartController = Get.find<CartController>();
+  final marketController = Get.find<ProductController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

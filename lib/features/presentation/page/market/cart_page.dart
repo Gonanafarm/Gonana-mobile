@@ -40,7 +40,16 @@ class _CartPageState extends State<CartPage> {
       // postController.getPosts();
       fetchData = getCartItems();
       getBVNStatus();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        resetTotalPrice();
+      });
+      orderList.clear();
+      checkedItems.clear();
     });
+  }
+
+  void resetTotalPrice() {
+    cartController.clearPrice();
   }
 
   bool? BVNisSubmited = false;
@@ -86,6 +95,7 @@ class _CartPageState extends State<CartPage> {
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else {
+            // cartController.clearPrice();
             return Scaffold(
               backgroundColor: const Color(0xffF1F1F1),
               body: SafeArea(
@@ -182,7 +192,7 @@ class _CartPageState extends State<CartPage> {
                                           Obx(() {
                                             return Text(
                                                 cartController.cartModel != null
-                                                    ? "NGN ${cartController.totalPrice}"
+                                                    ? "NGN ${cartController.totalPrice.value}"
                                                     : "NGN",
                                                 style: GoogleFonts.montserrat(
                                                   fontSize: 14,
