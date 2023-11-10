@@ -1,6 +1,7 @@
+// ignore_for_file: invalid_use_of_protected_member, avoid_print
+
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:ffi';
 import 'dart:io';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart' as getx;
@@ -12,13 +13,15 @@ import 'package:gonana/features/data/models/discounted_product_model.dart'
     as DiscountedModel;
 import 'package:gonana/features/data/models/post_model.dart' as PostModel;
 import 'package:gonana/features/data/models/user_model.dart';
+<<<<<<< HEAD
 import 'package:gonana/features/data/models/user_post_model.dart'
     as UserProductModel;
 import 'package:gonana/features/presentation/page/store/store_logistics.dart';
+=======
+import 'package:gonana/features/data/models/user_post_model.dart';
+>>>>>>> 191b65deebe91fb9de4f5820761e5fe065fb0c3a
 import 'package:gonana/features/presentation/widgets/widgets.dart';
 import '../../../consts.dart';
-import '../../data/models/get_post_model.dart';
-import '../../data/models/market_model.dart';
 import '../../utilities/api_routes.dart';
 import 'package:dio/dio.dart';
 
@@ -239,6 +242,8 @@ class ProductController extends GetxController {
       print("products abeg $response");
       marketModel.value = PostModel.postModelFromJson(responseBody.body);
       print(response);
+      print(marketModel!.data![0].product!.location!.coordinates);
+      log("MarketProcuts: [$response]");
       // log("products || ${response}");
       return true;
     } catch (e, s) {
@@ -310,7 +315,7 @@ class ProductController extends GetxController {
       userMarketModel =
           UserProductModel.userPostModelFromJson(responseBody.body);
       // print(userMarketModel!.data![0].location!.coordinates);
-      log("products || ${response}");
+      log("Userproducts || ${response}");
       return true;
     } catch (e, s) {
       print(e);
@@ -385,7 +390,7 @@ class ProductController extends GetxController {
       discountMarketModel =
           DiscountedModel.discountedProductModelFromJson(responseBody.body);
       print(discountMarketModel);
-      log("products || $response");
+      log("Discountproducts || $response");
       return true;
     } catch (e, s) {
       print(e);
