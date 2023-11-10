@@ -3,7 +3,8 @@ import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:gonana/features/data/models/get_balance_model.dart';
-import 'package:gonana/features/data/models/get_transaction_model.dart';
+import 'package:gonana/features/data/models/get_transaction_model.dart'
+    as Transaction;
 
 import '../../presentation/widgets/widgets.dart';
 import '../../utilities/api_routes.dart';
@@ -58,18 +59,23 @@ class TransactionController extends GetxController {
     }
   }
 
-  var transactionModel = GetTransactionModel().obs;
+  Rx<Transaction.GetTransactionModel> transactionModel =
+      Rx<Transaction.GetTransactionModel>(Transaction.GetTransactionModel());
+  int transactionLimit = 15;
+  int transactionPage = 1;
   Future<bool> fetchTransactions() async {
+    transactionPage = 1;
     try {
-      var responseBody =
-          await NetworkApi().authGetData(ApiRoute.getWalletTransactions);
+      var responseBody = await NetworkApi().authGetData(
+          "api/transaction/user-transactions?limit=$transactionLimit&page=$transactionPage");
       final response = jsonDecode(responseBody.body);
       print("Wallet transactions got here");
       if (responseBody.statusCode == 200) {
-        transactionModel.value = getTransactionModelFromJson(responseBody.body);
+        transactionModel.value =
+            Transaction.getTransactionModelFromJson(responseBody.body);
         print("Wallet transactions || $response");
         print(
-            "Wallet transactions || ${transactionModel!.value.transactions![0].sessionId}");
+            "Wallet transactions | || ${transactionModel!.value.transactions![0].transactions!.amountSettled}");
         return true;
       } else {
         print("Wallet transactions got here again (error)");
@@ -79,6 +85,42 @@ class TransactionController extends GetxController {
     } catch (e) {
       print(e);
       return false;
+    }
+  }
+
+  Future fetchMoreTransactions() async {
+    await transactionPage++;
+    try {
+      print("page test 1 $transactionPage");
+      var responseBody = await NetworkApi().authGetData(
+          "api/transaction/user-transactions?limit=$transactionLimit&page=$transactionPage");
+      var response = jsonDecode(responseBody.body);
+      if (response != null &&
+          transactionModel.value != null &&
+          transactionModel.value!.transactions != null &&
+          transactionModel.value!.transactions!.isNotEmpty) {
+        final dataToAdd =
+            (response["transactions"] as List<dynamic>?)?.map((item) {
+                  return Transaction.Transaction.fromJson(item);
+                })?.toList() ??
+                [];
+        // if (dataToAdd.length < limit) {
+        //   updateHasMore(false);
+        // }
+        if (dataToAdd.isNotEmpty) {
+          transactionModel.value.transactions!.addAll(dataToAdd);
+          update();
+          print("pagination got here $transactionPage");
+          print(
+              "New data body: ${transactionModel.value.transactions!.length}");
+          print(
+              "New data body: ${transactionModel.value.transactions![0].transactions!.amountSettled}");
+        }
+        print(response);
+      }
+    } catch (e, s) {
+      print(e);
+      print(s);
     }
   }
 

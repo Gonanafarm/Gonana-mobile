@@ -12,7 +12,8 @@ import 'package:gonana/features/data/models/discounted_product_model.dart'
     as DiscountedModel;
 import 'package:gonana/features/data/models/post_model.dart' as PostModel;
 import 'package:gonana/features/data/models/user_model.dart';
-import 'package:gonana/features/data/models/user_post_model.dart';
+import 'package:gonana/features/data/models/user_post_model.dart'
+    as UserProductModel;
 import 'package:gonana/features/presentation/page/store/store_logistics.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
 import '../../../consts.dart';
@@ -224,7 +225,7 @@ class ProductController extends GetxController {
   // PostModel? marketModel;
   Rx<PostModel.PostModel> marketModel =
       Rx<PostModel.PostModel>(PostModel.PostModel());
-  UserPostModel? userMarketModel;
+  UserProductModel.UserPostModel? userMarketModel;
   int productLimit = 15;
   int discountedLimit = 15;
   int productPage = 1;
@@ -237,10 +238,6 @@ class ProductController extends GetxController {
       //marketModel = marketModelFromJson(responseBody);
       print("products abeg $response");
       marketModel.value = PostModel.postModelFromJson(responseBody.body);
-      final postModel = PostModel.PostModel.fromJson(response);
-      // marketModel = [postModel];
-      // print(marketModel);
-      // print(marketModel!.data![0].product!.location!.coordinates);
       print(response);
       // log("products || ${response}");
       return true;
@@ -301,13 +298,17 @@ class ProductController extends GetxController {
   //   }
   // }
 
+  int userProductPage = 1;
+  int userProductLimit = 15;
   Future<bool> fetchUserProduct() async {
+    userProductPage = 1;
     try {
-      var responseBody =
-          await NetworkApi().authGetData(ApiRoute.getUserProduct);
+      var responseBody = await NetworkApi().authGetData(
+          "api/catalog/posts/user-products?type=product&page=$userProductPage&limit=$userProductLimit");
       final response = jsonDecode(responseBody.body);
       //marketModel = marketModelFromJson(responseBody);
-      userMarketModel = userPostModelFromJson(responseBody.body);
+      userMarketModel =
+          UserProductModel.userPostModelFromJson(responseBody.body);
       // print(userMarketModel!.data![0].location!.coordinates);
       log("products || ${response}");
       return true;
@@ -315,6 +316,39 @@ class ProductController extends GetxController {
       print(e);
       print(s);
       return false;
+    }
+  }
+
+  Future fetchMoreUserProducts() async {
+    await userProductPage++;
+    try {
+      print("page test 1 $userProductPage");
+      var responseBody = await NetworkApi().authGetData(
+          "api/catalog/posts/user-products?type=product&page=$userProductPage&limit=$userProductLimit");
+      var response = jsonDecode(responseBody.body);
+      if (response != null &&
+          userMarketModel != null &&
+          userMarketModel!.data != null &&
+          userMarketModel!.data!.isNotEmpty) {
+        final dataToAdd = (response["data"] as List<dynamic>?)?.map((item) {
+              return UserProductModel.Datum.fromJson(item);
+            })?.toList() ??
+            [];
+        // if (dataToAdd.length < limit) {
+        //   updateHasMore(false);
+        // }
+        if (dataToAdd.isNotEmpty) {
+          userMarketModel!.data!.addAll(dataToAdd);
+          update();
+          print("pagination got here $userProductPage");
+          print("New data body: ${userMarketModel!.data!.length}");
+          print("New data body: ${userMarketModel!.data![1]!.body}");
+        }
+        print(response);
+      }
+    } catch (e, s) {
+      print(e);
+      print(s);
     }
   }
 
