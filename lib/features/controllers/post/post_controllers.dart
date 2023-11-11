@@ -7,7 +7,7 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:gonana/features/data/models/post_model_id.dart';
 import 'package:gonana/features/data/models/post_model.dart';
 import '../../../consts.dart';
-import '../../data/models/feeds_model.dart';
+import '../../data/models/feeds_model.dart' as FeedsModel;
 import '../../data/models/get_post_model.dart';
 import '../../utilities/api_routes.dart';
 import 'package:dio/dio.dart';
@@ -16,7 +16,7 @@ import '../../utilities/network.dart';
 
 class PostController extends GetxController {
   //List<PostModel> postModel = [];
-  late FeedsModel postModel;
+  late FeedsModel.FeedsModel postModel;
   GetPostModel getPostModel = GetPostModel();
   RxString title = "".obs;
   RxString body = "".obs;
@@ -98,28 +98,53 @@ class PostController extends GetxController {
   //     return false;
   //   }
   // }
-
+  int postPage = 1;
+  int postLimit = 15;
   Future<bool> getPosts() async {
+    postPage = 1;
     try {
-      var res = await NetworkApi().authGetData(ApiRoute.getPosts);
+      var res = await NetworkApi().authGetData(
+          "api/catalog/posts?type=post&page=$postPage&limit=$postLimit");
       final response = jsonDecode(res.body);
-      // log("${res.statusCode}");
-      // log("${response}");
-      // if(res.statusCode == 200){
-      //   log(response.toString());
-      //   var data = List<Map<String, dynamic>>.from(response);
-      //   List list = data.map((e)=> PostModel().fromJson(e)).toList();
-      //   posts.value.addAll(list as Iterable<PostModel>);
-      // }
-      // print("posts || $response");
-      postModel = feedsModelFromJson(res.body);
-      // print(postModel[0].images!.elementAt(0));
-      // print("posts || $responseBody");
+      postModel = FeedsModel.feedsModelFromJson(res.body);
       print("posts got here || $response");
       return true;
     } catch (e) {
       print(e);
       return false;
+    }
+  }
+
+  Future getMorePosts() async {
+    await postPage++;
+    try {
+      print("page test 1 $postPage");
+      var responseBody = await NetworkApi().authGetData(
+          "api/catalog/posts?type=post&page=$postPage&limit=$postLimit");
+      var response = jsonDecode(responseBody.body);
+      if (response != null &&
+          postModel != null &&
+          postModel!.data != null &&
+          postModel!.data!.isNotEmpty) {
+        final dataToAdd = (response["data"] as List<dynamic>?)?.map((item) {
+              return FeedsModel.Datum.fromJson(item);
+            })?.toList() ??
+            [];
+        // if (dataToAdd.length < limit) {
+        //   updateHasMore(false);
+        // }
+        if (dataToAdd.isNotEmpty) {
+          postModel!.data!.addAll(dataToAdd);
+          update();
+          print("pagination got here $postPage");
+          print("New data body: ${postModel!.data!.length}");
+          print("New data body: ${postModel!.data![0]!.product!.body}");
+        }
+        print(response);
+      }
+    } catch (e, s) {
+      print(e);
+      print(s);
     }
   }
 

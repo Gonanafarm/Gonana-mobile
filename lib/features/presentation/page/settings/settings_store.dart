@@ -40,10 +40,28 @@ class _StoreState extends State<Store> {
     }
   }
 
+  ScrollController scrollController = ScrollController();
+  bool loading = false;
+  getMoreData() async {
+    setState(() {
+      loading = true;
+    });
+    await marketController.fetchMoreUserProducts();
+    setState(() {
+      loading = false;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     getBVNStatus();
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        getMoreData();
+      }
+    });
   }
 
   String produceImage =
@@ -152,277 +170,204 @@ class _StoreState extends State<Store> {
                   ],
                 ),
               )
-            : Container(
-                height: MediaQuery.of(context).size.width,
-                child: ListView.builder(
-                    itemCount:
-                        marketController.userMarketModel?.data?.length ?? 0,
-                    itemBuilder: (BuildContext context, int index) {
-                      return marketController.userMarketModel!.data!.isNotEmpty
-                          ? Column(
-                              children: [
-                                SizedBox(
-                                  // width: MediaQuery.of(context).size.width * 0.8,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 20.0),
-                                    child: Row(
-                                      children: [
-                                        SizedBox(
-                                            width: 129,
-                                            height: 108,
-                                            child: marketController
-                                                            .userMarketModel!
-                                                            .data![index] !=
-                                                        null &&
-                                                    marketController
-                                                        .userMarketModel!
-                                                        .data![index]
-                                                        .images!
-                                                        .isNotEmpty &&
-                                                    marketController
-                                                            .userMarketModel!
-                                                            .data![index]
-                                                            .images! !=
-                                                        null
-                                                ? Image.network(
-                                                    "${marketController.userMarketModel!.data![index].images![0]}")
-                                                : Container()),
-                                        Flexible(
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 10.0),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  '${marketController.userMarketModel!.data![index].body}',
-                                                  style: TextStyle(
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      color: Color(0xff444444)),
-                                                ),
-                                                SizedBox(height: 10),
-                                                Text(
-                                                  "NGN ${marketController.userMarketModel!.data![index].amount}",
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color: Color(0xff29844B)),
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Flexible(
-                                                      child: Column(
+            : SizedBox(
+                height: MediaQuery.of(context).size.height * 0.48,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                          controller: scrollController,
+                          itemCount:
+                              marketController.userMarketModel?.data?.length ??
+                                  0,
+                          itemBuilder: (BuildContext context, int index) {
+                            return marketController
+                                    .userMarketModel!.data!.isNotEmpty
+                                ? Column(
+                                    children: [
+                                      SizedBox(
+                                        // width: MediaQuery.of(context).size.width * 0.8,
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 20.0),
+                                          child: Row(
+                                            children: [
+                                              SizedBox(
+                                                  width: 129,
+                                                  height: 108,
+                                                  child: marketController
+                                                                      .userMarketModel!
+                                                                      .data![
+                                                                  index] !=
+                                                              null &&
+                                                          marketController
+                                                              .userMarketModel!
+                                                              .data![index]
+                                                              .images!
+                                                              .isNotEmpty &&
+                                                          marketController
+                                                                  .userMarketModel!
+                                                                  .data![index]
+                                                                  .images! !=
+                                                              null
+                                                      ? Image.network(
+                                                          "${marketController.userMarketModel!.data![index].images![0]}")
+                                                      : Container()),
+                                              Flexible(
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 10.0),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        '${marketController.userMarketModel!.data![index].body}',
+                                                        style: TextStyle(
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            color: Color(
+                                                                0xff444444)),
+                                                      ),
+                                                      SizedBox(height: 10),
+                                                      Text(
+                                                        "NGN ${marketController.userMarketModel!.data![index].amount}",
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color: Color(
+                                                                0xff29844B)),
+                                                      ),
+                                                      Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
-                                                                .spaceEvenly,
+                                                                .spaceBetween,
                                                         children: [
-                                                          // Text(
-                                                          //   "NGN 30,000",
-                                                          //   style: TextStyle(
-                                                          //       decoration:
-                                                          //           TextDecoration.lineThrough,
-                                                          //       fontSize: 10,
-                                                          //       fontWeight: FontWeight.w400,
-                                                          //       color: Color(0xff444444)),
-                                                          // ),
-                                                          FutureBuilder<
-                                                              String?>(
-                                                            future: marketController
-                                                                .userProductAddress(
-                                                                    index),
-                                                            builder: (BuildContext
-                                                                    context,
-                                                                AsyncSnapshot<
-                                                                        String?>
-                                                                    snapshot) {
-                                                              if (snapshot
-                                                                      .connectionState ==
-                                                                  ConnectionState
-                                                                      .waiting) {
-                                                                return CircularProgressIndicator();
-                                                              } else if (snapshot
-                                                                  .hasError) {
-                                                                return Text(
-                                                                    "Error: ${snapshot.error}");
-                                                              } else {
-                                                                return Text(
-                                                                    snapshot.data ??
-                                                                        "");
-                                                              }
-                                                            },
+                                                          Flexible(
+                                                            child: Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceEvenly,
+                                                              children: [
+                                                                // Text(
+                                                                //   "NGN 30,000",
+                                                                //   style: TextStyle(
+                                                                //       decoration:
+                                                                //           TextDecoration.lineThrough,
+                                                                //       fontSize: 10,
+                                                                //       fontWeight: FontWeight.w400,
+                                                                //       color: Color(0xff444444)),
+                                                                // ),
+                                                                FutureBuilder<
+                                                                    String?>(
+                                                                  future: marketController
+                                                                      .userProductAddress(
+                                                                          index),
+                                                                  builder: (BuildContext
+                                                                          context,
+                                                                      AsyncSnapshot<
+                                                                              String?>
+                                                                          snapshot) {
+                                                                    if (snapshot
+                                                                            .connectionState ==
+                                                                        ConnectionState
+                                                                            .waiting) {
+                                                                      return CircularProgressIndicator();
+                                                                    } else if (snapshot
+                                                                        .hasError) {
+                                                                      return Text(
+                                                                          "Error: ${snapshot.error}");
+                                                                    } else {
+                                                                      return Text(
+                                                                          snapshot.data ??
+                                                                              "");
+                                                                    }
+                                                                  },
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          Flexible(
+                                                            flex: 1,
+                                                            child: Container(
+                                                              height: 40,
+                                                              width: 55,
+                                                              child:
+                                                                  ElevatedButton(
+                                                                onPressed: () {
+                                                                  Get.to(() =>
+                                                                      StoreViewProducts(
+                                                                        index:
+                                                                            index,
+                                                                        userPostModel: marketController
+                                                                            .userMarketModel!
+                                                                            .data![index],
+                                                                      ));
+                                                                },
+                                                                style: ElevatedButton
+                                                                    .styleFrom(
+                                                                  backgroundColor:
+                                                                      const Color(
+                                                                          0xff29844B),
+                                                                  shape:
+                                                                      RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            5.0),
+                                                                  ),
+                                                                ),
+                                                                child:
+                                                                    const Center(
+                                                                  child: Text(
+                                                                    "View",
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            10,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w400,
+                                                                        color: Color(
+                                                                            0xffFFFFFF)),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
                                                           ),
                                                         ],
-                                                      ),
-                                                    ),
-                                                    Flexible(
-                                                      flex: 1,
-                                                      child: Container(
-                                                        height: 40,
-                                                        width: 55,
-                                                        child: ElevatedButton(
-                                                          onPressed: () {
-                                                            Get.to(() =>
-                                                                StoreViewProducts(
-                                                                  index: index,
-                                                                  userPostModel:
-                                                                      marketController
-                                                                          .userMarketModel!
-                                                                          .data![index],
-                                                                ));
-                                                          },
-                                                          style: ElevatedButton
-                                                              .styleFrom(
-                                                            backgroundColor:
-                                                                const Color(
-                                                                    0xff29844B),
-                                                            shape:
-                                                                RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          5.0),
-                                                            ),
-                                                          ),
-                                                          child: const Center(
-                                                            child: Text(
-                                                              "View",
-                                                              style: TextStyle(
-                                                                  fontSize: 10,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  color: Color(
-                                                                      0xffFFFFFF)),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          : Container(
-                              child: Text("No Data"),
-                            );
-                    }),
-
-                // SingleChildScrollView(
-                //   child: Column(
-                //     children: [
-                //       SizedBox(
-                //         // width: MediaQuery.of(context).size.width * 0.8,
-                //         child: Padding(
-                //           padding: const EdgeInsets.only(top: 20.0),
-                //           child: Row(
-                //             children: [
-                //               SizedBox(
-                //                   width: 129,
-                //                   height: 108,
-                //                   child: Image.asset("assets/images/image 6.png")),
-                //               Flexible(
-                //                 child: Column(
-                //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //                   crossAxisAlignment: CrossAxisAlignment.start,
-                //                   children: [
-                //                     Text(
-                //                       'The product is natural with no chemicals, planted, and freshly harvested from farm with no artificial processing.',
-                //                       style: TextStyle(
-                //                           fontSize: 12,
-                //                           fontWeight: FontWeight.w400,
-                //                           color: Color(0xff444444)),
-                //                     ),
-                //                     SizedBox(height: 10),
-                //                     Text(
-                //                       "NGN 10,000",
-                //                       style: TextStyle(
-                //                           fontSize: 16,
-                //                           fontWeight: FontWeight.w600,
-                //                           color: Color(0xff29844B)),
-                //                     ),
-                //                     Row(
-                //                       mainAxisAlignment:
-                //                           MainAxisAlignment.spaceBetween,
-                //                       children: [
-                //                         Column(
-                //                           mainAxisAlignment:
-                //                               MainAxisAlignment.spaceEvenly,
-                //                           children: [
-                //                             Text(
-                //                               "NGN 30,000",
-                //                               style: TextStyle(
-                //                                   decoration:
-                //                                       TextDecoration.lineThrough,
-                //                                   fontSize: 10,
-                //                                   fontWeight: FontWeight.w400,
-                //                                   color: Color(0xff444444)),
-                //                             ),
-                //                             Text(
-                //                               "Plateau state",
-                //                               style: TextStyle(
-                //                                   fontSize: 10,
-                //                                   fontWeight: FontWeight.w400,
-                //                                   color: Color(0xff444444)),
-                //                             ),
-                //                           ],
-                //                         ),
-                //                         Container(
-                //                           height: 40,
-                //                           width: 55,
-                //                           child: ElevatedButton(
-                //                             onPressed: () {
-                //                               Get.to(() => StoreViewProducts());
-                //                             },
-                //                             style: ElevatedButton.styleFrom(
-                //                               backgroundColor:
-                //                                   const Color(0xff29844B),
-                //                               shape: RoundedRectangleBorder(
-                //                                 borderRadius:
-                //                                     BorderRadius.circular(5.0),
-                //                               ),
-                //                             ),
-                //                             child: Center(
-                //                               child: Text(
-                //                                 "View",
-                //                                 style: TextStyle(
-                //                                     fontSize: 10,
-                //                                     fontWeight: FontWeight.w400,
-                //                                     color: Color(0xffFFFFFF)),
-                //                               ),
-                //                             ),
-                //                           ),
-                //                         ),
-                //                       ],
-                //                     )
-                //                   ],
-                //                 ),
-                //               ),
-                //             ],
-                //           ),
-                //         ),
-                //       ),
-                //
-                //     ],
-                //   ),
-                // ),
+                                      ),
+                                    ],
+                                  )
+                                : Container(
+                                    child: Text("No Data"),
+                                  );
+                          }),
+                    ),
+                    sizeVer(10),
+                    !loading
+                        ? Container(height: 1)
+                        : const SizedBox(
+                            height: 30,
+                            width: 30,
+                            child: CircularProgressIndicator(
+                              color: Color.fromRGBO(41, 132, 75, 1),
+                            ))
+                  ],
+                ),
               )
       ]),
     );

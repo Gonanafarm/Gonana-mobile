@@ -65,10 +65,28 @@ class _FeedsPageState extends State<FeedsPage> {
     print("${userController.userModel.value!.virtualAccountNumber}");
   }
 
+  ScrollController scrollController = ScrollController();
+  bool loading = false;
+  getMoreData() async {
+    setState(() {
+      loading = true;
+    });
+    await postController.getMorePosts();
+    setState(() {
+      loading = false;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     getBVNStatus();
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        getMoreData();
+      }
+    });
   }
 
   @override
@@ -302,453 +320,481 @@ class _FeedsPageState extends State<FeedsPage> {
                                 Container(
                                   height:
                                       MediaQuery.of(context).size.height * 0.7,
-                                  child: ListView.builder(
-                                      itemCount:
-                                          postController.postModel.data!.length,
-                                      // itemCount: postModel.body!.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        final reversedIndex = (postController
-                                                    .postModel!.data!.length -
-                                                1) -
-                                            index;
-                                        return Column(
-                                          children: [
-                                            SizedBox(
-                                              // height: 40,
-                                              child: ListTile(
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                        horizontal: 15.0),
-                                                leading: postController
-                                                            .postModel
-                                                            .data?[
-                                                                reversedIndex]
-                                                            ?.ownerPhoto
-                                                            ?.isEmpty ??
-                                                        true
-                                                    ? Container(
-                                                        height: 30,
-                                                        width: 30,
-                                                        child: ClipOval(
-                                                          child: getImageWidget(
-                                                            "${postController.postModel.data?[reversedIndex]?.ownerPhoto ?? ''}",
-                                                          ),
-                                                        ),
-                                                      )
-                                                    : Container(
-                                                        height: 30,
-                                                        width: 30,
-                                                        child: ClipOval(
-                                                          child: FadeInImage(
-                                                            fit: BoxFit.cover,
-                                                            image: NetworkImage(
-                                                              "${postController.postModel.data?[reversedIndex]?.ownerPhoto ?? ''}",
+                                  child: Column(
+                                    children: [
+                                      Expanded(
+                                        child: ListView.builder(
+                                            controller: scrollController,
+                                            itemCount: postController
+                                                .postModel.data!.length,
+                                            // itemCount: postModel.body!.length,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              final reversedIndex =
+                                                  (postController.postModel!
+                                                              .data!.length -
+                                                          1) -
+                                                      index;
+                                              return Column(
+                                                children: [
+                                                  SizedBox(
+                                                    // height: 40,
+                                                    child: ListTile(
+                                                      contentPadding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 15.0),
+                                                      leading: postController
+                                                                  .postModel
+                                                                  .data?[index]
+                                                                  ?.ownerPhoto
+                                                                  ?.isEmpty ??
+                                                              true
+                                                          ? Container(
+                                                              height: 30,
+                                                              width: 30,
+                                                              child: ClipOval(
+                                                                child:
+                                                                    getImageWidget(
+                                                                  "${postController.postModel.data?[index]?.ownerPhoto ?? ''}",
+                                                                ),
+                                                              ),
+                                                            )
+                                                          : Container(
+                                                              height: 30,
+                                                              width: 30,
+                                                              child: ClipOval(
+                                                                child:
+                                                                    FadeInImage(
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                  image:
+                                                                      NetworkImage(
+                                                                    "${postController.postModel.data?[index]?.ownerPhoto ?? ''}",
+                                                                  ),
+                                                                  placeholder:
+                                                                      const AssetImage(
+                                                                          "assets/images/gonanas_profile.png"),
+                                                                ),
+                                                              ),
                                                             ),
-                                                            placeholder:
-                                                                const AssetImage(
-                                                                    "assets/images/gonanas_profile.png"),
-                                                          ),
-                                                        ),
-                                                      ),
 
-                                                title: Row(
-                                                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                  children: [
-                                                    Flexible(
-                                                      child: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceEvenly,
+                                                      title: Row(
+                                                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                         children: [
-                                                          Text(
-                                                            postController
-                                                                .postModel
-                                                                .data![
-                                                                    reversedIndex]
-                                                                .ownerName!,
-                                                            style: const TextStyle(
-                                                                fontSize: 16,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
+                                                          Flexible(
+                                                            child: Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceEvenly,
+                                                              children: [
+                                                                Text(
+                                                                  postController
+                                                                      .postModel
+                                                                      .data![
+                                                                          index]
+                                                                      .ownerName!,
+                                                                  style: const TextStyle(
+                                                                      fontSize:
+                                                                          16,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600),
+                                                                ),
+                                                                // const Text(
+                                                                //   "Vegetable farmer",
+                                                                //   style: TextStyle(
+                                                                //       fontSize: 10,
+                                                                //       fontWeight:
+                                                                //           FontWeight
+                                                                //               .w400),
+                                                                // )
+                                                              ],
+                                                            ),
                                                           ),
-                                                          // const Text(
-                                                          //   "Vegetable farmer",
-                                                          //   style: TextStyle(
-                                                          //       fontSize: 10,
-                                                          //       fontWeight:
-                                                          //           FontWeight
-                                                          //               .w400),
+                                                          // SizedBox(width: 15),
+                                                          // Padding(
+                                                          //   padding: EdgeInsets.only(
+                                                          //       bottom: 15.0),
+                                                          //   child: Text(
+                                                          //     "8h ago",
+                                                          //     style: TextStyle(
+                                                          //         fontSize: 10,
+                                                          //         fontWeight:
+                                                          //             FontWeight
+                                                          //                 .w400),
+                                                          //   ),
                                                           // )
                                                         ],
                                                       ),
+                                                      // trailing: const Padding(
+                                                      //   padding: EdgeInsets.only(
+                                                      //       bottom: 15.0),
+                                                      //   child: Icon(Icons.more_horiz),
+                                                      // ),
                                                     ),
-                                                    // SizedBox(width: 15),
-                                                    // Padding(
-                                                    //   padding: EdgeInsets.only(
-                                                    //       bottom: 15.0),
-                                                    //   child: Text(
-                                                    //     "8h ago",
-                                                    //     style: TextStyle(
-                                                    //         fontSize: 10,
-                                                    //         fontWeight:
-                                                    //             FontWeight
-                                                    //                 .w400),
-                                                    //   ),
-                                                    // )
-                                                  ],
-                                                ),
-                                                // trailing: const Padding(
-                                                //   padding: EdgeInsets.only(
-                                                //       bottom: 15.0),
-                                                //   child: Icon(Icons.more_horiz),
-                                                // ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      15.0, 0, 10, 10),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  RichText(
-                                                    text: TextSpan(
-                                                      text:
-                                                          // 'We just had the best harvest every, get your fresh, nice to vegetables while they last ',
-                                                          postController
-                                                                      .postModel
-                                                                      .data![
-                                                                          reversedIndex]
-                                                                      .product!
-                                                                      .body!
-                                                                      .isEmpty ||
-                                                                  postController
-                                                                              .postModel
-                                                                              .data![
-                                                                          reversedIndex] ==
-                                                                      null ||
-                                                                  postController
-                                                                          .postModel ==
-                                                                      null
-                                                              ? " "
-                                                              : postController
-                                                                  .postModel
-                                                                  .data![
-                                                                      reversedIndex]
-                                                                  .product!
-                                                                  .body,
-                                                      style: const TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          color: Colors.black),
-                                                      children: const <TextSpan>[
-                                                        TextSpan(
-                                                            text: '',
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              color: Color(
-                                                                  0xff29844B),
-                                                            )),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                        .fromLTRB(
+                                                        15.0, 0, 10, 10),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        RichText(
+                                                          text: TextSpan(
+                                                            text:
+                                                                // 'We just had the best harvest every, get your fresh, nice to vegetables while they last ',
+                                                                postController
+                                                                            .postModel
+                                                                            .data![
+                                                                                index]
+                                                                            .product!
+                                                                            .body!
+                                                                            .isEmpty ||
+                                                                        postController.postModel.data![index] ==
+                                                                            null ||
+                                                                        postController.postModel ==
+                                                                            null
+                                                                    ? " "
+                                                                    : postController
+                                                                        .postModel
+                                                                        .data![
+                                                                            index]
+                                                                        .product!
+                                                                        .body,
+                                                            style: const TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                color: Colors
+                                                                    .black),
+                                                            children: const <TextSpan>[
+                                                              TextSpan(
+                                                                  text: '',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                    color: Color(
+                                                                        0xff29844B),
+                                                                  )),
+                                                            ],
+                                                          ),
+                                                        ),
                                                       ],
                                                     ),
                                                   ),
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(
-                                                // height: 340,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.8,
-                                                child: postController
-                                                        .postModel
-                                                        .data![reversedIndex]
-                                                        .product!
-                                                        .images!
-                                                        .isNotEmpty
-                                                    ? Image.network(
-                                                        postController
-                                                            .postModel
-                                                            .data![
-                                                                reversedIndex]
-                                                            .product!
-                                                            .images![0])
-                                                    : Container(
-                                                        // child: Image.asset(
-                                                        //     "assets/images/barter.png"),
-                                                        )),
-                                            sizeVer(10),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                SizedBox(
-                                                  height: 30,
-                                                  width: 92.5,
-                                                  child: ElevatedButton(
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                        backgroundColor:
-                                                            Color(0xff29844B),
-                                                        shape:
-                                                            RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      5.0),
-                                                        ),
+                                                  SizedBox(
+                                                      // height: 340,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.8,
+                                                      child: postController
+                                                              .postModel
+                                                              .data![index]
+                                                              .product!
+                                                              .images!
+                                                              .isNotEmpty
+                                                          ? Image.network(
+                                                              postController
+                                                                  .postModel
+                                                                  .data![index]
+                                                                  .product!
+                                                                  .images![0])
+                                                          : Container(
+                                                              // child: Image.asset(
+                                                              //     "assets/images/barter.png"),
+                                                              )),
+                                                  sizeVer(10),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    children: [
+                                                      SizedBox(
+                                                        height: 30,
+                                                        width: 92.5,
+                                                        child: ElevatedButton(
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              backgroundColor:
+                                                                  Color(
+                                                                      0xff29844B),
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5.0),
+                                                              ),
+                                                            ),
+                                                            onPressed:
+                                                                () async {
+                                                              bool created =
+                                                                  false;
+                                                              created = await postController.getPostsById(
+                                                                  postController
+                                                                      .postModel
+                                                                      .data![
+                                                                          index]
+                                                                      .ownerId,
+                                                                  "product");
+                                                              print(
+                                                                  postController
+                                                                      .postModel
+                                                                      .data![
+                                                                          index]
+                                                                      .ownerId);
+                                                              if (created) {
+                                                                print(postController
+                                                                    .idPostModel!
+                                                                    .data!
+                                                                    .length);
+                                                                Get.to(() =>
+                                                                    const UserStore());
+                                                              }
+                                                            },
+                                                            child: const Text(
+                                                                'Visit Store',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize:
+                                                                        10,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600))),
                                                       ),
-                                                      onPressed: () async {
-                                                        bool created = false;
-                                                        created = await postController
-                                                            .getPostsById(
-                                                                postController
-                                                                    .postModel
-                                                                    .data![
-                                                                        reversedIndex]
-                                                                    .ownerId,
-                                                                "product");
-                                                        print(postController
-                                                            .postModel
-                                                            .data![
-                                                                reversedIndex]
-                                                            .ownerId);
-                                                        if (created) {
-                                                          print(postController
-                                                              .idPostModel!
-                                                              .data!
-                                                              .length);
-                                                          Get.to(() =>
-                                                              const UserStore());
-                                                        }
-                                                      },
-                                                      child: const Text(
-                                                          'Visit Store',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 10,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600))),
-                                                ),
-                                              ],
-                                            ),
+                                                    ],
+                                                  ),
 
-                                            // const Padding(
-                                            //   padding: EdgeInsets.only(
-                                            //       left: 25, right: 25, top: 10),
-                                            //   child: Row(
-                                            //       mainAxisAlignment:
-                                            //           MainAxisAlignment
-                                            //               .spaceBetween,
-                                            //       children: [
-                                            //         Text(
-                                            //             'Daniel jim and 38 others',
-                                            //             style: TextStyle(
-                                            //                 fontSize: 10,
-                                            //                 fontWeight:
-                                            //                     FontWeight
-                                            //                         .w400)),
-                                            //         Text('12 Comments',
-                                            //             style: TextStyle(
-                                            //                 fontSize: 10,
-                                            //                 fontWeight:
-                                            //                     FontWeight
-                                            //                         .w400))
-                                            //       ]),
-                                            // ),
-                                            // Padding(
-                                            //   padding:
-                                            //       const EdgeInsets.symmetric(
-                                            //           horizontal: 20.0),
-                                            //   child: Row(
-                                            //       mainAxisAlignment:
-                                            //           MainAxisAlignment
-                                            //               .spaceBetween,
-                                            //       children: [
-                                            //         Row(
-                                            //             mainAxisAlignment:
-                                            //                 MainAxisAlignment
-                                            //                     .spaceEvenly,
-                                            //             children: [
-                                            //               IconButton(
-                                            //                   icon: const Icon(
-                                            //                       size: 30,
-                                            //                       Icons
-                                            //                           .favorite_outline),
-                                            //                   onPressed: () {}),
-                                            //               GestureDetector(
-                                            //                 onTap: () {
-                                            //                   comment(context);
-                                            //                 },
-                                            //                 child: SvgPicture
-                                            //                     .asset(
-                                            //                   "assets/svgs/emails_messages_icon.svg",
-                                            //                   width: 45,
-                                            //                   height: 30,
-                                            //                 ),
-                                            //               ),
-                                            //               SizedBox(width: 10),
-                                            //               GestureDetector(
-                                            //                 onTap: () {
-                                            //                   sharePost(
-                                            //                       context);
-                                            //                 },
-                                            //                 child: SvgPicture
-                                            //                     .asset(
-                                            //                   "assets/svgs/send_icon.svg",
-                                            //                   width: 45,
-                                            //                   height: 30,
-                                            //                 ),
-                                            //               ),
-                                            //             ]),
-                                            //         //Like and Visit Store
-                                            //         SizedBox(
-                                            //           height: 30,
-                                            //           width: 92.5,
-                                            //           child: ElevatedButton(
-                                            //               style: ElevatedButton
-                                            //                   .styleFrom(
-                                            //                 backgroundColor:
-                                            //                     Color(
-                                            //                         0xff29844B),
-                                            //                 shape:
-                                            //                     RoundedRectangleBorder(
-                                            //                   borderRadius:
-                                            //                       BorderRadius
-                                            //                           .circular(
-                                            //                               5.0),
-                                            //                 ),
-                                            //               ),
-                                            //               onPressed: () {},
-                                            //               child: const Text(
-                                            //                   'Visit Store',
-                                            //                   style: TextStyle(
-                                            //                       color: Colors
-                                            //                           .white,
-                                            //                       fontSize: 10,
-                                            //                       fontWeight:
-                                            //                           FontWeight
-                                            //                               .w600))),
-                                            //         ),
-                                            //       ]),
-                                            // ),
-                                            // //Comment section
-                                            // Padding(
-                                            //   padding:
-                                            //       const EdgeInsets.symmetric(
-                                            //           horizontal: 15.0),
-                                            //   child: Column(
-                                            //       crossAxisAlignment:
-                                            //           CrossAxisAlignment.start,
-                                            //       children: [
-                                            //         RichText(
-                                            //           text: const TextSpan(
-                                            //               text: 'Daniel Cho',
-                                            //               style: TextStyle(
-                                            //                   color: Color(
-                                            //                       0xff000000),
-                                            //                   fontSize: 12,
-                                            //                   fontWeight:
-                                            //                       FontWeight
-                                            //                           .w600),
-                                            //               children: [
-                                            //                 TextSpan(
-                                            //                     text:
-                                            //                         ' I love these',
-                                            //                     style: TextStyle(
-                                            //                         color: Color(
-                                            //                             0xff000000),
-                                            //                         fontSize:
-                                            //                             12,
-                                            //                         fontWeight:
-                                            //                             FontWeight
-                                            //                                 .w400))
-                                            //               ]),
-                                            //         ),
-                                            //         RichText(
-                                            //           text: const TextSpan(
-                                            //               text: 'John Donny',
-                                            //               style: TextStyle(
-                                            //                   color: Color(
-                                            //                       0xff000000),
-                                            //                   fontSize: 12,
-                                            //                   fontWeight:
-                                            //                       FontWeight
-                                            //                           .w600),
-                                            //               children: [
-                                            //                 TextSpan(
-                                            //                     text:
-                                            //                         ' @john david Can i get these for NGN 2000 ?',
-                                            //                     style: TextStyle(
-                                            //                         color: Color(
-                                            //                             0xff000000),
-                                            //                         fontSize:
-                                            //                             12,
-                                            //                         fontWeight:
-                                            //                             FontWeight
-                                            //                                 .w400))
-                                            //               ]),
-                                            //         )
-                                            //       ]),
-                                            // ),
-                                            // Padding(
-                                            //   padding:
-                                            //       const EdgeInsets.symmetric(
-                                            //           horizontal: 30.0),
-                                            //   child: Container(
-                                            //     height: 50,
-                                            //     decoration: BoxDecoration(
-                                            //       borderRadius:
-                                            //           BorderRadius.circular(
-                                            //               10.0), // Set the desired border radius
-                                            //       border: Border.all(
-                                            //         color: Colors.black,
-                                            //         width: 1.0,
-                                            //       ),
-                                            //     ),
-                                            //     child: Center(
-                                            //       child: TextField(
-                                            //         autofocus: false,
-                                            //         decoration:
-                                            //             const InputDecoration(
-                                            //                 border:
-                                            //                     OutlineInputBorder(),
-                                            //                 hintText:
-                                            //                     "Add a comment",
-                                            //                 hintStyle: TextStyle(
-                                            //                     color: Color(
-                                            //                         0xff444444),
-                                            //                     fontSize: 14,
-                                            //                     fontWeight:
-                                            //                         FontWeight
-                                            //                             .w400)),
-                                            //       ),
-                                            //     ),
-                                            //   ),
-                                            // ),
-                                            if (index ==
-                                                postController.postModel.data!
-                                                        .length -
-                                                    1) ...[
-                                              CircularProgressIndicator(),
-                                              sizeVer(MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.15),
-                                            ],
-                                            sizeVer(10)
-                                          ],
-                                        );
-                                      }),
+                                                  // const Padding(
+                                                  //   padding: EdgeInsets.only(
+                                                  //       left: 25, right: 25, top: 10),
+                                                  //   child: Row(
+                                                  //       mainAxisAlignment:
+                                                  //           MainAxisAlignment
+                                                  //               .spaceBetween,
+                                                  //       children: [
+                                                  //         Text(
+                                                  //             'Daniel jim and 38 others',
+                                                  //             style: TextStyle(
+                                                  //                 fontSize: 10,
+                                                  //                 fontWeight:
+                                                  //                     FontWeight
+                                                  //                         .w400)),
+                                                  //         Text('12 Comments',
+                                                  //             style: TextStyle(
+                                                  //                 fontSize: 10,
+                                                  //                 fontWeight:
+                                                  //                     FontWeight
+                                                  //                         .w400))
+                                                  //       ]),
+                                                  // ),
+                                                  // Padding(
+                                                  //   padding:
+                                                  //       const EdgeInsets.symmetric(
+                                                  //           horizontal: 20.0),
+                                                  //   child: Row(
+                                                  //       mainAxisAlignment:
+                                                  //           MainAxisAlignment
+                                                  //               .spaceBetween,
+                                                  //       children: [
+                                                  //         Row(
+                                                  //             mainAxisAlignment:
+                                                  //                 MainAxisAlignment
+                                                  //                     .spaceEvenly,
+                                                  //             children: [
+                                                  //               IconButton(
+                                                  //                   icon: const Icon(
+                                                  //                       size: 30,
+                                                  //                       Icons
+                                                  //                           .favorite_outline),
+                                                  //                   onPressed: () {}),
+                                                  //               GestureDetector(
+                                                  //                 onTap: () {
+                                                  //                   comment(context);
+                                                  //                 },
+                                                  //                 child: SvgPicture
+                                                  //                     .asset(
+                                                  //                   "assets/svgs/emails_messages_icon.svg",
+                                                  //                   width: 45,
+                                                  //                   height: 30,
+                                                  //                 ),
+                                                  //               ),
+                                                  //               SizedBox(width: 10),
+                                                  //               GestureDetector(
+                                                  //                 onTap: () {
+                                                  //                   sharePost(
+                                                  //                       context);
+                                                  //                 },
+                                                  //                 child: SvgPicture
+                                                  //                     .asset(
+                                                  //                   "assets/svgs/send_icon.svg",
+                                                  //                   width: 45,
+                                                  //                   height: 30,
+                                                  //                 ),
+                                                  //               ),
+                                                  //             ]),
+                                                  //         //Like and Visit Store
+                                                  //         SizedBox(
+                                                  //           height: 30,
+                                                  //           width: 92.5,
+                                                  //           child: ElevatedButton(
+                                                  //               style: ElevatedButton
+                                                  //                   .styleFrom(
+                                                  //                 backgroundColor:
+                                                  //                     Color(
+                                                  //                         0xff29844B),
+                                                  //                 shape:
+                                                  //                     RoundedRectangleBorder(
+                                                  //                   borderRadius:
+                                                  //                       BorderRadius
+                                                  //                           .circular(
+                                                  //                               5.0),
+                                                  //                 ),
+                                                  //               ),
+                                                  //               onPressed: () {},
+                                                  //               child: const Text(
+                                                  //                   'Visit Store',
+                                                  //                   style: TextStyle(
+                                                  //                       color: Colors
+                                                  //                           .white,
+                                                  //                       fontSize: 10,
+                                                  //                       fontWeight:
+                                                  //                           FontWeight
+                                                  //                               .w600))),
+                                                  //         ),
+                                                  //       ]),
+                                                  // ),
+                                                  // //Comment section
+                                                  // Padding(
+                                                  //   padding:
+                                                  //       const EdgeInsets.symmetric(
+                                                  //           horizontal: 15.0),
+                                                  //   child: Column(
+                                                  //       crossAxisAlignment:
+                                                  //           CrossAxisAlignment.start,
+                                                  //       children: [
+                                                  //         RichText(
+                                                  //           text: const TextSpan(
+                                                  //               text: 'Daniel Cho',
+                                                  //               style: TextStyle(
+                                                  //                   color: Color(
+                                                  //                       0xff000000),
+                                                  //                   fontSize: 12,
+                                                  //                   fontWeight:
+                                                  //                       FontWeight
+                                                  //                           .w600),
+                                                  //               children: [
+                                                  //                 TextSpan(
+                                                  //                     text:
+                                                  //                         ' I love these',
+                                                  //                     style: TextStyle(
+                                                  //                         color: Color(
+                                                  //                             0xff000000),
+                                                  //                         fontSize:
+                                                  //                             12,
+                                                  //                         fontWeight:
+                                                  //                             FontWeight
+                                                  //                                 .w400))
+                                                  //               ]),
+                                                  //         ),
+                                                  //         RichText(
+                                                  //           text: const TextSpan(
+                                                  //               text: 'John Donny',
+                                                  //               style: TextStyle(
+                                                  //                   color: Color(
+                                                  //                       0xff000000),
+                                                  //                   fontSize: 12,
+                                                  //                   fontWeight:
+                                                  //                       FontWeight
+                                                  //                           .w600),
+                                                  //               children: [
+                                                  //                 TextSpan(
+                                                  //                     text:
+                                                  //                         ' @john david Can i get these for NGN 2000 ?',
+                                                  //                     style: TextStyle(
+                                                  //                         color: Color(
+                                                  //                             0xff000000),
+                                                  //                         fontSize:
+                                                  //                             12,
+                                                  //                         fontWeight:
+                                                  //                             FontWeight
+                                                  //                                 .w400))
+                                                  //               ]),
+                                                  //         )
+                                                  //       ]),
+                                                  // ),
+                                                  // Padding(
+                                                  //   padding:
+                                                  //       const EdgeInsets.symmetric(
+                                                  //           horizontal: 30.0),
+                                                  //   child: Container(
+                                                  //     height: 50,
+                                                  //     decoration: BoxDecoration(
+                                                  //       borderRadius:
+                                                  //           BorderRadius.circular(
+                                                  //               10.0), // Set the desired border radius
+                                                  //       border: Border.all(
+                                                  //         color: Colors.black,
+                                                  //         width: 1.0,
+                                                  //       ),
+                                                  //     ),
+                                                  //     child: Center(
+                                                  //       child: TextField(
+                                                  //         autofocus: false,
+                                                  //         decoration:
+                                                  //             const InputDecoration(
+                                                  //                 border:
+                                                  //                     OutlineInputBorder(),
+                                                  //                 hintText:
+                                                  //                     "Add a comment",
+                                                  //                 hintStyle: TextStyle(
+                                                  //                     color: Color(
+                                                  //                         0xff444444),
+                                                  //                     fontSize: 14,
+                                                  //                     fontWeight:
+                                                  //                         FontWeight
+                                                  //                             .w400)),
+                                                  //       ),
+                                                  //     ),
+                                                  //   ),
+                                                  // ),
+                                                  // if (index ==
+                                                  //     postController.postModel
+                                                  //             .data!.length -
+                                                  //         1) ...[
+                                                  //   CircularProgressIndicator(),
+                                                  //   sizeVer(
+                                                  //       MediaQuery.of(context)
+                                                  //               .size
+                                                  //               .height *
+                                                  //           0.15),
+                                                  // ],
+                                                  // sizeVer(10)
+                                                ],
+                                              );
+                                            }),
+                                      ),
+                                      sizeVer(10),
+                                      !loading
+                                          ? Container(height: 1)
+                                          : const SizedBox(
+                                              height: 30,
+                                              width: 30,
+                                              child: CircularProgressIndicator(
+                                                color: Color.fromRGBO(
+                                                    41, 132, 75, 1),
+                                              ))
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
