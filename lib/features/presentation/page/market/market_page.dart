@@ -34,6 +34,7 @@ class MarketPage extends StatefulWidget {
 
 class _MarketPageState extends State<MarketPage> {
   final TextEditingController _searchController = TextEditingController();
+  String get searchItem => _searchController.text;
   PostController postController = Get.put(PostController());
   TransactionController transactionController =
       Get.put(TransactionController());
@@ -207,6 +208,9 @@ class _MarketPageState extends State<MarketPage> {
                         sizeVer(15.0),
                         SearchWidget(
                           controller: _searchController,
+                          onSubmitted: (searchItem){
+                            marketController.searchProduct(searchItem);
+                          }
                         ),
                         sizeVer(10.0),
                         marketController.discountMarketModel?.data!.length == 0

@@ -24,6 +24,7 @@ class UserStore extends StatefulWidget {
 
 class _UserStoreState extends State<UserStore> {
   final TextEditingController _searchController = TextEditingController();
+  String get searchItem => _searchController.text;
   PostController postController = Get.find<PostController>();
   @override
   Widget build(BuildContext context) {
@@ -113,6 +114,7 @@ class _UserStoreState extends State<UserStore> {
                   sizeVer(15.0),
                   SearchWidget(
                     controller: _searchController,
+                    onSubmitted: (searchItem) {}
                   ),
                   sizeVer(10.0),
                   const Text(

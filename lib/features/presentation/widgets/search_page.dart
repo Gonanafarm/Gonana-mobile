@@ -5,7 +5,12 @@ import '../../../../../consts.dart';
 
 class SearchWidget extends StatelessWidget {
   final TextEditingController controller;
-  const SearchWidget({Key? key, required this.controller}) : super(key: key);
+  final Function(String) onSubmitted;
+  const SearchWidget({
+    Key? key, 
+    required this.controller,
+    required this.onSubmitted
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,14 +21,15 @@ class SearchWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         border: Border.all(width: 1.5, color: darkColor)
       ),
-      child: TextFormField(
+      child: TextField(
         controller: controller,
-        style: TextStyle(color: Colors.black),
+        onSubmitted: onSubmitted,
+        style: const TextStyle(color: Colors.black),
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.all(20),
+          contentPadding: const EdgeInsets.all(20),
           border: InputBorder.none,
           suffixIcon: Container(
-            padding: EdgeInsets.only(right: 20),
+            padding: const EdgeInsets.only(right: 20),
             height: 24,
             width: 24,
             child: SvgPicture.asset(

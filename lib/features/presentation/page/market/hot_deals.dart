@@ -18,6 +18,7 @@ class HotDealsPage extends StatefulWidget {
 
 class _HotDealsPageState extends State<HotDealsPage> {
   final TextEditingController _searchController = TextEditingController();
+  String get searchItem => _searchController.text;
 
   @override
   void dispose() {
@@ -134,6 +135,7 @@ class _HotDealsPageState extends State<HotDealsPage> {
                 sizeVer(15.0),
                 SearchWidget(
                   controller: _searchController,
+                  onSubmitted: (searchItem) {}
                 ),
                 sizeVer(10.0),
                 const Text(
