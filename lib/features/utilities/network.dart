@@ -5,8 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:developer';
 
 class NetworkApi {
-  final baseurl = 'https://starfish-app-4q3vo.ondigitalocean.app';
-  // final baseurl = 'https://web-production-d61e4.up.railway.app';
+  //final baseurl = 'https://starfish-app-4q3vo.ondigitalocean.app';
+  final baseurl = 'https://web-production-d61e4.up.railway.app';
 
   postData(formData, routeUrl) async {
     var url = Uri.parse('$baseurl/$routeUrl');

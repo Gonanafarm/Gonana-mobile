@@ -160,9 +160,10 @@ class _MarketPageState extends State<MarketPage> {
                                 child: Stack(
                                   children: [
                                     SvgPicture.asset(
-                                        height: 40,
-                                        width: 40,
-                                        "assets/svgs/cart.svg"),
+                                      height: 40,
+                                      width: 40,
+                                      "assets/svgs/cart.svg"
+                                    ),
                                     Positioned(
                                       bottom: 0,
                                       right: 0,
@@ -219,9 +220,10 @@ class _MarketPageState extends State<MarketPage> {
                                     const Text(
                                       "Hot Deals",
                                       style: TextStyle(
-                                          fontSize: 25.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: secondaryColor),
+                                        fontSize: 25.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: secondaryColor
+                                      ),
                                     ),
                                     sizeHor(10.0),
                                     const Icon(

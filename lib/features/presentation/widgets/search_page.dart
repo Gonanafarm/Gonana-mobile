@@ -13,24 +13,26 @@ class SearchWidget extends StatelessWidget {
       width: double.infinity,
       height: 55,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          border: Border.all(width: 1.5, color: darkColor)),
+        borderRadius: BorderRadius.circular(5),
+        border: Border.all(width: 1.5, color: darkColor)
+      ),
       child: TextFormField(
         controller: controller,
         style: TextStyle(color: Colors.black),
         decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(20),
-            border: InputBorder.none,
-            suffixIcon: Container(
-              padding: EdgeInsets.only(right: 20),
-              height: 24,
-              width: 24,
-              child: SvgPicture.asset(
-                "assets/svgs/Search.svg",
-              ),
+          contentPadding: EdgeInsets.all(20),
+          border: InputBorder.none,
+          suffixIcon: Container(
+            padding: EdgeInsets.only(right: 20),
+            height: 24,
+            width: 24,
+            child: SvgPicture.asset(
+              "assets/svgs/Search.svg",
             ),
-            hintText: "type here to search",
-            hintStyle: TextStyle(color: darkGreyColor, fontSize: 15)),
+          ),
+          hintText: "type here to search",
+          hintStyle: const TextStyle(color: darkGreyColor, fontSize: 15)
+        ),
       ),
     );
   }
