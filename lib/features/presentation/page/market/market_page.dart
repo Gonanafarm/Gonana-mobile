@@ -181,13 +181,12 @@ class _MarketPageState extends State<MarketPage> {
                                             child: Obx(() {
                                               return Text(
                                                 cartController
-                                                            .cartModel!
-                                                            .value
-                                                            .products!
-                                                            .isNotEmpty ||
-                                                        cartController
-                                                                .cartModel! ==
-                                                            null
+                                                  .cartModel!
+                                                  .value
+                                                  .products!
+                                                  .isNotEmpty || cartController
+                                                      .cartModel! ==
+                                                  null
                                                     ? "${cartController.cartModel!.value.products!.length}"
                                                     : "",
                                                 style: const TextStyle(
