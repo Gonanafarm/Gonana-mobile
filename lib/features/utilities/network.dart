@@ -66,12 +66,11 @@ class NetworkApi {
       try {
         var url = Uri.parse('$baseurl/$routeUrl');
         var response = await client.put(url,
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-type': 'application/json',
-          },
-          body: jsonEncode(data)
-        );
+            headers: {
+              'Authorization': 'Bearer $token',
+              'Content-type': 'application/json',
+            },
+            body: jsonEncode(data));
         // print(response);
         responseJson = response;
       } catch (e) {

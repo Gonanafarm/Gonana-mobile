@@ -6,6 +6,7 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:gonana/features/data/models/post_model_id.dart';
 import 'package:gonana/features/data/models/post_model.dart';
+import 'package:gonana/features/data/models/user_liked_feeds.dart';
 import '../../../consts.dart';
 import '../../data/models/feeds_model.dart' as FeedsModel;
 import '../../data/models/get_post_model.dart';
@@ -75,29 +76,57 @@ class PostController extends GetxController {
     }
   }
 
-  // Future<bool> getProducts() async {
-  //   try {
-  //     var res = await NetworkApi().authGetData(ApiRoute.getProducts);
-  //     final response = jsonDecode(res.body);
-  //     // log("${res.statusCode}");
-  //     // log("${response}");
-  //     // if(res.statusCode == 200){
-  //     //   log(response.toString());
-  //     //   var data = List<Map<String, dynamic>>.from(response);
-  //     //   List list = data.map((e)=> PostModel().fromJson(e)).toList();
-  //     //   posts.value.addAll(list as Iterable<PostModel>);
-  //     // }
-  //     // print("posts || $response");
-  //     postModel = postModelFromJson(res.body);
-  //     print(postModel[0].images!.elementAt(0));
-  //     // print("posts || $responseBody");
-  //     print("products got here || $response");
-  //     return true;
-  //   } catch (e) {
-  //     print(e);
-  //     return false;
-  //   }
-  // }
+  var userLikedFeeds = UserLikedFeeds().obs;
+  Future<bool> getUserLikedFeeds(String postId) async {
+    try {
+      var res =
+          await NetworkApi().authGetData("api/catalog/posts/likes/$postId");
+      final response = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        userLikedFeeds.value = userLikedFeedsFromJson(res.body);
+        print("Users that have liked posts|| $response");
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> likePost(String postId) async {
+    try {
+      var res = await NetworkApi().authPostData(postId, ApiRoute.likePost);
+      final response = jsonDecode(res.body);
+      if (res.statsCode == 201) {
+        print("Liked || $response");
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> unLikePost(String postId) async {
+    try {
+      var res = await NetworkApi().authPostData(postId, ApiRoute.unLike);
+      final response = jsonDecode(res.body);
+      if (res.statsCode == 201) {
+        print("unlike || $response");
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   int postPage = 1;
   int postLimit = 15;
   Future<bool> getPosts() async {
