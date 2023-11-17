@@ -31,6 +31,7 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   final TextEditingController _searchController = TextEditingController();
+  String get searchItem => _searchController.text;
   TransactionController transactionController =
       Get.put(TransactionController());
   @override
@@ -136,7 +137,12 @@ class _CartPageState extends State<CartPage> {
                                     ),
                                   ),
                                   sizeVer(15.0),
-                                  SearchWidget(controller: _searchController),
+                                  SearchWidget(
+                                    controller: _searchController,
+                                    onSubmitted: (searchItem){
+
+                                    }
+                                  ),
                                   sizeVer(50.0),
                                   ListView.builder(
                                       itemCount: cartController

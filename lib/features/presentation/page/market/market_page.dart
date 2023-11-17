@@ -34,6 +34,7 @@ class MarketPage extends StatefulWidget {
 
 class _MarketPageState extends State<MarketPage> {
   final TextEditingController _searchController = TextEditingController();
+  String get searchItem => _searchController.text;
   PostController postController = Get.put(PostController());
   TransactionController transactionController =
       Get.put(TransactionController());
@@ -160,9 +161,10 @@ class _MarketPageState extends State<MarketPage> {
                                 child: Stack(
                                   children: [
                                     SvgPicture.asset(
-                                        height: 40,
-                                        width: 40,
-                                        "assets/svgs/cart.svg"),
+                                      height: 40,
+                                      width: 40,
+                                      "assets/svgs/cart.svg"
+                                    ),
                                     Positioned(
                                       bottom: 0,
                                       right: 0,
@@ -179,13 +181,12 @@ class _MarketPageState extends State<MarketPage> {
                                             child: Obx(() {
                                               return Text(
                                                 cartController
-                                                            .cartModel!
-                                                            .value
-                                                            .products!
-                                                            .isNotEmpty ||
-                                                        cartController
-                                                                .cartModel! ==
-                                                            null
+                                                  .cartModel!
+                                                  .value
+                                                  .products!
+                                                  .isNotEmpty || cartController
+                                                      .cartModel! ==
+                                                  null
                                                     ? "${cartController.cartModel!.value.products!.length}"
                                                     : "",
                                                 style: const TextStyle(
@@ -206,6 +207,9 @@ class _MarketPageState extends State<MarketPage> {
                         sizeVer(15.0),
                         SearchWidget(
                           controller: _searchController,
+                          onSubmitted: (searchItem){
+                            marketController.searchProduct(searchItem);
+                          }
                         ),
                         sizeVer(10.0),
                         marketController.discountMarketModel?.data!.length == 0
@@ -219,9 +223,10 @@ class _MarketPageState extends State<MarketPage> {
                                     const Text(
                                       "Hot Deals",
                                       style: TextStyle(
-                                          fontSize: 25.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: secondaryColor),
+                                        fontSize: 25.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: secondaryColor
+                                      ),
                                     ),
                                     sizeHor(10.0),
                                     const Icon(

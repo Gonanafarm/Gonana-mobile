@@ -15,6 +15,7 @@ class Message extends StatefulWidget {
 
 class _MessageState extends State<Message> {
   final TextEditingController _searchController = TextEditingController();
+  String get searchItem => _searchController.text;
   List name = ["Jake Doe", "Madam Loe"];
   List image = ["story_profile_photo", "john_david_photo"];
   List message = [
@@ -81,6 +82,7 @@ class _MessageState extends State<Message> {
               SizedBox(height: 20),
               SearchWidget(
                 controller: _searchController,
+                onSubmitted: (searchItem) {}
               ),
               SizedBox(height: 20),
               SizedBox(
