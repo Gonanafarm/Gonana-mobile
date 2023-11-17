@@ -5,8 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:developer';
 
 class NetworkApi {
-  final baseurl = 'https://starfish-app-4q3vo.ondigitalocean.app';
-  // final baseurl = 'https://web-production-d61e4.up.railway.app';
+  // final baseurl = 'https://starfish-app-4q3vo.ondigitalocean.app';
+  final baseurl = 'https://web-production-d61e4.up.railway.app';
 
   postData(formData, routeUrl) async {
     var url = Uri.parse('$baseurl/$routeUrl');
@@ -66,12 +66,11 @@ class NetworkApi {
       try {
         var url = Uri.parse('$baseurl/$routeUrl');
         var response = await client.put(url,
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-type': 'application/json',
-          },
-          body: jsonEncode(data)
-        );
+            headers: {
+              'Authorization': 'Bearer $token',
+              'Content-type': 'application/json',
+            },
+            body: jsonEncode(data));
         // print(response);
         responseJson = response;
       } catch (e) {
