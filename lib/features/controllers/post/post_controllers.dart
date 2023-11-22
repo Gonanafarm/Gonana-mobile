@@ -220,16 +220,45 @@ class PostController extends GetxController {
     }
   }
 
-  // Future<bool> deletePost() async {
-  //   try {
-  //     var responseBody =
-  //         await NetworkApi().deleteData("${ApiRoute.deletePost}/$postItem");
-  //     var response = jsonDecode(responseBody);
-  //     log("post deleted || $responseBody");
-  //     return true;
-  //   } catch (e) {
-  //     print(e);
-  //     return false;
-  //   }
-  // }
+  Future<bool> likePost(
+    String? postId
+  ) async{
+    var data = {
+      "postId": postId
+    };
+    try{
+      var res = await NetworkApi().authPostData(data, ApiRoute.likePost);
+      var response = jsonDecode(res.body);
+      log('LikeResponse: $response');
+      if(res.statusCode == 201){
+        
+        return true;
+      }else{
+
+        return false;
+      }
+    }catch(e,s){
+      log('likeError: $e');
+      log('likeErrorStack: $s');
+      return false;
+    }
+  }
+
+  Future<bool> unlikePost(String? postId) async {
+    var data = {"postId": postId};
+    try {
+      var res = await NetworkApi().authPostData(data, ApiRoute.likePost);
+      var response = jsonDecode(res.body);
+      log('LikeResponse: $response');
+      if (res.statusCode == 201) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e, s) {
+      log('likeError: $e');
+      log('likeErrorStack: $s');
+      return false;
+    }
+  }
 }

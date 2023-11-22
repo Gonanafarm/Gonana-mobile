@@ -52,16 +52,18 @@ class _MessageState extends State<Message> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-              icon: const Icon(
-                Icons.arrow_back,
-                color: Colors.black,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              })),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          } 
+        )
+      ),
       backgroundColor: Color(0xffFFFFFF),
       body: SafeArea(
         child: Padding(
@@ -70,7 +72,7 @@ class _MessageState extends State<Message> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Messages',
                 style: TextStyle(
                   color: Colors.black,
@@ -79,40 +81,43 @@ class _MessageState extends State<Message> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               SearchWidget(
                 controller: _searchController,
-                onSubmitted: (searchItem) {}
+                onChanged: (searchItem) {
+
+                }
               ),
               SizedBox(height: 20),
               SizedBox(
                 child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: name.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Get.to(() => Chats());
-                            },
-                            child: MessageTile(
-                              name: name[index],
-                              message: message[index],
-                              time: time[index],
-                              image: image[index],
-                              messageIndicator: messageIndicator[index],
-                            ),
+                  shrinkWrap: true,
+                  itemCount: name.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(() => Chats());
+                          },
+                          child: MessageTile(
+                            name: name[index],
+                            message: message[index],
+                            time: time[index],
+                            image: image[index],
+                            messageIndicator: messageIndicator[index],
                           ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10.0),
-                            child: Divider(thickness: 1),
-                          ),
-                        ],
-                      );
-                    }),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          child: Divider(thickness: 1),
+                        ),
+                      ],
+                    );
+                  }
+                ),
               ),
             ],
           ),

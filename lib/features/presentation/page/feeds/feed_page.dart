@@ -377,7 +377,6 @@ class _FeedsPageState extends State<FeedsPage> {
                                                                 ),
                                                               ),
                                                             ),
-
                                                       title: Row(
                                                         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                         children: [
@@ -411,26 +410,8 @@ class _FeedsPageState extends State<FeedsPage> {
                                                               ],
                                                             ),
                                                           ),
-                                                          // SizedBox(width: 15),
-                                                          // Padding(
-                                                          //   padding: EdgeInsets.only(
-                                                          //       bottom: 15.0),
-                                                          //   child: Text(
-                                                          //     "8h ago",
-                                                          //     style: TextStyle(
-                                                          //         fontSize: 10,
-                                                          //         fontWeight:
-                                                          //             FontWeight
-                                                          //                 .w400),
-                                                          //   ),
-                                                          // )
                                                         ],
                                                       ),
-                                                      // trailing: const Padding(
-                                                      //   padding: EdgeInsets.only(
-                                                      //       bottom: 15.0),
-                                                      //   child: Icon(Icons.more_horiz),
-                                                      // ),
                                                     ),
                                                   ),
                                                   Padding(

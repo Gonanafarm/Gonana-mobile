@@ -135,7 +135,7 @@ class _HotDealsPageState extends State<HotDealsPage> {
                 sizeVer(15.0),
                 SearchWidget(
                   controller: _searchController,
-                  onSubmitted: (searchItem){
+                  onChanged: (searchItem){
                     marketController.searchProduct(searchItem);
                   }
                 ),
@@ -143,9 +143,10 @@ class _HotDealsPageState extends State<HotDealsPage> {
                 const Text(
                   "Hot Deals",
                   style: TextStyle(
-                      fontSize: 25.0,
-                      fontWeight: FontWeight.bold,
-                      color: secondaryColor),
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,
+                    color: secondaryColor
+                  ),
                 ),
                 sizeVer(10.0),
                 const Text(
@@ -164,11 +165,9 @@ class _HotDealsPageState extends State<HotDealsPage> {
                               .discountMarketModel!.data!.length,
                           controller: scrollController,
                           itemBuilder: (context, index) {
-                            return marketController
-                                    .discountMarketModel!.data!.isNotEmpty
+                            return marketController.discountMarketModel!.data!.isNotEmpty
                                 ? Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       HotDealsCard(
                                         index: index,

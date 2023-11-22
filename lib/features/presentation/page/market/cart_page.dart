@@ -139,7 +139,7 @@ class _CartPageState extends State<CartPage> {
                                   sizeVer(15.0),
                                   SearchWidget(
                                     controller: _searchController,
-                                    onSubmitted: (searchItem){
+                                    onChanged: (searchItem){
 
                                     }
                                   ),

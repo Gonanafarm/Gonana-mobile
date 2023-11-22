@@ -207,9 +207,12 @@ class _MarketPageState extends State<MarketPage> {
                         sizeVer(15.0),
                         SearchWidget(
                           controller: _searchController,
-                          onSubmitted: (searchItem){
-                            marketController.searchProduct(searchItem);
-                          }
+                          onChanged: (String sumn){
+                            
+                          },
+                          // onChanged: (searchItem){
+                          //   marketController.searchProduct(searchItem);
+                          // }
                         ),
                         sizeVer(10.0),
                         marketController.discountMarketModel?.data!.length == 0
@@ -315,15 +318,15 @@ class _MarketPageState extends State<MarketPage> {
                                 onTap: () {
                                   // Get.to(() => const BuyNowPage());
                                 },
-                                child: Row(
+                                child: const Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
                                       "Buy now",
                                       style: TextStyle(
-                                          fontSize: 25.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: secondaryColor),
+                                        fontSize: 25.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: secondaryColor),
                                     ),
                                     // sizeHor(10.0),
                                     // const Icon(
@@ -336,11 +339,10 @@ class _MarketPageState extends State<MarketPage> {
                               ),
                         sizeVer(15),
                         SizedBox(
-                          height: marketController
-                                      .discountMarketModel?.data!.length ==
-                                  0
-                              ? MediaQuery.of(context).size.height * 0.72
-                              : MediaQuery.of(context).size.height * 0.31,
+                          // ignore: prefer_is_empty
+                          height: marketController.discountMarketModel?.data!.length == 0
+                            ? MediaQuery.of(context).size.height * 0.72
+                            : MediaQuery.of(context).size.height * 0.31,
                           child: Column(
                             children: [
                               Expanded(
@@ -351,44 +353,33 @@ class _MarketPageState extends State<MarketPage> {
                                   physics: const ScrollPhysics(
                                     parent: AlwaysScrollableScrollPhysics(),
                                   ),
-                                  itemCount: marketController
-                                          .marketModel.value.data?.length ??
-                                      0,
+                                  itemCount: marketController.marketModel.value.data?.length ?? 0,
                                   itemBuilder: (context, index) {
-                                    final reversedIndex = (marketController
-                                                .marketModel
-                                                .value
-                                                .data!
-                                                .length -
-                                            1) -
-                                        index;
+                                    final reversedIndex = (marketController.marketModel.value.data!.length - 1) - index;
                                     return Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 10.0),
+                                      padding: const EdgeInsets.only(right: 10.0),
                                       child: BuyNowCard(
                                         index: index,
                                       ),
                                     );
                                   },
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 3, // Number of columns
-                                    mainAxisExtent:
-                                        140, // Maximum width of each item
+                                    mainAxisExtent: 40, // Maximum width of each item
                                     mainAxisSpacing: 30,
-                                    childAspectRatio: 11 /
-                                        13, // Width-to-height ratio of each item
+                                    childAspectRatio: 11 / 13, // Width-to-height ratio of each item
                                   ),
                                 ),
                               ),
                               !loading
-                                  ? Container(height: 1)
-                                  : const SizedBox(
-                                      height: 30,
-                                      width: 30,
-                                      child: CircularProgressIndicator(
-                                        color: Color.fromRGBO(41, 132, 75, 1),
-                                      ))
+                                ? Container(height: 1)
+                                : const SizedBox(
+                                  height: 30,
+                                  width: 30,
+                                  child: CircularProgressIndicator(
+                                    color: Color.fromRGBO(41, 132, 75, 1),
+                                  )
+                                )
                             ],
                           ),
                         ),
@@ -403,6 +394,15 @@ class _MarketPageState extends State<MarketPage> {
         }
       },
     );
+  }
+
+  void searchBook(String query){
+    final marketData = marketController.marketModel.value.data;
+    // final input = query.toLowerCase();
+    // final title = marketData![widget.index].product!.title!.toLowerCase();
+    // final suggestions = marketData.where((data) {
+    //   return title.contains(query.toLowerCase());
+    // });
   }
 }
 
@@ -509,7 +509,7 @@ class _HotDealsCardState extends State<HotDealsCard> {
             future: marketController.discountedProductAddress(widget.index),
             builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               } else if (snapshot.hasError) {
                 return Text("Error: ${snapshot.error}",
                     style: TextStyle(
@@ -532,7 +532,6 @@ class _HotDealsCardState extends State<HotDealsCard> {
         ],
       ),
     );
-    ;
   }
 }
 
@@ -596,23 +595,6 @@ class _BuyNowCardState extends State<BuyNowCard> {
                         )
                       : Container(),
                 ),
-                // Container(
-                //   width: 50,
-                //   height: 26.6,
-                //   decoration: BoxDecoration(
-                //     color: Colors.red[500],
-                //     borderRadius: BorderRadius.circular(5),
-                //   ),
-                //   child: Center(
-                //     child: Text(
-                //       "-20%",
-                //       style: GoogleFonts.montserrat(
-                //           color: primaryColor,
-                //           fontSize: 13,
-                //           fontWeight: FontWeight.w400),
-                //     ),
-                //   ),
-                // )
               ],
             ),
           ),
