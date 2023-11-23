@@ -522,12 +522,12 @@ class ProductController extends GetxController {
 
   Future<String?> discountedProductAddress(int index) async {
     if (discountMarketModel! != null &&
-      discountMarketModel!.data![index] != null &&
-      discountMarketModel!.data![index].address! != null &&
-      discountMarketModel!.data![index].address![0].address != null
-    ){
+        discountMarketModel!.data![index] != null &&
+        discountMarketModel!.data![index].address! != null &&
+        discountMarketModel!.data![index].address![0].address != null) {
       String? state;
-      String? addressString = discountMarketModel!.data![index].address![0].address;
+      String? addressString =
+          discountMarketModel!.data![index].address![0].address;
       List<String> components = addressString!.split(", ");
       for (String component in components) {
         if (nigerianStates.contains(component)) {
@@ -542,13 +542,13 @@ class ProductController extends GetxController {
     }
   }
 
-  Future<String?> searchProduct(String product) async{
-    try{
-      var res = await NetworkApi().authGetData('api/catalog/posts?type=product&title=$product');
+  Future<String?> searchProduct(String product) async {
+    try {
+      var res = await NetworkApi()
+          .authGetData('api/catalog/posts?type=product&title=$product');
       var response = jsonDecode(res.body);
       log('SearchResponse: $response');
-      
-    }catch(e,s){
+    } catch (e, s) {
       log('error: $e');
       log('stack; $s');
     }

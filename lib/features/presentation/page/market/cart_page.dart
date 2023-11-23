@@ -138,11 +138,8 @@ class _CartPageState extends State<CartPage> {
                                   ),
                                   sizeVer(15.0),
                                   SearchWidget(
-                                    controller: _searchController,
-                                    onChanged: (searchItem){
-
-                                    }
-                                  ),
+                                      controller: _searchController,
+                                      onChanged: (searchItem) {}),
                                   sizeVer(50.0),
                                   ListView.builder(
                                       itemCount: cartController

@@ -412,7 +412,8 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
           false, // Set to true if you want to allow dismissing the dialog by tapping outside it
       builder: (BuildContext context) {
         return BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20), // Adjust the blur intensity as needed
+          filter: ImageFilter.blur(
+              sigmaX: 20, sigmaY: 20), // Adjust the blur intensity as needed
           child: Container(
             height: 100,
             child: AlertDialog(

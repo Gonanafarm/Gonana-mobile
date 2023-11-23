@@ -46,12 +46,14 @@ class _ConfirmPasswordState extends State<ConfirmPassword> {
                   children: [
                     Text(
                       'Four Digit passcode',
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
                       textAlign: TextAlign.left,
                     ),
                     Text(
                       'Enter your four digit password to confirm your new password',
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                       textAlign: TextAlign.left,
                     ),
                   ],

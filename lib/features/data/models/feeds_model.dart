@@ -81,6 +81,8 @@ class Product {
   String? updatedAt;
   int? v;
   String? productId;
+  List<String>? likes;
+  
 
   Product({
     this.id,
@@ -101,28 +103,25 @@ class Product {
     this.updatedAt,
     this.v,
     this.productId,
+    this.likes
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["_id"],
         deliveryCompany: json["delivery_company"],
-        location: json["location"] == null
-            ? null
-            : Location.fromJson(json["location"]),
-        categories: json["categories"] == null
-            ? []
-            : List<dynamic>.from(json["categories"]!.map((x) => x)),
+        location: json["location"] == null ? null: 
+          Location.fromJson(json["location"]),
+        categories: json["categories"] == null ? [] : 
+          List<dynamic>.from(json["categories"]!.map((x) => x)),
         weight: json["weight"],
         quantity: json["quantity"],
         amount: json["amount"],
         status: json["status"],
-        tags: json["tags"] == null
-            ? []
-            : List<dynamic>.from(json["tags"]!.map((x) => x)),
+        tags: json["tags"] == null ? [] : 
+          List<dynamic>.from(json["tags"]!.map((x) => x)),
         body: json["body"],
-        images: json["images"] == null
-            ? []
-            : List<String>.from(json["images"]!.map((x) => x)),
+        images: json["images"] == null ? [] : 
+          List<String>.from(json["images"]!.map((x) => x)),
         title: json["title"],
         type: json["type"],
         publisherId: json["publisher_id"],
@@ -130,23 +129,25 @@ class Product {
         updatedAt: json["updated_at"],
         v: json["__v"],
         productId: json["id"],
+        likes: json["likes"] == null ? [] :
+          List<String>.from(json["likes"]!.map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
         "_id": id,
         "delivery_company": deliveryCompany,
         "location": location?.toJson(),
-        "categories": categories == null
-            ? []
-            : List<dynamic>.from(categories!.map((x) => x)),
+        "categories": categories == null ? []
+          : List<dynamic>.from(categories!.map((x) => x)),
         "weight": weight,
         "quantity": quantity,
         "amount": amount,
         "status": status,
-        "tags": tags == null ? [] : List<dynamic>.from(tags!.map((x) => x)),
+        "tags": tags == null ? [] : 
+          List<dynamic>.from(tags!.map((x) => x)),
         "body": body,
-        "images":
-            images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
+        "images": images == null ? [] : 
+          List<dynamic>.from(images!.map((x) => x)),
         "title": title,
         "type": type,
         "publisher_id": publisherId,
@@ -154,6 +155,8 @@ class Product {
         "updated_at": updatedAt,
         "__v": v,
         "id": productId,
+        "likes": likes == null ? [] : 
+          List<String>.from(likes!.map((x) => x))
       };
 }
 
@@ -167,18 +170,18 @@ class Location {
   });
 
   factory Location.fromJson(Map<String, dynamic> json) => Location(
-    type: json["type"],
-    coordinates: json["coordinates"] == null
-        ? []
-        : List<double>.from(
-      json["coordinates"]!.map((x) => double.parse(x.toString())),
-    ),
-  );
+        type: json["type"],
+        coordinates: json["coordinates"] == null
+            ? []
+            : List<double>.from(
+                json["coordinates"]!.map((x) => double.parse(x.toString())),
+              ),
+      );
 
   Map<String, dynamic> toJson() => {
-    "type": type,
-    "coordinates": coordinates == null
-        ? []
-        : List<dynamic>.from(coordinates!.map((x) => x)),
-  };
+        "type": type,
+        "coordinates": coordinates == null
+            ? []
+            : List<dynamic>.from(coordinates!.map((x) => x)),
+      };
 }

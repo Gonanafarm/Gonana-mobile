@@ -220,27 +220,23 @@ class PostController extends GetxController {
     }
   }
 
-  Future<bool> likePost(
-    String? postId
-  ) async{
-    var data = {
-      "postId": postId
-    };
-    try{
+  likePost(String? postId) async {
+    var data = {"postId": postId};
+    try {
       var res = await NetworkApi().authPostData(data, ApiRoute.likePost);
       var response = jsonDecode(res.body);
-      log('LikeResponse: $response');
-      if(res.statusCode == 201){
-        
-        return true;
+      log('LikeResponse: $response && ${res.statusCode}');
+      if (res.statusCode == 201) {
+        return [true, true];
+      } else if(res.statusCode == 400) {
+        return [false, true];
       }else{
-
-        return false;
+        return [false, false];
       }
-    }catch(e,s){
+    } catch (e, s) {
       log('likeError: $e');
       log('likeErrorStack: $s');
-      return false;
+      return [false, false];
     }
   }
 
@@ -249,15 +245,15 @@ class PostController extends GetxController {
     try {
       var res = await NetworkApi().authPostData(data, ApiRoute.likePost);
       var response = jsonDecode(res.body);
-      log('LikeResponse: $response');
+      log('UnlikeResponse: $response');
       if (res.statusCode == 201) {
         return true;
       } else {
         return false;
       }
     } catch (e, s) {
-      log('likeError: $e');
-      log('likeErrorStack: $s');
+      log('unlikeError: $e');
+      log('unlikeErrorStack: $s');
       return false;
     }
   }

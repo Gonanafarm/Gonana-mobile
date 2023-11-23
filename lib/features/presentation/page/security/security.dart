@@ -65,7 +65,6 @@ class _SecurityState extends State<Security> {
                         vertical: 14.0, horizontal: 0.0),
                     child: GestureDetector(
                       onTap: () {
-                        
                         Get.to(() => ResetPassword());
                       },
                       child: Container(
@@ -89,20 +88,17 @@ class _SecurityState extends State<Security> {
                               Padding(
                                 padding: const EdgeInsets.only(right: 15.0),
                                 child: IconButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => ResetPassword()
-                                      )
-                                    );
-                                  },
-                                  icon: const Icon(Icons.arrow_forward_ios)
-                                ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ResetPassword()));
+                                    },
+                                    icon: const Icon(Icons.arrow_forward_ios)),
                               )
                             ],
-                          )
-                        ),
+                          )),
                     ),
                   ),
                   Padding(
