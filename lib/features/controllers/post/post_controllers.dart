@@ -95,37 +95,37 @@ class PostController extends GetxController {
     }
   }
 
-  Future<bool> likePost(String postId) async {
-    try {
-      var res = await NetworkApi().authPostData(postId, ApiRoute.likePost);
-      final response = jsonDecode(res.body);
-      if (res.statsCode == 201) {
-        print("Liked || $response");
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      print(e);
-      return false;
-    }
-  }
+  // Future<bool> likePost(String postId) async {
+  //   try {
+  //     var res = await NetworkApi().authPostData(postId, ApiRoute.likePost);
+  //     final response = jsonDecode(res.body);
+  //     if (res.statsCode == 201) {
+  //       print("Liked || $response");
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //     return false;
+  //   }
+  // }
 
-  Future<bool> unLikePost(String postId) async {
-    try {
-      var res = await NetworkApi().authPostData(postId, ApiRoute.unLike);
-      final response = jsonDecode(res.body);
-      if (res.statsCode == 201) {
-        print("unlike || $response");
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      print(e);
-      return false;
-    }
-  }
+  // Future<bool> unLikePost(String postId) async {
+  //   try {
+  //     var res = await NetworkApi().authPostData(postId, ApiRoute.unlikePost);
+  //     final response = jsonDecode(res.body);
+  //     if (res.statsCode == 201) {
+  //       print("unlike || $response");
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //     return false;
+  //   }
+  // }
 
   int postPage = 1;
   int postLimit = 15;

@@ -84,7 +84,6 @@ class Product {
   List<dynamic>? comments;
   List<String>? likes;
   String? productId;
-  List<String>? likes;
   
 
   Product({
@@ -109,7 +108,6 @@ class Product {
     this.comments,
     this.likes,
     this.productId,
-    this.likes
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
@@ -147,8 +145,6 @@ class Product {
             ? []
             : List<String>.from(json["likes"]!.map((x) => x)),
         productId: json["id"],
-        likes: json["likes"] == null ? [] :
-          List<String>.from(json["likes"]!.map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -179,8 +175,6 @@ class Product {
             comments == null ? [] : List<dynamic>.from(comments!.map((x) => x)),
         "likes": likes == null ? [] : List<dynamic>.from(likes!.map((x) => x)),
         "id": productId,
-        "likes": likes == null ? [] : 
-          List<String>.from(likes!.map((x) => x))
       };
 }
 
