@@ -250,6 +250,7 @@ class PostController extends GetxController {
   }
 
   likePost(String? postId) async {
+    log("called likepost");
     var data = {"postId": postId};
     try {
       var res = await NetworkApi().authPostData(data, ApiRoute.likePost);
@@ -270,11 +271,12 @@ class PostController extends GetxController {
   }
 
   Future<bool> unlikePost(String? postId) async {
+    log("called unlikepost");
     var data = {"postId": postId};
     try {
-      var res = await NetworkApi().authPostData(data, ApiRoute.likePost);
+      var res = await NetworkApi().authPostData(data, ApiRoute.unlikePost);
       var response = jsonDecode(res.body);
-      log('UnlikeResponse: $response');
+      log('UnlikeResponse: $response && ${res.statusCode}');
       if (res.statusCode == 201) {
         return true;
       } else {

@@ -374,8 +374,7 @@ class _MarketPageState extends State<MarketPage> {
                                   gridDelegate:
                                       const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 3, // Number of columns
-                                    mainAxisExtent:
-                                        40, // Maximum width of each item
+                                    mainAxisExtent: 140, // Maximum width of each item
                                     mainAxisSpacing: 30,
                                     childAspectRatio: 11 /
                                         13, // Width-to-height ratio of each item
@@ -385,11 +384,12 @@ class _MarketPageState extends State<MarketPage> {
                               !loading
                                   ? Container(height: 1)
                                   : const SizedBox(
-                                      height: 30,
-                                      width: 30,
-                                      child: CircularProgressIndicator(
-                                        color: Color.fromRGBO(41, 132, 75, 1),
-                                      ))
+                                    height: 30,
+                                    width: 30,
+                                    child: CircularProgressIndicator(
+                                      color: Color.fromRGBO(41, 132, 75, 1),
+                                    )
+                                  )
                             ],
                           ),
                         ),

@@ -94,18 +94,19 @@ class _FeedsPageState extends State<FeedsPage> {
   }
 
   bool postLiked = false;
+  final Map<int, bool> isPostLiked = {};
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(0xff29844B),
-        child: Icon(
+        backgroundColor: const Color(0xff29844B),
+        child: const Icon(
           Icons.add,
           size: 30,
         ),
         onPressed: () {
-          Get.to(() => CreatePost());
+          Get.to(() => const CreatePost());
         },
       ),
       backgroundColor: const Color(0xffF1F1F1),
@@ -305,6 +306,7 @@ class _FeedsPageState extends State<FeedsPage> {
                                             return Column(
                                               children: [
                                                 SizedBox(
+                                                  //Posters name and profile pic
                                                   // height: 40,
                                                   child: ListTile(
                                                     contentPadding: const EdgeInsets.symmetric( horizontal: 15.0),
@@ -394,28 +396,41 @@ class _FeedsPageState extends State<FeedsPage> {
                                                     children: [
                                                       InkWell(
                                                         onTap: () async{
-                                                          var liked = await postController.likePost(postController.postModel.data![index].product!.id);
-                                                          if(liked[0] == true && liked[1] == true){
-                                                            setState(() {
-                                                              postLiked = !postLiked;
-                                                            });
-                                                          }else if(liked[0] == false && liked[1] == true){
-                                                            log('product was already LIKED');
-                                                            var unlike = await postController.unlikePost(postController.postModel.data![index].product!.id);
-                                                            setState(() {
-                                                              postLiked = !postLiked;
-                                                            });
-                                                          }else{
-                                                            log('error, post not liked');
+                                                          try {
+                                                            var liked = await postController.likePost(postController.postModel.data![index].product!.id);
+                                                            if(liked[0] == true && liked[1] == true){
+                                                              setState(() {
+                                                                isPostLiked[index] =  true;
+                                                              });
+                                                            }else if(liked[0] == false && liked[1] == true){
+                                                              log('product was already LIKED');
+                                                              var unlike = await postController.unlikePost(postController.postModel.data![index].product!.id);
+                                                              if(unlike == true){
+                                                                setState(() {
+                                                                  isPostLiked[index] = false;
+                                                                });
+                                                              }else{
+                                                                log('error at line 412 while unliking');
+                                                              }
+                                                            }else{
+                                                              log('error, post not liked');
+                                                            }
+                                                            log('PostID: ${postController.postModel.data![index].product!.id}');
+                                                            log('isPostLiked: $isPostLiked');
+                                                          }catch(e,s){
+                                                            log('FeedspageLikeError: $e');
+                                                            log('FeedspageStack: $s');
                                                           }
-                                                          log('PostID: ${postController.postModel.data![index].product!.id}');
                                                         },
-                                                        child: postLiked
-                                                          ? Transform.scale(
-                                                            scale: 0.5,
-                                                            child: SvgPicture.asset('assets/svgs/favourite.svg')
-                                                          )
-                                                          : SvgPicture.asset('assets/svgs/Heart.svg')
+                                                        child: isPostLiked[index] == true ? 
+                                                        SvgPicture.asset('assets/svgs/favourite.svg',
+                                                          height: 24,
+                                                          width: 24,
+                                                        ) : 
+                                                        SvgPicture.asset('assets/svgs/Heart.svg',
+                                                          height: 24,
+                                                          width: 24,
+                                                        )
                                                       ),
                                                       SizedBox(
                                                         height: 30,
@@ -427,8 +442,7 @@ class _FeedsPageState extends State<FeedsPage> {
                                                               borderRadius: BorderRadius.circular( 5.0),
                                                             ),
                                                           ),
-                                                          onPressed:
-                                                              () async {
+                                                          onPressed:() async {
                                                             bool created = false;
                                                             created = await postController.getPostsById(
                                                               postController.postModel.data![index].ownerId,
