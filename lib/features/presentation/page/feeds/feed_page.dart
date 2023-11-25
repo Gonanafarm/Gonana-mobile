@@ -295,16 +295,9 @@ class _FeedsPageState extends State<FeedsPage> {
                             )
                           : Column(
                               children: [
-                                (BVNisSubmited != null && BVNisSubmited!) ||
-                                        (userController.userModel != null &&
-                                            userController.userModel.value
-                                                    .virtualAccountNumber !=
-                                                null &&
-                                            userController
-                                                .userModel
-                                                .value
-                                                .virtualAccountNumber!
-                                                .isNotEmpty)
+                                BVNisSubmited! ||
+                                        userController.userModel.value
+                                            .virtualAccountNumber!.isNotEmpty
                                     ? Container(height: 1)
                                     : WarningWidget(),
                                 Container(
