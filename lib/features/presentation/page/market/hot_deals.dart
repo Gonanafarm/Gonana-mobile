@@ -241,17 +241,6 @@ class _HotDealsCardState extends State<HotDealsCard> {
                     //   fit: BoxFit.cover,
                     // ),
                   ),
-                  child: marketController.discountMarketModel!.data != null && widget.index >= 0 &&
-                    widget.index < marketController.discountMarketModel!.data!.length &&
-                    marketController.discountMarketModel!.data![widget.index].images != null &&
-                    marketController.discountMarketModel!.data![widget.index].images!.isNotEmpty
-                ? ClipRRect(
-                    child: Image.network(
-                      "${marketController.discountMarketModel!.data![widget.index].images![0]}",
-                      fit: BoxFit.cover,
-                    ),
-                  )
-                  : Container(),
                   child: marketController.discountMarketModel!.data != null &&
                           widget.index >= 0 &&
                           widget.index <
@@ -302,11 +291,10 @@ class _HotDealsCardState extends State<HotDealsCard> {
                 sizeVer(10),
                 Text(
                   "${marketController.discountMarketModel!.data![widget.index].amount}",
-                  style: const TextStyle(
-                    fontSize: 20,
-                    color: greenColor,
-                    fontWeight: FontWeight.w600
-                  ),
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: greenColor,
+                      fontWeight: FontWeight.w600),
                 ),
                 sizeVer(4.0),
                 Row(
