@@ -252,7 +252,7 @@ class ProductController extends GetxController {
     }
   }
 
-  Future<bool> searchProduct(String product) async {
+  Future<List<SearchProduct>> searchProduct(String product) async {
     try {
       var res = await NetworkApi()
           .authGetData('api/catalog/posts?type=product&title=$product');
@@ -262,16 +262,17 @@ class ProductController extends GetxController {
         var data = List<Map<String, dynamic>>.from(response["data"]);
         List<SearchProduct> list = data.map((e)=> SearchProduct().fromJson(e)).toList();
         sProducts.value.addAll(list);
+        log("LIST: $list");
         update();
-        return true;
+        return list;
       } else {
         log('SearchedProductError');
-        return false;
+        return [];
       }
     } catch (e, s) {
       log('SearchedProductError: $e');
       log('SearchedProductStack; $s');
-      return false;
+      return [];
     }
   }
 

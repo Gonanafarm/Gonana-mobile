@@ -3,11 +3,13 @@ import "dart:developer";
 import 'package:get/get.dart';
 import "package:gonana/consts.dart";
 import "package:gonana/features/controllers/market/market_controllers.dart";
+import "package:gonana/features/data/models/searched_model.dart";
 import "package:gonana/features/presentation/page/market/cart_page.dart";
 import "package:gonana/features/presentation/widgets/widgets.dart";
 
 class AllSearchedProducts extends StatefulWidget {
-  const AllSearchedProducts({super.key});
+  final List<SearchProduct> searchResults;
+  const AllSearchedProducts({super.key, required this.searchResults});
 
   @override
   State<AllSearchedProducts> createState() => _AllSearchedProductsState();
@@ -22,10 +24,10 @@ class _AllSearchedProductsState extends State<AllSearchedProducts> {
   @override
   void initState() {
     super.initState();
-    final searchResults = Get.arguments;
+    final sResults = Get.arguments;
     //var list = searchResults["searchData"];
-    String searchQuery = searchResults["searchQuery"];
-    fetchData = marketController.searchProduct(searchQuery);
+    String searchQuery = sResults["searchQuery"];
+    //fetchData = marketController.searchProduct(searchQuery);
   }
 
   @override
@@ -35,86 +37,289 @@ class _AllSearchedProductsState extends State<AllSearchedProducts> {
 
     double sHeight = MediaQuery.of(context).size.height;
 
-    return FutureBuilder<bool>(
-        future: fetchData,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Container(
-              color: Colors.white,
-              child: Center(
-                child: Container(
-                  height: 75,
-                  width: 75,
-                  child: const CircularProgressIndicator(
-                    color: Color.fromRGBO(41, 132, 75, 1),
-                  ),
-                ),
-              ),
-            );
-          } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          } else if (!snapshot.data!) {
-            return Container(
-              color: Colors.white,
-              child: const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text(
-                    'No network connection. Please check your internet connection.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700),
-                  ),
-                ),
-              ),
-            );
-          } else {
-            return Scaffold(
-                backgroundColor: const Color(0xffF1F1F1),
-                appBar: AppBar(
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                    leading: IconButton(
-                      icon: const Icon(Icons.arrow_back),
-                      color: Colors.black,
-                      onPressed: () {
-                        Get.back();
-                      },
-                    )),
-                body: SafeArea(
-                    child: ListView(children: [
-                  Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15.0, vertical: 15.0),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Results for: $searchQuery",
-                                style: const TextStyle(
-                                    fontSize: 25.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: secondaryColor)),
-                            SizedBox(
-                                child: ListView.builder(
-                                    itemCount: marketController
-                                        .searchedProducts.length,
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, index) {
-                                      var sProducts = marketController
-                                          .searchedProducts[index];
-                                      return Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            vertical: 8,
-                                          ),
-                                          child: Text(
-                                              "product: ${marketController.searchedProducts[index].title}"));
-                                    }))
-                          ]))
-                ])));
-          }
-        });
+    return Scaffold(
+          backgroundColor: const Color(0xffF1F1F1),
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              color: Colors.black,
+              onPressed: () {
+                Get.back();
+                marketController.clearList();
+              },
+            )
+          ),
+          body: SafeArea(
+            child: ListView(children: [
+            Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 15.0, vertical: 15.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Results for: $searchQuery",
+                      style: const TextStyle(
+                        fontSize: 25.0,
+                        fontWeight: FontWeight.bold,
+                        color: secondaryColor
+                      )
+                    ),
+                    SizedBox(
+                      height: sHeight * 0.8,
+                      child: ListView.builder(
+                        itemCount: searchResults.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          var sProducts = marketController.sProducts[index];
+                          log("no, of widgets: ${marketController.sProducts.length}");
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 8,
+                            ),
+                            child: Container(
+                              height: sHeight * 0.1,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10)
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: Image.network(
+                                          height:  sHeight * 0.1,
+                                          sProducts.images![0],
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text( 
+                                          "${marketController.sProducts[index].title}",
+                                          style: const TextStyle(
+                                            fontSize: 20.0,
+                                            color: secondaryColor
+                                          )
+                                        ),
+                                        Text( 
+                                          "${marketController.sProducts[index].body}",
+                                          style: const TextStyle(
+                                            fontSize: 14.0,
+                                            color: secondaryColor
+                                          )
+                                        ),
+                                        Text( 
+                                          "₦${marketController.sProducts[index].amount}",
+                                          style: const TextStyle(
+                                            fontSize: 20.0,
+                                            color: greenColor
+                                          )
+                                        ),
+                                      ],
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        bool created = false;
+                                        created = await cartController.addToCart(
+                                          marketController.sProducts[index].id,
+                                          context
+                                        );
+                                        if (created) {
+                                          await cartController.fetchCart();
+                                          SuccessSnackbar.show(context, "Item added to cart");
+                                          cartController.updateCartItems();
+                                        }
+                                      },
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all<Color>(greenColor),
+                                        foregroundColor:
+                                            MaterialStateProperty.all<Color>(primaryColor),
+                                      ),
+                                      child: const Padding(
+                                        padding: EdgeInsets.symmetric(vertical: 13.0),
+                                        child: Text('Add to cart'),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          );
+                        }
+                      )
+                    )
+                  ]
+                )
+              )
+          ]
+        )
+      )
+    );
+    //  FutureBuilder<bool>(
+    //   future: fetchData,
+    //   builder: (context, snapshot) {
+    //     if (snapshot.connectionState == ConnectionState.waiting) {
+    //       return Container(
+    //         color: Colors.white,
+    //         child: Center(
+    //           child: Container(
+    //             height: 75,
+    //             width: 75,
+    //             child: const CircularProgressIndicator(
+    //               color: Color.fromRGBO(41, 132, 75, 1),
+    //             ),
+    //           ),
+    //         ),
+    //       );
+    //     } else if (snapshot.hasError) {
+    //       return Text('Error: ${snapshot.error}');
+    //     } else if (!snapshot.data!) {
+    //       return Container(
+    //         color: Colors.white,
+    //         child: const Center(
+    //           child: Padding(
+    //             padding: EdgeInsets.all(10.0),
+    //             child: Text(
+    //               'No network connection. Please check your internet connection.',
+    //               textAlign: TextAlign.center,
+    //               style: TextStyle(
+    //                 color: Colors.black,
+    //                 fontSize: 20,
+    //                 fontWeight: FontWeight.w700
+    //               ),
+    //             ),
+    //           ),
+    //         ),
+    //       );
+    //     } else {
+    //         return Scaffold(
+    //         backgroundColor: const Color(0xffF1F1F1),
+    //         appBar: AppBar(
+    //           backgroundColor: Colors.transparent,
+    //           elevation: 0,
+    //           leading: IconButton(
+    //             icon: const Icon(Icons.arrow_back),
+    //             color: Colors.black,
+    //             onPressed: () {
+    //               Get.back();
+    //               marketController.clearList();
+    //             },
+    //           )
+    //         ),
+    //         body: SafeArea(
+    //           child: ListView(children: [
+    //           Padding(
+    //               padding: const EdgeInsets.symmetric(
+    //                   horizontal: 15.0, vertical: 15.0),
+    //               child: Column(
+    //                 crossAxisAlignment: CrossAxisAlignment.start,
+    //                 children: [
+    //                   Text("Results for: $searchQuery",
+    //                     style: const TextStyle(
+    //                       fontSize: 25.0,
+    //                       fontWeight: FontWeight.bold,
+    //                       color: secondaryColor
+    //                     )
+    //                   ),
+    //                   SizedBox(
+    //                     height: sHeight * 0.8,
+    //                     child: ListView.builder(
+    //                       itemCount: searchResults.length,
+    //                       shrinkWrap: true,
+    //                       itemBuilder: (context, index) {
+    //                         var sProducts = marketController.sProducts[index];
+    //                         log("no, of widgets: ${marketController.sProducts.length}");
+    //                         return Padding(
+    //                           padding: const EdgeInsets.symmetric(
+    //                             vertical: 8,
+    //                           ),
+    //                           child: Container(
+    //                             height: sHeight * 0.1,
+    //                             decoration: BoxDecoration(
+    //                               color: Colors.white,
+    //                               borderRadius: BorderRadius.circular(10)
+    //                             ),
+    //                             child: Padding(
+    //                               padding: const EdgeInsets.all(8.0),
+    //                               child: Row(
+    //                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //                                 children: [
+    //                                     ClipRRect(
+    //                                       child: Image.network(
+    //                                         height:  sHeight * 0.1,
+    //                                         "${sProducts.images![0]}",
+    //                                         fit: BoxFit.contain,
+    //                                       ),
+    //                                     ),
+    //                                   Column(
+    //                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //                                     children: [
+    //                                       Text( 
+    //                                         "${marketController.sProducts[index].title}",
+    //                                         style: const TextStyle(
+    //                                           fontSize: 16.0,
+    //                                           color: secondaryColor
+    //                                         )
+    //                                       ),
+    //                                       Text( 
+    //                                         "product: ${marketController.sProducts[index].body}",
+    //                                         style: const TextStyle(
+    //                                           fontSize: 14.0,
+    //                                           color: secondaryColor
+    //                                         )
+    //                                       ),
+    //                                     ],
+    //                                   ),
+    //                                   ElevatedButton(
+    //                                     onPressed: () async {
+    //                                       bool created = false;
+    //                                       created = await cartController.addToCart(
+    //                                         marketController.sProducts[index].id,
+    //                                         context
+    //                                       );
+    //                                       if (created) {
+    //                                         await cartController.fetchCart();
+    //                                         SuccessSnackbar.show(context, "Item added to cart");
+    //                                         cartController.updateCartItems();
+    //                                       }
+    //                                     },
+    //                                     style: ButtonStyle(
+    //                                       backgroundColor:
+    //                                           MaterialStateProperty.all<Color>(greenColor),
+    //                                       foregroundColor:
+    //                                           MaterialStateProperty.all<Color>(primaryColor),
+    //                                     ),
+    //                                     child: const Padding(
+    //                                       padding: EdgeInsets.symmetric(vertical: 13.0),
+    //                                       child: Text('Add to cart'),
+    //                                     ),
+    //                                   ),
+    //                                 ],
+    //                               ),
+    //                             ),
+    //                           )
+    //                         );
+    //                       }
+    //                     )
+    //                   )
+    //                 ]
+    //               )
+    //             )
+    //         ]
+    //       )
+    //     )
+    //   );
+    //   }
+    //   }
+    // );
   }
 }
 

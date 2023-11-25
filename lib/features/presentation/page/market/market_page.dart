@@ -202,11 +202,13 @@ class _MarketPageState extends State<MarketPage> {
                             var search = await marketController.searchProduct(
                               searchController.text
                             );
-                            if(search == true){
+                            if(search.isNotEmpty){
                               Get.to(
-                                ()=> AllSearchedProducts(), 
+                                ()=> AllSearchedProducts(
+                                  searchResults: search,
+                                ), 
                                 arguments: {
-                                  //"searchData": search,
+                                  "searchData": search,
                                   "searchQuery": searchController.text
                                 }
                               );
