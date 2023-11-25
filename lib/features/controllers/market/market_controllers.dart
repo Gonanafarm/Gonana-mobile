@@ -253,11 +253,11 @@ class ProductController extends GetxController {
     try {
       var res = await NetworkApi().authGetData('api/catalog/posts?type=product&title=$product');
       var response = jsonDecode(res.body);
-      log('SearchResponse: $response');
+      log('SearchResponse: $response'); 
       if(res.statusCode == 200){
         var data = List<Map<String, dynamic>>.from(response["data"]);
         List<SearchProduct> list = data.map((e)=> SearchProduct().fromJson(e)).toList();
-        searchedProducts.value.addAll(list);
+        sProducts.value.addAll(list);
         update();
         return true;
       }else{
@@ -269,6 +269,11 @@ class ProductController extends GetxController {
       log('SearchedProductStack; $s');
       return false;
     }
+  }
+
+  void clearList(){
+    sProducts.value.clear();
+    log("clearled list of search items");
   }
 
   Future fetchMoreProducts() async {

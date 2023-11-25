@@ -248,7 +248,7 @@ class _HotDealsCardState extends State<HotDealsCard> {
                       fit: BoxFit.cover,
                     ),
                   )
-                      : Container(),
+                  : Container(),
                 ),
               ),
             ],
@@ -266,9 +266,10 @@ class _HotDealsCardState extends State<HotDealsCard> {
                 Text(
                   "${marketController.discountMarketModel!.data![widget.index].amount}",
                   style: const TextStyle(
-                      fontSize: 20,
-                      color: greenColor,
-                      fontWeight: FontWeight.w600),
+                    fontSize: 20,
+                    color: greenColor,
+                    fontWeight: FontWeight.w600
+                  ),
                 ),
                 sizeVer(4.0),
                 Row(

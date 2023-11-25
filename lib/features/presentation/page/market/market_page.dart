@@ -9,6 +9,7 @@ import 'package:gonana/features/controllers/market/market_controllers.dart';
 import 'package:gonana/features/presentation/page/market/hot_deals_item.dart';
 import 'package:gonana/features/presentation/page/market/searchedProducts.dart';
 import 'package:gonana/features/presentation/page/messages/message.dart';
+import 'package:gonana/features/presentation/widgets/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,6 +24,7 @@ import '../../widgets/warning_widget.dart';
 import 'buy_now.dart';
 import 'cart_page.dart';
 import 'hot_deals.dart';
+
 
 GetDetailsController detailsController = Get.put(GetDetailsController());
 
@@ -209,6 +211,8 @@ class _MarketPageState extends State<MarketPage> {
                                 }
                               );
                               searchController.clear();
+                            }else{
+                              ErrorSnackbar.show(context, "Sorry, no product matching your search");
                             }
                           },
                         ),

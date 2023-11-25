@@ -35,7 +35,7 @@ class SignInController extends GetxController {
         prefs.setString("token", token);
         userController.updateEmail(email);
         prefs.setString('userEmail', userEmail);
-        print("Success $token");
+        //print("Success $token");
         print("Email: $userEmail");
         await userController.fetchUserByEmail();
         print("model email: ${userController.userModel.value.email}");

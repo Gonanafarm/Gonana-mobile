@@ -15,7 +15,7 @@ class AllSearchedProducts extends StatefulWidget {
 
 class _AllSearchedProductsState extends State<AllSearchedProducts>{
   ProductController marketController = Get.put(ProductController());
-  late Future<bool> fetchData;  
+  late Future<bool> fetchData;
 
 
 
@@ -33,7 +33,8 @@ class _AllSearchedProductsState extends State<AllSearchedProducts>{
   Widget build(BuildContext context){
     final searchResults = Get.arguments;
     String searchQuery = searchResults["searchQuery"];
-    
+    double sHeight = MediaQuery.of(context).size.height;
+
     return FutureBuilder<bool>(
       future: fetchData,
       builder : (context, snapshot){
@@ -77,10 +78,11 @@ class _AllSearchedProductsState extends State<AllSearchedProducts>{
               backgroundColor: Colors.transparent,
               elevation: 0,
               leading: IconButton(
-                icon: const Icon(Icons.arrow_back), 
+                icon: const Icon(Icons.arrow_back),
                 color: Colors.black,
-                onPressed: () { 
+                onPressed: () {
                   Get.back();
+                  marketController.clearList();
                 },
               )
             ),
@@ -102,18 +104,69 @@ class _AllSearchedProductsState extends State<AllSearchedProducts>{
                           )
                         ),
                         SizedBox(
-                          child: ListView.builder(
-                            itemCount: marketController.searchedProducts.length,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index){
-                              var sProducts = marketController.searchedProducts[index];
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 8,
-                                ),
-                                child: Text(
-                                  "product: ${marketController.searchedProducts[index].title}"
-                                )
+                          height: sHeight * 0.8,
+                          child: GetBuilder<ProductController>(
+                            init: ProductController(),
+                            builder: (_){
+                              return ListView.builder(
+                                itemCount: marketController.sProducts.length,
+                                shrinkWrap: false,
+                                itemBuilder: (context, index){
+                                  var queryProducts = marketController.sProducts[index];
+                                  log('Length of Widgets${marketController.sProducts.length}');
+                                  log('Listitem1: ${marketController.sProducts[index].title}');
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 8,
+                                    ),
+                                    child: Container(
+                                      height: sHeight * 0.2,
+                                      decoration: BoxDecoration(
+                                        color: Colors.blue,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Row(
+                                        //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          // ClipRRect(
+                                          //   child: Image.network(
+                                          //     queryProducts.images![0],
+                                          //     fit: BoxFit.cover,
+                                          //   ),
+                                          // ),
+                                          sizeHor(10.0),
+                                          Text("${queryProducts.body}",
+                                            style: const TextStyle(
+                                              color: darkColor
+                                            )
+                                          ),
+                                          ElevatedButton(
+                                            onPressed: () async {
+                                              bool created = false;
+                                              created = await cartController.addToCart(
+                                                queryProducts.id,
+                                                context
+                                              );
+                                              if (created) {
+                                                await cartController.fetchCart();
+                                                SuccessSnackbar.show(context, "Item added to cart");
+                                                cartController.updateCartItems();
+                                              }
+                                            },
+                                            style: ButtonStyle(
+                                              backgroundColor: MaterialStateProperty.all<Color>(greenColor),
+                                              foregroundColor: MaterialStateProperty.all<Color>(primaryColor),
+                                            ),
+                                            child: const Padding(
+                                              padding: EdgeInsets.symmetric(vertical: 13.0),
+                                              child: Text('Add to cart'),
+                                            ),
+                                          ),
+                                        ]
+                                      ),
+                                    )
+                                  );
+                                }
                               );
                             }
                           )
@@ -129,7 +182,7 @@ class _AllSearchedProductsState extends State<AllSearchedProducts>{
       }
     );
   }
-} 
+}
 
 class HotDealsCard extends StatefulWidget {
   final int index;
