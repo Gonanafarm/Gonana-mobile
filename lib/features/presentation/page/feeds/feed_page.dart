@@ -245,12 +245,19 @@ class _FeedsPageState extends State<FeedsPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 (BVNisSubmited != null && BVNisSubmited!) ||
-                                  (userController.userModel != null &&
-                                  userController.userModel.value.virtualAccountNumber != null &&
-                                  userController.userModel.value.virtualAccountNumber!.isNotEmpty
-                                  ) ? Container(height: 1)
+                                        (userController.userModel != null &&
+                                            userController.userModel.value
+                                                    .virtualAccountNumber !=
+                                                null &&
+                                            userController
+                                                .userModel
+                                                .value
+                                                .virtualAccountNumber!
+                                                .isNotEmpty)
+                                    ? Container(height: 1)
                                     : WarningWidget(),
-                                sizeVer(MediaQuery.of(context).size.height * 0.1),
+                                sizeVer(
+                                    MediaQuery.of(context).size.height * 0.1),
                                 Center(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -307,190 +314,341 @@ class _FeedsPageState extends State<FeedsPage> {
                                     children: [
                                       Expanded(
                                         child: ListView.builder(
-                                          controller: scrollController,
-                                          itemCount: postController.postModel.data!.length,
-                                          // itemCount: postModel.body!.length,
-                                          itemBuilder: (BuildContext context, int index) {
-                                            final reversedIndex = (postController.postModel!.data!.length - 1) - index;
-                                            return Column(
-                                              children: [
-                                                SizedBox(
-                                                  //Posters name and profile pic
-                                                  // height: 40,
-                                                  child: ListTile(
-                                                    contentPadding: const EdgeInsets.symmetric( horizontal: 15.0),
-                                                    leading: postController.postModel.data?[index] ?.ownerPhoto?.isEmpty ?? true
-                                                      ? Container(
-                                                          height: 30,
-                                                          width: 30,
-                                                          child: ClipOval(
-                                                            child: getImageWidget(postController.postModel.data?[index]?.ownerPhoto ?? ''),
-                                                          ),
-                                                        )
-                                                      : Container(
-                                                          height: 30,
-                                                          width: 30,
-                                                          child: ClipOval(
-                                                            child: FadeInImage(
-                                                              fit: BoxFit.cover,
-                                                              image: NetworkImage(
-                                                                postController.postModel.data?[index]?.ownerPhoto ?? '',
+                                            controller: scrollController,
+                                            itemCount: postController
+                                                .postModel.data!.length,
+                                            // itemCount: postModel.body!.length,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              final reversedIndex =
+                                                  (postController.postModel!
+                                                              .data!.length -
+                                                          1) -
+                                                      index;
+                                              return Column(
+                                                children: [
+                                                  SizedBox(
+                                                    //Posters name and profile pic
+                                                    // height: 40,
+                                                    child: ListTile(
+                                                      contentPadding:
+                                                          const EdgeInsets
+                                                              .symmetric(
+                                                              horizontal: 15.0),
+                                                      leading: postController
+                                                                  .postModel
+                                                                  .data?[index]
+                                                                  ?.ownerPhoto
+                                                                  ?.isEmpty ??
+                                                              true
+                                                          ? Container(
+                                                              height: 30,
+                                                              width: 30,
+                                                              child: ClipOval(
+                                                                child: getImageWidget(postController
+                                                                        .postModel
+                                                                        .data?[
+                                                                            index]
+                                                                        ?.ownerPhoto ??
+                                                                    ''),
                                                               ),
-                                                              placeholder: const AssetImage( "assets/images/gonanas_profile.png"),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                    title: Row(
-                                                      children: [
-                                                        Flexible(
-                                                          child: Column(
-                                                            mainAxisAlignment:MainAxisAlignment.spaceEvenly,
-                                                            children: [
-                                                              Text( postController.postModel.data![index].ownerName!,
-                                                                style: const TextStyle(
-                                                                  fontSize: 16,
-                                                                  fontWeight: FontWeight.w600
+                                                            )
+                                                          : Container(
+                                                              height: 30,
+                                                              width: 30,
+                                                              child: ClipOval(
+                                                                child:
+                                                                    FadeInImage(
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                  image:
+                                                                      NetworkImage(
+                                                                    postController
+                                                                            .postModel
+                                                                            .data?[index]
+                                                                            ?.ownerPhoto ??
+                                                                        '',
+                                                                  ),
+                                                                  placeholder:
+                                                                      const AssetImage(
+                                                                          "assets/images/gonanas_profile.png"),
                                                                 ),
                                                               ),
+                                                            ),
+                                                      title: Row(
+                                                        children: [
+                                                          Flexible(
+                                                            child: Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceEvenly,
+                                                              children: [
+                                                                Text(
+                                                                  postController
+                                                                      .postModel
+                                                                      .data![
+                                                                          index]
+                                                                      .ownerName!,
+                                                                  style: const TextStyle(
+                                                                      fontSize:
+                                                                          16,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                        .fromLTRB(
+                                                        15.0, 0, 10, 10),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        RichText(
+                                                          text: TextSpan(
+                                                            text: postController
+                                                                        .postModel
+                                                                        .data![
+                                                                            index]
+                                                                        .product!
+                                                                        .body!
+                                                                        .isEmpty ||
+                                                                    // ignore: unnecessary_null_comparison
+                                                                    postController.postModel.data![
+                                                                            index] ==
+                                                                        null ||
+                                                                    postController
+                                                                            .postModel ==
+                                                                        null
+                                                                ? " "
+                                                                : postController
+                                                                    .postModel
+                                                                    .data![
+                                                                        index]
+                                                                    .product!
+                                                                    .body,
+                                                            style: const TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                color: Colors
+                                                                    .black),
+                                                            children: const <TextSpan>[
+                                                              TextSpan(
+                                                                  text: '',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                    color: Color(
+                                                                        0xff29844B),
+                                                                  )),
                                                             ],
                                                           ),
                                                         ),
                                                       ],
                                                     ),
                                                   ),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.fromLTRB(15.0, 0, 10, 10),
-                                                  child: Row(
-                                                    mainAxisAlignment:MainAxisAlignment.start,
-                                                    children: [
-                                                      RichText(
-                                                        text: TextSpan(
-                                                          text: postController.postModel.data![index].product!.body!.isEmpty ||
-                                                            // ignore: unnecessary_null_comparison
-                                                            postController.postModel.data![index] == null || postController.postModel ==
-                                                            null ? " "
-                                                            : postController .postModel.data![index].product!.body,
-                                                          style: const TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight:FontWeight.w400,
-                                                            color: Colors.black
-                                                          ),
-                                                          children: const <TextSpan>[
-                                                            TextSpan(
-                                                              text: '',
-                                                              style:
-                                                              TextStyle(
-                                                                fontWeight:FontWeight.w400,
-                                                                color: Color( 0xff29844B),
-                                                              )
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: MediaQuery.of(context).size.width * 0.8,
-                                                  child: postController.postModel.data![index].product!.images!.isNotEmpty
-                                                    ? Image.network(postController.postModel.data![index].product!.images![0])
-                                                    : Container()
-                                                ),
-                                                sizeVer(10),
-                                                Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: Row(
-                                                    mainAxisAlignment:MainAxisAlignment.spaceBetween,
-                                                    children: [
-                                                      InkWell(
-                                                        onTap: () async{
-                                                          try {
-                                                            var liked = await postController.likePost(postController.postModel.data![index].product!.id);
-                                                            if(liked[0] == true && liked[1] == true){
-                                                              setState(() {
-                                                                isPostLiked[index] =  true;
-                                                              });
-                                                            }else if(liked[0] == false && liked[1] == true){
-                                                              log('product was already LIKED');
-                                                              var unlike = await postController.unlikePost(postController.postModel.data![index].product!.id);
-                                                              if(unlike == true){
-                                                                setState(() {
-                                                                  isPostLiked[index] = false;
-                                                                });
-                                                              }else{
-                                                                log('error at line 412 while unliking');
-                                                              }
-                                                            }else{
-                                                              log('error, post not liked');
-                                                            }
-                                                            log('PostID: ${postController.postModel.data![index].product!.id}');
-                                                            log('isPostLiked: $isPostLiked');
-                                                          }catch(e,s){
-                                                            log('FeedspageLikeError: $e');
-                                                            log('FeedspageStack: $s');
-                                                          }
-                                                        },
-                                                        child: isPostLiked[index] == true ? 
-                                                        SvgPicture.asset('assets/svgs/favourite.svg',
-                                                          height: 24,
-                                                          width: 24,
-                                                        ) : 
-                                                        SvgPicture.asset('assets/svgs/Heart.svg',
-                                                          height: 24,
-                                                          width: 24,
-                                                        )
-                                                      ),
-                                                      SizedBox(
-                                                        height: 30,
-                                                        width: 92.5,
-                                                        child: ElevatedButton(
-                                                          style:  ElevatedButton.styleFrom(
-                                                            backgroundColor: Color(0xff29844B),
-                                                            shape: RoundedRectangleBorder(
-                                                              borderRadius: BorderRadius.circular( 5.0),
-                                                            ),
-                                                          ),
-                                                          onPressed:() async {
-                                                            bool created = false;
-                                                            created = await postController.getPostsById(
-                                                              postController.postModel.data![index].ownerId,
-                                                              "product"
-                                                            );
-                                                            log("${postController.postModel.data![index].ownerId}");
-                                                            if (created) {
-                                                              log("${postController.idPostModel!.data!.length}");
-                                                              Get.to(() => const UserStore());
-                                                            }
-                                                          },
-                                                          child: const Text(
-                                                            'Visit Store',
-                                                            style: TextStyle(
-                                                              color: Colors.white,
-                                                              fontSize:10,
-                                                              fontWeight: FontWeight.w600
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.8,
+                                                      child: postController
+                                                              .postModel
+                                                              .data![index]
+                                                              .product!
+                                                              .images!
+                                                              .isNotEmpty
+                                                          ? Image.network(
+                                                              postController
+                                                                  .postModel
+                                                                  .data![index]
+                                                                  .product!
+                                                                  .images![0],
+                                                              loadingBuilder:
+                                                                  (BuildContext
+                                                                          context,
+                                                                      Widget
+                                                                          child,
+                                                                      ImageChunkEvent?
+                                                                          loadingProgress) {
+                                                                if (loadingProgress ==
+                                                                    null) {
+                                                                  return child;
+                                                                } else {
+                                                                  return Center(
+                                                                    child:
+                                                                        CircularProgressIndicator(),
+                                                                  );
+                                                                }
+                                                              },
+                                                              errorBuilder:
+                                                                  (BuildContext
+                                                                          context,
+                                                                      Object
+                                                                          error,
+                                                                      StackTrace?
+                                                                          stackTrace) {
+                                                                return Center(
+                                                                  child: Text(
+                                                                      'Error loading image'),
+                                                                );
+                                                              },
                                                             )
-                                                          )
+                                                          : Container()),
+                                                  sizeVer(10),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        InkWell(
+                                                            onTap: () async {
+                                                              try {
+                                                                var liked = await postController.likePost(
+                                                                    postController
+                                                                        .postModel
+                                                                        .data![
+                                                                            index]
+                                                                        .product!
+                                                                        .id);
+                                                                if (liked[0] ==
+                                                                        true &&
+                                                                    liked[1] ==
+                                                                        true) {
+                                                                  setState(() {
+                                                                    isPostLiked[
+                                                                            index] =
+                                                                        true;
+                                                                  });
+                                                                } else if (liked[
+                                                                            0] ==
+                                                                        false &&
+                                                                    liked[1] ==
+                                                                        true) {
+                                                                  log('product was already LIKED');
+                                                                  var unlike = await postController.unlikePost(postController
+                                                                      .postModel
+                                                                      .data![
+                                                                          index]
+                                                                      .product!
+                                                                      .id);
+                                                                  if (unlike ==
+                                                                      true) {
+                                                                    setState(
+                                                                        () {
+                                                                      isPostLiked[
+                                                                              index] =
+                                                                          false;
+                                                                    });
+                                                                  } else {
+                                                                    log('error at line 412 while unliking');
+                                                                  }
+                                                                } else {
+                                                                  log('error, post not liked');
+                                                                }
+                                                                log('PostID: ${postController.postModel.data![index].product!.id}');
+                                                                log('isPostLiked: $isPostLiked');
+                                                              } catch (e, s) {
+                                                                log('FeedspageLikeError: $e');
+                                                                log('FeedspageStack: $s');
+                                                              }
+                                                            },
+                                                            child: isPostLiked[
+                                                                        index] ==
+                                                                    true
+                                                                ? SvgPicture
+                                                                    .asset(
+                                                                    'assets/svgs/favourite.svg',
+                                                                    height: 24,
+                                                                    width: 24,
+                                                                  )
+                                                                : SvgPicture
+                                                                    .asset(
+                                                                    'assets/svgs/Heart.svg',
+                                                                    height: 24,
+                                                                    width: 24,
+                                                                  )),
+                                                        SizedBox(
+                                                          height: 30,
+                                                          width: 92.5,
+                                                          child: ElevatedButton(
+                                                              style:
+                                                                  ElevatedButton
+                                                                      .styleFrom(
+                                                                backgroundColor:
+                                                                    Color(
+                                                                        0xff29844B),
+                                                                shape:
+                                                                    RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              5.0),
+                                                                ),
+                                                              ),
+                                                              onPressed:
+                                                                  () async {
+                                                                bool created =
+                                                                    false;
+                                                                created = await postController.getPostsById(
+                                                                    postController
+                                                                        .postModel
+                                                                        .data![
+                                                                            index]
+                                                                        .ownerId,
+                                                                    "product");
+                                                                log("${postController.postModel.data![index].ownerId}");
+                                                                if (created) {
+                                                                  log("${postController.idPostModel!.data!.length}");
+                                                                  Get.to(() =>
+                                                                      const UserStore());
+                                                                }
+                                                              },
+                                                              child: const Text(
+                                                                  'Visit Store',
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          10,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600))),
                                                         ),
-                                                      ),
-                                                    ],
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            );
-                                          }
-                                        ),
+                                                ],
+                                              );
+                                            }),
                                       ),
                                       sizeVer(10),
                                       !loading
-                                        ? Container(height: 1)
-                                        : const SizedBox(
-                                          height: 30,
-                                          width: 30,
-                                          child: CircularProgressIndicator(
-                                            color: Color.fromRGBO(41, 132, 75, 1),
-                                          )
-                                        )
+                                          ? Container(height: 1)
+                                          : const SizedBox(
+                                              height: 30,
+                                              width: 30,
+                                              child: CircularProgressIndicator(
+                                                color: Color.fromRGBO(
+                                                    41, 132, 75, 1),
+                                              ))
                                     ],
                                   ),
                                 ),
