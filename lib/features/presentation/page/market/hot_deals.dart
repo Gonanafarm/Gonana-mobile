@@ -86,7 +86,7 @@ class _HotDealsPageState extends State<HotDealsPage> {
                           // sizeHor(20.0),
                           GestureDetector(
                             onTap: () {
-                              Get.to(() => CartPage());
+                              Get.to(() => const CartPage());
                             },
                             child: Stack(
                               children: [
@@ -109,12 +109,10 @@ class _HotDealsPageState extends State<HotDealsPage> {
                                       child: Center(
                                         child: Obx(() {
                                           return Text(
-                                            cartController.cartModel!.value
-                                                        .products!.isNotEmpty ||
-                                                    cartController.cartModel! ==
-                                                        null
-                                                ? "${cartController.cartModel!.value.products!.length}"
-                                                : "",
+                                            cartController.cartModel!.value.products!.isNotEmpty || 
+                                            cartController.cartModel! == null
+                                            ? "${cartController.cartModel!.value.products!.length}"
+                                            : "",
                                             style: const TextStyle(
                                               color: primaryColor,
                                             ),
@@ -134,22 +132,22 @@ class _HotDealsPageState extends State<HotDealsPage> {
                 ),
                 sizeVer(15.0),
                 SearchWidget(
-                  controller: _searchController,
-                  onSubmitted: (searchItem){
-                    marketController.searchProduct(searchItem);
-                  }
-                ),
+                    controller: _searchController,
+                    onChanged: (searchItem) {
+                      marketController.searchProduct(searchItem);
+                    }),
                 sizeVer(10.0),
                 const Text(
                   "Hot Deals",
                   style: TextStyle(
-                      fontSize: 25.0,
-                      fontWeight: FontWeight.bold,
-                      color: secondaryColor),
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,
+                    color: secondaryColor
+                  ),
                 ),
                 sizeVer(10.0),
                 const Text(
-                  "These are rare deals, buy them quick because the done last.",
+                  "These are rare deals, buy them quick because they don't last.",
                   style: TextStyle(fontSize: 15.0, color: secondaryColor),
                 ),
                 SizedBox(
@@ -160,26 +158,23 @@ class _HotDealsPageState extends State<HotDealsPage> {
                         child: ListView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.vertical,
-                          itemCount: marketController
-                              .discountMarketModel!.data!.length,
+                          itemCount: marketController.discountMarketModel!.data!.length,
                           controller: scrollController,
                           itemBuilder: (context, index) {
-                            return marketController
-                                    .discountMarketModel!.data!.isNotEmpty
-                                ? Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      HotDealsCard(
-                                        index: index,
-                                      ),
-                                      Divider(
-                                        thickness: 1,
-                                        color: Colors.grey[300],
-                                      ),
-                                    ],
-                                  )
-                                : Container();
+                            return marketController.discountMarketModel!.data!.isNotEmpty
+                              ? Column(
+                                  crossAxisAlignment:CrossAxisAlignment.start,
+                                  children: [
+                                    HotDealsCard(
+                                      index: index,
+                                    ),
+                                    Divider(
+                                      thickness: 1,
+                                      color: Colors.grey[300],
+                                    ),
+                                  ],
+                                )
+                              : Container();
                           },
                         ),
                       ),
@@ -243,42 +238,19 @@ class _HotDealsCardState extends State<HotDealsCard> {
                     //   fit: BoxFit.cover,
                     // ),
                   ),
-                  child: marketController.discountMarketModel!.data != null &&
-                          widget.index >= 0 &&
-                          widget.index <
-                              marketController
-                                  .discountMarketModel!.data!.length &&
-                          marketController.discountMarketModel!
-                                  .data![widget.index].images !=
-                              null &&
-                          marketController.discountMarketModel!
-                              .data![widget.index].images!.isNotEmpty
-                      ? ClipRRect(
-                          child: Image.network(
-                            "${marketController.discountMarketModel!.data![widget.index].images![0]}",
-                            fit: BoxFit.cover,
-                          ),
-                        )
+                  child: marketController.discountMarketModel!.data != null && widget.index >= 0 &&
+                    widget.index < marketController.discountMarketModel!.data!.length &&
+                    marketController.discountMarketModel!.data![widget.index].images != null &&
+                    marketController.discountMarketModel!.data![widget.index].images!.isNotEmpty
+                ? ClipRRect(
+                    child: Image.network(
+                      "${marketController.discountMarketModel!.data![widget.index].images![0]}",
+                      fit: BoxFit.cover,
+                    ),
+                  )
                       : Container(),
                 ),
               ),
-              // Container(
-              //   width: 50,
-              //   height: 26.6,
-              //   decoration: BoxDecoration(
-              //     color: Colors.red[500],
-              //     borderRadius: BorderRadius.circular(5),
-              //   ),
-              //   child: Center(
-              //     child: Text(
-              //       "-20%",
-              //       style: GoogleFonts.montserrat(
-              //           color: primaryColor,
-              //           fontSize: 13,
-              //           fontWeight: FontWeight.w400),
-              //     ),
-              //   ),
-              // )
             ],
           ),
           sizeHor(15.0),
@@ -288,12 +260,12 @@ class _HotDealsCardState extends State<HotDealsCard> {
               children: [
                 Text(
                   '${marketController.discountMarketModel!.data![widget.index].body}',
-                  style: TextStyle(color: darkColor),
+                  style: const TextStyle(color: darkColor),
                 ),
                 sizeVer(10),
                 Text(
                   "${marketController.discountMarketModel!.data![widget.index].amount}",
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 20,
                       color: greenColor,
                       fontWeight: FontWeight.w600),
@@ -313,10 +285,10 @@ class _HotDealsCardState extends State<HotDealsCard> {
                                 AsyncSnapshot<String?> snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
-                                return CircularProgressIndicator();
+                                return const CircularProgressIndicator();
                               } else if (snapshot.hasError) {
                                 return Text("Error: ${snapshot.error}",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: Color(0xff000000),
                                         fontSize: 14,
                                         fontWeight: FontWeight.w700));
@@ -324,7 +296,7 @@ class _HotDealsCardState extends State<HotDealsCard> {
                                 return Text(
                                   snapshot.data ?? "",
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 14,
                                     fontFamily: 'Proxima Nova',

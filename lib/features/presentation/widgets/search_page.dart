@@ -5,12 +5,10 @@ import '../../../../../consts.dart';
 
 class SearchWidget extends StatelessWidget {
   final TextEditingController controller;
-  final Function(String) onSubmitted;
-  const SearchWidget({
-    Key? key, 
-    required this.controller,
-    required this.onSubmitted
-  }) : super(key: key);
+  final Function(String) onChanged;
+  const SearchWidget(
+      {Key? key, required this.controller, required this.onChanged})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +21,7 @@ class SearchWidget extends StatelessWidget {
       ),
       child: TextField(
         controller: controller,
-        onSubmitted: onSubmitted,
+        onSubmitted: onChanged,
         style: const TextStyle(color: Colors.black),
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(20),

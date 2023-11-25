@@ -84,6 +84,7 @@ class Product {
   List<dynamic>? comments;
   List<String>? likes;
   String? productId;
+  
 
   Product({
     this.id,
@@ -126,13 +127,11 @@ class Product {
         quantity: json["quantity"],
         amount: json["amount"],
         status: json["status"],
-        tags: json["tags"] == null
-            ? []
-            : List<dynamic>.from(json["tags"]!.map((x) => x)),
+        tags: json["tags"] == null ? [] : 
+          List<dynamic>.from(json["tags"]!.map((x) => x)),
         body: json["body"],
-        images: json["images"] == null
-            ? []
-            : List<String>.from(json["images"]!.map((x) => x)),
+        images: json["images"] == null ? [] : 
+          List<String>.from(json["images"]!.map((x) => x)),
         title: json["title"],
         type: json["type"],
         publisherId: json["publisher_id"],
@@ -155,17 +154,17 @@ class Product {
             ? []
             : List<dynamic>.from(address!.map((x) => x.toJson())),
         "location": location?.toJson(),
-        "categories": categories == null
-            ? []
-            : List<dynamic>.from(categories!.map((x) => x)),
+        "categories": categories == null ? []
+          : List<dynamic>.from(categories!.map((x) => x)),
         "weight": weight,
         "quantity": quantity,
         "amount": amount,
         "status": status,
-        "tags": tags == null ? [] : List<dynamic>.from(tags!.map((x) => x)),
+        "tags": tags == null ? [] : 
+          List<dynamic>.from(tags!.map((x) => x)),
         "body": body,
-        "images":
-            images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
+        "images": images == null ? [] : 
+          List<dynamic>.from(images!.map((x) => x)),
         "title": title,
         "type": type,
         "publisher_id": publisherId,

@@ -99,7 +99,8 @@ class PasscodeController extends GetxController {
   Future<bool> resetPasscodeOtp(String? otp, String? pin, var context) async {
     var data = {"otp": otp, "passcode": pin};
     try {
-      var responseBody = await NetworkApi().authPostData(data, ApiRoute.verifyResetOtp);
+      var responseBody =
+          await NetworkApi().authPostData(data, ApiRoute.verifyResetOtp);
       final response = jsonDecode(responseBody.body);
       log("passcode response || ${responseBody.body}");
       print(responseBody.statusCode);
