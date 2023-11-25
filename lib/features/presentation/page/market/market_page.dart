@@ -6,13 +6,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:gonana/features/controllers/fiat_wallet/transaction_controller.dart';
 import 'package:gonana/features/controllers/market/market_controllers.dart';
+import 'package:gonana/features/data/models/order_model.dart';
 import 'package:gonana/features/presentation/page/market/hot_deals_item.dart';
-<<<<<<< HEAD
-// import 'package:gonana/features/presentation/page/market/orders.dart';
-import 'package:gonana/features/presentation/page/market/searchedProducts.dart';
-=======
 import 'package:gonana/features/presentation/page/market/orders.dart';
->>>>>>> parent of 542c8b7 (Merge branch 'main' into KingDavid)
+import 'package:gonana/features/presentation/page/market/searchedProducts.dart';
 import 'package:gonana/features/presentation/page/messages/message.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,8 +36,8 @@ class MarketPage extends StatefulWidget {
 }
 
 class _MarketPageState extends State<MarketPage> {
-  final TextEditingController _searchController = TextEditingController();
-  String get searchItem => _searchController.text;
+  final TextEditingController searchController = TextEditingController();
+  String get searchItem => searchController.text;
   PostController postController = Get.put(PostController());
   TransactionController transactionController =
       Get.put(TransactionController());
@@ -50,6 +47,7 @@ class _MarketPageState extends State<MarketPage> {
   late Future<bool> fetchData;
   GetDetailsController detailsController = Get.put(GetDetailsController());
   ScrollController scrollController = ScrollController();
+  List filteredItems = [];
 
   // bool isLoadingMoreRunning = false;
   int page = 0;
@@ -87,7 +85,7 @@ class _MarketPageState extends State<MarketPage> {
 
   @override
   void dispose() {
-    _searchController.dispose();
+    searchController.dispose();
     super.dispose();
   }
 
@@ -143,13 +141,13 @@ class _MarketPageState extends State<MarketPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 15.0, vertical: 0.0
-                    ),
+                        horizontal: 15.0, vertical: 0.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15.0, vertical: 10.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -159,7 +157,16 @@ class _MarketPageState extends State<MarketPage> {
                               //     },
                               //     child: SvgPicture.asset(
                               //         "assets/svgs/Emails, Messages.svg")),
-                              // sizeHor(20.0),
+                              GestureDetector(
+                                onTap: () {
+                                  Get.to(() => const Orders());
+                                },
+                                child: SvgPicture.asset(
+                                    height: 40,
+                                    width: 40,
+                                    "assets/svgs/order.svg"),
+                              ),
+                              sizeHor(20.0),
                               GestureDetector(
                                 onTap: () {
                                   Get.to(() => CartPage());
@@ -191,18 +198,7 @@ class _MarketPageState extends State<MarketPage> {
                                                             .products!
                                                             .isNotEmpty ||
                                                         cartController
-<<<<<<< HEAD
                                                                 .cartModel !=
-                                                            null ||
-                                                        cartController
-                                                            .cartModel!
-                                                            .value
-                                                            .products!
-                                                            .isNotEmpty ||
-                                                        cartController
-=======
->>>>>>> parent of 542c8b7 (Merge branch 'main' into KingDavid)
-                                                                .cartModel! ==
                                                             null
                                                     ? "${cartController.cartModel!.value.products!.length}"
                                                     : "",
@@ -223,34 +219,19 @@ class _MarketPageState extends State<MarketPage> {
                         ),
                         sizeVer(15.0),
                         SearchWidget(
-<<<<<<< HEAD
                           controller: searchController,
-                          onChanged: (String sumn) async{
-                            var search = await marketController.searchProduct(
-                              searchController.text
-                            );
-                            if(search == true){
-                              Get.to(
-                                ()=> AllSearchedProducts(), 
-                                arguments: {
-                                  //"searchData": search,
-                                  "searchQuery": searchController.text
-                                }
-                              );
+                          onChanged: (String sumn) async {
+                            var search = await marketController
+                                .searchProduct(searchController.text);
+                            if (search == true) {
+                              Get.to(() => AllSearchedProducts(), arguments: {
+                                //"searchData": search,
+                                "searchQuery": searchController.text
+                              });
                               searchController.clear();
                             }
                           },
-                          // controller: _searchController,
-                          // onSubmitted: (searchItem){
-                          //   marketController.searchProduct(searchItem);
-                          // }
                         ),
-=======
-                            controller: _searchController,
-                            onSubmitted: (searchItem) {
-                              marketController.searchProduct(searchItem);
-                            }),
->>>>>>> parent of 542c8b7 (Merge branch 'main' into KingDavid)
                         sizeVer(10.0),
                         marketController.discountMarketModel?.data!.length == 0
                             ? sizeVer(10)
@@ -277,16 +258,25 @@ class _MarketPageState extends State<MarketPage> {
                                 ),
                               ),
                         SizedBox(
-                          height: marketController.discountMarketModel?.data!.length == 0
-                            ? 0
-                            : 190,
+                          height: marketController
+                                      .discountMarketModel?.data!.length ==
+                                  0
+                              ? 0
+                              : 190,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: marketController.discountMarketModel?.data?.length == 7
-                              ? 6
-                              : marketController.discountMarketModel?.data?.length ?? 0,
+                            itemCount: marketController
+                                        .discountMarketModel?.data?.length ==
+                                    7
+                                ? 6
+                                : marketController
+                                        .discountMarketModel?.data?.length ??
+                                    0,
                             itemBuilder: (context, index) {
-                              final reversedIndex = (marketController.discountMarketModel!.data!.length - 1) - index;
+                              final reversedIndex = (marketController
+                                          .discountMarketModel!.data!.length -
+                                      1) -
+                                  index;
                               return Padding(
                                 padding: const EdgeInsets.only(right: 10.0),
                                 child: HotDealsCard(
@@ -297,10 +287,13 @@ class _MarketPageState extends State<MarketPage> {
                           ),
                         ),
                         (BVNisSubmited != null && BVNisSubmited!) ||
-                          (userController.userModel != null &&
-                            userController.userModel.value.virtualAccountNumber != null &&
-                            userController.userModel.value.virtualAccountNumber!.isNotEmpty
-                          ) ? Container(height: 1)
+                                (userController.userModel != null &&
+                                    userController.userModel.value
+                                            .virtualAccountNumber !=
+                                        null &&
+                                    userController.userModel.value
+                                        .virtualAccountNumber!.isNotEmpty)
+                            ? Container(height: 1)
                             : WarningWidget(),
                         sizeVer(15),
                         marketController.marketModel.value.data!.isEmpty
@@ -309,7 +302,8 @@ class _MarketPageState extends State<MarketPage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    sizeVer(MediaQuery.of(context).size.height *0.1),
+                                    sizeVer(MediaQuery.of(context).size.height *
+                                        0.1),
                                     SvgPicture.asset(
                                       "assets/svgs/empty_product.svg",
                                       width: 189.71,
@@ -341,43 +335,27 @@ class _MarketPageState extends State<MarketPage> {
                                 onTap: () {
                                   // Get.to(() => const BuyNowPage());
                                 },
-                                child: Row(
+                                child: const Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
                                       "Buy now",
                                       style: TextStyle(
-                                        fontSize: 25.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: secondaryColor
-                                      ),
+                                          fontSize: 25.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: secondaryColor),
                                     ),
-                                    // sizeHor(10.0),
-                                    // const Icon(
-                                    //   Icons.arrow_forward,
-                                    //   color: greenColor,
-                                    //   size: 32,
-                                    // )
                                   ],
                                 ),
                               ),
                         sizeVer(15),
                         SizedBox(
-<<<<<<< HEAD
                           // ignore: prefer_is_empty
-<<<<<<< HEAD
-=======
->>>>>>> parent of 542c8b7 (Merge branch 'main' into KingDavid)
                           height: marketController
                                       .discountMarketModel?.data!.length ==
                                   0
                               ? MediaQuery.of(context).size.height * 0.72
                               : MediaQuery.of(context).size.height * 0.31,
-=======
-                          height: marketController.discountMarketModel?.data!.length == 0
-                            ? MediaQuery.of(context).size.height * 0.72
-                            : MediaQuery.of(context).size.height * 0.31,
->>>>>>> parent of 6841b15 (trying to fix bugs)
                           child: Column(
                             children: [
                               Expanded(
@@ -388,33 +366,44 @@ class _MarketPageState extends State<MarketPage> {
                                   physics: const ScrollPhysics(
                                     parent: AlwaysScrollableScrollPhysics(),
                                   ),
-                                  itemCount: marketController.marketModel.value.data?.length ?? 0,
+                                  itemCount: marketController
+                                          .marketModel.value.data?.length ??
+                                      0,
                                   itemBuilder: (context, index) {
-                                    final reversedIndex = (marketController.marketModel.value.data!.length -1) - index;
+                                    final reversedIndex = (marketController
+                                                .marketModel
+                                                .value
+                                                .data!
+                                                .length -
+                                            1) -
+                                        index;
                                     return Padding(
-                                      padding: const EdgeInsets.only(right: 10.0),
+                                      padding:
+                                          const EdgeInsets.only(right: 10.0),
                                       child: BuyNowCard(
                                         index: index,
                                       ),
                                     );
                                   },
-                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 3, // Number of columns
-                                    mainAxisExtent: 140, // Maximum width of each item
+                                    mainAxisExtent:
+                                        140, // Maximum width of each item
                                     mainAxisSpacing: 30,
-                                    childAspectRatio: 11 / 13, // Width-to-height ratio of each item
+                                    childAspectRatio: 11 /
+                                        13, // Width-to-height ratio of each item
                                   ),
                                 ),
                               ),
                               !loading
-                              ? Container(height: 1)
-                              : const SizedBox(
-                                height: 30,
-                                width: 30,
-                                child: CircularProgressIndicator(
-                                  color: Color.fromRGBO(41, 132, 75, 1),
-                                )
-                              )
+                                  ? Container(height: 1)
+                                  : const SizedBox(
+                                      height: 30,
+                                      width: 30,
+                                      child: CircularProgressIndicator(
+                                        color: Color.fromRGBO(41, 132, 75, 1),
+                                      ))
                             ],
                           ),
                         ),
@@ -430,6 +419,15 @@ class _MarketPageState extends State<MarketPage> {
       },
     );
   }
+
+// void searchBook(String query) {
+//   final marketData = marketController.marketModel.value.data;
+//   final input = query.toLowerCase();
+//   final title = marketData![widget.index].product!.title!.toLowerCase();
+//   final suggestions = marketData.where((data) {
+//     return title.contains(query.toLowerCase());
+//   });
+// }
 }
 
 class HotDealsCard extends StatefulWidget {
@@ -535,7 +533,7 @@ class _HotDealsCardState extends State<HotDealsCard> {
             future: marketController.discountedProductAddress(widget.index),
             builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               } else if (snapshot.hasError) {
                 return Text("Error: ${snapshot.error}",
                     style: TextStyle(
@@ -558,7 +556,6 @@ class _HotDealsCardState extends State<HotDealsCard> {
         ],
       ),
     );
-    ;
   }
 }
 
@@ -616,29 +613,18 @@ class _BuyNowCardState extends State<BuyNowCard> {
                           child: Image.network(
                             width: 115,
                             height: 103,
+                            // "http://res.cloudinary.com/du63jingj/image/upload/c_scale,q_auto:eco,w_800/v1698614671/images/nl5kgna1famwsiffdoqs.jpg",
                             "${marketController.marketModel.value.data![widget.index].product!.images![0]}",
                             fit: BoxFit.cover,
+                            errorBuilder: (BuildContext context, Object error,
+                                StackTrace? stackTrace) {
+                              // Handle the error, log it, or show a placeholder image.
+                              return Center(child: const Icon(Icons.error));
+                            },
                           ),
                         )
                       : Container(),
                 ),
-                // Container(
-                //   width: 50,
-                //   height: 26.6,
-                //   decoration: BoxDecoration(
-                //     color: Colors.red[500],
-                //     borderRadius: BorderRadius.circular(5),
-                //   ),
-                //   child: Center(
-                //     child: Text(
-                //       "-20%",
-                //       style: GoogleFonts.montserrat(
-                //           color: primaryColor,
-                //           fontSize: 13,
-                //           fontWeight: FontWeight.w400),
-                //     ),
-                //   ),
-                // )
               ],
             ),
           ),

@@ -12,6 +12,7 @@ import 'package:gonana/features/controllers/user/user_controller.dart';
 import 'package:gonana/features/data/models/discounted_product_model.dart'
     as DiscountedModel;
 import 'package:gonana/features/data/models/post_model.dart' as PostModel;
+import 'package:gonana/features/data/models/searched_model.dart';
 import 'package:gonana/features/data/models/user_model.dart';
 import 'package:gonana/features/data/models/user_post_model.dart'
     as UserProductModel;
@@ -49,6 +50,8 @@ class ProductController extends GetxController {
   RxBool selfShipping = false.obs;
   RxBool isLoadingMoreRunning = false.obs;
   RxBool hasMore = false.obs;
+  RxList searchedProducts = [].obs;
+  var sProducts = <SearchProduct>[].obs;
 
   // void updateIsLoadingMoreRunning(bool newIsLoadingMoreRunning) {
   //   isLoadingMoreRunning.value = newIsLoadingMoreRunning;
@@ -223,7 +226,8 @@ class ProductController extends GetxController {
   }
 
   // PostModel? marketModel;
-  Rx<PostModel.PostModel> marketModel = Rx<PostModel.PostModel>(PostModel.PostModel());
+  Rx<PostModel.PostModel> marketModel =
+      Rx<PostModel.PostModel>(PostModel.PostModel());
   UserProductModel.UserPostModel? userMarketModel;
   int productLimit = 15;
   int discountedLimit = 15;
@@ -231,59 +235,43 @@ class ProductController extends GetxController {
   Future<bool> fetchProduct() async {
     productPage = 1;
     try {
-      var responseBody = await NetworkApi().authGetData("api/catalog/posts?page=$productPage&limit=$productLimit&type=product");
+      var responseBody = await NetworkApi().authGetData(
+          "api/catalog/posts?page=$productPage&limit=$productLimit&type=product");
       final response = jsonDecode(responseBody.body);
-<<<<<<< HEAD
-<<<<<<< HEAD
-      marketModel.value = PostModel.postModelFromJson(responseBody.body);
-      log("response: $response");
-      log("${marketModel!.value.data![0].product!.images![0]}");
-=======
-      //marketModel = marketModelFromJson(responseBody);
-      print("products abeg $response");
-      marketModel.value = PostModel.postModelFromJson(responseBody.body);
-      print(response);
-      print(marketModel!.value.data![0].product!.location!.coordinates);
->>>>>>> parent of 542c8b7 (Merge branch 'main' into KingDavid)
-=======
       //marketModel = marketModelFromJson(responseBody);
       log("products abeg $response");
       marketModel.value = PostModel.postModelFromJson(responseBody.body);
       log("response: $response");
-      log("${marketModel!.value.data![0].product!.location!.coordinates}");
->>>>>>> parent of 6841b15 (trying to fix bugs)
+      log("${marketModel!.value.data![0].product!.images![0]}");
       log("MarketProcuts: [$response]");
-      // log("products || ${response}");
       return true;
     } catch (e, s) {
-<<<<<<< HEAD
       log("fetchProdducts: $e");
       log("fetcProductStack: $s");
       return false;
     }
   }
-    Future<bool> searchProduct(String product) async {
+
+  Future<bool> searchProduct(String product) async {
     try {
-      var res = await NetworkApi().authGetData('api/catalog/posts?type=product&title=$product');
+      var res = await NetworkApi()
+          .authGetData('api/catalog/posts?type=product&title=$product');
       var response = jsonDecode(res.body);
       log('SearchResponse: $response');
-      if(res.statusCode == 200){
+      if (res.statusCode == 200) {
         var data = List<Map<String, dynamic>>.from(response["data"]);
-        List<SearchProduct> list = data.map((e)=> SearchProduct().fromJson(e)).toList();
+        List<SearchProduct> list =
+            data.map((e) => SearchProduct().fromJson(e)).toList();
         searchedProducts.value.addAll(list);
         update();
         return true;
-      }else{
+      } else {
         log('SearchedProductError');
         return false;
       }
     } catch (e, s) {
       log('SearchedProductError: $e');
       log('SearchedProductStack; $s');
-=======
-      print(e);
-      print(s);
->>>>>>> parent of 542c8b7 (Merge branch 'main' into KingDavid)
       return false;
     }
   }
@@ -560,12 +548,12 @@ class ProductController extends GetxController {
 
   Future<String?> discountedProductAddress(int index) async {
     if (discountMarketModel! != null &&
-      discountMarketModel!.data![index] != null &&
-      discountMarketModel!.data![index].address! != null &&
-      discountMarketModel!.data![index].address![0].address != null
-    ){
+        discountMarketModel!.data![index] != null &&
+        discountMarketModel!.data![index].address! != null &&
+        discountMarketModel!.data![index].address![0].address != null) {
       String? state;
-      String? addressString = discountMarketModel!.data![index].address![0].address;
+      String? addressString =
+          discountMarketModel!.data![index].address![0].address;
       List<String> components = addressString!.split(", ");
       for (String component in components) {
         if (nigerianStates.contains(component)) {
@@ -577,18 +565,6 @@ class ProductController extends GetxController {
       return state;
     } else {
       return "";
-    }
-  }
-
-  Future<String?> searchProduct(String product) async{
-    try{
-      var res = await NetworkApi().authGetData('api/catalog/posts?type=product&title=$product');
-      var response = jsonDecode(res.body);
-      log('SearchResponse: $response');
-      
-    }catch(e,s){
-      log('error: $e');
-      log('stack; $s');
     }
   }
 }

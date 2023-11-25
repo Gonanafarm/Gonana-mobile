@@ -135,9 +135,7 @@ class _HotDealsPageState extends State<HotDealsPage> {
                 sizeVer(15.0),
                 SearchWidget(
                   controller: _searchController,
-                  onSubmitted: (searchItem){
-                    marketController.searchProduct(searchItem);
-                  }
+                  onChanged: (searchItem) {},
                 ),
                 sizeVer(10.0),
                 const Text(

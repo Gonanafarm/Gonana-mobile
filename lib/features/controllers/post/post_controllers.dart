@@ -95,37 +95,37 @@ class PostController extends GetxController {
     }
   }
 
-  Future<bool> likePost(String postId) async {
-    try {
-      var res = await NetworkApi().authPostData(postId, ApiRoute.likePost);
-      final response = jsonDecode(res.body);
-      if (res.statsCode == 201) {
-        print("Liked || $response");
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      print(e);
-      return false;
-    }
-  }
+  // Future<bool> likePost(String postId) async {
+  //   try {
+  //     var res = await NetworkApi().authPostData(postId, ApiRoute.likePost);
+  //     final response = jsonDecode(res.body);
+  //     if (res.statsCode == 201) {
+  //       print("Liked || $response");
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //     return false;
+  //   }
+  // }
 
-  Future<bool> unLikePost(String postId) async {
-    try {
-      var res = await NetworkApi().authPostData(postId, ApiRoute.unLike);
-      final response = jsonDecode(res.body);
-      if (res.statsCode == 201) {
-        print("unlike || $response");
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      print(e);
-      return false;
-    }
-  }
+  // Future<bool> unLikePost(String postId) async {
+  //   try {
+  //     var res = await NetworkApi().authPostData(postId, ApiRoute.unlikePost);
+  //     final response = jsonDecode(res.body);
+  //     if (res.statsCode == 201) {
+  //       print("unlike || $response");
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //     return false;
+  //   }
+  // }
 
   int postPage = 1;
   int postLimit = 15;
@@ -249,16 +249,43 @@ class PostController extends GetxController {
     }
   }
 
-  // Future<bool> deletePost() async {
-  //   try {
-  //     var responseBody =
-  //         await NetworkApi().deleteData("${ApiRoute.deletePost}/$postItem");
-  //     var response = jsonDecode(responseBody);
-  //     log("post deleted || $responseBody");
-  //     return true;
-  //   } catch (e) {
-  //     print(e);
-  //     return false;
-  //   }
-  // }
+  likePost(String? postId) async {
+    log("called likepost");
+    var data = {"postId": postId};
+    try {
+      var res = await NetworkApi().authPostData(data, ApiRoute.likePost);
+      var response = jsonDecode(res.body);
+      log('LikeResponse: $response && ${res.statusCode}');
+      if (res.statusCode == 201) {
+        return [true, true];
+      } else if (res.statusCode == 400) {
+        return [false, true];
+      } else {
+        return [false, false];
+      }
+    } catch (e, s) {
+      log('likeError: $e');
+      log('likeErrorStack: $s');
+      return [false, false];
+    }
+  }
+
+  Future<bool> unlikePost(String? postId) async {
+    log("called unlikepost");
+    var data = {"postId": postId};
+    try {
+      var res = await NetworkApi().authPostData(data, ApiRoute.unlikePost);
+      var response = jsonDecode(res.body);
+      log('UnlikeResponse: $response && ${res.statusCode}');
+      if (res.statusCode == 201) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e, s) {
+      log('unlikeError: $e');
+      log('unlikeErrorStack: $s');
+      return false;
+    }
+  }
 }

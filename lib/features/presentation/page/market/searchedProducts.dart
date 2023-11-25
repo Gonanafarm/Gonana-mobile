@@ -13,11 +13,9 @@ class AllSearchedProducts extends StatefulWidget {
   State<AllSearchedProducts> createState() => _AllSearchedProductsState();
 }
 
-class _AllSearchedProductsState extends State<AllSearchedProducts>{
+class _AllSearchedProductsState extends State<AllSearchedProducts> {
   ProductController marketController = Get.put(ProductController());
-  late Future<bool> fetchData;  
-
-
+  late Future<bool> fetchData;
 
   @override
   void initState() {
@@ -28,108 +26,93 @@ class _AllSearchedProductsState extends State<AllSearchedProducts>{
     fetchData = marketController.searchProduct(searchQuery);
   }
 
-
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     final searchResults = Get.arguments;
     String searchQuery = searchResults["searchQuery"];
-    
+
     return FutureBuilder<bool>(
-      future: fetchData,
-      builder : (context, snapshot){
-        if(snapshot.connectionState == ConnectionState.waiting){
-          return Container(
-            color: Colors.white,
-            child: Center(
-              child: Container(
-                height: 75,
-                width: 75,
-                child: const CircularProgressIndicator(
-                  color: Color.fromRGBO(41, 132, 75, 1),
-                ),
-              ),
-            ),
-          );
-        }else if(snapshot.hasError){
-          return Text('Error: ${snapshot.error}');
-        } else if (!snapshot.data!) {
-          return Container(
-            color: Colors.white,
-            child: const Center(
-              child: Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Text(
-                  'No network connection. Please check your internet connection.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700
+        future: fetchData,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Container(
+              color: Colors.white,
+              child: Center(
+                child: Container(
+                  height: 75,
+                  width: 75,
+                  child: const CircularProgressIndicator(
+                    color: Color.fromRGBO(41, 132, 75, 1),
                   ),
                 ),
               ),
-            ),
-          );
-        }else{
-          return Scaffold(
-            backgroundColor: const Color(0xffF1F1F1),
-            appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back), 
-                color: Colors.black,
-                onPressed: () { 
-                  Get.back();
-                },
-              )
-            ),
-            body: SafeArea(
-              child: ListView(
-                children: [
+            );
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else if (!snapshot.data!) {
+            return Container(
+              color: Colors.white,
+              child: const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Text(
+                    'No network connection. Please check your internet connection.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ),
+            );
+          } else {
+            return Scaffold(
+                backgroundColor: const Color(0xffF1F1F1),
+                appBar: AppBar(
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    leading: IconButton(
+                      icon: const Icon(Icons.arrow_back),
+                      color: Colors.black,
+                      onPressed: () {
+                        Get.back();
+                      },
+                    )),
+                body: SafeArea(
+                    child: ListView(children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 15.0, vertical: 15.0
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Results for: $searchQuery",
-                          style: const TextStyle(
-                            fontSize: 25.0,
-                            fontWeight: FontWeight.bold,
-                            color: secondaryColor
-                          )
-                        ),
-                        SizedBox(
-                          child: ListView.builder(
-                            itemCount: marketController.searchedProducts.length,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index){
-                              var sProducts = marketController.searchedProducts[index];
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 8,
-                                ),
-                                child: Text(
-                                  "product: ${marketController.searchedProducts[index].title}"
-                                )
-                              );
-                            }
-                          )
-                        )
-                      ]
-                    )
-                  )
-                ]
-              )
-            )
-          );
-        }
-      }
-    );
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15.0, vertical: 15.0),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Results for: $searchQuery",
+                                style: const TextStyle(
+                                    fontSize: 25.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: secondaryColor)),
+                            SizedBox(
+                                child: ListView.builder(
+                                    itemCount: marketController
+                                        .searchedProducts.length,
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                      var sProducts = marketController
+                                          .searchedProducts[index];
+                                      return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 8,
+                                          ),
+                                          child: Text(
+                                              "product: ${marketController.searchedProducts[index].title}"));
+                                    }))
+                          ]))
+                ])));
+          }
+        });
   }
-} 
+}
 
 class HotDealsCard extends StatefulWidget {
   final int index;
@@ -253,9 +236,9 @@ class _HotDealsCardState extends State<HotDealsCard> {
                         onPressed: () async {
                           bool created = false;
                           created = await cartController.addToCart(
-                            marketController.discountMarketModel!.data![widget.index].id,
-                            context
-                          );
+                              marketController
+                                  .discountMarketModel!.data![widget.index].id,
+                              context);
                           if (created) {
                             await cartController.fetchCart();
                             SuccessSnackbar.show(context, "Item added to cart");
