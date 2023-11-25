@@ -84,19 +84,21 @@ class CartController extends GetxController {
   // }
 
   Future<bool> addToCart(String? productId, context) async {
+    var response;
     try {
       var data = {
         'product_id': productId,
       };
       var responseBody =
           await NetworkApi().authPostData(data, ApiRoute.addToCart);
-      var response = jsonDecode(responseBody.body);
+      response = jsonDecode(responseBody.body);
       // log("added cart items || $responseBody");
       log("added cart items response || $response");
-      SuccessSnackbar.show(context, "${response['message']}");
+      SuccessSnackbar.show(context, "Item added to cart");
       return true;
     } catch (e) {
       print(e);
+      ErrorSnackbar.show(context, "${response['message']}");
       return false;
     }
   }

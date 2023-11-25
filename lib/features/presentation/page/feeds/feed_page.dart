@@ -288,9 +288,18 @@ class _FeedsPageState extends State<FeedsPage> {
                             )
                           : Column(
                               children: [
-                                BVNisSubmited! || userController.userModel.value.virtualAccountNumber!.isNotEmpty
-                                  ? Container(height: 1)
-                                  : const WarningWidget(),
+                                (BVNisSubmited != null && BVNisSubmited!) ||
+                                        (userController.userModel != null &&
+                                            userController.userModel.value
+                                                    .virtualAccountNumber !=
+                                                null &&
+                                            userController
+                                                .userModel
+                                                .value
+                                                .virtualAccountNumber!
+                                                .isNotEmpty)
+                                    ? Container(height: 1)
+                                    : WarningWidget(),
                                 Container(
                                   height:
                                       MediaQuery.of(context).size.height * 0.7,

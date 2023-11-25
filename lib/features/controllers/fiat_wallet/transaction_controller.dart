@@ -23,7 +23,7 @@ class TransactionController extends GetxController {
       // log("added cart items || $responseBody");
       log("BVN verification|| $response");
       if (responseBody.statusCode == 201) {
-        print(responseBody.statusCode);
+        print("status code: ${responseBody.statusCode}");
         SuccessSnackbar.show(context,
             "BVN submitted successfully,\nyou would get a an email concerning your email verification");
         return true;

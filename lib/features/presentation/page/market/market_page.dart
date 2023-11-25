@@ -6,7 +6,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:gonana/features/controllers/fiat_wallet/transaction_controller.dart';
 import 'package:gonana/features/controllers/market/market_controllers.dart';
+import 'package:gonana/features/data/models/order_model.dart';
 import 'package:gonana/features/presentation/page/market/hot_deals_item.dart';
+import 'package:gonana/features/presentation/page/market/orders.dart';
 import 'package:gonana/features/presentation/page/market/searchedProducts.dart';
 import 'package:gonana/features/presentation/page/messages/message.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -149,6 +151,22 @@ class _MarketPageState extends State<MarketPage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
+                              // GestureDetector(
+                              //     onTap: () {
+                              //       Get.to(() => Message());
+                              //     },
+                              //     child: SvgPicture.asset(
+                              //         "assets/svgs/Emails, Messages.svg")),
+                              GestureDetector(
+                                onTap: () {
+                                  Get.to(() => const Orders());
+                                },
+                                child: SvgPicture.asset(
+                                    height: 40,
+                                    width: 40,
+                                    "assets/svgs/order.svg"),
+                              ),
+                              sizeHor(20.0),
                               GestureDetector(
                                 onTap: () {
                                   Get.to(() => CartPage());
@@ -156,10 +174,9 @@ class _MarketPageState extends State<MarketPage> {
                                 child: Stack(
                                   children: [
                                     SvgPicture.asset(
-                                      height: 40,
-                                      width: 40,
-                                      "assets/svgs/cart.svg"
-                                    ),
+                                        height: 40,
+                                        width: 40,
+                                        "assets/svgs/cart.svg"),
                                     Positioned(
                                       bottom: 0,
                                       right: 0,
@@ -175,9 +192,16 @@ class _MarketPageState extends State<MarketPage> {
                                           child: Center(
                                             child: Obx(() {
                                               return Text(
-                                                cartController.cartModel!.value.products!.isNotEmpty || cartController.cartModel! == null
-                                                  ? "${cartController.cartModel!.value.products!.length}"
-                                                  : "",
+                                                cartController
+                                                            .cartModel!
+                                                            .value
+                                                            .products!
+                                                            .isNotEmpty ||
+                                                        cartController
+                                                                .cartModel !=
+                                                            null
+                                                    ? "${cartController.cartModel!.value.products!.length}"
+                                                    : "",
                                                 style: const TextStyle(
                                                   color: primaryColor,
                                                 ),
@@ -224,10 +248,9 @@ class _MarketPageState extends State<MarketPage> {
                                     const Text(
                                       "Hot Deals",
                                       style: TextStyle(
-                                        fontSize: 25.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: secondaryColor
-                                      ),
+                                          fontSize: 25.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: secondaryColor),
                                     ),
                                     sizeHor(10.0),
                                     const Icon(
