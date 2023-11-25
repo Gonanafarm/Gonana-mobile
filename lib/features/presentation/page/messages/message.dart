@@ -81,9 +81,7 @@ class _MessageState extends State<Message> {
               ),
               SizedBox(height: 20),
               SearchWidget(
-                controller: _searchController,
-                onSubmitted: (searchItem) {}
-              ),
+                  controller: _searchController, onChanged: (searchItem) {}),
               SizedBox(height: 20),
               SizedBox(
                 child: ListView.builder(

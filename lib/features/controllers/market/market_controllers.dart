@@ -12,6 +12,7 @@ import 'package:gonana/features/controllers/user/user_controller.dart';
 import 'package:gonana/features/data/models/discounted_product_model.dart'
     as DiscountedModel;
 import 'package:gonana/features/data/models/post_model.dart' as PostModel;
+import 'package:gonana/features/data/models/searched_model.dart';
 import 'package:gonana/features/data/models/user_model.dart';
 import 'package:gonana/features/data/models/user_post_model.dart'
     as UserProductModel;
@@ -49,6 +50,8 @@ class ProductController extends GetxController {
   RxBool selfShipping = false.obs;
   RxBool isLoadingMoreRunning = false.obs;
   RxBool hasMore = false.obs;
+  RxList searchedProducts = [].obs;
+  var sProducts = <SearchProduct>[].obs;
 
   // void updateIsLoadingMoreRunning(bool newIsLoadingMoreRunning) {
   //   isLoadingMoreRunning.value = newIsLoadingMoreRunning;
@@ -235,16 +238,12 @@ class ProductController extends GetxController {
       var responseBody = await NetworkApi().authGetData(
           "api/catalog/posts?page=$productPage&limit=$productLimit&type=product");
       final response = jsonDecode(responseBody.body);
+      //marketModel = marketModelFromJson(responseBody);
+      log("products abeg $response");
       marketModel.value = PostModel.postModelFromJson(responseBody.body);
       log("response: $response");
       log("${marketModel!.value.data![0].product!.images![0]}");
-      //marketModel = marketModelFromJson(responseBody);
-      print("products abeg $response");
-      marketModel.value = PostModel.postModelFromJson(responseBody.body);
-      print(response);
-      print(marketModel!.value.data![0].product!.location!.coordinates);
       log("MarketProcuts: [$response]");
-      // log("products || ${response}");
       return true;
     } catch (e, s) {
       log("fetchProdducts: $e");
@@ -261,8 +260,9 @@ class ProductController extends GetxController {
       log('SearchResponse: $response');
       if (res.statusCode == 200) {
         var data = List<Map<String, dynamic>>.from(response["data"]);
-        // List<SearchProduct> list = data.map((e)=> SearchProduct().fromJson(e)).toList();
-        // searchedProducts.value.addAll(list);
+        List<SearchProduct> list =
+            data.map((e) => SearchProduct().fromJson(e)).toList();
+        searchedProducts.value.addAll(list);
         update();
         return true;
       } else {
@@ -272,8 +272,6 @@ class ProductController extends GetxController {
     } catch (e, s) {
       log('SearchedProductError: $e');
       log('SearchedProductStack; $s');
-      print(e);
-      print(s);
       return false;
     }
   }
@@ -569,16 +567,4 @@ class ProductController extends GetxController {
       return "";
     }
   }
-
-  // Future<String?> searchProduct(String product) async{
-  //   try{
-  //     var res = await NetworkApi().authGetData('api/catalog/posts?type=product&title=$product');
-  //     var response = jsonDecode(res.body);
-  //     log('SearchResponse: $response');
-  //
-  //   }catch(e,s){
-  //     log('error: $e');
-  //     log('stack; $s');
-  //   }
-  // }
 }
