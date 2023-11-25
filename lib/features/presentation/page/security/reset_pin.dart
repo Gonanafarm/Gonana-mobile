@@ -75,28 +75,29 @@ class _ResetPinState extends State<ResetPin> {
           ),
           const Spacer(),
           LongGradientButton(
-              isLoading: isLoading,
-              title: 'Confirm',
-              onPressed: () async {
-                bool isValidated = _resetPinKey.currentState!.validate();
-                if (isValidated) {
+            isLoading: isLoading,
+            title: 'Confirm',
+            onPressed: () async {
+              bool isValidated = _resetPinKey.currentState!.validate();
+              if (isValidated) {
+                setState(() {
+                  isLoading = true;
+                });
+                bool isPasscode = await passcodeController.resetPasscodeOtp(
+                    _otp.text, _newPin.text, context);
+                if (isPasscode) {
                   setState(() {
-                    isLoading = true;
+                    isLoading = false;
                   });
-                  bool isPasscode = await passcodeController.resetPasscodeOtp(
-                      _otp.text, _newPin.text, context);
-                  if (isPasscode) {
-                    setState(() {
-                      isLoading = false;
-                    });
-                    Get.to(() => const Security());
-                  } else {
-                    setState(() {
-                      isLoading = false;
-                    });
-                  }
+                  Get.to(() => const Security());
+                } else {
+                  setState(() {
+                    isLoading = false;
+                  });
                 }
-              })
+              }
+            }
+          )
         ]),
       ),
     );

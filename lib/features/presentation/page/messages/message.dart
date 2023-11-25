@@ -70,7 +70,7 @@ class _MessageState extends State<Message> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 'Messages',
                 style: TextStyle(
                   color: Colors.black,
@@ -79,9 +79,11 @@ class _MessageState extends State<Message> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               SearchWidget(
-                  controller: _searchController, onChanged: (searchItem) {}),
+                controller: _searchController,
+                onSubmitted: (searchItem) {}
+              ),
               SizedBox(height: 20),
               SizedBox(
                 child: ListView.builder(

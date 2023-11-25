@@ -113,8 +113,9 @@ class _UserStoreState extends State<UserStore> {
                   ),
                   sizeVer(15.0),
                   SearchWidget(
-                      controller: _searchController,
-                      onChanged: (searchItem) {}),
+                    controller: _searchController,
+                    onSubmitted: (searchItem) {}
+                  ),
                   sizeVer(10.0),
                   const Text(
                     "User products",

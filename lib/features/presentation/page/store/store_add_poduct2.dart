@@ -130,141 +130,148 @@ class _AddProduct2State extends State<AddProduct2> {
               child: ListView(
                 children: [
                   Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          width: double.infinity,
-                          child: Text(
-                            'Create Product',
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.w600),
-                            textAlign: TextAlign.left,
-                          ),
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        width: double.infinity,
+                        child: Text(
+                          'Create Product',
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.w600),
+                          textAlign: TextAlign.left,
                         ),
-                        const SizedBox(height: 20),
-                        Form(
-                          key: _productKey,
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                  // height: 82,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: EnterFormText(
-                                    validator: inputValidator,
-                                    onChanged: (price) {
-                                      productController.updateAmount(price);
-                                    },
-                                    controller: _price,
-                                    keyboardType: TextInputType.number,
-                                    label: 'Price',
-                                    hint: 'Enter the amount',
-                                  )),
-                              const SizedBox(height: 10),
-                              SizedBox(
-                                  // height: 82,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: EnterFormText(
-                                    validator: inputValidator,
-                                    onChanged: (quantity) {
-                                      productController
-                                          .updateQuantity(quantity);
-                                    },
-                                    controller: _quantity,
-                                    keyboardType: TextInputType.number,
-                                    label: 'Quantity',
-                                    hint: 'Unit number of items',
-                                    // validator: inputValidator(_quantity.text),
-                                  )),
-                              const SizedBox(height: 10),
-                              SizedBox(
-                                  // height: 82,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: EnterFormText(
-                                    validator: inputValidator,
-                                    onChanged: (weight) {
-                                      productController.updateWeight(weight);
-                                    },
-                                    controller: _weight,
-                                    keyboardType: TextInputType.number,
-                                    label: 'Weight',
-                                    hint: 'Weight in KG',
-                                  )),
-                              const SizedBox(height: 10),
-                              SizedBox(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: EnterFormText(
-                                      validator: inputValidator,
-                                      onChanged: (weight) {
-                                        productController
-                                            .updateAddress(address);
-                                      },
-                                      controller: _address,
-                                      label: 'Product Address',
-                                      hint: 'Enter address for pick up')),
-                              const SizedBox(height: 10),
-                              !selfShipping
-                                  ? Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        ShortGradientButton(
-                                            title: 'Validate',
-                                            onPressed: () async {
-                                              var isSuccess =
-                                                  await cartController
-                                                      .validateAddress(address);
-                                              if (isSuccess == true) {
-                                                log('isSUccess: $isSuccess');
-                                                SuccessSnackbar.show(context,
-                                                    'Address succesfully validated');
-                                                setState(() {
-                                                  isValidated = true;
-                                                });
-                                              } else {
-                                                ErrorSnackbar.show(context,
-                                                    'Address not validated');
-                                              }
-                                            }),
-                                      ],
-                                    )
-                                  : Container(height: 1),
-                            ],
-                          ),
+                      ),
+                      const SizedBox(height: 20),
+                      Form(
+                        key: _productKey,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                                // height: 82,
+                                width: MediaQuery.of(context).size.width,
+                                child: EnterFormText(
+                                  validator: inputValidator,
+                                  onChanged: (price) {
+                                    productController.updateAmount(price);
+                                  },
+                                  controller: _price,
+                                  keyboardType: TextInputType.number,
+                                  label: 'Price',
+                                  hint: 'Enter the amount',
+                                )
+                              ),
+                            const SizedBox(height: 10),
+                            SizedBox(
+                              // height: 82,
+                              width: MediaQuery.of(context).size.width,
+                              child: EnterFormText(
+                                validator: inputValidator,
+                                onChanged: (quantity) {
+                                  productController
+                                      .updateQuantity(quantity);
+                                },
+                                controller: _quantity,
+                                keyboardType: TextInputType.number,
+                                label: 'Quantity',
+                                hint: 'Unit number of items',
+                                // validator: inputValidator(_quantity.text),
+                              )
+                            ),
+                            const SizedBox(height: 10),
+                            SizedBox(
+                              // height: 82,
+                              width: MediaQuery.of(context).size.width,
+                              child: EnterFormText(
+                                validator: inputValidator,
+                                onChanged: (weight) {
+                                  productController.updateWeight(weight);
+                                },
+                                controller: _weight,
+                                keyboardType: TextInputType.number,
+                                label: 'Weight',
+                                hint: 'Weight in KG',
+                              )
+                            ),
+                            const SizedBox(height: 10),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: EnterFormText(
+                                validator: inputValidator,
+                                onChanged: (weight) {
+                                  productController
+                                      .updateAddress(address);
+                                },
+                                controller: _address,
+                                label: 'Product Address',
+                                hint: 'Enter address for pick up'
+                              )
+                            ),
+                            const SizedBox(height: 10),
+                            !selfShipping
+                              ? Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    ShortGradientButton(
+                                      title: 'Validate',
+                                      onPressed: () async {
+                                        var isSuccess = await cartController.validateAddress(address);
+                                        if (isSuccess == true) {
+                                          log('isSUccess: $isSuccess');
+                                          SuccessSnackbar.show(context, 'Address succesfully validated');
+                                          setState(() {
+                                            isValidated = true;
+                                          });
+                                        } else {
+                                          ErrorSnackbar.show(context, 'Address not validated');
+                                        }
+                                      }
+                                    ),
+                                  ],
+                                )
+                              : Container(height: 1),
+                          ],
                         ),
-                        const SizedBox(height: 10),
-                        sizeVer(20),
+                      ),
+                      const SizedBox(height: 10),
+                      sizeVer(20),
                         const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
                           child: Text(
                             "Note: You would be charged 1.5% on every successful product sale",
                             style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.red),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.red
+                            ),
                           ),
                         )
-                      ]),
+                    ]
+                  ),
                 ],
               ),
             ),
             LongGradientButton(
-                title: 'Proceed',
-                onPressed: () {
-                  bool isValid = _productKey.currentState!.validate();
-                  if ((isValidated || selfShipping) && isValid) {
-                    log('$currentPosition');
-                    Get.to(
-                      () => const ConfirmScreen(),
-                    );
-                  } else {
-                    ErrorSnackbar.show(
-                        context, "Input and validate your address");
-                  }
-                })
+              title: 'Proceed',
+              onPressed: () {
+                bool isValid = _productKey.currentState!.validate();
+                if ((isValidated || selfShipping) && isValid) {
+                  log('$currentPosition');
+                  Get.to(
+                    () => const ConfirmScreen(),
+                  );
+                } else {
+                  ErrorSnackbar.show(
+                      context, "Input and validate your address");
+                }
+              }
+            )
           ],
         ),
       ),
     );
   }
+
+  
 }
+

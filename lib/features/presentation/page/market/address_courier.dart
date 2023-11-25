@@ -127,88 +127,116 @@ class _AddressCourierState extends State<AddressCourier> {
                               SizedBox(
                                 // height: 60,
                                 child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       const SizedBox(
                                         // width: double.infinity,
                                         child: Text(
-                                          'These are the logistics companies that we recommend',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                          textAlign: TextAlign.left
-                                        ),
+                                            'These are the logistics companies that we recommend',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                            textAlign: TextAlign.left),
                                       ),
                                       const SizedBox(height: 20),
                                       SizedBox(
-                                  //height: MediaQuery.of(context).size.height * 0.5,
-                                  child: cartController.courierModel !=  null
-                                      ? ListView.builder(
-                                          itemCount: cartController.courierModel?.couriers?.length ?? 0,
-                                          shrinkWrap: true,
-                                          itemBuilder:(context, index) {
-                                            final courierModel = cartController.courierModel;
-                                            if (courierModel == null || courierModel.couriers == null) {
-                                              // Handle null values as needed, e.g., return a placeholder widget.
-                                              return SizedBox(
-                                                child: Container()
-                                              );
-                                            }
-                                            if (index >= courierModel.couriers!.length) {
-                                              // Handle the case where the index is out of bounds.
-                                              return const SizedBox(); // Or any other appropriate handling.
-                                            }
-                                            courierItem = courierModel.couriers![index];
-                                            return Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(7)
-                                                ),
-                                                child: RadioListTile<String>(
-                                                  activeColor: greenColor,
-                                                  controlAffinity: ListTileControlAffinity.trailing,
-                                                  toggleable: true,
-                                                  value: courierItem.serviceCode,
-                                                  groupValue: selectedValue,
-                                                  title: Text(
-                                                    courierItem.name,
-                                                    style: const TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight .w600
-                                                    ),
-                                                  ),
-                                                  secondary: Image.network(
-                                                    courierItem.pinImage,
-                                                    height: 38,
-                                                    width: 38,
-                                                    fit: BoxFit.contain
-                                                  ),
-                                                  onChanged: (value) {
-                                                    log("tapped");
-                                                    setState(() {
-                                                      if (value == null) {
-                                                        selectedValue != value;
-                                                      } else {
-                                                        selectedValue = value;
-                                                      }
-                                                      isiTemSelected = true;
-                                                      log("selectedValue: $selectedValue");
-                                                    });
+                                          //height: MediaQuery.of(context).size.height * 0.5,
+                                          child: cartController.courierModel !=
+                                                  null
+                                              ? ListView.builder(
+                                                  itemCount: cartController
+                                                          .courierModel
+                                                          ?.couriers
+                                                          ?.length ??
+                                                      0,
+                                                  shrinkWrap: true,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    final courierModel =
+                                                        cartController
+                                                            .courierModel;
+                                                    if (courierModel == null ||
+                                                        courierModel.couriers ==
+                                                            null) {
+                                                      // Handle null values as needed, e.g., return a placeholder widget.
+                                                      return SizedBox(
+                                                          child: Container());
+                                                    }
+                                                    if (index >=
+                                                        courierModel
+                                                            .couriers!.length) {
+                                                      // Handle the case where the index is out of bounds.
+                                                      return const SizedBox(); // Or any other appropriate handling.
+                                                    }
+                                                    courierItem = courierModel
+                                                        .couriers![index];
+                                                    return Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Container(
+                                                          decoration: BoxDecoration(
+                                                              color:
+                                                                  Colors.white,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          7)),
+                                                          child: RadioListTile<
+                                                              String>(
+                                                            activeColor:
+                                                                greenColor,
+                                                            controlAffinity:
+                                                                ListTileControlAffinity
+                                                                    .trailing,
+                                                            toggleable: true,
+                                                            value: courierItem
+                                                                .serviceCode,
+                                                            groupValue:
+                                                                selectedValue,
+                                                            title: Text(
+                                                              courierItem.name,
+                                                              style: const TextStyle(
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
+                                                            ),
+                                                            secondary:
+                                                                Image.network(
+                                                                    courierItem
+                                                                        .pinImage,
+                                                                    height: 38,
+                                                                    width: 38,
+                                                                    fit: BoxFit
+                                                                        .contain),
+                                                            onChanged: (value) {
+                                                              log("tapped");
+                                                              setState(() {
+                                                                if (value ==
+                                                                    null) {
+                                                                  selectedValue !=
+                                                                      value;
+                                                                } else {
+                                                                  selectedValue =
+                                                                      value;
+                                                                }
+                                                                //selectedValue = widget.value;
+                                                                isiTemSelected =
+                                                                    true;
+                                                                log("selectedValue: $selectedValue");
+                                                              });
+                                                            },
+                                                          )),
+                                                    );
                                                   },
                                                 )
-                                              ),
-                                            );
-                                          },
-                                        ): SizedBox(child: Container())
-                                      )
-                                    ]
-                                  ),
+                                              : SizedBox(child: Container()))
+                                    ]),
                               ),
-                            ]
-                          ),
+                            ]),
                       ),
                     ),
                   ),

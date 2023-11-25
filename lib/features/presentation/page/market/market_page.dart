@@ -7,8 +7,12 @@ import 'package:get/get.dart';
 import 'package:gonana/features/controllers/fiat_wallet/transaction_controller.dart';
 import 'package:gonana/features/controllers/market/market_controllers.dart';
 import 'package:gonana/features/presentation/page/market/hot_deals_item.dart';
+<<<<<<< HEAD
 // import 'package:gonana/features/presentation/page/market/orders.dart';
 import 'package:gonana/features/presentation/page/market/searchedProducts.dart';
+=======
+import 'package:gonana/features/presentation/page/market/orders.dart';
+>>>>>>> parent of 542c8b7 (Merge branch 'main' into KingDavid)
 import 'package:gonana/features/presentation/page/messages/message.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,8 +39,8 @@ class MarketPage extends StatefulWidget {
 }
 
 class _MarketPageState extends State<MarketPage> {
-  final TextEditingController searchController = TextEditingController();
-  String get searchItem => searchController.text;
+  final TextEditingController _searchController = TextEditingController();
+  String get searchItem => _searchController.text;
   PostController postController = Get.put(PostController());
   TransactionController transactionController =
       Get.put(TransactionController());
@@ -46,7 +50,6 @@ class _MarketPageState extends State<MarketPage> {
   late Future<bool> fetchData;
   GetDetailsController detailsController = Get.put(GetDetailsController());
   ScrollController scrollController = ScrollController();
-  List filteredItems = [];
 
   // bool isLoadingMoreRunning = false;
   int page = 0;
@@ -83,7 +86,7 @@ class _MarketPageState extends State<MarketPage> {
 
   @override
   void dispose() {
-    searchController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -187,6 +190,7 @@ class _MarketPageState extends State<MarketPage> {
                                                             .products!
                                                             .isNotEmpty ||
                                                         cartController
+<<<<<<< HEAD
                                                                 .cartModel !=
                                                             null ||
                                                         cartController
@@ -195,6 +199,8 @@ class _MarketPageState extends State<MarketPage> {
                                                             .products!
                                                             .isNotEmpty ||
                                                         cartController
+=======
+>>>>>>> parent of 542c8b7 (Merge branch 'main' into KingDavid)
                                                                 .cartModel! ==
                                                             null
                                                     ? "${cartController.cartModel!.value.products!.length}"
@@ -216,6 +222,7 @@ class _MarketPageState extends State<MarketPage> {
                         ),
                         sizeVer(15.0),
                         SearchWidget(
+<<<<<<< HEAD
                           controller: searchController,
                           onChanged: (String sumn) async {
                             var search = await marketController
@@ -233,6 +240,12 @@ class _MarketPageState extends State<MarketPage> {
                           //   marketController.searchProduct(searchItem);
                           // }
                         ),
+=======
+                            controller: _searchController,
+                            onSubmitted: (searchItem) {
+                              marketController.searchProduct(searchItem);
+                            }),
+>>>>>>> parent of 542c8b7 (Merge branch 'main' into KingDavid)
                         sizeVer(10.0),
                         marketController.discountMarketModel?.data!.length == 0
                             ? sizeVer(10)
@@ -336,7 +349,7 @@ class _MarketPageState extends State<MarketPage> {
                                 onTap: () {
                                   // Get.to(() => const BuyNowPage());
                                 },
-                                child: const Row(
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
@@ -346,12 +359,21 @@ class _MarketPageState extends State<MarketPage> {
                                           fontWeight: FontWeight.bold,
                                           color: secondaryColor),
                                     ),
+                                    // sizeHor(10.0),
+                                    // const Icon(
+                                    //   Icons.arrow_forward,
+                                    //   color: greenColor,
+                                    //   size: 32,
+                                    // )
                                   ],
                                 ),
                               ),
                         sizeVer(15),
                         SizedBox(
+<<<<<<< HEAD
                           // ignore: prefer_is_empty
+=======
+>>>>>>> parent of 542c8b7 (Merge branch 'main' into KingDavid)
                           height: marketController
                                       .discountMarketModel?.data!.length ==
                                   0
@@ -420,15 +442,6 @@ class _MarketPageState extends State<MarketPage> {
       },
     );
   }
-
-  // void searchBook(String query) {
-  //   final marketData = marketController.marketModel.value.data;
-  //   final input = query.toLowerCase();
-  //   final title = marketData![widget.index].product!.title!.toLowerCase();
-  //   final suggestions = marketData.where((data) {
-  //     return title.contains(query.toLowerCase());
-  //   });
-  // }
 }
 
 class HotDealsCard extends StatefulWidget {
@@ -551,7 +564,7 @@ class _HotDealsCardState extends State<HotDealsCard> {
             future: marketController.discountedProductAddress(widget.index),
             builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
+                return CircularProgressIndicator();
               } else if (snapshot.hasError) {
                 return Text("Error: ${snapshot.error}",
                     style: TextStyle(
@@ -574,6 +587,7 @@ class _HotDealsCardState extends State<HotDealsCard> {
         ],
       ),
     );
+    ;
   }
 }
 
@@ -660,6 +674,23 @@ class _BuyNowCardState extends State<BuyNowCard> {
                         )
                       : Container(),
                 ),
+                // Container(
+                //   width: 50,
+                //   height: 26.6,
+                //   decoration: BoxDecoration(
+                //     color: Colors.red[500],
+                //     borderRadius: BorderRadius.circular(5),
+                //   ),
+                //   child: Center(
+                //     child: Text(
+                //       "-20%",
+                //       style: GoogleFonts.montserrat(
+                //           color: primaryColor,
+                //           fontSize: 13,
+                //           fontWeight: FontWeight.w400),
+                //     ),
+                //   ),
+                // )
               ],
             ),
           ),
