@@ -142,33 +142,33 @@ class _LoginState extends State<Login> {
                           height: 20,
                         ),
                         Center(
-                            child: LongGradientButton(
-                                isLoading: isLoading,
-                                title: 'Login',
-                                onPressed: () async {
-                                  setState(() {
-                                    isLoading = true;
-                                  });
-                                  bool isValid =
-                                      _signInkey.currentState!.validate();
-                                  if (isValid) {
-                                    bool isSuccess = await signInController
-                                        .signIn(email, password, context);
-                                    log('isSuccess: $isSuccess');
-                                    if (isSuccess == true) {
-                                      // Get.to(() => HomePage(navIndex: 0));
-                                    } else {
-                                      setState(() {
-                                        isLoading =
-                                            false; // Set isLoading to false on failure
-                                      });
-                                    }
+                          child: LongGradientButton(
+                              isLoading: isLoading,
+                              title: 'Login',
+                              onPressed: () async {
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                bool isValid =
+                                    _signInkey.currentState!.validate();
+                                if (isValid) {
+                                  bool isSuccess = await signInController
+                                      .signIn(email, password, context);
+                                  log('isSuccess: $isSuccess');
+                                  if (isSuccess == true) {
+                                    // Get.to(() => HomePage(navIndex: 0));
                                   } else {
                                     setState(() {
-                                      isLoading = false;
+                                      isLoading =
+                                          false; // Set isLoading to false on failure
                                     });
                                   }
-                                })),
+                                } else {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                }
+                              })),
                         const SizedBox(
                           height: 15,
                         ),

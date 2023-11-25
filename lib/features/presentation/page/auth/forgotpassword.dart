@@ -86,22 +86,21 @@ class ForgotPassword extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 LongGradientButton(
-                    title: 'Proceed',
-                    onPressed: () async {
-                      bool isValid =
-                          _forgotPasswordKey.currentState!.validate();
-                      if (isValid) {
-                        var isSuccess = await passwordController
-                            .forgotPassword(forgotPasswordEmail.email);
-                        if (isSuccess[0] == true) {
-                          log("isSuccess:$isSuccess");
-                          Get.to(() => const AuthVerifyPasswordOtp());
-                        } else {
-                          // ignore: use_build_context_synchronously
-                          ErrorSnackbar.show(context, isSuccess[1]);
-                        }
+                  title: 'Proceed',
+                  onPressed: () async {
+                    bool isValid = _forgotPasswordKey.currentState!.validate();
+                    if (isValid) {
+                      var isSuccess = await passwordController.forgotPassword(forgotPasswordEmail.email);
+                      if (isSuccess[0] == true) {
+                        log("isSuccess:$isSuccess");
+                        Get.to(() => const AuthVerifyPasswordOtp());
+                      } else {
+                        // ignore: use_build_context_synchronously
+                        ErrorSnackbar.show(context, isSuccess[1]);
                       }
-                    })
+                    }
+                  }
+                )
               ],
             ),
           )

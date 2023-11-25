@@ -1,7 +1,3 @@
-// ignore_for_file: unnecessary_null_comparison
-
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -93,20 +89,19 @@ class _FeedsPageState extends State<FeedsPage> {
     });
   }
 
-  bool postLiked = false;
-  final Map<int, bool> isPostLiked = {};
+  bool liked = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xff29844B),
-        child: const Icon(
+        backgroundColor: Color(0xff29844B),
+        child: Icon(
           Icons.add,
           size: 30,
         ),
         onPressed: () {
-          Get.to(() => const CreatePost());
+          Get.to(() => CreatePost());
         },
       ),
       backgroundColor: const Color(0xffF1F1F1),
@@ -186,6 +181,12 @@ class _FeedsPageState extends State<FeedsPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
+                          // SvgPicture.asset(
+                          //   "assets/svgs/Essential.svg",
+                          //   width: 45,
+                          //   height: 30,
+                          // ),
+                          // sizeHor(20.0),
                           GestureDetector(
                             onTap: () {
                               Get.to(() => CartPage());
@@ -231,6 +232,24 @@ class _FeedsPageState extends State<FeedsPage> {
                     ],
                   ),
                 ),
+                // Divider(
+                //   thickness: 1,
+                // ),
+                // Container(
+                //   height: 80,
+                //   child: ListView.builder(
+                //       scrollDirection: Axis.horizontal,
+                //       itemCount: storyList.length,
+                //       shrinkWrap: true,
+                //       itemBuilder: (BuildContext context, index) {
+                //         return Padding(
+                //           padding: const EdgeInsets.all(8.0),
+                //           child: Container(
+                //             child: storyList[index],
+                //           ),
+                //         );
+                //       }),
+                // ),
                 Divider(
                   thickness: 1,
                 ),
@@ -288,16 +307,9 @@ class _FeedsPageState extends State<FeedsPage> {
                             )
                           : Column(
                               children: [
-                                (BVNisSubmited != null && BVNisSubmited!) ||
-                                        (userController.userModel != null &&
-                                            userController.userModel.value
-                                                    .virtualAccountNumber !=
-                                                null &&
-                                            userController
-                                                .userModel
-                                                .value
-                                                .virtualAccountNumber!
-                                                .isNotEmpty)
+                                BVNisSubmited! ||
+                                        userController.userModel.value
+                                            .virtualAccountNumber!.isNotEmpty
                                     ? Container(height: 1)
                                     : WarningWidget(),
                                 Container(
@@ -307,6 +319,46 @@ class _FeedsPageState extends State<FeedsPage> {
                                     children: [
                                       Expanded(
                                         child: ListView.builder(
+<<<<<<< HEAD
+                                            controller: scrollController,
+                                            itemCount: postController
+                                                .postModel.data!.length,
+                                            // itemCount: postModel.body!.length,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              final reversedIndex =
+                                                  (postController.postModel!
+                                                              .data!.length -
+                                                          1) -
+                                                      index;
+<<<<<<< HEAD
+                                              return Column(
+                                                children: [
+                                                  SizedBox(
+                                                    //Posters name and profile pic
+                                                    // height: 40,
+                                                    child: ListTile(
+                                                      contentPadding:
+                                                          const EdgeInsets
+                                                              .symmetric(
+                                                              horizontal: 15.0),
+                                                      leading: postController
+                                                                  .postModel
+                                                                  .data?[index]
+                                                                  ?.ownerPhoto
+                                                                  ?.isEmpty ??
+                                                              true
+                                                          ? Container(
+                                                              height: 30,
+                                                              width: 30,
+                                                              child: ClipOval(
+                                                                child: getImageWidget(postController
+                                                                        .postModel
+                                                                        .data?[
+                                                                            index]
+                                                                        ?.ownerPhoto ??
+                                                                    ''),
+=======
                                           controller: scrollController,
                                           itemCount: postController.postModel.data!.length,
                                           // itemCount: postModel.body!.length,
@@ -335,6 +387,7 @@ class _FeedsPageState extends State<FeedsPage> {
                                                               fit: BoxFit.cover,
                                                               image: NetworkImage(
                                                                 postController.postModel.data?[index]?.ownerPhoto ?? '',
+>>>>>>> parent of 6841b15 (trying to fix bugs)
                                                               ),
                                                               placeholder: const AssetImage( "assets/images/gonanas_profile.png"),
                                                             ),
@@ -342,6 +395,123 @@ class _FeedsPageState extends State<FeedsPage> {
                                                         ),
                                                     title: Row(
                                                       children: [
+<<<<<<< HEAD
+                                                        RichText(
+                                                          text: TextSpan(
+                                                            text: postController
+                                                                        .postModel
+                                                                        .data![
+                                                                            index]
+                                                                        .product!
+                                                                        .body!
+                                                                        .isEmpty ||
+                                                                    // ignore: unnecessary_null_comparison
+                                                                    postController.postModel.data![
+                                                                            index] ==
+                                                                        null ||
+                                                                    postController
+                                                                            .postModel ==
+                                                                        null
+                                                                ? " "
+                                                                : postController
+                                                                    .postModel
+                                                                    .data![
+                                                                        index]
+                                                                    .product!
+                                                                    .body,
+                                                            style: const TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                color: Colors
+                                                                    .black),
+                                                            children: const <TextSpan>[
+                                                              TextSpan(
+                                                                  text: '',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                    color: Color(
+                                                                        0xff29844B),
+                                                                  )),
+=======
+                                              return Column(children: [
+                                                SizedBox(
+                                                  // height: 40,
+                                                  child: ListTile(
+                                                    contentPadding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 15.0),
+                                                    leading: postController
+                                                                .postModel
+                                                                .data?[index]
+                                                                ?.ownerPhoto
+                                                                ?.isEmpty ??
+                                                            true
+                                                        ? Container(
+                                                            height: 30,
+                                                            width: 30,
+                                                            child: ClipOval(
+                                                              child:
+                                                                  getImageWidget(
+                                                                "${postController.postModel.data?[index]?.ownerPhoto ?? ''}",
+                                                              ),
+                                                            ),
+                                                          )
+                                                        : Container(
+                                                            height: 30,
+                                                            width: 30,
+                                                            child: ClipOval(
+                                                              child:
+                                                                  FadeInImage(
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                                image:
+                                                                    NetworkImage(
+                                                                  "${postController.postModel.data?[index]?.ownerPhoto ?? ''}",
+                                                                ),
+                                                                placeholder:
+                                                                    const AssetImage(
+                                                                        "assets/images/gonanas_profile.png"),
+                                                              ),
+                                                            ),
+                                                          ),
+
+                                                    title: Row(
+                                                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                      children: [
+                                                        Flexible(
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceEvenly,
+                                                            children: [
+                                                              Text(
+                                                                postController
+                                                                    .postModel
+                                                                    .data![
+                                                                        index]
+                                                                    .ownerName!,
+                                                                style: const TextStyle(
+                                                                    fontSize:
+                                                                        16,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600),
+                                                              ),
+                                                              // const Text(
+                                                              //   "Vegetable farmer",
+                                                              //   style: TextStyle(
+                                                              //       fontSize: 10,
+                                                              //       fontWeight:
+                                                              //           FontWeight
+                                                              //               .w400),
+                                                              // )
+>>>>>>> parent of 542c8b7 (Merge branch 'main' into KingDavid)
+=======
                                                         Flexible(
                                                           child: Column(
                                                             mainAxisAlignment:MainAxisAlignment.spaceEvenly,
@@ -352,12 +522,391 @@ class _FeedsPageState extends State<FeedsPage> {
                                                                   fontWeight: FontWeight.w600
                                                                 ),
                                                               ),
+>>>>>>> parent of 6841b15 (trying to fix bugs)
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        // SizedBox(width: 15),
+                                                        // Padding(
+                                                        //   padding: EdgeInsets.only(
+                                                        //       bottom: 15.0),
+                                                        //   child: Text(
+                                                        //     "8h ago",
+                                                        //     style: TextStyle(
+                                                        //         fontSize: 10,
+                                                        //         fontWeight:
+                                                        //             FontWeight
+                                                        //                 .w400),
+                                                        //   ),
+                                                        // )
+                                                      ],
+                                                    ),
+                                                    // trailing: const Padding(
+                                                    //   padding: EdgeInsets.only(
+                                                    //       bottom: 15.0),
+                                                    //   child: Icon(Icons.more_horiz),
+                                                    // ),
+                                                  ),
+<<<<<<< HEAD
+<<<<<<< HEAD
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.8,
+                                                      child: postController
+                                                              .postModel
+                                                              .data![index]
+                                                              .product!
+                                                              .images!
+                                                              .isNotEmpty
+                                                          ? Image.network(
+                                                              postController
+                                                                  .postModel
+                                                                  .data![index]
+                                                                  .product!
+                                                                  .images![0],
+                                                              loadingBuilder:
+                                                                  (BuildContext
+                                                                          context,
+                                                                      Widget
+                                                                          child,
+                                                                      ImageChunkEvent?
+                                                                          loadingProgress) {
+                                                                if (loadingProgress ==
+                                                                    null) {
+                                                                  return child;
+                                                                } else {
+                                                                  return Center(
+                                                                    child:
+                                                                        CircularProgressIndicator(),
+                                                                  );
+                                                                }
+                                                              },
+                                                              errorBuilder:
+                                                                  (BuildContext
+                                                                          context,
+                                                                      Object
+                                                                          error,
+                                                                      StackTrace?
+                                                                          stackTrace) {
+                                                                return Center(
+                                                                  child: Text(
+                                                                      'Error loading image'),
+                                                                );
+                                                              },
+                                                            )
+                                                          : Container()),
+                                                  sizeVer(10),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        InkWell(
+                                                            onTap: () async {
+                                                              try {
+                                                                var liked = await postController.likePost(
+                                                                    postController
+                                                                        .postModel
+                                                                        .data![
+                                                                            index]
+                                                                        .product!
+                                                                        .id);
+                                                                if (liked[0] ==
+                                                                        true &&
+                                                                    liked[1] ==
+                                                                        true) {
+                                                                  setState(() {
+                                                                    isPostLiked[
+                                                                            index] =
+                                                                        true;
+                                                                  });
+                                                                } else if (liked[
+                                                                            0] ==
+                                                                        false &&
+                                                                    liked[1] ==
+                                                                        true) {
+                                                                  log('product was already LIKED');
+                                                                  var unlike = await postController.unlikePost(postController
+=======
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          15.0, 0, 10, 10),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      RichText(
+                                                        text: TextSpan(
+                                                          text:
+                                                              // 'We just had the best harvest every, get your fresh, nice to vegetables while they last ',
+                                                              postController
+                                                                          .postModel
+                                                                          .data![
+                                                                              index]
+                                                                          .product!
+                                                                          .body!
+                                                                          .isEmpty ||
+                                                                      postController.postModel.data![
+                                                                              index] ==
+                                                                          null ||
+                                                                      postController
+                                                                              .postModel ==
+                                                                          null
+                                                                  ? " "
+                                                                  : postController
+>>>>>>> parent of 542c8b7 (Merge branch 'main' into KingDavid)
+                                                                      .postModel
+                                                                      .data![
+                                                                          index]
+                                                                      .product!
+<<<<<<< HEAD
+                                                                      .id);
+                                                                  if (unlike ==
+                                                                      true) {
+                                                                    setState(
+                                                                        () {
+                                                                      isPostLiked[
+                                                                              index] =
+                                                                          false;
+                                                                    });
+                                                                  } else {
+                                                                    log('error at line 412 while unliking');
+                                                                  }
+                                                                } else {
+                                                                  log('error, post not liked');
+                                                                }
+                                                                log('PostID: ${postController.postModel.data![index].product!.id}');
+                                                                log('isPostLiked: $isPostLiked');
+                                                              } catch (e, s) {
+                                                                log('FeedspageLikeError: $e');
+                                                                log('FeedspageStack: $s');
+                                                              }
+                                                            },
+                                                            child: isPostLiked[
+                                                                        index] ==
+                                                                    true
+                                                                ? SvgPicture
+                                                                    .asset(
+                                                                    'assets/svgs/favourite.svg',
+                                                                    height: 24,
+                                                                    width: 24,
+                                                                  )
+                                                                : SvgPicture
+                                                                    .asset(
+                                                                    'assets/svgs/Heart.svg',
+                                                                    height: 24,
+                                                                    width: 24,
+                                                                  )),
+                                                        SizedBox(
+                                                          height: 30,
+                                                          width: 92.5,
+                                                          child: ElevatedButton(
+                                                              style:
+                                                                  ElevatedButton
+                                                                      .styleFrom(
+                                                                backgroundColor:
+                                                                    Color(
+                                                                        0xff29844B),
+                                                                shape:
+                                                                    RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              5.0),
+                                                                ),
+                                                              ),
+                                                              onPressed:
+                                                                  () async {
+                                                                bool created =
+                                                                    false;
+                                                                created = await postController.getPostsById(
+=======
+                                                                      .body,
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: Colors
+                                                                      .black),
+                                                          children: const <TextSpan>[
+                                                            TextSpan(
+                                                                text: '',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: Color(
+                                                                      0xff29844B),
+                                                                )),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                    // height: 340,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.8,
+                                                    child: postController
+                                                            .postModel
+                                                            .data![index]
+                                                            .product!
+                                                            .images!
+                                                            .isNotEmpty
+                                                        ? Image.network(
+                                                            postController
+                                                                .postModel
+                                                                .data![index]
+                                                                .product!
+                                                                .images![0])
+                                                        : Container(
+                                                            // child: Image.asset(
+                                                            //     "assets/images/barter.png"),
+                                                            )),
+                                                sizeVer(10),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  horizontal:
+                                                                      20.0),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceEvenly,
+                                                                  children: [
+                                                                    IconButton(
+                                                                        icon: liked
+                                                                            ? Icon(size: 30, Icons.favorite, color: Colors.red)
+                                                                            : Icon(
+                                                                                size: 30,
+                                                                                Icons.favorite_outline,
+                                                                              ),
+                                                                        onPressed: () {
+                                                                          setState(
+                                                                              () {
+                                                                            liked =
+                                                                                !liked;
+                                                                          });
+                                                                        }),
+                                                                    GestureDetector(
+                                                                      onTap:
+                                                                          () {
+                                                                        comment(
+                                                                            context);
+                                                                      },
+                                                                      child: SvgPicture
+                                                                          .asset(
+                                                                        "assets/svgs/emails_messages_icon.svg",
+                                                                        width:
+                                                                            45,
+                                                                        height:
+                                                                            30,
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                        width:
+                                                                            10),
+                                                                    GestureDetector(
+                                                                      onTap:
+                                                                          () {
+                                                                        sharePost(
+                                                                            context);
+                                                                      },
+                                                                      child: SvgPicture
+                                                                          .asset(
+                                                                        "assets/svgs/send_icon.svg",
+                                                                        width:
+                                                                            45,
+                                                                        height:
+                                                                            30,
+                                                                      ),
+                                                                    ),
+                                                                  ]),
                                                             ],
                                                           ),
                                                         ),
                                                       ],
                                                     ),
-                                                  ),
+                                                    SizedBox(
+                                                      height: 30,
+                                                      width: 92.5,
+                                                      child: ElevatedButton(
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            backgroundColor:
+                                                                Color(
+                                                                    0xff29844B),
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          5.0),
+                                                            ),
+                                                          ),
+                                                          onPressed: () async {
+                                                            bool created =
+                                                                false;
+                                                            created = await postController
+                                                                .getPostsById(
+>>>>>>> parent of 542c8b7 (Merge branch 'main' into KingDavid)
+                                                                    postController
+                                                                        .postModel
+                                                                        .data![
+                                                                            index]
+                                                                        .ownerId,
+                                                                    "product");
+<<<<<<< HEAD
+                                                                log("${postController.postModel.data![index].ownerId}");
+                                                                if (created) {
+                                                                  log("${postController.idPostModel!.data!.length}");
+                                                                  Get.to(() =>
+                                                                      const UserStore());
+                                                                }
+                                                              },
+                                                              child: const Text(
+                                                                  'Visit Store',
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          10,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600))),
+=======
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets.fromLTRB(15.0, 0, 10, 10),
@@ -386,10 +935,250 @@ class _FeedsPageState extends State<FeedsPage> {
                                                               )
                                                             ),
                                                           ],
+>>>>>>> parent of 6841b15 (trying to fix bugs)
                                                         ),
                                                       ),
                                                     ],
                                                   ),
+<<<<<<< HEAD
+                                                ],
+                                              );
+=======
+                                                            print(postController
+                                                                .postModel
+                                                                .data![index]
+                                                                .ownerId);
+                                                            if (created) {
+                                                              print(postController
+                                                                  .idPostModel!
+                                                                  .data!
+                                                                  .length);
+                                                              Get.to(() =>
+                                                                  const UserStore());
+                                                            }
+                                                          },
+                                                          child: const Text(
+                                                              'Visit Store',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600))),
+                                                    ),
+
+                                                    // const Padding(
+                                                    //   padding: EdgeInsets.only(
+                                                    //       left: 25, right: 25, top: 10),
+                                                    //   child: Row(
+                                                    //       mainAxisAlignment:
+                                                    //           MainAxisAlignment
+                                                    //               .spaceBetween,
+                                                    //       children: [
+                                                    //         Text(
+                                                    //             'Daniel jim and 38 others',
+                                                    //             style: TextStyle(
+                                                    //                 fontSize: 10,
+                                                    //                 fontWeight:
+                                                    //                     FontWeight
+                                                    //                         .w400)),
+                                                    //         Text('12 Comments',
+                                                    //             style: TextStyle(
+                                                    //                 fontSize: 10,
+                                                    //                 fontWeight:
+                                                    //                     FontWeight
+                                                    //                         .w400))
+                                                    //       ]),
+                                                    // ),
+                                                    // Padding(
+                                                    //   padding:
+                                                    //       const EdgeInsets.symmetric(
+                                                    //           horizontal: 20.0),
+                                                    //   child: Row(
+                                                    //       mainAxisAlignment:
+                                                    //           MainAxisAlignment
+                                                    //               .spaceBetween,
+                                                    //       children: [
+                                                    //         Row(
+                                                    //             mainAxisAlignment:
+                                                    //                 MainAxisAlignment
+                                                    //                     .spaceEvenly,
+                                                    //             children: [
+                                                    //               IconButton(
+                                                    //                   icon: const Icon(
+                                                    //                       size: 30,
+                                                    //                       Icons
+                                                    //                           .favorite_outline),
+                                                    //                   onPressed: () {}),
+                                                    //               GestureDetector(
+                                                    //                 onTap: () {
+                                                    //                   comment(context);
+                                                    //                 },
+                                                    //                 child: SvgPicture
+                                                    //                     .asset(
+                                                    //                   "assets/svgs/emails_messages_icon.svg",
+                                                    //                   width: 45,
+                                                    //                   height: 30,
+                                                    //                 ),
+                                                    //               ),
+                                                    //               SizedBox(width: 10),
+                                                    //               GestureDetector(
+                                                    //                 onTap: () {
+                                                    //                   sharePost(
+                                                    //                       context);
+                                                    //                 },
+                                                    //                 child: SvgPicture
+                                                    //                     .asset(
+                                                    //                   "assets/svgs/send_icon.svg",
+                                                    //                   width: 45,
+                                                    //                   height: 30,
+                                                    //                 ),
+                                                    //               ),
+                                                    //             ]),
+                                                    //         //Like and Visit Store
+                                                    //         SizedBox(
+                                                    //           height: 30,
+                                                    //           width: 92.5,
+                                                    //           child: ElevatedButton(
+                                                    //               style: ElevatedButton
+                                                    //                   .styleFrom(
+                                                    //                 backgroundColor:
+                                                    //                     Color(
+                                                    //                         0xff29844B),
+                                                    //                 shape:
+                                                    //                     RoundedRectangleBorder(
+                                                    //                   borderRadius:
+                                                    //                       BorderRadius
+                                                    //                           .circular(
+                                                    //                               5.0),
+                                                    //                 ),
+                                                    //               ),
+                                                    //               onPressed: () {},
+                                                    //               child: const Text(
+                                                    //                   'Visit Store',
+                                                    //                   style: TextStyle(
+                                                    //                       color: Colors
+                                                    //                           .white,
+                                                    //                       fontSize: 10,
+                                                    //                       fontWeight:
+                                                    //                           FontWeight
+                                                    //                               .w600))),
+                                                    //         ),
+                                                    //       ]),
+                                                    // ),
+                                                    // //Comment section
+                                                    // Padding(
+                                                    //   padding:
+                                                    //       const EdgeInsets.symmetric(
+                                                    //           horizontal: 15.0),
+                                                    //   child: Column(
+                                                    //       crossAxisAlignment:
+                                                    //           CrossAxisAlignment.start,
+                                                    //       children: [
+                                                    //         RichText(
+                                                    //           text: const TextSpan(
+                                                    //               text: 'Daniel Cho',
+                                                    //               style: TextStyle(
+                                                    //                   color: Color(
+                                                    //                       0xff000000),
+                                                    //                   fontSize: 12,
+                                                    //                   fontWeight:
+                                                    //                       FontWeight
+                                                    //                           .w600),
+                                                    //               children: [
+                                                    //                 TextSpan(
+                                                    //                     text:
+                                                    //                         ' I love these',
+                                                    //                     style: TextStyle(
+                                                    //                         color: Color(
+                                                    //                             0xff000000),
+                                                    //                         fontSize:
+                                                    //                             12,
+                                                    //                         fontWeight:
+                                                    //                             FontWeight
+                                                    //                                 .w400))
+                                                    //               ]),
+                                                    //         ),
+                                                    //         RichText(
+                                                    //           text: const TextSpan(
+                                                    //               text: 'John Donny',
+                                                    //               style: TextStyle(
+                                                    //                   color: Color(
+                                                    //                       0xff000000),
+                                                    //                   fontSize: 12,
+                                                    //                   fontWeight:
+                                                    //                       FontWeight
+                                                    //                           .w600),
+                                                    //               children: [
+                                                    //                 TextSpan(
+                                                    //                     text:
+                                                    //                         ' @john david Can i get these for NGN 2000 ?',
+                                                    //                     style: TextStyle(
+                                                    //                         color: Color(
+                                                    //                             0xff000000),
+                                                    //                         fontSize:
+                                                    //                             12,
+                                                    //                         fontWeight:
+                                                    //                             FontWeight
+                                                    //                                 .w400))
+                                                    //               ]),
+                                                    //         )
+                                                    //       ]),
+                                                    // ),
+                                                    // Padding(
+                                                    //   padding:
+                                                    //       const EdgeInsets.symmetric(
+                                                    //           horizontal: 30.0),
+                                                    //   child: Container(
+                                                    //     height: 50,
+                                                    //     decoration: BoxDecoration(
+                                                    //       borderRadius:
+                                                    //           BorderRadius.circular(
+                                                    //               10.0), // Set the desired border radius
+                                                    //       border: Border.all(
+                                                    //         color: Colors.black,
+                                                    //         width: 1.0,
+                                                    //       ),
+                                                    //     ),
+                                                    //     child: Center(
+                                                    //       child: TextField(
+                                                    //         autofocus: false,
+                                                    //         decoration:
+                                                    //             const InputDecoration(
+                                                    //                 border:
+                                                    //                     OutlineInputBorder(),
+                                                    //                 hintText:
+                                                    //                     "Add a comment",
+                                                    //                 hintStyle: TextStyle(
+                                                    //                     color: Color(
+                                                    //                         0xff444444),
+                                                    //                     fontSize: 14,
+                                                    //                     fontWeight:
+                                                    //                         FontWeight
+                                                    //                             .w400)),
+                                                    //       ),
+                                                    //     ),
+                                                    //   ),
+                                                    // ),
+                                                    // if (index ==
+                                                    //     postController.postModel
+                                                    //             .data!.length -
+                                                    //         1) ...[
+                                                    //   CircularProgressIndicator(),
+                                                    //   sizeVer(
+                                                    //       MediaQuery.of(context)
+                                                    //               .size
+                                                    //               .height *
+                                                    //           0.15),
+                                                    // ],
+                                                    // sizeVer(10)
+                                                  ],
+                                                ),
+                                              ]);
+>>>>>>> parent of 542c8b7 (Merge branch 'main' into KingDavid)
+                                            }),
+=======
                                                 ),
                                                 SizedBox(
                                                   width: MediaQuery.of(context).size.width * 0.8,
@@ -480,6 +1269,7 @@ class _FeedsPageState extends State<FeedsPage> {
                                             );
                                           }
                                         ),
+>>>>>>> parent of 6841b15 (trying to fix bugs)
                                       ),
                                       sizeVer(10),
                                       !loading
