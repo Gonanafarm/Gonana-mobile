@@ -107,8 +107,11 @@ class _VerificationBvnState extends State<VerificationBvn> {
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
                               prefs.setBool('bvnSubmission', true);
-                              Get.to(() => HomePage(navIndex: 2));
-                              isLoading = false;
+                              Get.to(() => HomePage(navIndex: 3));
+                            } else {
+                              setState(() {
+                                isLoading = false;
+                              });
                             }
                           }
                         })
