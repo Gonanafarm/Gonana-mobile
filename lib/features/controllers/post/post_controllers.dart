@@ -258,9 +258,9 @@ class PostController extends GetxController {
       log('LikeResponse: $response && ${res.statusCode}');
       if (res.statusCode == 201) {
         return [true, true];
-      } else if(res.statusCode == 400) {
+      } else if (res.statusCode == 400) {
         return [false, true];
-      }else{
+      } else {
         return [false, false];
       }
     } catch (e, s) {

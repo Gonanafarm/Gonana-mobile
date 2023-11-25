@@ -19,7 +19,8 @@ class ApiRoute {
   static const otpVerification = "api/auth/verify-otp";
   static const resendOtp = "api/auth/resend-otp";
   static const updateProfile = "api/auth/update-profile";
-  static const resendActivationCredentials = "api/auth/resend-activation-credentials";
+  static const resendActivationCredentials =
+      "api/auth/resend-activation-credentials";
   static const me = "api/auth/me";
 
   // order urls

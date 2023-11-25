@@ -109,6 +109,10 @@ class _VerificationBvnState extends State<VerificationBvn> {
                               prefs.setBool('bvnSubmission', true);
                               Get.to(() => HomePage(navIndex: 2));
                               isLoading = false;
+                            } else {
+                              setState(() {
+                                isLoading = false;
+                              });
                             }
                           }
                         })

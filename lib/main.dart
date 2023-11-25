@@ -144,26 +144,29 @@ class _MyAppState extends State<MyApp> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Container(
-                decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
-                        colors: [Color(0xff29844B), Color(0xff003633)])),
-                child: Center(
-                  child: Container(
-                    // height: 150,
-                    // width: 150,
-                    child: Stack(
-                      alignment: AlignmentDirectional.center,
-                      children: [
-                        Center(child: Image.asset('assets/images/whit1.png')),
-                      ],
-                    ),
-                    // CircularProgressIndicator(
-                    //   color: Color.fromRGBO(41, 132, 75, 1),
-                    // )),
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [Color(0xff29844B), Color(0xff003633)]
+                  )
+                ),
+              child: Center(
+                child: Container(
+                  // height: 150,
+                  // width: 150,
+                  child: Stack(
+                    alignment: AlignmentDirectional.center,
+                    children: [
+                      Center(child: Image.asset('assets/images/whit1.png')),
+                    ],
                   ),
-                ));
+                  // CircularProgressIndicator(
+                  //   color: Color.fromRGBO(41, 132, 75, 1),
+                  // )),
+                ),
+              )
+            );
             // Show a loading indicator while waiting
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
@@ -190,16 +193,16 @@ class _MyAppState extends State<MyApp> {
             return GetMaterialApp(
               debugShowCheckedModeBanner: false,
               home: token != null && registrationStage == 5
-                  ? UpgradeAlert(child: HomePage(navIndex: 0))
-                  : token != null && registrationStage == 4
-                      ? const SetPasscode()
-                      : token != null && registrationStage == 3
-                          ? const AddProfilePhoto()
-                          : token != null && registrationStage == 2
-                              ? const Verification()
-                              : token != null && registrationStage == 1
-                                  ? const SignUp()
-                                  : const Splash1(),
+                ? UpgradeAlert(child: HomePage(navIndex: 0))
+                : token != null && registrationStage == 4
+                  ? const SetPasscode()
+                  : token != null && registrationStage == 3
+                    ? const AddProfilePhoto()
+                    : token != null && registrationStage == 2
+                      ? const Verification()
+                      : token != null && registrationStage == 1
+                        ? const SignUp()
+                        : const Splash1(),
               // home: Splash(),
             );
           }

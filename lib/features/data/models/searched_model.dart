@@ -51,9 +51,8 @@ class SearchProduct {
           ? []
           : List<Address>.from(
               json["address"]!.map((x) => Address.fromJson(x))),
-      location: json["location"] == null
-          ? null
-          : Location.fromJson(json["location"]),
+      location:
+          json["location"] == null ? null : Location.fromJson(json["location"]),
       categories: json["categories"] == null
           ? []
           : List<dynamic>.from(json["categories"]!.map((x) => x)),
@@ -78,30 +77,30 @@ class SearchProduct {
   }
 
   Map<String, dynamic> toJson() => {
-    "_id": id,
-    "self_shipping": selfShipping,
-    "address": address == null
-        ? []
-        : List<dynamic>.from(address!.map((x) => x.toJson())),
-    "location": location?.toJson(),
-    "categories": categories == null
-        ? []
-        : List<dynamic>.from(categories!.map((x) => x)),
-    "weight": weight,
-    "quantity": quantity,
-    "amount": amount,
-    "tags": tags == null ? [] : List<dynamic>.from(tags!.map((x) => x)),
-    "body": body,
-    "images":
-        images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
-    "title": title,
-    "type": type,
-    "publisher_id": publisherId,
-    "created_at": createdAt,
-    "updated_at": updatedAt,
-    "__v": v,
-    "id": ProductId,
-  };
+        "_id": id,
+        "self_shipping": selfShipping,
+        "address": address == null
+            ? []
+            : List<dynamic>.from(address!.map((x) => x.toJson())),
+        "location": location?.toJson(),
+        "categories": categories == null
+            ? []
+            : List<dynamic>.from(categories!.map((x) => x)),
+        "weight": weight,
+        "quantity": quantity,
+        "amount": amount,
+        "tags": tags == null ? [] : List<dynamic>.from(tags!.map((x) => x)),
+        "body": body,
+        "images":
+            images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
+        "title": title,
+        "type": type,
+        "publisher_id": publisherId,
+        "created_at": createdAt,
+        "updated_at": updatedAt,
+        "__v": v,
+        "id": ProductId,
+      };
 }
 
 class Address {

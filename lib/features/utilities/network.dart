@@ -49,8 +49,8 @@ class NetworkApi {
           responseType: ResponseType.plain,
         ),
       );
-      log('${responseBody.data}');
-      log('${responseBody.statusCode}');
+      print(responseBody.data);
+      print(responseBody.statusCode);
       return responseBody.data;
     }
   }
