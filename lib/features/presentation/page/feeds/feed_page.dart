@@ -319,125 +319,83 @@ class _FeedsPageState extends State<FeedsPage> {
                                     children: [
                                       Expanded(
                                         child: ListView.builder(
-<<<<<<< HEAD
-                                            controller: scrollController,
-                                            itemCount: postController
-                                                .postModel.data!.length,
-                                            // itemCount: postModel.body!.length,
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              final reversedIndex =
-                                                  (postController.postModel!
-                                                              .data!.length -
-                                                          1) -
-                                                      index;
-<<<<<<< HEAD
-                                              return Column(
-                                                children: [
-                                                  SizedBox(
-                                                    //Posters name and profile pic
-                                                    // height: 40,
-                                                    child: ListTile(
-                                                      contentPadding:
-                                                          const EdgeInsets
-                                                              .symmetric(
-                                                              horizontal: 15.0),
-                                                      leading: postController
-                                                                  .postModel
-                                                                  .data?[index]
-                                                                  ?.ownerPhoto
-                                                                  ?.isEmpty ??
-                                                              true
-                                                          ? Container(
-                                                              height: 30,
-                                                              width: 30,
-                                                              child: ClipOval(
-                                                                child: getImageWidget(postController
-                                                                        .postModel
-                                                                        .data?[
-                                                                            index]
-                                                                        ?.ownerPhoto ??
-                                                                    ''),
-=======
                                           controller: scrollController,
                                           itemCount: postController.postModel.data!.length,
                                           // itemCount: postModel.body!.length,
                                           itemBuilder: (BuildContext context, int index) {
                                             final reversedIndex = (postController.postModel!.data!.length - 1) - index;
-                                            return Column(
-                                              children: [
-                                                SizedBox(
-                                                  //Posters name and profile pic
-                                                  // height: 40,
-                                                  child: ListTile(
-                                                    contentPadding: const EdgeInsets.symmetric( horizontal: 15.0),
-                                                    leading: postController.postModel.data?[index] ?.ownerPhoto?.isEmpty ?? true
-                                                      ? Container(
-                                                          height: 30,
-                                                          width: 30,
-                                                          child: ClipOval(
-                                                            child: getImageWidget(postController.postModel.data?[index]?.ownerPhoto ?? ''),
-                                                          ),
-                                                        )
-                                                      : Container(
-                                                          height: 30,
-                                                          width: 30,
-                                                          child: ClipOval(
-                                                            child: FadeInImage(
-                                                              fit: BoxFit.cover,
-                                                              image: NetworkImage(
-                                                                postController.postModel.data?[index]?.ownerPhoto ?? '',
->>>>>>> parent of 6841b15 (trying to fix bugs)
-                                                              ),
-                                                              placeholder: const AssetImage( "assets/images/gonanas_profile.png"),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                    title: Row(
-                                                      children: [
-<<<<<<< HEAD
-                                                        RichText(
-                                                          text: TextSpan(
-                                                            text: postController
-                                                                        .postModel
-                                                                        .data![
-                                                                            index]
-                                                                        .product!
-                                                                        .body!
-                                                                        .isEmpty ||
-                                                                    // ignore: unnecessary_null_comparison
-                                                                    postController.postModel.data![
-                                                                            index] ==
-                                                                        null ||
-                                                                    postController
-                                                                            .postModel ==
-                                                                        null
-                                                                ? " "
-                                                                : postController
-                                                                    .postModel
-                                                                    .data![
-                                                                        index]
-                                                                    .product!
-                                                                    .body,
-                                                            style: const TextStyle(
-                                                                fontSize: 14,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                color: Colors
-                                                                    .black),
-                                                            children: const <TextSpan>[
-                                                              TextSpan(
-                                                                  text: '',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400,
-                                                                    color: Color(
-                                                                        0xff29844B),
-                                                                  )),
-=======
+//                                             return Column(
+//                                               children: [
+//                                                 SizedBox(
+//                                                   //Posters name and profile pic
+//                                                   // height: 40,
+//                                                   child: ListTile(
+//                                                     contentPadding: const EdgeInsets.symmetric( horizontal: 15.0),
+//                                                     leading: postController.postModel.data?[index] ?.ownerPhoto?.isEmpty ?? true
+//                                                       ? Container(
+//                                                           height: 30,
+//                                                           width: 30,
+//                                                           child: ClipOval(
+//                                                             child: getImageWidget(postController.postModel.data?[index]?.ownerPhoto ?? ''),
+//                                                           ),
+//                                                         )
+//                                                       : Container(
+//                                                           height: 30,
+//                                                           width: 30,
+//                                                           child: ClipOval(
+//                                                             child: FadeInImage(
+//                                                               fit: BoxFit.cover,
+//                                                               image: NetworkImage(
+//                                                                 postController.postModel.data?[index]?.ownerPhoto ?? '',
+//                                                               ),
+//                                                               placeholder: const AssetImage( "assets/images/gonanas_profile.png"),
+//                                                             ),
+//                                                           ),
+//                                                         ),
+//                                                     title: Row(
+//                                                       children: [
+//                                                         RichText(
+//                                                           text: TextSpan(
+//                                                             text: postController
+//                                                                         .postModel
+//                                                                         .data![
+//                                                                             index]
+//                                                                         .product!
+//                                                                         .body!
+//                                                                         .isEmpty ||
+//                                                                     // ignore: unnecessary_null_comparison
+//                                                                     postController.postModel.data![
+//                                                                             index] ==
+//                                                                         null ||
+//                                                                     postController
+//                                                                             .postModel ==
+//                                                                         null
+//                                                                 ? " "
+//                                                                 : postController
+//                                                                     .postModel
+//                                                                     .data![
+//                                                                         index]
+//                                                                     .product!
+//                                                                     .body,
+//                                                             style: const TextStyle(
+//                                                                 fontSize: 14,
+//                                                                 fontWeight:
+//                                                                     FontWeight
+//                                                                         .w400,
+//                                                                 color: Colors
+//                                                                     .black),
+//                                                             children: const <TextSpan>[
+//                                                               TextSpan(
+//                                                                   text: '',
+//                                                                   style:
+//                                                                       TextStyle(
+//                                                                     fontWeight:
+//                                                                         FontWeight
+//                                                                             .w400,
+//                                                                     color: Color(
+//                                                                         0xff29844B),
+//                                                                   )),
+// =======
                                               return Column(children: [
                                                 SizedBox(
                                                   // height: 40,
@@ -510,19 +468,6 @@ class _FeedsPageState extends State<FeedsPage> {
                                                               //           FontWeight
                                                               //               .w400),
                                                               // )
->>>>>>> parent of 542c8b7 (Merge branch 'main' into KingDavid)
-=======
-                                                        Flexible(
-                                                          child: Column(
-                                                            mainAxisAlignment:MainAxisAlignment.spaceEvenly,
-                                                            children: [
-                                                              Text( postController.postModel.data![index].ownerName!,
-                                                                style: const TextStyle(
-                                                                  fontSize: 16,
-                                                                  fontWeight: FontWeight.w600
-                                                                ),
-                                                              ),
->>>>>>> parent of 6841b15 (trying to fix bugs)
                                                             ],
                                                           ),
                                                         ),
@@ -547,8 +492,6 @@ class _FeedsPageState extends State<FeedsPage> {
                                                     //   child: Icon(Icons.more_horiz),
                                                     // ),
                                                   ),
-<<<<<<< HEAD
-<<<<<<< HEAD
                                                   SizedBox(
                                                       width:
                                                           MediaQuery.of(context)
@@ -634,7 +577,6 @@ class _FeedsPageState extends State<FeedsPage> {
                                                                         true) {
                                                                   log('product was already LIKED');
                                                                   var unlike = await postController.unlikePost(postController
-=======
                                                 ),
                                                 Padding(
                                                   padding:
