@@ -7,11 +7,8 @@ import 'package:get/get.dart';
 import 'package:gonana/features/controllers/fiat_wallet/transaction_controller.dart';
 import 'package:gonana/features/controllers/market/market_controllers.dart';
 import 'package:gonana/features/presentation/page/market/hot_deals_item.dart';
-<<<<<<< HEAD
-import 'package:gonana/features/presentation/page/market/orders.dart';
+// import 'package:gonana/features/presentation/page/market/orders.dart';
 import 'package:gonana/features/presentation/page/market/searchedProducts.dart';
-=======
->>>>>>> parent of 0df386b (update)
 import 'package:gonana/features/presentation/page/messages/message.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -166,10 +163,9 @@ class _MarketPageState extends State<MarketPage> {
                                 child: Stack(
                                   children: [
                                     SvgPicture.asset(
-                                      height: 40,
-                                      width: 40,
-                                      "assets/svgs/cart.svg"
-                                    ),
+                                        height: 40,
+                                        width: 40,
+                                        "assets/svgs/cart.svg"),
                                     Positioned(
                                       bottom: 0,
                                       right: 0,
@@ -186,22 +182,21 @@ class _MarketPageState extends State<MarketPage> {
                                             child: Obx(() {
                                               return Text(
                                                 cartController
-<<<<<<< HEAD
                                                             .cartModel!
                                                             .value
                                                             .products!
                                                             .isNotEmpty ||
                                                         cartController
                                                                 .cartModel !=
+                                                            null ||
+                                                        cartController
+                                                            .cartModel!
+                                                            .value
+                                                            .products!
+                                                            .isNotEmpty ||
+                                                        cartController
+                                                                .cartModel! ==
                                                             null
-=======
-                                                  .cartModel!
-                                                  .value
-                                                  .products!
-                                                  .isNotEmpty || cartController
-                                                      .cartModel! ==
-                                                  null
->>>>>>> parent of 0df386b (update)
                                                     ? "${cartController.cartModel!.value.products!.length}"
                                                     : "",
                                                 style: const TextStyle(
@@ -221,7 +216,6 @@ class _MarketPageState extends State<MarketPage> {
                         ),
                         sizeVer(15.0),
                         SearchWidget(
-<<<<<<< HEAD
                           controller: searchController,
                           onChanged: (String sumn) async {
                             var search = await marketController
@@ -234,12 +228,10 @@ class _MarketPageState extends State<MarketPage> {
                               searchController.clear();
                             }
                           },
-=======
-                          controller: _searchController,
-                          onSubmitted: (searchItem){
-                            marketController.searchProduct(searchItem);
-                          }
->>>>>>> parent of 0df386b (update)
+                          // controller: _searchController,
+                          // onSubmitted: (searchItem){
+                          //   marketController.searchProduct(searchItem);
+                          // }
                         ),
                         sizeVer(10.0),
                         marketController.discountMarketModel?.data!.length == 0
@@ -253,10 +245,9 @@ class _MarketPageState extends State<MarketPage> {
                                     const Text(
                                       "Hot Deals",
                                       style: TextStyle(
-                                        fontSize: 25.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: secondaryColor
-                                      ),
+                                          fontSize: 25.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: secondaryColor),
                                     ),
                                     sizeHor(10.0),
                                     const Icon(
