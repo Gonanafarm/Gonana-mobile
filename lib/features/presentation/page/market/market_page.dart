@@ -483,6 +483,11 @@ class _HotDealsCardState extends State<HotDealsCard> {
                           marketController.discountMarketModel!
                               .data![widget.index].images![0],
                           fit: BoxFit.cover,
+                          errorBuilder: (BuildContext context, Object error,
+                              StackTrace? stackTrace) {
+                            // Handle the error, log it, or show a placeholder image.
+                            return Center(child: const Icon(Icons.error));
+                          },
                         ),
                       )
                     : Container(), // Handle the case where data is empty or images are missing
@@ -613,7 +618,8 @@ class _BuyNowCardState extends State<BuyNowCard> {
                           child: Image.network(
                             width: 115,
                             height: 103,
-                            // "http://res.cloudinary.com/du63jingj/image/upload/c_scale,q_auto:eco,w_800/v1698614671/images/nl5kgna1famwsiffdoqs.jpg",
+                            // "https://source.unsplash.com/user/c_v_r/1900×800",
+                            // "https://res.cloudinary.com/du63jingj/image/upload/v1697752060/images/pjn8swen9si14vrlcr01.jpg",
                             "${marketController.marketModel.value.data![widget.index].product!.images![0]}",
                             fit: BoxFit.cover,
                             errorBuilder: (BuildContext context, Object error,
