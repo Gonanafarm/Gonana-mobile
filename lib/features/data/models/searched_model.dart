@@ -1,5 +1,6 @@
-import 'dart:convert';
+import 'package:json_annotation/json_annotation.dart';
 
+@JsonSerializable()
 class SearchProduct {
   String? id;
   bool? selfShipping;
@@ -18,7 +19,7 @@ class SearchProduct {
   String? createdAt;
   String? updatedAt;
   int? v;
-  String? ProductId;
+  String? productId;
 
   SearchProduct({
     this.id,
@@ -38,39 +39,29 @@ class SearchProduct {
     this.createdAt,
     this.updatedAt,
     this.v,
-    this.ProductId,
+    this.productId,
   });
 
   SearchProduct fromJson(Map<String, dynamic> json) {
     return SearchProduct(
       id: json["_id"],
       selfShipping: json["self_shipping"],
-      address: json["address"] == null
-          ? []
-          : List<Address>.from(
-              json["address"]!.map((x) => Address.fromJson(x))),
-      location:
-          json["location"] == null ? null : Location.fromJson(json["location"]),
-      categories: json["categories"] == null
-          ? []
-          : List<dynamic>.from(json["categories"]!.map((x) => x)),
+      address: json["address"] == null ? [] : List<Address>.from(json["address"]!.map((x) => Address.fromJson(x))),
+      location: json["location"] == null ? null : Location.fromJson(json["location"]),
+      categories: json["categories"] == null ? [] : List<dynamic>.from(json["categories"]!.map((x) => x)),
       weight: json["weight"],
       quantity: json["quantity"],
-      amount: json["amount"],
-      tags: json["tags"] == null
-          ? []
-          : List<dynamic>.from(json["tags"]!.map((x) => x)),
-      body: json["body"],
-      images: json["images"] == null
-          ? []
-          : List<String>.from(json["images"]!.map((x) => x)),
-      title: json["title"],
+      amount: json["product"]["amount"],
+      tags: json["tags"] == null ? []  : List<dynamic>.from(json["tags"]!.map((x) => x)),
+      body: json["product"]["body"],
+      images: json["product"]["images"] == null  ? []  : List<String>.from(json["product"]["images"].map((x) => x)),
+      title: json["product"]["title"],
       type: json["type"],
       publisherId: json["publisher_id"],
       createdAt: json["created_at"],
       updatedAt: json["updated_at"],
       v: json["__v"],
-      ProductId: json["id"],
+      productId: json["product"]["id"],
     );
   }
 
@@ -97,7 +88,7 @@ class SearchProduct {
         "created_at": createdAt,
         "updated_at": updatedAt,
         "__v": v,
-        "id": ProductId,
+        "id": productId,
       };
 }
 
