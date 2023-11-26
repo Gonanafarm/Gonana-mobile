@@ -476,7 +476,21 @@ class _FeedsPageState extends State<FeedsPage> {
                                                                   .postModel
                                                                   .data![index]
                                                                   .product!
-                                                                  .images![0])
+                                                                  .images![0],
+                                                              errorBuilder:
+                                                                  (BuildContext
+                                                                          context,
+                                                                      Object
+                                                                          error,
+                                                                      StackTrace?
+                                                                          stackTrace) {
+                                                                // Handle the error, log it, or show a placeholder image.
+                                                                return Center(
+                                                                    child: const Icon(
+                                                                        Icons
+                                                                            .error));
+                                                              },
+                                                            )
                                                           : Container()),
                                                   sizeVer(10),
                                                   Padding(

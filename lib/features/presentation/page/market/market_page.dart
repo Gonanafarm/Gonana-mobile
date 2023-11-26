@@ -445,6 +445,11 @@ class _HotDealsCardState extends State<HotDealsCard> {
                           marketController.discountMarketModel!
                               .data![widget.index].images![0],
                           fit: BoxFit.cover,
+                          errorBuilder: (BuildContext context, Object error,
+                              StackTrace? stackTrace) {
+                            // Handle the error, log it, or show a placeholder image.
+                            return Center(child: const Icon(Icons.error));
+                          },
                         ),
                       )
                     : Container(), // Handle the case where data is empty or images are missing

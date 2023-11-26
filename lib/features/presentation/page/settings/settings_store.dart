@@ -211,7 +211,20 @@ class _StoreState extends State<Store> {
                                                                   .images! !=
                                                               null
                                                       ? Image.network(
-                                                          "${marketController.userMarketModel!.data![index].images![0]}")
+                                                          "${marketController.userMarketModel!.data![index].images![0]}",
+                                                          errorBuilder:
+                                                              (BuildContext
+                                                                      context,
+                                                                  Object error,
+                                                                  StackTrace?
+                                                                      stackTrace) {
+                                                            // Handle the error, log it, or show a placeholder image.
+                                                            return Center(
+                                                                child: const Icon(
+                                                                    Icons
+                                                                        .error));
+                                                          },
+                                                        )
                                                       : Container()),
                                               Flexible(
                                                 child: Padding(

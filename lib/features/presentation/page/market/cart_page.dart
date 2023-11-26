@@ -441,6 +441,11 @@ class _CartCardState extends State<CartCard> {
                         cartController
                             .cartModel!.value.products![widget.index].image![0],
                         fit: BoxFit.cover,
+                        errorBuilder: (BuildContext context, Object error,
+                            StackTrace? stackTrace) {
+                          // Handle the error, log it, or show a placeholder image.
+                          return Center(child: const Icon(Icons.error));
+                        },
                       ),
                     )
                   : Container(),
