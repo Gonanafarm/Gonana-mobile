@@ -35,6 +35,7 @@ class _FeedsPageState extends State<FeedsPage> {
   UserController userController = Get.put(UserController());
   PostModel postModel = PostModel();
   CartController cartController = Get.put(CartController());
+  final TextEditingController commentController = TextEditingController();
   // @override
   // void initState() {
   //   super.initState();
@@ -43,11 +44,11 @@ class _FeedsPageState extends State<FeedsPage> {
   // }
 
   List storyList = [
-    MyStoryIcon(),
-    Story(),
-    EmptyStory(),
-    Story(),
-    Story(),
+    const MyStoryIcon(),
+    const Story(),
+    const EmptyStory(),
+    const Story(),
+    const Story(),
   ];
   String placeholderAssetName = 'assets/images/gonanas_profile.png';
   Widget getImageWidget(String imageUrl) {
@@ -188,7 +189,7 @@ class _FeedsPageState extends State<FeedsPage> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              Get.to(() => CartPage());
+                              Get.to(() => const CartPage());
                             },
                             child: Stack(
                               children: [
@@ -231,7 +232,7 @@ class _FeedsPageState extends State<FeedsPage> {
                     ],
                   ),
                 ),
-                Divider(
+                const Divider(
                   thickness: 1,
                 ),
                 Center(
@@ -247,7 +248,7 @@ class _FeedsPageState extends State<FeedsPage> {
                               (BVNisSubmited != null && BVNisSubmited!) || (userController.userModel != null &&
                                 userController.userModel.value.virtualAccountNumber != null &&
                                 userController.userModel.value.virtualAccountNumber!.isNotEmpty
-                              ) ? Container(height: 1) : WarningWidget(),
+                              ) ? Container(height: 1) : const WarningWidget(),
                               sizeVer(MediaQuery.of(context).size.height * 0.1),
                               Center(
                                 child: Column(
@@ -288,7 +289,7 @@ class _FeedsPageState extends State<FeedsPage> {
                                 (BVNisSubmited != null && BVNisSubmited!) ||
                                 (userController.userModel != null && userController.userModel.value.virtualAccountNumber != null &&
                                   userController.userModel.value.virtualAccountNumber!.isNotEmpty
-                                ) ? Container(height: 1) : WarningWidget(),
+                                ) ? Container(height: 1) : const WarningWidget(),
                                 Container(
                                   height: MediaQuery.of(context).size.height * 0.7,
                                   child: Column(
@@ -384,98 +385,197 @@ class _FeedsPageState extends State<FeedsPage> {
                                                 SizedBox(
                                                   width: MediaQuery.of(context).size.width * 0.8,
                                                   child: postController.postModel.data![index].product!.images!.isNotEmpty
-                                                      ? Image.network(
-                                                          postController.postModel.data![index].product!.images![0],
-                                                          errorBuilder:(BuildContext context, Object  error, StackTrace? stackTrace) {
-                                                            // Handle the error, log it, or show a placeholder image.
-                                                            return Center(
-                                                              child: const Icon(Icons.error)
-                                                            );
-                                                          },
-                                                        )
-                                                      : Container()),
+                                                    ? Image.network(
+                                                        postController.postModel.data![index].product!.images![0],
+                                                        errorBuilder:(BuildContext context, Object  error, StackTrace? stackTrace) {
+                                                          // Handle the error, log it, or show a placeholder image.
+                                                          return const Center(
+                                                            child: Icon(Icons.error)
+                                                          );
+                                                        },
+                                                      )
+                                                    : Container()),
                                                 sizeVer(10),
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
                                                   child: Row(
                                                     mainAxisAlignment:MainAxisAlignment.spaceBetween,
                                                     children: [
-                                                      InkWell(
-                                                        onTap: () async {
-                                                          try {
-                                                            var liked = await postController.likePost(
-                                                                postController.postModel.data![index].product!.id);
-                                                            if (liked[0] == true && liked[1] ==true) {
-                                                              setState(() {
-                                                                isPostLiked[index] = true;
-                                                              });
-                                                            } else if (liked[0] == false && liked[1] == true) {
-                                                              log('product was already LIKED');
-                                                              var unlike = await postController.unlikePost(postController.postModel.data![index].product!.id);
-                                                              if (unlike == true) {
-                                                                setState(() {
-                                                                  isPostLiked[index] = false;
-                                                                });
-                                                              } else {
-                                                                log('error at line 412 while unliking');
-                                                              }
-                                                            } else {
-                                                              log('error, post not liked');
-                                                            }
-                                                            log('PostID: ${postController.postModel.data![index].product!.id}');
-                                                            log('isPostLiked: $isPostLiked');
-                                                          } catch (e, s) {
-                                                            log('FeedspageLikeError: $e');
-                                                            log('FeedspageStack: $s');
-                                                          }
-                                                        },
-                                                        child: isPostLiked[index] == true
-                                                          ? SvgPicture
-                                                              .asset(
-                                                              'assets/svgs/favourite.svg',
-                                                              height: 24,
-                                                              width: 24,
-                                                            )
-                                                          : SvgPicture.asset(
-                                                              'assets/svgs/Heart.svg',
-                                                              height: 24,
-                                                              width: 24,
-                                                            )
-                                                          ),
+                                                      SizedBox(
+                                                        width: 90,
+                                                        child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                          children: [
+                                                            InkWell(
+                                                              onTap: () async {
+                                                                try {
+                                                                  var liked = await postController.likePost(
+                                                                    postController.postModel.data![index].product!.id);
+                                                                  if (liked[0] == true && liked[1] ==true) {
+                                                                    setState(() {
+                                                                      isPostLiked[index] = true;
+                                                                    });
+                                                                  } else if (liked[0] == false && liked[1] == true) {
+                                                                    log('product was already LIKED');
+                                                                    var unlike = await postController.unlikePost(postController.postModel.data![index].product!.id);
+                                                                    if (unlike == true) {
+                                                                      setState(() {
+                                                                        isPostLiked[index] = false;
+                                                                      });
+                                                                    } else {
+                                                                      log('error at line 412 while unliking');
+                                                                    }
+                                                                  } else {
+                                                                    log('error, post not liked');
+                                                                  }
+                                                                  log('PostID: ${postController.postModel.data![index].product!.id}');
+                                                                  log('isPostLiked: $isPostLiked');
+                                                                } catch (e, s) {
+                                                                  log('FeedspageLikeError: $e');
+                                                                  log('FeedspageStack: $s');
+                                                                }
+                                                              },
+                                                              child: isPostLiked[index] == true ? 
+                                                                SvgPicture.asset(
+                                                                  'assets/svgs/favourite.svg',
+                                                                  height: 24,
+                                                                  width: 24,
+                                                                ): 
+                                                                SvgPicture.asset(
+                                                                  'assets/svgs/Heart.svg',
+                                                                  height: 24,
+                                                                  width: 24,
+                                                                )
+                                                            ),
+                                                            InkWell(
+                                                              onTap: (){
+
+                                                              },
+                                                              child: SvgPicture.asset(
+                                                                'assets/svgs/emails_messages_icon.svg',
+                                                                height: 24,
+                                                                width: 24
+                                                              )
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      //Visit Store button
                                                       SizedBox(
                                                         height: 30,
                                                         width: 92.5,
                                                         child: ElevatedButton(
-                                                            style: ElevatedButton.styleFrom(
-                                                              backgroundColor: Color(0xff29844B),
-                                                              shape:RoundedRectangleBorder(
-                                                                borderRadius: BorderRadius.circular(5.0),
-                                                              ),
+                                                          style: ElevatedButton.styleFrom(
+                                                            backgroundColor: const Color(0xff29844B),
+                                                            shape:RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius.circular(5.0),
                                                             ),
-                                                            onPressed: () async {
-                                                              bool created = false;
-                                                              created = await postController.getPostsById(
-                                                                postController.postModel.data![index].ownerId,"product"
-                                                              );
-                                                              log("${postController.postModel.data![index].ownerId}");
-                                                              if (created) {
-                                                                log("${postController.idPostModel!.data!.length}");
-                                                                Get.to(() => const UserStore());
-                                                              }
-                                                            },
-                                                            child: const Text(
-                                                              'Visit Store',
-                                                              style: TextStyle(
-                                                                color: Colors.white,
-                                                                fontSize: 10,
-                                                                fontWeight: FontWeight.w600
-                                                              )
-                                                            )
                                                           ),
+                                                          onPressed: () async {
+                                                            bool created = false;
+                                                            created = await postController.getPostsById(
+                                                              postController.postModel.data![index].ownerId,"product"
+                                                            );
+                                                            log("${postController.postModel.data![index].ownerId}");
+                                                            if (created) {
+                                                              log("${postController.idPostModel!.data!.length}");
+                                                              Get.to(() => const UserStore());
+                                                            }
+                                                          },
+                                                          child: const Text(
+                                                            'Visit Store',
+                                                            style: TextStyle(
+                                                              color: Colors.white,
+                                                              fontSize: 10,
+                                                              fontWeight: FontWeight.w600
+                                                            )
+                                                          )
+                                                        ),
                                                       ),
                                                     ],
                                                   ),
                                                 ),
+                                                SizedBox(
+                                                  height: 45,
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                    child: Column(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            const Text('Daniel Cho',
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                fontWeight: FontWeight.w700
+                                                              )
+                                                            ),
+                                                            sizeHor(8),
+                                                            const Text('I love these',
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                fontWeight: FontWeight.w400
+                                                              )
+                                                            )
+                                                          ],
+                                                        ),
+                                                        Row( 
+                                                          children: [
+                                                            const Text('Doe Johnny',
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                fontWeight: FontWeight.w700
+                                                              )
+                                                            ),
+                                                            sizeHor(8),
+                                                            const Text('Me too',
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                fontWeight: FontWeight.w400
+                                                              )
+                                                            )
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                  )
+                                                ),
+                                                SizedBox(
+                                                  width: 342,
+                                                  //height: 43,
+                                                  child: TextField(
+                                                    // expands: true,
+                                                    // minLines: null,
+                                                    // maxLines: null,
+                                                    
+                                                    controller: commentController,
+                                                    decoration:  InputDecoration(
+                                                      suffixIcon: InkWell(
+                                                        onTap: (){
+                                                          log("Commentted");
+                                                        },
+                                                        child: const Text('Post',
+                                                          style: TextStyle(
+                                                            color: greenColor,
+                                                          )
+                                                        )
+                                                      ),
+                                                      hintText: 'Add a comment',
+                                                      enabledBorder: const OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                          width: 1, color: Colors.black
+                                                        ), 
+                                                      ),
+                                                      focusedBorder: const OutlineInputBorder( //<-- SEE HERE
+                                                        borderSide: BorderSide(
+                                                          width: 2, 
+                                                          color: greenColor
+                                                        ), 
+                                                      ),
+                                                    )
+                                                  ),
+                                                ),
+                                                const Divider()
                                               ],
                                             );
                                           }
@@ -541,14 +641,14 @@ class EmptyStory extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => StoryView());
+        Get.to(() => const StoryView());
       },
       child: Container(
         height: 67,
         width: 67,
         decoration: BoxDecoration(
           border: Border.all(
-            color: Color(0xff29844B),
+            color: const Color(0xff29844B),
             width: 1,
           ),
           borderRadius: BorderRadius.circular(5),
@@ -565,14 +665,14 @@ class Story extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => StoryView());
+        Get.to(() => const StoryView());
       },
       child: Container(
         height: 67,
         width: 67,
         decoration: BoxDecoration(
           border: Border.all(
-            color: Color(0xff29844B),
+            color: const Color(0xff29844B),
             width: 1,
           ),
           borderRadius: BorderRadius.circular(5),

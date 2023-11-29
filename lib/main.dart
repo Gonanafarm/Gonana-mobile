@@ -105,7 +105,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     getToken();
-    setState(() {
+    setState(() { 
       // postController.getPosts();
       fetchData = detailsController.getUserDetails();
     });
