@@ -31,6 +31,7 @@ class ApiRoute {
   static const getPosts = "api/catalog/posts?type=post";
   static const likePost = "api/catalog/posts/like";
   static const unlikePost = "api/catalog/posts/unlike";
+  static const comment = "api/catalog/posts/comment" ;
 
   // static const getProducts = "api/catalog/posts?$page=1&limit=2&type=product";
   static const getUserProduct = "api/catalog/posts/user-products?type=product";
