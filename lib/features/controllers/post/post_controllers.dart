@@ -109,7 +109,7 @@ class PostController extends GetxController {
           "api/catalog/posts?type=post&page=$postPage&limit=$postLimit");
       final response = jsonDecode(res.body);
       postModel = FeedsModel.feedsModelFromJson(res.body);
-      print("posts got here || $response");
+      log("posts got here || $response");
       return true;
     } catch (e) {
       print(e);
@@ -284,6 +284,26 @@ class PostController extends GetxController {
       log('CommentError: $e');
       log('CommentErrorStack: $s');
       return false;
+    }
+  }
+
+  getCommentsForPost(
+    String postId
+  ) async{
+    try{
+      var res = await NetworkApi().authGetData("${ApiRoute.getComments}/$getPostModel");
+      var response = jsonDecode(res.body);
+      log("CommentResponse: $response && statcode: ${res.statusCode}");
+      if(res.statusCode == 200){
+        
+        return true;
+      }else{
+
+        return false;
+      }
+    }catch(e,s){
+      log("getCommentsForPostError: $e");
+      log("getCommentsForPostStacck: $s");
     }
   }
 }

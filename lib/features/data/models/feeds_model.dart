@@ -5,7 +5,7 @@
 import 'dart:convert';
 
 FeedsModel feedsModelFromJson(String str) =>
-    FeedsModel.fromJson(json.decode(str));
+  FeedsModel.fromJson(json.decode(str));
 
 String feedsModelToJson(FeedsModel data) => json.encode(data.toJson());
 
@@ -19,18 +19,18 @@ class FeedsModel {
   });
 
   factory FeedsModel.fromJson(Map<String, dynamic> json) => FeedsModel(
-        success: json["success"],
-        data: json["data"] == null
-            ? []
-            : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
-      );
+    success: json["success"],
+    data: json["data"] == null
+      ? []
+      : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+  );
 
   Map<String, dynamic> toJson() => {
-        "success": success,
-        "data": data == null
-            ? []
-            : List<dynamic>.from(data!.map((x) => x.toJson())),
-      };
+    "success": success,
+    "data": data == null
+      ? []
+      : List<dynamic>.from(data!.map((x) => x.toJson())),
+  };
 }
 
 class Datum {
@@ -38,28 +38,31 @@ class Datum {
   String? ownerId;
   String? ownerPhoto;
   String? ownerName;
+  List<dynamic>? comments;
 
   Datum({
     this.product,
     this.ownerId,
     this.ownerPhoto,
     this.ownerName,
+    this.comments
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        product:
-            json["product"] == null ? null : Product.fromJson(json["product"]),
-        ownerId: json["ownerId"],
-        ownerPhoto: json["ownerPhoto"],
-        ownerName: json["ownerName"],
-      );
+    product: json["product"] == null ? null : Product.fromJson(json["product"]),
+    ownerId: json["ownerId"],
+    ownerPhoto: json["ownerPhoto"],
+    ownerName: json["ownerName"],
+    comments: json["comments"]
+  );
 
   Map<String, dynamic> toJson() => {
-        "product": product?.toJson(),
-        "ownerId": ownerId,
-        "ownerPhoto": ownerPhoto,
-        "ownerName": ownerName,
-      };
+    "product": product?.toJson(),
+    "ownerId": ownerId,
+    "ownerPhoto": ownerPhoto,
+    "ownerName": ownerName,
+    "comments": comments
+  };
 }
 
 class Product {

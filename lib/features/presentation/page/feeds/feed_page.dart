@@ -1,22 +1,15 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:gonana/features/controllers/post/post_controllers.dart';
 import 'package:gonana/features/data/models/post_model.dart';
-import 'package:gonana/features/presentation/page/feeds/comment_bottomsheet.dart';
-import 'package:gonana/features/presentation/page/feeds/share_post_bottomsheet.dart';
 import 'package:gonana/features/presentation/page/feeds/story_view.dart';
 import 'package:gonana/features/presentation/page/feeds/user_store.dart';
 import 'package:gonana/features/presentation/page/market/cart_page.dart';
-import 'package:gonana/features/presentation/widgets/posts_container.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../../consts.dart';
 import '../../../controllers/cart/cart_controller.dart';
 import '../../../controllers/user/user_controller.dart';
@@ -385,16 +378,17 @@ class _FeedsPageState extends State<FeedsPage> {
                                                 SizedBox(
                                                   width: MediaQuery.of(context).size.width * 0.8,
                                                   child: postController.postModel.data![index].product!.images!.isNotEmpty
-                                                    ? Image.network(
-                                                        postController.postModel.data![index].product!.images![0],
-                                                        errorBuilder:(BuildContext context, Object  error, StackTrace? stackTrace) {
-                                                          // Handle the error, log it, or show a placeholder image.
-                                                          return const Center(
-                                                            child: Icon(Icons.error)
-                                                          );
-                                                        },
-                                                      )
-                                                    : Container()),
+                                                  ? Image.network(
+                                                      postController.postModel.data![index].product!.images![0],
+                                                      errorBuilder:(BuildContext context, Object  error, StackTrace? stackTrace) {
+                                                        // Handle the error, log it, or show a placeholder image.
+                                                        return const Center(
+                                                          child: Icon(Icons.error)
+                                                        );
+                                                      },
+                                                    ) 
+                                                  : Container()
+                                                ),
                                                 sizeVer(10),
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
@@ -474,7 +468,8 @@ class _FeedsPageState extends State<FeedsPage> {
                                                           onPressed: () async {
                                                             bool created = false;
                                                             created = await postController.getPostsById(
-                                                              postController.postModel.data![index].ownerId,"product"
+                                                              postController.postModel.data![index].ownerId,
+                                                              "product"
                                                             );
                                                             log("${postController.postModel.data![index].ownerId}");
                                                             if (created) {
@@ -497,47 +492,14 @@ class _FeedsPageState extends State<FeedsPage> {
                                                 ),
                                                 SizedBox(
                                                   height: 45,
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                                    child: Column(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            const Text('Daniel Cho',
-                                                              style: TextStyle(
-                                                                fontSize: 12,
-                                                                fontWeight: FontWeight.w700
-                                                              )
-                                                            ),
-                                                            sizeHor(8),
-                                                            const Text('I love these',
-                                                              style: TextStyle(
-                                                                fontSize: 12,
-                                                                fontWeight: FontWeight.w400
-                                                              )
-                                                            )
-                                                          ],
-                                                        ),
-                                                        Row( 
-                                                          children: [
-                                                            const Text('Doe Johnny',
-                                                              style: TextStyle(
-                                                                fontSize: 12,
-                                                                fontWeight: FontWeight.w700
-                                                              )
-                                                            ),
-                                                            sizeHor(8),
-                                                            const Text('Me too',
-                                                              style: TextStyle(
-                                                                fontSize: 12,
-                                                                fontWeight: FontWeight.w400
-                                                              )
-                                                            )
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ),
+                                                  child: ListView.builder(
+                                                    itemCount: 2,
+                                                    itemBuilder: (BuildContext context, int index){
+                                                      return CommentWidget(
+                                                        userName: "Za Khiing",
+                                                        userComment:  postController.postModel.data![index].product!.comments![index]! ?? "Nuffin",
+                                                      );
+                                                    }
                                                   )
                                                 ),
                                                 SizedBox(
@@ -604,6 +566,37 @@ class _FeedsPageState extends State<FeedsPage> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class CommentWidget extends StatelessWidget {
+  final String userName;
+  final String userComment;
+  const CommentWidget({
+    super.key, 
+    required this.userName, 
+    required this.userComment,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const Text('Daniel Cho',
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w700
+          )
+        ),
+        sizeHor(8),
+        const Text('I love these',
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w400
+          )
+        )
+      ],
     );
   }
 }

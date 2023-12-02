@@ -8,7 +8,7 @@ PostModel postModelFromJson(String str) => PostModel.fromJson(json.decode(str));
 
 String postModelToJson(PostModel data) => json.encode(data.toJson());
 
-class PostModel {
+class  PostModel {
   bool? success;
   List<Datum>? data;
 

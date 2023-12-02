@@ -12,6 +12,7 @@ class GetDetailsController extends GetxController {
   CartController cartController = Get.put(CartController());
   Future<bool> getPosts() async {
     var data = await postsController.getPosts();
+    //var data = await postsController.getCommentsForPost();
     print("initState() called posts");
     if (data != null) {
       return true;
