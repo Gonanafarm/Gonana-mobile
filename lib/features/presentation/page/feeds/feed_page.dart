@@ -580,34 +580,37 @@ class _FeedsPageState extends State<FeedsPage> {
       backgroundColor: const Color(0xffF9F9F9),
       builder: (BuildContext context){
         return SizedBox(
-          height: MediaQuery.of(context).size.height * 0.7,
+          height: MediaQuery.of(context).size.height * 0.5,
           child: Padding(
             padding: EdgeInsets.all(20.0), 
-            child: Column(
-              children: [
-                const Text('Comment',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Column(
+                children: [
+                  const Text('Comment',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    textAlign: TextAlign.center
                   ),
-                  textAlign: TextAlign.center
-                ),
-                Divider(),
-                Row(
-                  children: [
-                    TextField(),
-                    SizedBox(
-                      height: 25,
-                      width: 25,
-                      child: ElevatedButton.icon(
-                        onPressed: (){}, 
-                        icon: const Icon(Icons.send), 
-                        label: const SizedBox()
-                      ),
-                    )
-                  ],
-                )
-              ],
+                  Divider(),
+                  Row(
+                    children: [
+                      TextField(),
+                      SizedBox(
+                        height: 25,
+                        width: 25,
+                        child: ElevatedButton.icon(
+                          onPressed: (){}, 
+                          icon: const Icon(Icons.send), 
+                          label: const SizedBox()
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
             )
           )
         );
