@@ -582,35 +582,48 @@ class _FeedsPageState extends State<FeedsPage> {
         return SizedBox(
           height: MediaQuery.of(context).size.height * 0.5,
           child: Padding(
-            padding: EdgeInsets.all(20.0), 
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: Column(
-                children: [
-                  const Text('Comment',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    textAlign: TextAlign.center
-                  ),
-                  Divider(),
-                  Row(
+            padding: const EdgeInsets.all(20.0), 
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Align(
+                  alignment: Alignment.topCenter,
+                  child: Column(
                     children: [
-                      TextField(),
-                      SizedBox(
-                        height: 25,
-                        width: 25,
+                      const Text('Comment',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        textAlign: TextAlign.center
+                      ),
+                      const Divider(),
+                    ],
+                  ),
+                ),
+                
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: 200,
+                      child: TextField()
+                    ),
+                    SizedBox(
+                      height: 35,
+                      width: 65,
+                      child: Container(
+                        color: Colors.green,
                         child: ElevatedButton.icon(
                           onPressed: (){}, 
                           icon: const Icon(Icons.send), 
                           label: const SizedBox()
                         ),
-                      )
-                    ],
-                  )
-                ],
-              ),
+                      ),
+                    )
+                  ],
+                )
+              ],
             )
           )
         );
