@@ -113,73 +113,72 @@ class Product {
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
-        id: json["_id"],
-        selfShipping: json["self_shipping"],
-        address: json["address"] == null
-            ? []
-            : List<Address>.from(
-                json["address"]!.map((x) => Address.fromJson(x))),
-        location: json["location"] == null
-            ? null
-            : Location.fromJson(json["location"]),
-        categories: json["categories"] == null
-            ? []
-            : List<dynamic>.from(json["categories"]!.map((x) => x)),
-        weight: json["weight"],
-        quantity: json["quantity"],
-        amount: json["amount"],
-        status: json["status"],
-        tags: json["tags"] == null
-            ? []
-            : List<dynamic>.from(json["tags"]!.map((x) => x)),
-        body: json["body"],
-        images: json["images"] == null
-            ? []
-            : List<String>.from(json["images"]!.map((x) => x)),
-        title: json["title"],
-        type: json["type"],
-        publisherId: json["publisher_id"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
-        v: json["__v"],
-        comments: json["comments"] == null
-            ? []
-            : List<dynamic>.from(json["comments"]!.map((x) => x)),
-        likes: json["likes"] == null
-            ? []
-            : List<String>.from(json["likes"]!.map((x) => x)),
-        productId: json["id"],
-      );
+    id: json["_id"],
+    selfShipping: json["self_shipping"],
+    address: json["address"] == null
+      ? []
+      : List<Address>.from(json["address"]!.map((x) => Address.fromJson(x))),
+    location: json["location"] == null
+      ? null
+      : Location.fromJson(json["location"]),
+    categories: json["categories"] == null
+      ? []
+      : List<dynamic>.from(json["categories"]!.map((x) => x)),
+    weight: json["weight"],
+    quantity: json["quantity"],
+    amount: json["amount"],
+    status: json["status"],
+    tags: json["tags"] == null
+      ? []
+      : List<dynamic>.from(json["tags"]!.map((x) => x)),
+    body: json["body"],
+    images: json["images"] == null
+      ? []
+      : List<String>.from(json["images"]!.map((x) => x)),
+    title: json["title"],
+    type: json["type"],
+    publisherId: json["publisher_id"],
+    createdAt: json["created_at"],
+    updatedAt: json["updated_at"],
+    v: json["__v"],
+    comments: json["comments"] == null
+      ? []
+      : List<dynamic>.from(json["comments"]!.map((x) => Comments.fromJson(x))),
+    likes: json["likes"] == null
+      ? []
+      : List<String>.from(json["likes"]!.map((x) => x)),
+    productId: json["id"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "_id": id,
-        "self_shipping": selfShipping,
-        "address": address == null
-            ? []
-            : List<dynamic>.from(address!.map((x) => x.toJson())),
-        "location": location?.toJson(),
-        "categories": categories == null
-            ? []
-            : List<dynamic>.from(categories!.map((x) => x)),
-        "weight": weight,
-        "quantity": quantity,
-        "amount": amount,
-        "status": status,
-        "tags": tags == null ? [] : List<dynamic>.from(tags!.map((x) => x)),
-        "body": body,
-        "images":
-            images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
-        "title": title,
-        "type": type,
-        "publisher_id": publisherId,
-        "created_at": createdAt,
-        "updated_at": updatedAt,
-        "__v": v,
-        "comments":
-            comments == null ? [] : List<dynamic>.from(comments!.map((x) => x)),
-        "likes": likes == null ? [] : List<dynamic>.from(likes!.map((x) => x)),
-        "id": productId,
-      };
+    "_id": id,
+    "self_shipping": selfShipping,
+    "address": address == null
+      ? []
+      : List<dynamic>.from(address!.map((x) => x.toJson())),
+    "location": location?.toJson(),
+    "categories": categories == null
+        ? []
+        : List<dynamic>.from(categories!.map((x) => x)),
+    "weight": weight,
+    "quantity": quantity,
+    "amount": amount,
+    "status": status,
+    "tags": tags == null ? [] : List<dynamic>.from(tags!.map((x) => x)),
+    "body": body,
+    "images":
+        images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
+    "title": title,
+    "type": type,
+    "publisher_id": publisherId,
+    "created_at": createdAt,
+    "updated_at": updatedAt,
+    "__v": v,
+    "comments":
+      comments == null ? [] : List<dynamic>.from(comments!.map((x) => x.toJson())),
+    "likes": likes == null ? [] : List<dynamic>.from(likes!.map((x) => x)),
+    "id": productId,
+  };
 }
 
 class Address {
@@ -192,14 +191,14 @@ class Address {
   });
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
-        address: json["address"],
-        code: json["code"],
-      );
+      address: json["address"],
+      code: json["code"],
+    );
 
   Map<String, dynamic> toJson() => {
-        "address": address,
-        "code": code,
-      };
+    "address": address,
+    "code": code,
+  };
 }
 
 class Location {
@@ -212,18 +211,38 @@ class Location {
   });
 
   factory Location.fromJson(Map<String, dynamic> json) => Location(
-        type: json["type"],
-        coordinates: json["coordinates"] == null
-            ? []
-            : List<double>.from(
-                json["coordinates"]!.map((x) => double.parse(x.toString())),
-              ),
-      );
+    type: json["type"],
+    coordinates: json["coordinates"] == null
+      ? []
+      : List<double>.from(
+          json["coordinates"]!.map((x) => double.parse(x.toString())),
+        ),
+  );
 
   Map<String, dynamic> toJson() => {
-        "type": type,
-        "coordinates": coordinates == null
-            ? []
-            : List<dynamic>.from(coordinates!.map((x) => x)),
-      };
+    "type": type,
+    "coordinates": coordinates == null
+      ? []
+      : List<dynamic>.from(coordinates!.map((x) => x)),
+  };
+}
+
+class Comments{
+  String? username;
+  String? comment;
+
+  Comments({
+    this.username,
+    this.comment
+  });
+
+  factory Comments.fromJson(Map<String, dynamic> json) => Comments(
+    username: json["username"],
+    comment: json["comment"]
+  );
+
+  Map<String, dynamic> toJson() => {
+    "username": username,
+    "comment" : comment
+  }; 
 }
