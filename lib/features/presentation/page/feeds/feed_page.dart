@@ -443,7 +443,7 @@ class _FeedsPageState extends State<FeedsPage> {
                                                             ),
                                                             InkWell(
                                                               onTap: (){
-
+                                                                _makeComment(context);
                                                               },
                                                               child: SvgPicture.asset(
                                                                 'assets/svgs/emails_messages_icon.svg',
