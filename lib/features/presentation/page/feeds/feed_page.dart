@@ -1,5 +1,6 @@
 // ignore_for_file: unnecessary_null_comparison
 
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -16,12 +17,14 @@ import 'package:gonana/features/presentation/page/market/cart_page.dart';
 import 'package:gonana/features/presentation/widgets/posts_container.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uni_links/uni_links.dart';
 
 import '../../../../consts.dart';
 import '../../../controllers/cart/cart_controller.dart';
 import '../../../controllers/user/user_controller.dart';
 import '../../widgets/warning_widget.dart';
 import 'create_post.dart';
+import 'package:flutter/services.dart' show PlatformException;
 
 class FeedsPage extends StatefulWidget {
   const FeedsPage({Key? key}) : super(key: key);
@@ -502,73 +505,96 @@ class _FeedsPageState extends State<FeedsPage> {
                                                           MainAxisAlignment
                                                               .spaceBetween,
                                                       children: [
-                                                        InkWell(
-                                                            onTap: () async {
-                                                              try {
-                                                                var liked = await postController.likePost(
-                                                                    postController
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            InkWell(
+                                                                onTap:
+                                                                    () async {
+                                                                  try {
+                                                                    var liked = await postController.likePost(postController
                                                                         .postModel
                                                                         .data![
                                                                             index]
                                                                         .product!
                                                                         .id);
-                                                                if (liked[0] ==
-                                                                        true &&
-                                                                    liked[1] ==
-                                                                        true) {
-                                                                  setState(() {
-                                                                    isPostLiked[
-                                                                            index] =
-                                                                        true;
-                                                                  });
-                                                                } else if (liked[
-                                                                            0] ==
-                                                                        false &&
-                                                                    liked[1] ==
-                                                                        true) {
-                                                                  log('product was already LIKED');
-                                                                  var unlike = await postController.unlikePost(postController
-                                                                      .postModel
-                                                                      .data![
-                                                                          index]
-                                                                      .product!
-                                                                      .id);
-                                                                  if (unlike ==
-                                                                      true) {
-                                                                    setState(
-                                                                        () {
-                                                                      isPostLiked[
-                                                                              index] =
-                                                                          false;
-                                                                    });
-                                                                  } else {
-                                                                    log('error at line 412 while unliking');
+                                                                    if (liked[0] ==
+                                                                            true &&
+                                                                        liked[1] ==
+                                                                            true) {
+                                                                      setState(
+                                                                          () {
+                                                                        isPostLiked[index] =
+                                                                            true;
+                                                                      });
+                                                                    } else if (liked[0] ==
+                                                                            false &&
+                                                                        liked[1] ==
+                                                                            true) {
+                                                                      log('product was already LIKED');
+                                                                      var unlike = await postController.unlikePost(postController
+                                                                          .postModel
+                                                                          .data![
+                                                                              index]
+                                                                          .product!
+                                                                          .id);
+                                                                      if (unlike ==
+                                                                          true) {
+                                                                        setState(
+                                                                            () {
+                                                                          isPostLiked[index] =
+                                                                              false;
+                                                                        });
+                                                                      } else {
+                                                                        log('error at line 412 while unliking');
+                                                                      }
+                                                                    } else {
+                                                                      log('error, post not liked');
+                                                                    }
+                                                                    log('PostID: ${postController.postModel.data![index].product!.id}');
+                                                                    log('isPostLiked: $isPostLiked');
+                                                                  } catch (e, s) {
+                                                                    log('FeedspageLikeError: $e');
+                                                                    log('FeedspageStack: $s');
                                                                   }
-                                                                } else {
-                                                                  log('error, post not liked');
-                                                                }
-                                                                log('PostID: ${postController.postModel.data![index].product!.id}');
-                                                                log('isPostLiked: $isPostLiked');
-                                                              } catch (e, s) {
-                                                                log('FeedspageLikeError: $e');
-                                                                log('FeedspageStack: $s');
-                                                              }
-                                                            },
-                                                            child: isPostLiked[
-                                                                        index] ==
-                                                                    true
-                                                                ? SvgPicture
-                                                                    .asset(
-                                                                    'assets/svgs/favourite.svg',
-                                                                    height: 24,
-                                                                    width: 24,
-                                                                  )
-                                                                : SvgPicture
-                                                                    .asset(
-                                                                    'assets/svgs/Heart.svg',
-                                                                    height: 24,
-                                                                    width: 24,
-                                                                  )),
+                                                                },
+                                                                child: isPostLiked[
+                                                                            index] ==
+                                                                        true
+                                                                    ? IconButton(
+                                                                        icon: Icon(
+                                                                            Icons
+                                                                                .favorite,
+                                                                            color:
+                                                                                Colors.red),
+                                                                        onPressed:
+                                                                            () {},
+                                                                      )
+                                                                    : SvgPicture
+                                                                        .asset(
+                                                                        'assets/svgs/Heart.svg',
+                                                                        height:
+                                                                            24,
+                                                                        width:
+                                                                            24,
+                                                                      )),
+                                                            sizeHor(10),
+                                                            InkWell(
+                                                              onTap: () {
+                                                                sharePost(
+                                                                    context);
+                                                              },
+                                                              child: SvgPicture
+                                                                  .asset(
+                                                                'assets/svgs/send_icon.svg',
+                                                                height: 24,
+                                                                width: 24,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
                                                         SizedBox(
                                                           height: 30,
                                                           width: 92.5,

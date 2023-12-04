@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:gonana/features/controllers/fiat_wallet/transaction_controller.dart';
 import 'package:gonana/features/controllers/market/market_controllers.dart';
 import 'package:gonana/features/presentation/page/market/hot_deals_item.dart';
+import 'package:gonana/features/presentation/page/market/orders.dart';
 import 'package:gonana/features/presentation/page/market/searchedProducts.dart';
 import 'package:gonana/features/presentation/page/messages/message.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
@@ -24,7 +25,6 @@ import '../../widgets/warning_widget.dart';
 import 'buy_now.dart';
 import 'cart_page.dart';
 import 'hot_deals.dart';
-
 
 GetDetailsController detailsController = Get.put(GetDetailsController());
 
@@ -141,16 +141,26 @@ class _MarketPageState extends State<MarketPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 15.0, vertical: 0.0
-                    ),
+                        horizontal: 15.0, vertical: 0.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15.0, vertical: 10.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Get.to(() => const Orders());
+                                },
+                                child: SvgPicture.asset(
+                                    height: 40,
+                                    width: 40,
+                                    "assets/svgs/order.svg"),
+                              ),
+                              sizeHor(10),
                               GestureDetector(
                                 onTap: () {
                                   Get.to(() => CartPage());
@@ -158,10 +168,9 @@ class _MarketPageState extends State<MarketPage> {
                                 child: Stack(
                                   children: [
                                     SvgPicture.asset(
-                                      height: 40,
-                                      width: 40,
-                                      "assets/svgs/cart.svg"
-                                    ),
+                                        height: 40,
+                                        width: 40,
+                                        "assets/svgs/cart.svg"),
                                     Positioned(
                                       bottom: 0,
                                       right: 0,
@@ -177,9 +186,16 @@ class _MarketPageState extends State<MarketPage> {
                                           child: Center(
                                             child: Obx(() {
                                               return Text(
-                                                cartController.cartModel!.value.products!.isNotEmpty || cartController.cartModel! == null
-                                                  ? "${cartController.cartModel!.value.products!.length}"
-                                                  : "",
+                                                cartController
+                                                            .cartModel!
+                                                            .value
+                                                            .products!
+                                                            .isNotEmpty ||
+                                                        cartController
+                                                                .cartModel! ==
+                                                            null
+                                                    ? "${cartController.cartModel!.value.products!.length}"
+                                                    : "",
                                                 style: const TextStyle(
                                                   color: primaryColor,
                                                 ),
@@ -198,23 +214,22 @@ class _MarketPageState extends State<MarketPage> {
                         sizeVer(15.0),
                         SearchWidget(
                           controller: searchController,
-                          onChanged: (String sumn) async{
-                            var search = await marketController.searchProduct(
-                              searchController.text
-                            );
-                            if(search.isNotEmpty){
+                          onChanged: (String sumn) async {
+                            var search = await marketController
+                                .searchProduct(searchController.text);
+                            if (search.isNotEmpty) {
                               Get.to(
-                                ()=> AllSearchedProducts(
-                                  searchResults: search,
-                                ), 
-                                arguments: {
-                                  "searchData": search,
-                                  "searchQuery": searchController.text
-                                }
-                              );
+                                  () => AllSearchedProducts(
+                                        searchResults: search,
+                                      ),
+                                  arguments: {
+                                    "searchData": search,
+                                    "searchQuery": searchController.text
+                                  });
                               searchController.clear();
-                            }else{
-                              ErrorSnackbar.show(context, "Sorry, no product matching your search");
+                            } else {
+                              ErrorSnackbar.show(context,
+                                  "Sorry, no product matching your search");
                             }
                           },
                         ),
@@ -230,10 +245,9 @@ class _MarketPageState extends State<MarketPage> {
                                     const Text(
                                       "Hot Deals",
                                       style: TextStyle(
-                                        fontSize: 25.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: secondaryColor
-                                      ),
+                                          fontSize: 25.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: secondaryColor),
                                     ),
                                     sizeHor(10.0),
                                     const Icon(
@@ -245,16 +259,25 @@ class _MarketPageState extends State<MarketPage> {
                                 ),
                               ),
                         SizedBox(
-                          height: marketController.discountMarketModel?.data!.length == 0
-                            ? 0
-                            : 190,
+                          height: marketController
+                                      .discountMarketModel?.data!.length ==
+                                  0
+                              ? 0
+                              : 190,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: marketController.discountMarketModel?.data?.length == 7
-                              ? 6
-                              : marketController.discountMarketModel?.data?.length ?? 0,
+                            itemCount: marketController
+                                        .discountMarketModel?.data?.length ==
+                                    7
+                                ? 6
+                                : marketController
+                                        .discountMarketModel?.data?.length ??
+                                    0,
                             itemBuilder: (context, index) {
-                              final reversedIndex = (marketController.discountMarketModel!.data!.length - 1) - index;
+                              final reversedIndex = (marketController
+                                          .discountMarketModel!.data!.length -
+                                      1) -
+                                  index;
                               return Padding(
                                 padding: const EdgeInsets.only(right: 10.0),
                                 child: HotDealsCard(
@@ -265,10 +288,13 @@ class _MarketPageState extends State<MarketPage> {
                           ),
                         ),
                         (BVNisSubmited != null && BVNisSubmited!) ||
-                          (userController.userModel != null &&
-                            userController.userModel.value.virtualAccountNumber != null &&
-                            userController.userModel.value.virtualAccountNumber!.isNotEmpty
-                          ) ? Container(height: 1)
+                                (userController.userModel != null &&
+                                    userController.userModel.value
+                                            .virtualAccountNumber !=
+                                        null &&
+                                    userController.userModel.value
+                                        .virtualAccountNumber!.isNotEmpty)
+                            ? Container(height: 1)
                             : WarningWidget(),
                         sizeVer(15),
                         marketController.marketModel.value.data!.isEmpty
@@ -277,7 +303,8 @@ class _MarketPageState extends State<MarketPage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    sizeVer(MediaQuery.of(context).size.height *0.1),
+                                    sizeVer(MediaQuery.of(context).size.height *
+                                        0.1),
                                     SvgPicture.asset(
                                       "assets/svgs/empty_product.svg",
                                       width: 189.71,
@@ -315,10 +342,9 @@ class _MarketPageState extends State<MarketPage> {
                                     Text(
                                       "Buy now",
                                       style: TextStyle(
-                                        fontSize: 25.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: secondaryColor
-                                      ),
+                                          fontSize: 25.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: secondaryColor),
                                     ),
                                   ],
                                 ),
@@ -326,9 +352,11 @@ class _MarketPageState extends State<MarketPage> {
                         sizeVer(15),
                         SizedBox(
                           // ignore: prefer_is_empty
-                          height: marketController.discountMarketModel?.data!.length == 0
-                            ? MediaQuery.of(context).size.height * 0.72
-                            : MediaQuery.of(context).size.height * 0.31,
+                          height: marketController
+                                      .discountMarketModel?.data!.length ==
+                                  0
+                              ? MediaQuery.of(context).size.height * 0.72
+                              : MediaQuery.of(context).size.height * 0.31,
                           child: Column(
                             children: [
                               Expanded(
@@ -339,33 +367,44 @@ class _MarketPageState extends State<MarketPage> {
                                   physics: const ScrollPhysics(
                                     parent: AlwaysScrollableScrollPhysics(),
                                   ),
-                                  itemCount: marketController.marketModel.value.data?.length ?? 0,
+                                  itemCount: marketController
+                                          .marketModel.value.data?.length ??
+                                      0,
                                   itemBuilder: (context, index) {
-                                    final reversedIndex = (marketController.marketModel.value.data!.length -1) - index;
+                                    final reversedIndex = (marketController
+                                                .marketModel
+                                                .value
+                                                .data!
+                                                .length -
+                                            1) -
+                                        index;
                                     return Padding(
-                                      padding: const EdgeInsets.only(right: 10.0),
+                                      padding:
+                                          const EdgeInsets.only(right: 10.0),
                                       child: BuyNowCard(
                                         index: index,
                                       ),
                                     );
                                   },
-                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 3, // Number of columns
-                                    mainAxisExtent: 140, // Maximum width of each item
+                                    mainAxisExtent:
+                                        140, // Maximum width of each item
                                     mainAxisSpacing: 30,
-                                    childAspectRatio: 11 / 13, // Width-to-height ratio of each item
+                                    childAspectRatio: 11 /
+                                        13, // Width-to-height ratio of each item
                                   ),
                                 ),
                               ),
                               !loading
-                              ? Container(height: 1)
-                              : const SizedBox(
-                                height: 30,
-                                width: 30,
-                                child: CircularProgressIndicator(
-                                  color: Color.fromRGBO(41, 132, 75, 1),
-                                )
-                              )
+                                  ? Container(height: 1)
+                                  : const SizedBox(
+                                      height: 30,
+                                      width: 30,
+                                      child: CircularProgressIndicator(
+                                        color: Color.fromRGBO(41, 132, 75, 1),
+                                      ))
                             ],
                           ),
                         ),

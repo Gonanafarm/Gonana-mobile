@@ -1,87 +1,21 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gonana/features/controllers/auth/get_details.dart';
 import 'package:gonana/features/controllers/cart/cart_controller.dart';
-import 'package:gonana/features/controllers/fiat_wallet/transaction_controller.dart';
-import 'package:gonana/features/presentation/page/feeds/create_post2.dart';
 import 'package:gonana/features/presentation/page/home.dart';
-import 'package:gonana/features/presentation/page/market/cart_page.dart';
-import 'package:gonana/features/presentation/page/savings/view_savings.dart';
-// import 'package:gonana/features/presentation/page/security/security.dart';
-import 'package:gonana/features/presentation/page/security/security.dart';
-import 'package:gonana/features/presentation/page/send/send_chart.dart';
-import 'package:gonana/features/presentation/page/settings/delete_account.dart';
-import 'package:gonana/features/presentation/page/store/store_edit_product.dart';
-import 'package:gonana/features/presentation/widgets/custom_tab_bar.dart';
-import 'package:gonana/features/presentation/widgets/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uni_links/uni_links.dart';
 import 'package:upgrader/upgrader.dart';
-
-import 'features/controllers/market/market_controllers.dart';
-import 'features/controllers/post/post_controllers.dart';
 import 'features/controllers/user/user_controller.dart';
 import 'features/presentation/page/auth/auth_passcode.dart';
 import 'features/presentation/page/auth/emailverification.dart';
-import 'features/presentation/page/auth/facial_recognition.dart';
-import 'features/presentation/page/auth/facial_capture.dart';
-import 'features/presentation/page/auth/forgotpassword.dart';
-import 'features/presentation/page/auth/number_verification_screen.dart';
-import 'features/presentation/page/fiat_wallet/register_bank.dart';
-import 'features/presentation/page/auth/setpassword.dart';
 import 'features/presentation/page/auth/auth_splash1.dart';
-import 'features/presentation/page/auth/sign_in_page.dart';
 import 'features/presentation/page/auth/sign_up_page.dart';
-import 'features/presentation/page/bank_account/add_bank_account.dart';
-import 'features/presentation/page/bank_account/add_card.dart';
-import 'features/presentation/page/bank_account/add_card_passcode.dart';
-import 'features/presentation/page/bank_account/bank_account.dart';
-import 'features/presentation/page/bank_account/confirm_card_details.dart';
-import 'features/presentation/page/crypto_pay/crypto_pay.dart';
-import 'features/presentation/page/feeds/feed_page.dart';
-import 'features/presentation/page/market/buy_now.dart';
-import 'features/presentation/page/market/delivery_modal.dart';
-import 'features/presentation/page/market/hot_deals.dart';
-import 'features/presentation/page/market/market_page.dart';
-import 'features/presentation/page/nextofkin/editnok.dart';
-import 'features/presentation/page/nextofkin/nextofkin.dart';
 import 'features/presentation/page/profile_photo/add_profile_photo1.dart';
-import 'features/presentation/page/referrals/referrals.dart';
-import 'features/presentation/page/savings/confirm_details.dart';
-import 'features/presentation/page/savings/savings_amount.dart';
-import 'features/presentation/page/savings/savings_details.dart';
-import 'features/presentation/page/savings/savings_duration.dart';
-import 'features/presentation/page/savings/savings_splash.dart';
-import 'features/presentation/page/savings/savings_withdrawal.dart';
-import 'features/presentation/page/security/confirm_changed_password.dart';
-import 'features/presentation/page/security/confirm_changed_pin.dart';
-import 'features/presentation/page/security/currency.dart';
-import 'features/presentation/page/security/reset_password.dart';
-import 'features/presentation/page/security/verify_changed_password.dart';
-import 'features/presentation/page/settings/edit_profile.dart';
-import 'features/presentation/page/settings/settiings_profile.dart';
-import 'features/presentation/page/settings/settings.dart';
-import 'features/presentation/page/settings/settings_details.dart';
-import 'features/presentation/page/staking/staking_earnings.dart';
-import 'features/presentation/page/staking/staking_splash.dart';
-import 'features/presentation/page/store/store_add_poduct.dart';
-import 'features/presentation/page/store/store_add_poduct2.dart';
-import 'features/presentation/page/store/store_confirm_screen.dart';
-import 'features/presentation/page/store/store_logistics.dart';
-import 'features/presentation/page/store/store_view-product.dart';
-import 'features/presentation/page/swap/passcode.dart';
-import 'features/presentation/page/swap/swap_page.dart';
-import 'features/presentation/page/verification/verification.dart';
-import 'features/presentation/page/verification/verification_bvn.dart';
-import 'features/presentation/page/verification/verification_drivers_license.dart';
-import 'features/presentation/page/verification/verification_international_passport.dart';
-import 'features/presentation/page/verification/verification_nin.dart';
-import 'features/presentation/page/verification/verification_voters_card.dart';
-import 'features/presentation/page/wallet/wallet_deposit.dart';
-import 'features/presentation/page/wallet/wallet_withdrawal.dart';
-import 'features/presentation/page/wallet/wallet_withdrawal_bank.dart';
-import 'features/presentation/page/market/address_courier.dart';
-import 'features/presentation/page/fiat_wallet/send_to_users.dart';
-import 'features/presentation/page/fiat_wallet/deposit.dart';
+import 'features/utilities/page_routes.dart';
+// import 'package:flutter/services.dart' show PlatformException;
 
 late Future<bool> fetchData;
 GetDetailsController detailsController = Get.put(GetDetailsController());
@@ -109,6 +43,7 @@ class _MyAppState extends State<MyApp> {
       // postController.getPosts();
       fetchData = detailsController.getUserDetails();
     });
+    // initUniLinks();
     setStage();
     Future.delayed(const Duration(seconds: 3), () {
       if (mounted) {
@@ -118,6 +53,30 @@ class _MyAppState extends State<MyApp> {
       }
     });
   }
+
+  // StreamSubscription? _sub;
+  //
+  // Future<void> initUniLinks() async {
+  //   // ... check initialLink
+  //
+  //   // Attach a listener to the stream
+  //   _sub = linkStream.listen((String? link) {
+  //     // Parse the link and warn the user, if it is not correct
+  //     if (link != null) {
+  //       print("Listener is working");
+  //       var uri = Uri.parse(link);
+  //       if (uri.queryParameters['id'] != null) {
+  //         print(uri.queryParameters['id'].toString());
+  //         Navigator.of(context).push(
+  //             MaterialPageRoute(builder: (context) => HomePage(navIndex: 2)));
+  //       }
+  //     }
+  //   }, onError: (err) {
+  //     // Handle exception by warning the user their action did not succeed
+  //   });
+  //
+  //   // NOTE: Don't forget to call _sub.cancel() in dispose()
+  // }
 
   int? registrationStage;
   setStage() async {
@@ -144,29 +103,26 @@ class _MyAppState extends State<MyApp> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Container(
-              decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [Color(0xff29844B), Color(0xff003633)]
-                  )
-                ),
-              child: Center(
-                child: Container(
-                  // height: 150,
-                  // width: 150,
-                  child: Stack(
-                    alignment: AlignmentDirectional.center,
-                    children: [
-                      Center(child: Image.asset('assets/images/whit1.png')),
-                    ],
+                decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.bottomLeft,
+                        colors: [Color(0xff29844B), Color(0xff003633)])),
+                child: Center(
+                  child: Container(
+                    // height: 150,
+                    // width: 150,
+                    child: Stack(
+                      alignment: AlignmentDirectional.center,
+                      children: [
+                        Center(child: Image.asset('assets/images/whit1.png')),
+                      ],
+                    ),
+                    // CircularProgressIndicator(
+                    //   color: Color.fromRGBO(41, 132, 75, 1),
+                    // )),
                   ),
-                  // CircularProgressIndicator(
-                  //   color: Color.fromRGBO(41, 132, 75, 1),
-                  // )),
-                ),
-              )
-            );
+                ));
             // Show a loading indicator while waiting
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
@@ -192,17 +148,18 @@ class _MyAppState extends State<MyApp> {
             print("token: $token");
             return GetMaterialApp(
               debugShowCheckedModeBanner: false,
+              getPages: getPages,
               home: token != null && registrationStage == 5
-                ? UpgradeAlert(child: HomePage(navIndex: 0))
-                : token != null && registrationStage == 4
-                  ? const SetPasscode()
-                  : token != null && registrationStage == 3
-                    ? const AddProfilePhoto()
-                    : token != null && registrationStage == 2
-                      ? const Verification()
-                      : token != null && registrationStage == 1
-                        ? const SignUp()
-                        : const Splash1(),
+                  ? UpgradeAlert(child: HomePage(navIndex: 0))
+                  : token != null && registrationStage == 4
+                      ? const SetPasscode()
+                      : token != null && registrationStage == 3
+                          ? const AddProfilePhoto()
+                          : token != null && registrationStage == 2
+                              ? const Verification()
+                              : token != null && registrationStage == 1
+                                  ? const SignUp()
+                                  : const Splash1(),
               // home: Splash(),
             );
           }
