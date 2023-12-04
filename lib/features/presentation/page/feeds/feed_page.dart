@@ -1,5 +1,6 @@
 // ignore_for_file: unnecessary_null_comparison
 
+import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,11 +11,13 @@ import 'package:gonana/features/presentation/page/feeds/story_view.dart';
 import 'package:gonana/features/presentation/page/feeds/user_store.dart';
 import 'package:gonana/features/presentation/page/market/cart_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uni_links/uni_links.dart';
 import '../../../../consts.dart';
 import '../../../controllers/cart/cart_controller.dart';
 import '../../../controllers/user/user_controller.dart';
 import '../../widgets/warning_widget.dart';
 import 'create_post.dart';
+import 'package:flutter/services.dart' show PlatformException;
 
 class FeedsPage extends StatefulWidget {
   const FeedsPage({Key? key}) : super(key: key);
@@ -342,6 +345,173 @@ class _FeedsPageState extends State<FeedsPage> {
                                                       ],
                                                     ),
                                                   ),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.8,
+                                                      child: postController
+                                                              .postModel
+                                                              .data![index]
+                                                              .product!
+                                                              .images!
+                                                              .isNotEmpty
+                                                          ? Image.network(
+                                                              postController
+                                                                  .postModel
+                                                                  .data![index]
+                                                                  .product!
+                                                                  .images![0],
+                                                              errorBuilder:
+                                                                  (BuildContext
+                                                                          context,
+                                                                      Object
+                                                                          error,
+                                                                      StackTrace?
+                                                                          stackTrace) {
+                                                                // Handle the error, log it, or show a placeholder image.
+                                                                return Center(
+                                                                    child: const Icon(
+                                                                        Icons
+                                                                            .error));
+                                                              },
+                                                            )
+                                                          : Container()),
+                                                  sizeVer(10),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            InkWell(
+                                                                onTap:
+                                                                    () async {
+                                                                  try {
+                                                                    var liked = await postController.likePost(postController
+                                                                        .postModel
+                                                                        .data![
+                                                                            index]
+                                                                        .product!
+                                                                        .id);
+                                                                    if (liked[0] ==
+                                                                            true &&
+                                                                        liked[1] ==
+                                                                            true) {
+                                                                      setState(
+                                                                          () {
+                                                                        isPostLiked[index] =
+                                                                            true;
+                                                                      });
+                                                                    } else if (liked[0] ==
+                                                                            false &&
+                                                                        liked[1] ==
+                                                                            true) {
+                                                                      log('product was already LIKED');
+                                                                      var unlike = await postController.unlikePost(postController
+                                                                          .postModel
+                                                                          .data![
+                                                                              index]
+                                                                          .product!
+                                                                          .id);
+                                                                      if (unlike ==
+                                                                          true) {
+                                                                        setState(
+                                                                            () {
+                                                                          isPostLiked[index] =
+                                                                              false;
+                                                                        });
+                                                                      } else {
+                                                                        log('error at line 412 while unliking');
+                                                                      }
+                                                                    } else {
+                                                                      log('error, post not liked');
+                                                                    }
+                                                                    log('PostID: ${postController.postModel.data![index].product!.id}');
+                                                                    log('isPostLiked: $isPostLiked');
+                                                                  } catch (e, s) {
+                                                                    log('FeedspageLikeError: $e');
+                                                                    log('FeedspageStack: $s');
+                                                                  }
+                                                                },
+                                                                child: isPostLiked[
+                                                                            index] ==
+                                                                        true
+                                                                    ? IconButton(
+                                                                        icon: Icon(
+                                                                            Icons
+                                                                                .favorite,
+                                                                            color:
+                                                                                Colors.red),
+                                                                        onPressed:
+                                                                            () {},
+                                                                      )
+                                                                    : SvgPicture
+                                                                        .asset(
+                                                                        'assets/svgs/Heart.svg',
+                                                                        height:
+                                                                            24,
+                                                                        width:
+                                                                            24,
+                                                                      )),
+                                                            sizeHor(10),
+                                                            InkWell(
+                                                              onTap: () {
+                                                                sharePost(
+                                                                    context);
+                                                              },
+                                                              child: SvgPicture
+                                                                  .asset(
+                                                                'assets/svgs/send_icon.svg',
+                                                                height: 24,
+                                                                width: 24,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        SizedBox(
+                                                          height: 30,
+                                                          width: 92.5,
+                                                          child: ElevatedButton(
+                                                              style:
+                                                                  ElevatedButton
+                                                                      .styleFrom(
+                                                                backgroundColor:
+                                                                    Color(
+                                                                        0xff29844B),
+                                                                shape:
+                                                                    RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              5.0),
+                                                                ),
+                                                              ),
+                                                              onPressed:
+                                                                  () async {
+                                                                bool created =
+                                                                    false;
+                                                                created = await postController.getPostsById(
+                                                                    postController
+                                                                        .postModel
+                                                                        .data![
+                                                                            index]
+                                                                        .ownerId,
+                                                                    "product");
+                                                                log("${postController.postModel.data![index].ownerId}");
+                                                                if (created) {
+                                                                  log("${postController.idPostModel!.data!.length}");
+                                                                  Get.to(() =>
+                                                                      const UserStore());
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets.fromLTRB(15.0, 0, 10, 10),

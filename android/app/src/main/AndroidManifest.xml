@@ -28,17 +28,14 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-            <meta-data
-                android:name="flutter-deeplink"
-                android:value="true"
-                />
-            <intent-filter>
+            <!-- App Link -->
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="http"/>
+                <!-- Accept urls with host https -->
                 <data android:scheme="https"/>
-                <data android:host="https://www.gonana.farm/"/>
+                <data android:host="www.gonana.farm/"/>
             </intent-filter>
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.VIEW" />-->
