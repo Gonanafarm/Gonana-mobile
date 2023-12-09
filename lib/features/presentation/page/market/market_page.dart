@@ -151,15 +151,15 @@ class _MarketPageState extends State<MarketPage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Get.to(() => const Orders());
-                                },
-                                child: SvgPicture.asset(
-                                    height: 40,
-                                    width: 40,
-                                    "assets/svgs/order.svg"),
-                              ),
+                              // GestureDetector(
+                              //   onTap: () {
+                              //     Get.to(() => const Orders());
+                              //   },
+                              //   child: SvgPicture.asset(
+                              //       height: 40,
+                              //       width: 40,
+                              //       "assets/svgs/order.svg"),
+                              // ),
                               sizeHor(10),
                               GestureDetector(
                                 onTap: () {
