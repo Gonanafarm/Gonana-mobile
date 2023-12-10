@@ -590,14 +590,14 @@ class _FeedsPageState extends State<FeedsPage> {
                   alignment: Alignment.topCenter,
                   child: Column(
                     children: [
-                      const Text('Comment',
+                      Text('Comment',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                         ),
                         textAlign: TextAlign.center
                       ),
-                      const Divider(),
+                      Divider(),
                     ],
                   ),
                 ),
@@ -605,7 +605,7 @@ class _FeedsPageState extends State<FeedsPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 200,
                       child: TextField()
                     ),
@@ -613,7 +613,7 @@ class _FeedsPageState extends State<FeedsPage> {
                       height: 35,
                       width: 65,
                       child: Container(
-                        color: Colors.green,
+                        color: greenColor,
                         child: ElevatedButton.icon(
                           onPressed: (){}, 
                           icon: const Icon(Icons.send), 
