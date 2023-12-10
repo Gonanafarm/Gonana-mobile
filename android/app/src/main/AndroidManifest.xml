@@ -29,21 +29,13 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
             <!-- App Link -->
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Accept urls with host https -->
-                <data android:scheme="https"/>
-                <data android:host="www.gonana.farm/"/>
-            </intent-filter>
-<!--            <intent-filter>-->
+<!--            <intent-filter android:autoVerify="true">-->
 <!--                <action android:name="android.intent.action.VIEW" />-->
 <!--                <category android:name="android.intent.category.DEFAULT" />-->
 <!--                <category android:name="android.intent.category.BROWSABLE" />-->
-<!--                <data-->
-<!--                    android:scheme="poc"-->
-<!--                    android:host="deeplink.flutter.dev" />-->
+<!--                &lt;!&ndash; Accept urls with host https &ndash;&gt;-->
+<!--                <data android:scheme="https"/>-->
+<!--                <data android:host="www.gonana.farm/"/>-->
 <!--            </intent-filter>-->
         </activity>
         <!-- Don't delete the meta-data below.

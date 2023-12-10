@@ -12,13 +12,13 @@ import 'package:gonana/features/presentation/page/feeds/story_view.dart';
 import 'package:gonana/features/presentation/page/feeds/user_store.dart';
 import 'package:gonana/features/presentation/page/market/cart_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uni_links/uni_links.dart';
+// import 'package:uni_links/uni_links.dart';
 import '../../../../consts.dart';
 import '../../../controllers/cart/cart_controller.dart';
 import '../../../controllers/user/user_controller.dart';
 import '../../widgets/warning_widget.dart';
 import 'create_post.dart';
-import 'package:flutter/services.dart' show PlatformException;
+// import 'package:flutter/services.dart' show PlatformException;
 
 class FeedsPage extends StatefulWidget {
   const FeedsPage({Key? key}) : super(key: key);

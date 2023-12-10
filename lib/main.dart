@@ -6,7 +6,7 @@ import 'package:gonana/features/controllers/auth/get_details.dart';
 import 'package:gonana/features/controllers/cart/cart_controller.dart';
 import 'package:gonana/features/presentation/page/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uni_links/uni_links.dart';
+// import 'package:uni_links/uni_links.dart';
 import 'package:upgrader/upgrader.dart';
 import 'features/controllers/user/user_controller.dart';
 import 'features/presentation/page/auth/auth_passcode.dart';
@@ -14,7 +14,7 @@ import 'features/presentation/page/auth/emailverification.dart';
 import 'features/presentation/page/auth/auth_splash1.dart';
 import 'features/presentation/page/auth/sign_up_page.dart';
 import 'features/presentation/page/profile_photo/add_profile_photo1.dart';
-import 'features/utilities/page_routes.dart';
+// import 'features/utilities/page_routes.dart';
 // import 'package:flutter/services.dart' show PlatformException;
 
 late Future<bool> fetchData;
@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     getToken();
-    setState(() { 
+    setState(() {
       // postController.getPosts();
       fetchData = detailsController.getUserDetails();
     });
@@ -148,7 +148,6 @@ class _MyAppState extends State<MyApp> {
             print("token: $token");
             return GetMaterialApp(
               debugShowCheckedModeBanner: false,
-              getPages: getPages,
               home: token != null && registrationStage == 5
                   ? UpgradeAlert(child: HomePage(navIndex: 0))
                   : token != null && registrationStage == 4
