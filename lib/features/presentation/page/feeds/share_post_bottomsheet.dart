@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
+import 'package:provider/provider.dart';
+
+import '../../../../deep_link_block.dart';
 
 sharePost(BuildContext context) {
+  DeepLinkBloc _bloc = Provider.of<DeepLinkBloc>(context, listen: false);
   showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (context) {
         return Container(
-            height: MediaQuery.of(context).size.height * 0.85,
+            height: MediaQuery.of(context).size.height * 0.3,
             color: const Color(0xffF1F1F1),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
@@ -36,103 +40,123 @@ sharePost(BuildContext context) {
                               fontWeight: FontWeight.w600,
                             ),
                             textAlign: TextAlign.left),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 0.0, vertical: 10),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.grey,
-                              ),
-                            ),
-                            child: Row(
-                              children: [
-                                Flexible(
-                                  flex: 5,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 10.0),
-                                    child: TextField(
-                                      autofocus: false,
-                                      decoration: const InputDecoration(
-                                          border: InputBorder.none,
-                                          hintText: "Type here to search",
-                                          hintStyle: TextStyle(
-                                              color: Color(0xff444444),
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400)),
-                                    ),
-                                  ),
-                                ),
-                                Flexible(
-                                    flex: 1,
-                                    child: IconButton(
-                                        onPressed: () {},
-                                        icon: Icon(Icons.search)))
-                              ],
-                            ),
-                          ),
-                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(
+                        //       horizontal: 0.0, vertical: 10),
+                        //   child: Container(
+                        //     decoration: BoxDecoration(
+                        //       border: Border.all(
+                        //         color: Colors.grey,
+                        //       ),
+                        //     ),
+                        //     child: Row(
+                        //       children: [
+                        //         Flexible(
+                        //           flex: 5,
+                        //           child: Padding(
+                        //             padding: const EdgeInsets.only(left: 10.0),
+                        //             child: TextField(
+                        //               autofocus: false,
+                        //               decoration: const InputDecoration(
+                        //                   border: InputBorder.none,
+                        //                   hintText: "Type here to search",
+                        //                   hintStyle: TextStyle(
+                        //                       color: Color(0xff444444),
+                        //                       fontSize: 14,
+                        //                       fontWeight: FontWeight.w400)),
+                        //             ),
+                        //           ),
+                        //         ),
+                        //         Flexible(
+                        //             flex: 1,
+                        //             child: IconButton(
+                        //                 onPressed: () {},
+                        //                 icon: Icon(Icons.search)))
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
                         Divider(thickness: 1),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10.0),
                           child: ActionContainers(
                               leading: "Copy Link",
                               trailing: IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  StreamBuilder<String>(
+                                    stream: _bloc.state,
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return Container(
+                                            child: Center(
+                                                child: Text(
+                                                    'Error in generating link')));
+                                      } else {
+                                        return Container(
+                                            child: Center(
+                                                child: Padding(
+                                                    padding:
+                                                        EdgeInsets.all(20.0),
+                                                    child: Text(
+                                                        'Redirected: ${snapshot.data}'))));
+                                      }
+                                    },
+                                  );
+                                },
                                 icon: Icon(Icons.copy),
                               )),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10.0),
-                          child: ActionContainers(
-                              leading: "Share to your story",
-                              trailing: IconButton(
-                                onPressed: () {},
-                                icon: Icon(Icons.arrow_forward_ios),
-                              )),
-                        ),
-                        Divider(thickness: 1),
-                        Container(
-                          color: const Color(0xffFFFFFF),
-                          height: MediaQuery.of(context).size.height * 0.3,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListView(
-                              // crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Friends suggestions',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                FriendsTile(
-                                  image: 'story_profile_photo',
-                                  title: 'Jake Doe',
-                                  subtitle: 'Poultry farmer',
-                                ),
-                                SizedBox(height: 10),
-                                FriendsTile(
-                                  image: 'john_david_photo',
-                                  title: 'Madam Loe',
-                                  subtitle: 'Poultry farmer',
-                                ),
-                                FriendsTile(
-                                  image: 'story_profile_photo',
-                                  title: 'Jake Doe',
-                                  subtitle: 'Poultry farmer',
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(bottom: 10.0),
+                        //   child: ActionContainers(
+                        //       leading: "Share to your story",
+                        //       trailing: IconButton(
+                        //         onPressed: () {},
+                        //         icon: Icon(Icons.arrow_forward_ios),
+                        //       )),
+                        // ),
+                        // Divider(thickness: 1),
+                        // Container(
+                        //   color: const Color(0xffFFFFFF),
+                        //   height: MediaQuery.of(context).size.height * 0.3,
+                        //   child: Padding(
+                        //     padding: const EdgeInsets.all(8.0),
+                        //     child: ListView(
+                        //       // crossAxisAlignment: CrossAxisAlignment.start,
+                        //       children: [
+                        //         Text(
+                        //           'Friends suggestions',
+                        //           style: TextStyle(
+                        //             fontSize: 18,
+                        //             fontWeight: FontWeight.w600,
+                        //           ),
+                        //         ),
+                        //         FriendsTile(
+                        //           image: 'story_profile_photo',
+                        //           title: 'Jake Doe',
+                        //           subtitle: 'Poultry farmer',
+                        //         ),
+                        //         SizedBox(height: 10),
+                        //         FriendsTile(
+                        //           image: 'john_david_photo',
+                        //           title: 'Madam Loe',
+                        //           subtitle: 'Poultry farmer',
+                        //         ),
+                        //         FriendsTile(
+                        //           image: 'story_profile_photo',
+                        //           title: 'Jake Doe',
+                        //           subtitle: 'Poultry farmer',
+                        //         ),
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
-                  Center(
-                      child:
-                          LongGradientButton(title: "Share", onPressed: () {}))
+                  // Center(
+                  //     child:
+                  //         LongGradientButton(title: "Share", onPressed: () {}))
                 ],
               ),
             ));

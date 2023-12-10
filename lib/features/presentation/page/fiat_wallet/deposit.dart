@@ -171,7 +171,7 @@ class _DepositState extends State<Deposit> {
                                 child: ElevatedButton(
                                     onPressed: () {
                                       String textToCopy =
-                                          "This is the text you want to copy.";
+                                          "${userController.userModel.value.virtualAccountNumber}";
 
                                       // Use the Clipboard.setData method to copy text to the clipboard.
                                       Clipboard.setData(

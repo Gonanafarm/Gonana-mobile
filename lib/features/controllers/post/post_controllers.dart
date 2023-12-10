@@ -4,9 +4,11 @@ import 'dart:io';
 import 'package:get/get.dart' as getx;
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:gonana/features/data/models/comments_model.dart';
 import 'package:gonana/features/data/models/post_model_id.dart';
 import 'package:gonana/features/data/models/post_model.dart';
 import 'package:gonana/features/data/models/user_liked_feeds.dart';
+import 'package:gonana/features/presentation/widgets/widgets.dart';
 import '../../../consts.dart';
 import '../../data/models/feeds_model.dart' as FeedsModel;
 import '../../data/models/get_post_model.dart';
@@ -41,7 +43,7 @@ class PostController extends GetxController {
     update();
   }
 
-  void updateComment(String newComment){
+  void updateComment(String newComment) {
     comment.value = newComment;
     update();
   }
@@ -85,7 +87,8 @@ class PostController extends GetxController {
   var userLikedFeeds = UserLikedFeeds().obs;
   Future<bool> getUserLikedFeeds(String postId) async {
     try {
-      var res = await NetworkApi().authGetData("api/catalog/posts/likes/$postId");
+      var res =
+          await NetworkApi().authGetData("api/catalog/posts/likes/$postId");
       final response = jsonDecode(res.body);
       if (res.statusCode == 200) {
         userLikedFeeds.value = userLikedFeedsFromJson(res.body);
@@ -166,12 +169,13 @@ class PostController extends GetxController {
   }
 
   Future<String?> postUserIdAddress(int index) async {
-    if(idPostModel! != null &&
-      idPostModel!.data![index] != null &&
-      idPostModel!.data![index].product! != null &&
-      idPostModel!.data![index].product!.address![0] != null) {
+    if (idPostModel! != null &&
+        idPostModel!.data![index] != null &&
+        idPostModel!.data![index].product! != null &&
+        idPostModel!.data![index].product!.address![0] != null) {
       String? state;
-      String? addressString = idPostModel!.data![index].product!.address![0].address;
+      String? addressString =
+          idPostModel!.data![index].product!.address![0].address;
       List<String> components = addressString!.split(", ");
       for (String component in components) {
         if (nigerianStates.contains(component)) {
@@ -221,7 +225,7 @@ class PostController extends GetxController {
     }
   }
 
-  likePost(String? postId) async {
+  Future<bool> likePost(String? postId) async {
     log("called likepost");
     var data = {"postId": postId};
     try {
@@ -229,16 +233,14 @@ class PostController extends GetxController {
       var response = jsonDecode(res.body);
       log('LikeResponse: $response && ${res.statusCode}');
       if (res.statusCode == 201) {
-        return [true, true];
-      } else if (res.statusCode == 400) {
-        return [false, true];
+        return true;
       } else {
-        return [false, false];
+        return false;
       }
     } catch (e, s) {
       log('likeError: $e');
       log('likeErrorStack: $s');
-      return [false, false];
+      return false;
     }
   }
 
@@ -264,46 +266,46 @@ class PostController extends GetxController {
   Future<bool> makeComment(
     String postId,
     String comment,
-  ) async{
-    var data = {
-      "postId": postId,
-      "comment": comment
-    };
-    try{
+    var context,
+  ) async {
+    var data = {"postId": postId, "comment": comment};
+    try {
       var res = await NetworkApi().authPostData(data, ApiRoute.comment);
       var response = jsonDecode(res.body);
       log("CommentResponse: $response && statcode: ${res.statusCode}");
-      if(res.statusCode == 201){
-
+      if (res.statusCode == 201) {
+        SuccessSnackbar.show(context, response['message']);
         return true;
-      }else{
+      } else {
+        ErrorSnackbar.show(context, response['message']);
         return false;
       }
       return false;
-    }catch(e,s){
+    } catch (e, s) {
       log('CommentError: $e');
       log('CommentErrorStack: $s');
       return false;
     }
   }
 
-  getCommentsForPost(
-    String postId
-  ) async{
-    try{
-      var res = await NetworkApi().authGetData("${ApiRoute.getComments}/$getPostModel");
+  CommentsModel? commentModel;
+  Future<bool> getCommentsForPost(String postId) async {
+    try {
+      var res =
+          await NetworkApi().authGetData("${ApiRoute.getComments}/$postId");
       var response = jsonDecode(res.body);
       log("CommentResponse: $response && statcode: ${res.statusCode}");
-      if(res.statusCode == 200){
-        
+      if (res.statusCode == 200) {
+        commentModel = commentsModelFromJson(res.body);
+        print('response model: ${commentModel!.comments![0].comment}');
         return true;
-      }else{
-
+      } else {
         return false;
       }
-    }catch(e,s){
+    } catch (e, s) {
       log("getCommentsForPostError: $e");
       log("getCommentsForPostStacck: $s");
+      return false;
     }
   }
 }

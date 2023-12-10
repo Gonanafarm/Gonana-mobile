@@ -1,20 +1,24 @@
 // ignore_for_file: unnecessary_null_comparison
 
+import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:gonana/features/controllers/post/post_controllers.dart';
 import 'package:gonana/features/data/models/post_model.dart';
+import 'package:gonana/features/presentation/page/feeds/share_post_bottomsheet.dart';
 import 'package:gonana/features/presentation/page/feeds/story_view.dart';
 import 'package:gonana/features/presentation/page/feeds/user_store.dart';
 import 'package:gonana/features/presentation/page/market/cart_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:uni_links/uni_links.dart';
 import '../../../../consts.dart';
 import '../../../controllers/cart/cart_controller.dart';
 import '../../../controllers/user/user_controller.dart';
 import '../../widgets/warning_widget.dart';
 import 'create_post.dart';
+// import 'package:flutter/services.dart' show PlatformException;
 
 class FeedsPage extends StatefulWidget {
   const FeedsPage({Key? key}) : super(key: key);
@@ -29,6 +33,7 @@ class _FeedsPageState extends State<FeedsPage> {
   PostModel postModel = PostModel();
   CartController cartController = Get.put(CartController());
   final TextEditingController commentController = TextEditingController();
+  bool isLoadingComments = true;
   // @override
   // void initState() {
   //   super.initState();
@@ -44,6 +49,8 @@ class _FeedsPageState extends State<FeedsPage> {
     const Story(),
   ];
   String placeholderAssetName = 'assets/images/gonanas_profile.png';
+  bool isCommentLoading = false;
+  bool isVisitStoreLoading = false;
   Widget getImageWidget(String imageUrl) {
     if (imageUrl.isNotEmpty && Uri.parse(imageUrl).isAbsolute) {
       return FadeInImage(
@@ -85,10 +92,15 @@ class _FeedsPageState extends State<FeedsPage> {
         getMoreData();
       }
     });
+    for (int i = 0; i < postController.postModel!.data!.length; i++) {
+      if (postController.postModel!.data![i].product!.likes!
+          .any((like) => like.id == userController.userModel.value.id)) {
+        likedPostIndices.add(i);
+      }
+    }
   }
 
-  bool postLiked = false;
-  final Map<int, bool> isPostLiked = {};
+  Set<int> likedPostIndices = Set<int>();
 
   @override
   Widget build(BuildContext context) {
@@ -235,324 +247,544 @@ class _FeedsPageState extends State<FeedsPage> {
                       // height: MediaQuery.of(context).size.height * 0.3,
                       // width: 342,
                       child: postController.postModel.data!.isEmpty
-                        ? Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              (BVNisSubmited != null && BVNisSubmited!) || (userController.userModel != null &&
-                                userController.userModel.value.virtualAccountNumber != null &&
-                                userController.userModel.value.virtualAccountNumber!.isNotEmpty
-                              ) ? Container(height: 1) : const WarningWidget(),
-                              sizeVer(MediaQuery.of(context).size.height * 0.1),
-                              Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      "assets/svgs/empty_product.svg",
-                                      width: 189.71,
-                                      height: 156.03,
-                                    ),
-                                    const Text(
-                                      'Sorry! no post yet',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 24,
-                                        fontFamily: 'Proxima Nova',
-                                        fontWeight: FontWeight.w600,
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                (BVNisSubmited != null && BVNisSubmited!) ||
+                                        (userController.userModel != null &&
+                                            userController.userModel.value
+                                                    .virtualAccountNumber !=
+                                                null &&
+                                            userController
+                                                .userModel
+                                                .value
+                                                .virtualAccountNumber!
+                                                .isNotEmpty)
+                                    ? Container(height: 1)
+                                    : const WarningWidget(),
+                                sizeVer(
+                                    MediaQuery.of(context).size.height * 0.1),
+                                Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.asset(
+                                        "assets/svgs/empty_product.svg",
+                                        width: 189.71,
+                                        height: 156.03,
                                       ),
-                                    ),
-                                    const Text(
-                                      'All post will be visible here',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14,
-                                        fontFamily: 'Proxima Nova',
-                                        fontWeight: FontWeight.w400,
+                                      const Text(
+                                        'Sorry! no post yet',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 24,
+                                          fontFamily: 'Proxima Nova',
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                      const Text(
+                                        'All post will be visible here',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                          fontFamily: 'Proxima Nova',
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
-                          )
+                              ],
+                            )
                           : Column(
                               children: [
                                 (BVNisSubmited != null && BVNisSubmited!) ||
-                                (userController.userModel != null && userController.userModel.value.virtualAccountNumber != null &&
-                                  userController.userModel.value.virtualAccountNumber!.isNotEmpty
-                                ) ? Container(height: 1) : const WarningWidget(),
+                                        (userController.userModel != null &&
+                                            userController.userModel.value
+                                                    .virtualAccountNumber !=
+                                                null &&
+                                            userController
+                                                .userModel
+                                                .value
+                                                .virtualAccountNumber!
+                                                .isNotEmpty)
+                                    ? Container(height: 1)
+                                    : const WarningWidget(),
                                 Container(
-                                  height: MediaQuery.of(context).size.height * 0.7,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.7,
                                   child: Column(
                                     children: [
                                       Expanded(
                                         child: ListView.builder(
-                                          controller: scrollController,
-                                          itemCount: postController.postModel.data!.length,
-                                          // itemCount: postModel.body!.length,
-                                          itemBuilder: (BuildContext context, int index) {
-                                            final reversedIndex = (postController.postModel!.data!.length - 1) - index;
-                                            return Column(
-                                              children: [
-                                                SizedBox(
-                                                  //Posters name and profile pic
-                                                  // height: 40,
-                                                  child: ListTile(
-                                                    contentPadding:const EdgeInsets.symmetric(horizontal: 15.0),
-                                                    leading: postController.postModel.data?[index]?.ownerPhoto?.isEmpty ??
-                                                      true
-                                                      ? Container(
-                                                          height: 30,
-                                                          width: 30,
-                                                          child: ClipOval(
-                                                            child: getImageWidget(postController.postModel.data?[index]?.ownerPhoto ?? ''),
-                                                          ),
-                                                        )
-                                                      : Container(
-                                                          height: 30,
-                                                          width: 30,
-                                                          child: ClipOval(
-                                                            child: FadeInImage(
-                                                              fit: BoxFit.cover,
-                                                              image: NetworkImage(
-                                                                postController.postModel.data?[index] ?.ownerPhoto ?? '',
+                                            controller: scrollController,
+                                            itemCount: postController
+                                                .postModel.data!.length,
+                                            // itemCount: postModel.body!.length,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              final reversedIndex =
+                                                  (postController.postModel!
+                                                              .data!.length -
+                                                          1) -
+                                                      index;
+                                              // bool postLiked = likedPostIndices
+                                              //     .contains(index);
+                                              bool postLiked = postController
+                                                  .postModel!
+                                                  .data![index]
+                                                  .product!
+                                                  .likes!
+                                                  .any((like) =>
+                                                      like.id ==
+                                                      userController
+                                                          .userModel.value.id);
+                                              bool unliked = true;
+                                              // if (postController.postModel!
+                                              //     .data![index].product!.likes!
+                                              //     .any((like) =>
+                                              //         like.id ==
+                                              //         userController.userModel
+                                              //             .value.id)) {
+                                              //   likedPostIndices.add(index);
+                                              //   // postLiked = true;
+                                              //   unliked = false;
+                                              // }
+                                              return Column(
+                                                children: [
+                                                  SizedBox(
+                                                    //Posters name and profile pic
+                                                    // height: 40,
+                                                    child: ListTile(
+                                                      contentPadding:
+                                                          const EdgeInsets
+                                                              .symmetric(
+                                                              horizontal: 15.0),
+                                                      leading: postController
+                                                                  .postModel
+                                                                  .data?[index]
+                                                                  ?.ownerPhoto
+                                                                  ?.isEmpty ??
+                                                              true
+                                                          ? Container(
+                                                              height: 30,
+                                                              width: 30,
+                                                              child: ClipOval(
+                                                                child: getImageWidget(postController
+                                                                        .postModel
+                                                                        .data?[
+                                                                            index]
+                                                                        ?.ownerPhoto ??
+                                                                    ''),
                                                               ),
-                                                              placeholder: const AssetImage("assets/images/gonanas_profile.png"),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                    title: Row(
-                                                      children: [
-                                                        Flexible(
-                                                          child: Column(
-                                                            mainAxisAlignment:MainAxisAlignment.spaceEvenly,
-                                                            children: [
-                                                              Text(
-                                                                postController.postModel.data![index].ownerName!,
-                                                                style: const TextStyle(
-                                                                  fontSize: 16,
-                                                                  fontWeight: FontWeight.w600
+                                                            )
+                                                          : Container(
+                                                              height: 30,
+                                                              width: 30,
+                                                              child: ClipOval(
+                                                                child:
+                                                                    FadeInImage(
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                  image:
+                                                                      NetworkImage(
+                                                                    postController
+                                                                            .postModel
+                                                                            .data?[index]
+                                                                            ?.ownerPhoto ??
+                                                                        '',
+                                                                  ),
+                                                                  placeholder:
+                                                                      const AssetImage(
+                                                                          "assets/images/gonanas_profile.png"),
                                                                 ),
                                                               ),
+                                                            ),
+                                                      title: Row(
+                                                        children: [
+                                                          Flexible(
+                                                            child: Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceEvenly,
+                                                              children: [
+                                                                Text(
+                                                                  postController
+                                                                      .postModel
+                                                                      .data![
+                                                                          index]
+                                                                      .ownerName!,
+                                                                  style: const TextStyle(
+                                                                      fontSize:
+                                                                          16,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.8,
+                                                      child: postController
+                                                              .postModel
+                                                              .data![index]
+                                                              .product!
+                                                              .images!
+                                                              .isNotEmpty
+                                                          ? Image.network(
+                                                              postController
+                                                                  .postModel
+                                                                  .data![index]
+                                                                  .product!
+                                                                  .images![0],
+                                                              errorBuilder:
+                                                                  (BuildContext
+                                                                          context,
+                                                                      Object
+                                                                          error,
+                                                                      StackTrace?
+                                                                          stackTrace) {
+                                                                // Handle the error, log it, or show a placeholder image.
+                                                                return Center(
+                                                                    child: const Icon(
+                                                                        Icons
+                                                                            .error));
+                                                              },
+                                                            )
+                                                          : Container()),
+                                                  sizeVer(5),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        SizedBox(
+                                                          width: 90,
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceEvenly,
+                                                            children: [
+                                                              IconButton(
+                                                                icon: likedPostIndices
+                                                                        .contains(
+                                                                            index)
+                                                                    ? const Icon(
+                                                                        Icons
+                                                                            .favorite,
+                                                                        color: Colors
+                                                                            .red,
+                                                                        size:
+                                                                            30,
+                                                                      )
+                                                                    : const Icon(
+                                                                        Icons
+                                                                            .favorite_outline,
+                                                                        size:
+                                                                            30,
+                                                                      ),
+                                                                onPressed:
+                                                                    () async {
+                                                                  bool liked;
+                                                                  if (likedPostIndices
+                                                                      .contains(
+                                                                          index)) {
+                                                                    setState(
+                                                                        () {
+                                                                      likedPostIndices
+                                                                          .remove(
+                                                                              index);
+                                                                    });
+                                                                    liked = await postController
+                                                                        .unlikePost(
+                                                                      postController
+                                                                          .postModel
+                                                                          .data![
+                                                                              index]
+                                                                          .product!
+                                                                          .id,
+                                                                    );
+                                                                    setState(
+                                                                        () {
+                                                                      unliked =
+                                                                          true;
+                                                                    });
+                                                                  } else {
+                                                                    setState(
+                                                                        () {
+                                                                      likedPostIndices
+                                                                          .add(
+                                                                              index);
+                                                                    });
+                                                                    unliked =
+                                                                        await postController
+                                                                            .likePost(
+                                                                      postController
+                                                                          .postModel
+                                                                          .data![
+                                                                              index]
+                                                                          .product!
+                                                                          .id,
+                                                                    );
+                                                                  }
+
+                                                                  print(
+                                                                      likedPostIndices);
+                                                                  setState(() {
+                                                                    postLiked =
+                                                                        likedPostIndices
+                                                                            .contains(index);
+                                                                    log(postLiked
+                                                                        ? "post liked"
+                                                                        : "post unliked");
+                                                                    log("likedPostIndices: $likedPostIndices");
+                                                                  });
+                                                                },
+                                                              ),
+                                                              InkWell(
+                                                                  onTap: () {
+                                                                    _makeComment(
+                                                                        context,
+                                                                        index);
+                                                                  },
+                                                                  child: SvgPicture.asset(
+                                                                      'assets/svgs/emails_messages_icon.svg',
+                                                                      height:
+                                                                          30,
+                                                                      width:
+                                                                          30)),
                                                             ],
+                                                          ),
+                                                        ),
+                                                        //Visit Store button
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                                  right: 10.0),
+                                                          child: SizedBox(
+                                                            height: 30,
+                                                            width: 92.5,
+                                                            child: ElevatedButton(
+                                                                style: ElevatedButton.styleFrom(
+                                                                  backgroundColor:
+                                                                      const Color(
+                                                                          0xff29844B),
+                                                                  shape:
+                                                                      RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            5.0),
+                                                                  ),
+                                                                ),
+                                                                onPressed: () async {
+                                                                  setState(() {
+                                                                    isVisitStoreLoading =
+                                                                        true;
+                                                                  });
+                                                                  bool created =
+                                                                      false;
+                                                                  created = await postController.getPostsById(
+                                                                      postController
+                                                                          .postModel
+                                                                          .data![
+                                                                              index]
+                                                                          .ownerId,
+                                                                      "product");
+                                                                  log("${postController.postModel.data![index].ownerId}");
+                                                                  if (created) {
+                                                                    log("${postController.idPostModel!.data!.length}");
+                                                                    Get.to(() =>
+                                                                        const UserStore());
+                                                                    setState(
+                                                                        () {
+                                                                      isVisitStoreLoading =
+                                                                          false;
+                                                                    });
+                                                                  } else {
+                                                                    setState(
+                                                                        () {
+                                                                      isVisitStoreLoading =
+                                                                          false;
+                                                                    });
+                                                                  }
+                                                                },
+                                                                child: isVisitStoreLoading
+                                                                    ? Container(
+                                                                        height: 15,
+                                                                        width: 15,
+                                                                        child: const CircularProgressIndicator(
+                                                                          color:
+                                                                              Colors.white,
+                                                                        ))
+                                                                    : const Text('Visit Store', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w600))),
                                                           ),
                                                         ),
                                                       ],
                                                     ),
                                                   ),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.fromLTRB(15.0, 0, 10, 10),
-                                                  child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                    children: [
-                                                      RichText(
-                                                        text: TextSpan(
-                                                          text: postController.postModel.data![index].product!.body!.isEmpty ||
-                                                            // ignore: unnecessary_null_comparison
-                                                            postController.postModel.data![index] == null ||
-                                                            postController.postModel == null
-                                                              ? " "
-                                                              : postController.postModel.data![index].product!.body,
-                                                          style: const TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight: FontWeight.w400,
-                                                            color: Colors.black
-                                                          ),
-                                                          children: const <TextSpan>[
-                                                            TextSpan(
-                                                              text: '',
-                                                              style: TextStyle(
-                                                                fontWeight: FontWeight.w400,
-                                                                color: Color(0xff29844B),
-                                                              )
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: MediaQuery.of(context).size.width * 0.8,
-                                                  child: postController.postModel.data![index].product!.images!.isNotEmpty
-                                                  ? Image.network(
-                                                      postController.postModel.data![index].product!.images![0],
-                                                      errorBuilder:(BuildContext context, Object  error, StackTrace? stackTrace) {
-                                                        // Handle the error, log it, or show a placeholder image.
-                                                        return const Center(
-                                                          child: Icon(Icons.error)
-                                                        );
-                                                      },
-                                                    ) 
-                                                  : Container()
-                                                ),
-                                                sizeVer(10),
-                                                Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: Row(
-                                                    mainAxisAlignment:MainAxisAlignment.spaceBetween,
-                                                    children: [
-                                                      SizedBox(
-                                                        width: 90,
-                                                        child: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                          children: [
-                                                            InkWell(
-                                                              onTap: () async {
-                                                                try {
-                                                                  var liked = await postController.likePost(
-                                                                    postController.postModel.data![index].product!.id);
-                                                                  if (liked[0] == true && liked[1] ==true) {
-                                                                    setState(() {
-                                                                      isPostLiked[index] = true;
+                                                  // SizedBox(
+                                                  //     height: 45,
+                                                  //     width:
+                                                  //         MediaQuery.of(context)
+                                                  //                 .size
+                                                  //                 .width *
+                                                  //             0.01,
+                                                  //     child: ListView.builder(
+                                                  //         itemCount: 2,
+                                                  //         itemBuilder:
+                                                  //             (BuildContext
+                                                  //                     context,
+                                                  //                 int index) {
+                                                  //           return CommentWidget(
+                                                  //             userName:
+                                                  //                 "Za Khiing",
+                                                  //             userComment: postController
+                                                  //                     .postModel
+                                                  //                     .data![
+                                                  //                         index]
+                                                  //                     .product!
+                                                  //                     .comments![index]! ??
+                                                  //                 "Nuffin",
+                                                  //           );
+                                                  //         })),
+                                                  SizedBox(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.8,
+                                                    //height: 43,
+                                                    child: TextField(
+                                                        // expands: true,
+                                                        minLines: null,
+                                                        maxLines: null,
+                                                        controller:
+                                                            commentController,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          suffixIcon: InkWell(
+                                                              onTap: () {
+                                                                log("Commentted");
+                                                              },
+                                                              child: Padding(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                        top:
+                                                                            15.0),
+                                                                child: InkWell(
+                                                                  onTap:
+                                                                      () async {
+                                                                    bool
+                                                                        commented;
+                                                                    setState(
+                                                                        () {
+                                                                      isCommentLoading =
+                                                                          true;
                                                                     });
-                                                                  } else if (liked[0] == false && liked[1] == true) {
-                                                                    log('product was already LIKED');
-                                                                    var unlike = await postController.unlikePost(postController.postModel.data![index].product!.id);
-                                                                    if (unlike == true) {
-                                                                      setState(() {
-                                                                        isPostLiked[index] = false;
+                                                                    commented = await postController.makeComment(
+                                                                        postController
+                                                                            .postModel
+                                                                            .data![
+                                                                                index]
+                                                                            .product!
+                                                                            .id!,
+                                                                        commentController
+                                                                            .text,
+                                                                        context);
+                                                                    if (commented) {
+                                                                      commentController
+                                                                          .clear();
+                                                                      setState(
+                                                                          () {
+                                                                        isCommentLoading =
+                                                                            false;
                                                                       });
                                                                     } else {
-                                                                      log('error at line 412 while unliking');
+                                                                      setState(
+                                                                          () {
+                                                                        isCommentLoading =
+                                                                            false;
+                                                                      });
                                                                     }
-                                                                  } else {
-                                                                    log('error, post not liked');
-                                                                  }
-                                                                  log('PostID: ${postController.postModel.data![index].product!.id}');
-                                                                  log('isPostLiked: $isPostLiked');
-                                                                } catch (e, s) {
-                                                                  log('FeedspageLikeError: $e');
-                                                                  log('FeedspageStack: $s');
-                                                                }
-                                                              },
-                                                              child: isPostLiked[index] == true ? 
-                                                                SvgPicture.asset(
-                                                                  'assets/svgs/favourite.svg',
-                                                                  height: 24,
-                                                                  width: 24,
-                                                                ): 
-                                                                SvgPicture.asset(
-                                                                  'assets/svgs/Heart.svg',
-                                                                  height: 24,
-                                                                  width: 24,
-                                                                )
-                                                            ),
-                                                            InkWell(
-                                                              onTap: (){
-                                                                _makeComment(context);
-                                                              },
-                                                              child: SvgPicture.asset(
-                                                                'assets/svgs/emails_messages_icon.svg',
-                                                                height: 24,
-                                                                width: 24
-                                                              )
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      //Visit Store button
-                                                      SizedBox(
-                                                        height: 30,
-                                                        width: 92.5,
-                                                        child: ElevatedButton(
-                                                          style: ElevatedButton.styleFrom(
-                                                            backgroundColor: const Color(0xff29844B),
-                                                            shape:RoundedRectangleBorder(
-                                                              borderRadius: BorderRadius.circular(5.0),
-                                                            ),
+                                                                  },
+                                                                  child: isCommentLoading
+                                                                      ? Padding(
+                                                                          padding: const EdgeInsets
+                                                                              .all(
+                                                                              15.0),
+                                                                          child: Container(
+                                                                              height: 25,
+                                                                              width: 25,
+                                                                              child: const CircularProgressIndicator(
+                                                                                color: Color.fromRGBO(41, 132, 75, 1),
+                                                                              )),
+                                                                        )
+                                                                      : const Text('Post',
+                                                                          style: TextStyle(
+                                                                            color:
+                                                                                greenColor,
+                                                                          )),
+                                                                ),
+                                                              )),
+                                                          hintText:
+                                                              'Add a comment',
+                                                          enabledBorder:
+                                                              const OutlineInputBorder(
+                                                            borderSide:
+                                                                BorderSide(
+                                                                    width: 1,
+                                                                    color: Colors
+                                                                        .black),
                                                           ),
-                                                          onPressed: () async {
-                                                            bool created = false;
-                                                            created = await postController.getPostsById(
-                                                              postController.postModel.data![index].ownerId,
-                                                              "product"
-                                                            );
-                                                            log("${postController.postModel.data![index].ownerId}");
-                                                            if (created) {
-                                                              log("${postController.idPostModel!.data!.length}");
-                                                              Get.to(() => const UserStore());
-                                                            }
-                                                          },
-                                                          child: const Text(
-                                                            'Visit Store',
-                                                            style: TextStyle(
-                                                              color: Colors.white,
-                                                              fontSize: 10,
-                                                              fontWeight: FontWeight.w600
-                                                            )
-                                                          )
-                                                        ),
-                                                      ),
-                                                    ],
+                                                          focusedBorder:
+                                                              const OutlineInputBorder(
+                                                            //<-- SEE HERE
+                                                            borderSide: BorderSide(
+                                                                width: 2,
+                                                                color:
+                                                                    greenColor),
+                                                          ),
+                                                        )),
                                                   ),
-                                                ),
-                                                SizedBox(
-                                                  height: 45,
-                                                  child: ListView.builder(
-                                                    itemCount: 2,
-                                                    itemBuilder: (BuildContext context, int index){
-                                                      return CommentWidget(
-                                                        userName: "Za Khiing",
-                                                        userComment:  postController.postModel.data![index].product!.comments![index]! ?? "Nuffin",
-                                                      );
-                                                    }
-                                                  )
-                                                ),
-                                                SizedBox(
-                                                  width: 342,
-                                                  //height: 43,
-                                                  child: TextField(
-                                                    // expands: true,
-                                                    // minLines: null,
-                                                    // maxLines: null,
-                                                    
-                                                    controller: commentController,
-                                                    decoration:  InputDecoration(
-                                                      suffixIcon: InkWell(
-                                                        onTap: (){
-                                                          log("Commentted");
-                                                        },
-                                                        child: const Text('Post',
-                                                          style: TextStyle(
-                                                            color: greenColor,
-                                                          )
-                                                        )
-                                                      ),
-                                                      hintText: 'Add a comment',
-                                                      enabledBorder: const OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                          width: 1, color: Colors.black
-                                                        ), 
-                                                      ),
-                                                      focusedBorder: const OutlineInputBorder( //<-- SEE HERE
-                                                        borderSide: BorderSide(
-                                                          width: 2, 
-                                                          color: greenColor
-                                                        ), 
-                                                      ),
-                                                    )
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: const Divider(
+                                                      thickness: 2,
+                                                    ),
                                                   ),
-                                                ),
-                                                const Divider()
-                                              ],
-                                            );
-                                          }
-                                        ),
+                                                ],
+                                              );
+                                            }),
                                       ),
                                       sizeVer(10),
                                       !loading
-                                        ? Container(height: 1)
-                                        : const SizedBox(
-                                            height: 30,
-                                            width: 30,
-                                            child: CircularProgressIndicator(
-                                              color: Color.fromRGBO(41, 132, 75, 1),
-                                            )
-                                          )
+                                          ? Container(height: 1)
+                                          : const SizedBox(
+                                              height: 30,
+                                              width: 30,
+                                              child: CircularProgressIndicator(
+                                                color: Color.fromRGBO(
+                                                    41, 132, 75, 1),
+                                              ))
                                     ],
                                   ),
                                 ),
@@ -569,65 +801,171 @@ class _FeedsPageState extends State<FeedsPage> {
     );
   }
 
-  _makeComment(context){
+  Future<void> _makeComment(context, int index) async {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       showDragHandle: true,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(25))
+        borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
       ),
       backgroundColor: const Color(0xffF9F9F9),
-      builder: (BuildContext context){
+      builder: (BuildContext context) {
         return SizedBox(
-          height: MediaQuery.of(context).size.height * 0.5,
+          height: MediaQuery.of(context).size.height * 0.65,
           child: Padding(
-            padding: const EdgeInsets.all(20.0), 
+            padding: const EdgeInsets.all(20.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Align(
                   alignment: Alignment.topCenter,
                   child: Column(
                     children: [
-                      Text('Comment',
+                      Text(
+                        'Comments',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                         ),
-                        textAlign: TextAlign.center
+                        textAlign: TextAlign.center,
                       ),
                       Divider(),
                     ],
                   ),
                 ),
-                
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const SizedBox(
-                      width: 200,
-                      child: TextField()
-                    ),
-                    SizedBox(
-                      height: 35,
-                      width: 65,
-                      child: Container(
-                        color: greenColor,
-                        child: ElevatedButton.icon(
-                          onPressed: (){}, 
-                          icon: const Icon(Icons.send), 
-                          label: const SizedBox()
+                FutureBuilder<bool>(
+                  future: postController.getCommentsForPost(
+                    "${postController.postModel.data![index].product!.id}",
+                  ),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(
+                            child: SizedBox(
+                              height: 40,
+                              width: 40,
+                              child: CircularProgressIndicator(
+                                color: Color.fromRGBO(41, 132, 75, 1),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    } else if (snapshot.hasError || !snapshot.data!) {
+                      return const Text('Failed to load comments.');
+                    } else {
+                      return SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.55,
+                        child: ListView.builder(
+                          itemCount:
+                              postController.commentModel!.comments?.length ??
+                                  0,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 8.0, horizontal: 8),
+                              child: Row(children: [
+                                postController.commentModel != null &&
+                                        (postController
+                                                    .commentModel!.comments !=
+                                                null ||
+                                            postController.commentModel!
+                                                .comments!.isNotEmpty)
+                                    ? (postController
+                                                .commentModel!
+                                                .comments![index]
+                                                .image
+                                                ?.isNotEmpty ??
+                                            true)
+                                        ? Container(
+                                            height: 25,
+                                            width: 25,
+                                            child: ClipOval(
+                                              child: getImageWidget(
+                                                "${postController.commentModel!.comments![index].image}",
+                                              ),
+                                            ),
+                                          )
+                                        : Obx(() {
+                                            return Container(
+                                              height: 25,
+                                              width: 25,
+                                              child: ClipOval(
+                                                child: FadeInImage(
+                                                  fit: BoxFit.cover,
+                                                  image: NetworkImage(
+                                                    "${postController.commentModel!.comments![index].image}",
+                                                  ),
+                                                  placeholder: const AssetImage(
+                                                    "assets/images/gonanas_profile.png",
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          })
+                                    : Container(),
+                                // Handle the case when userModel.value is null
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.03,
+                                ),
+                                postController.commentModel != null &&
+                                        (postController
+                                                    .commentModel!.comments !=
+                                                null &&
+                                            postController.commentModel!
+                                                .comments!.isNotEmpty)
+                                    ? Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.2,
+                                        child: Text(
+                                          postController.commentModel!
+                                                  .comments![index].username ??
+                                              '',
+                                          style: const TextStyle(
+                                            overflow: TextOverflow.ellipsis,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                        ),
+                                      )
+                                    : Container(),
+                                Flexible(
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.01,
+                                      ),
+                                      postController.commentModel != null &&
+                                              (postController.commentModel!
+                                                          .comments !=
+                                                      null &&
+                                                  postController.commentModel!
+                                                      .comments!.isNotEmpty)
+                                          ? Text(
+                                              "${postController.commentModel!.comments![index].comment}")
+                                          : Container()
+                                    ],
+                                  ),
+                                ),
+                              ]),
+                            );
+                          },
                         ),
-                      ),
-                    )
-                  ],
-                )
+                      );
+                    }
+                  },
+                ),
               ],
-            )
-          )
+            ),
+          ),
         );
-      }
+      },
     );
   }
 }
@@ -636,8 +974,8 @@ class CommentWidget extends StatelessWidget {
   final String userName;
   final String userComment;
   const CommentWidget({
-    super.key, 
-    required this.userName, 
+    super.key,
+    required this.userName,
     required this.userComment,
   });
 
@@ -646,18 +984,10 @@ class CommentWidget extends StatelessWidget {
     return Row(
       children: [
         const Text('Daniel Cho',
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w700
-          )
-        ),
+            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700)),
         sizeHor(8),
         const Text('I love these',
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w400
-          )
-        )
+            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400))
       ],
     );
   }
