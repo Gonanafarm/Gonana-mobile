@@ -108,11 +108,13 @@ class PostController extends GetxController {
   Future<bool> getPosts() async {
     postPage = 1;
     try {
+      log("posts got");
       var res = await NetworkApi().authGetData(
-          "api/catalog/posts?type=post&page=$postPage&limit=$postLimit");
-      final response = jsonDecode(res.body);
+          "api/catalog/posts?page=$postPage&limit=$postLimit&type=post");
+      log("posts got hereeeeee");
+      // final response = jsonDecode(res.body);
       postModel = FeedsModel.feedsModelFromJson(res.body);
-      log("posts got here || $response");
+      // log("posts got here || $response");
       return true;
     } catch (e) {
       print(e);
@@ -125,7 +127,7 @@ class PostController extends GetxController {
     try {
       print("page test 1 $postPage");
       var responseBody = await NetworkApi().authGetData(
-          "api/catalog/posts?type=post&page=$postPage&limit=$postLimit");
+          "api/catalog/posts?page=$postPage&limit=$postLimit&type=post");
       var response = jsonDecode(responseBody.body);
       if (response != null &&
           postModel != null &&

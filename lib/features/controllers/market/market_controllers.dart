@@ -239,11 +239,11 @@ class ProductController extends GetxController {
           "api/catalog/posts?page=$productPage&limit=$productLimit&type=product");
       final response = jsonDecode(responseBody.body);
       //marketModel = marketModelFromJson(responseBody);
-      log("products abeg $response");
+      // log("products abeg $response");
       marketModel.value = PostModel.postModelFromJson(responseBody.body);
-      log("response: $response");
-      log("${marketModel!.value.data![0].product!.images![0]}");
-      log("MarketProcuts: [$response]");
+      // log("response: $response");
+      // log("${marketModel!.value.data![0].product!.images![0]}");
+      // log("MarketProcuts: [$response]");
       return true;
     } catch (e, s) {
       log("fetchProdducts: $e");
@@ -257,10 +257,11 @@ class ProductController extends GetxController {
       var res = await NetworkApi()
           .authGetData('api/catalog/posts?type=product&title=$product');
       var response = jsonDecode(res.body);
-      log('SearchResponse: $response'); 
-      if(res.statusCode == 200){
+      log('SearchResponse: $response');
+      if (res.statusCode == 200) {
         var data = List<Map<String, dynamic>>.from(response["data"]);
-        List<SearchProduct> list = data.map((e)=> SearchProduct().fromJson(e)).toList();
+        List<SearchProduct> list =
+            data.map((e) => SearchProduct().fromJson(e)).toList();
         sProducts.value.addAll(list);
         log("LIST: $list");
         update();
@@ -276,7 +277,7 @@ class ProductController extends GetxController {
     }
   }
 
-  void clearList(){
+  void clearList() {
     sProducts.value.clear();
     log("clearled list of search items");
   }
@@ -343,7 +344,7 @@ class ProductController extends GetxController {
       userMarketModel =
           UserProductModel.userPostModelFromJson(responseBody.body);
       // print(userMarketModel!.data![0].location!.coordinates);
-      log("Userproducts || ${response}");
+      // log("Userproducts || ${response}");
       return true;
     } catch (e, s) {
       print(e);

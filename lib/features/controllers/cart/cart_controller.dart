@@ -62,7 +62,7 @@ class CartController extends GetxController {
       print("cart got here");
       cartModel.value = cartModelFromJson(responseBody.body);
       print(cartModel.value.products!.length);
-      log("all cart items || $response");
+      // log("all cart items || $response");
       return true;
     } catch (e) {
       print(e);
