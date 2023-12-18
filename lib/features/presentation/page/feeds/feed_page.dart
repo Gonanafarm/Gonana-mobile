@@ -429,7 +429,7 @@ class _FeedsPageState extends State<FeedsPage> {
                                                                     context)
                                                                 .size
                                                                 .width *
-                                                            0.8,
+                                                            0.85,
                                                         child:
                                                             postController
                                                                     .postModel!
@@ -657,101 +657,96 @@ class _FeedsPageState extends State<FeedsPage> {
                                                     //                 "Nuffin",
                                                     //           );
                                                     //         })),
-                                                    SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.8,
-                                                      //height: 43,
-                                                      child: TextField(
-                                                          // expands: true,
-                                                          minLines: null,
-                                                          maxLines: null,
-                                                          controller:
-                                                              commentController,
-                                                          decoration:
-                                                              InputDecoration(
-                                                            suffixIcon: InkWell(
-                                                                onTap: () {
-                                                                  log("Commentted");
-                                                                },
-                                                                child: Padding(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .only(
-                                                                              top: 15.0),
-                                                                  child:
-                                                                      InkWell(
-                                                                    onTap:
-                                                                        () async {
-                                                                      bool
-                                                                          commented;
-                                                                      setState(
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 8.0),
+                                                      child: SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.85,
+                                                        //height: 43,
+                                                        child: TextField(
+                                                            // expands: true,
+                                                            minLines: null,
+                                                            maxLines: null,
+                                                            controller:
+                                                                commentController,
+                                                            decoration:
+                                                                InputDecoration(
+                                                              suffixIcon:
+                                                                  InkWell(
+                                                                      onTap:
                                                                           () {
-                                                                        isCommentLoading =
-                                                                            true;
-                                                                      });
-                                                                      commented = await postController.makeComment(
-                                                                          postController
-                                                                              .postModel!
-                                                                              .data![index]
-                                                                              .product!
-                                                                              .id!,
-                                                                          commentController.text,
-                                                                          context);
-                                                                      if (commented) {
-                                                                        commentController
-                                                                            .clear();
-                                                                        setState(
-                                                                            () {
-                                                                          isCommentLoading =
-                                                                              false;
-                                                                        });
-                                                                      } else {
-                                                                        setState(
-                                                                            () {
-                                                                          isCommentLoading =
-                                                                              false;
-                                                                        });
-                                                                      }
-                                                                    },
-                                                                    child: isCommentLoading
-                                                                        ? Padding(
-                                                                            padding:
-                                                                                const EdgeInsets.all(15.0),
-                                                                            child: Container(
-                                                                                height: 25,
-                                                                                width: 25,
-                                                                                child: const CircularProgressIndicator(
-                                                                                  color: Color.fromRGBO(41, 132, 75, 1),
-                                                                                )),
-                                                                          )
-                                                                        : const Text('Post',
-                                                                            style: TextStyle(
-                                                                              color: greenColor,
-                                                                            )),
-                                                                  ),
-                                                                )),
-                                                            hintText:
-                                                                'Add a comment',
-                                                            enabledBorder:
-                                                                const OutlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                  width: 1,
-                                                                  color: Colors
-                                                                      .black),
-                                                            ),
-                                                            focusedBorder:
-                                                                const OutlineInputBorder(
-                                                              //<-- SEE HERE
-                                                              borderSide:
-                                                                  BorderSide(
-                                                                      width: 2,
-                                                                      color:
-                                                                          greenColor),
-                                                            ),
-                                                          )),
+                                                                        log("Commentted");
+                                                                      },
+                                                                      child:
+                                                                          Padding(
+                                                                        padding:
+                                                                            EdgeInsets.only(top: 15.0),
+                                                                        child:
+                                                                            InkWell(
+                                                                          onTap:
+                                                                              () async {
+                                                                            bool
+                                                                                commented;
+                                                                            setState(() {
+                                                                              isCommentLoading = true;
+                                                                            });
+                                                                            commented = await postController.makeComment(
+                                                                                postController.postModel!.data![index].product!.id!,
+                                                                                commentController.text,
+                                                                                context);
+                                                                            if (commented) {
+                                                                              commentController.clear();
+                                                                              setState(() {
+                                                                                isCommentLoading = false;
+                                                                              });
+                                                                            } else {
+                                                                              setState(() {
+                                                                                isCommentLoading = false;
+                                                                              });
+                                                                            }
+                                                                          },
+                                                                          child: isCommentLoading
+                                                                              ? Padding(
+                                                                                  padding: const EdgeInsets.all(15.0),
+                                                                                  child: Container(
+                                                                                      height: 25,
+                                                                                      width: 25,
+                                                                                      child: const CircularProgressIndicator(
+                                                                                        color: Color.fromRGBO(41, 132, 75, 1),
+                                                                                      )),
+                                                                                )
+                                                                              : const Text('Post',
+                                                                                  style: TextStyle(
+                                                                                    color: greenColor,
+                                                                                  )),
+                                                                        ),
+                                                                      )),
+                                                              hintText:
+                                                                  'Add a comment',
+                                                              enabledBorder:
+                                                                  const OutlineInputBorder(
+                                                                borderSide: BorderSide(
+                                                                    width: 1,
+                                                                    color: Colors
+                                                                        .black),
+                                                              ),
+                                                              focusedBorder:
+                                                                  const OutlineInputBorder(
+                                                                //<-- SEE HERE
+                                                                borderSide:
+                                                                    BorderSide(
+                                                                        width:
+                                                                            2,
+                                                                        color:
+                                                                            greenColor),
+                                                              ),
+                                                            )),
+                                                      ),
                                                     ),
                                                     Padding(
                                                       padding:
