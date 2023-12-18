@@ -19,7 +19,7 @@ import '../../utilities/network.dart';
 
 class PostController extends GetxController {
   //List<PostModel> postModel = [];
-  late FeedsModel.FeedsModel postModel;
+  FeedsModel.FeedsModel? postModel;
   GetPostModel getPostModel = GetPostModel();
   RxString title = "".obs;
   RxString body = "".obs;
