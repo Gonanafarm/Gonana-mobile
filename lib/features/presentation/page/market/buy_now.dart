@@ -162,11 +162,11 @@ class _BuyNowPageState extends State<BuyNowPage> {
                     //       decorationColor: Colors.black,
                     //       decorationThickness: 2.0,
                     //     )),
-                    Text("Location: ",
-                        style: GoogleFonts.montserrat(
-                            color: const Color.fromRGBO(0, 0, 0, 1),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400)),
+                    // Text("Location: ",
+                    //     style: GoogleFonts.montserrat(
+                    //         color: const Color.fromRGBO(0, 0, 0, 1),
+                    //         fontSize: 14,
+                    //         fontWeight: FontWeight.w400)),
                     Flexible(
                       child: Container(
                         child: FutureBuilder<String?>(
@@ -184,7 +184,7 @@ class _BuyNowPageState extends State<BuyNowPage> {
                                       fontWeight: FontWeight.w700));
                             } else {
                               return Text(
-                                "${snapshot.data} " ?? "",
+                                snapshot.data ?? "",
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   color: Colors.black,

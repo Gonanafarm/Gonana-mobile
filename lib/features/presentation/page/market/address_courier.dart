@@ -252,6 +252,19 @@ class _AddressCourierState extends State<AddressCourier> {
                           // Get.to(() => const AddressCourier());
                           // Passes the value here
                           print(courierItem.serviceCode);
+                          // setState(() {
+                          //   isLoading = true;
+                          // });
+                          // bool isSuccess = await cartController.getRates(
+                          //     orderList, courierItem.serviceCode, context);
+                          // if (isSuccess) {
+                          //   Get.to(() => const ProductCheckout(), arguments: {
+                          //     "courier": courierItem.serviceCode
+                          //   });
+                          // }
+                          // setState(() {
+                          //   isLoading = false;
+                          // });
                           if (isValidated && isiTemSelected) {
                             setState(() {
                               isLoading = true;

@@ -66,7 +66,7 @@ class _FiatWalletHomeState extends State<FiatWalletHome> {
           child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
             Container(
               width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.35,
               decoration: const BoxDecoration(
                   gradient: LinearGradient(
                       colors: [Color(0xff29844B), Color(0xff072C27)],
@@ -192,7 +192,7 @@ class _FiatWalletHomeState extends State<FiatWalletHome> {
                     transactionController
                         .transactionModel!.value.transactions!.isNotEmpty)
                 ? Container(
-                    height: MediaQuery.of(context).size.height * 0.7,
+                    height: MediaQuery.of(context).size.height * 0.65,
                     child: Column(
                       children: [
                         Expanded(

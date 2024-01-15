@@ -385,7 +385,7 @@ class _SendPasscodeState extends State<SendPasscode> {
                                           fontSize: 24,
                                           fontWeight: FontWeight.w600)),
                                   const Text(
-                                      'Enter you four digit password to delete your account',
+                                      'Enter you four digit password to withdraw from your account',
                                       style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400)),

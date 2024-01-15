@@ -71,22 +71,22 @@ class _StoreViewProductsState extends State<StoreViewProducts> {
                 Icons.arrow_back,
                 color: Colors.black,
               )),
-          actions: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(right: 24),
-              child: GestureDetector(
-                  onTap: () {},
-                  child: SvgPicture.asset('assets/svgs/send_icon.svg',
-                      height: 24, width: 24, fit: BoxFit.contain)),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 24),
-              child: GestureDetector(
-                  onTap: () {},
-                  child: SvgPicture.asset('assets/svgs/cart_icon.svg',
-                      height: 24, width: 24, fit: BoxFit.contain)),
-            )
-          ],
+          // actions: <Widget>[
+          //   Padding(
+          //     padding: const EdgeInsets.only(right: 24),
+          //     child: GestureDetector(
+          //         onTap: () {},
+          //         child: SvgPicture.asset('assets/svgs/send_icon.svg',
+          //             height: 24, width: 24, fit: BoxFit.contain)),
+          //   ),
+          //   Padding(
+          //     padding: const EdgeInsets.only(right: 24),
+          //     child: GestureDetector(
+          //         onTap: () {},
+          //         child: SvgPicture.asset('assets/svgs/cart_icon.svg',
+          //             height: 24, width: 24, fit: BoxFit.contain)),
+          //   )
+          // ],
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -162,13 +162,13 @@ class _StoreViewProductsState extends State<StoreViewProducts> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text(
-                            'Location: ',
-                            style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600),
-                          ),
+                          // Text(
+                          //   'Location: ',
+                          //   style: TextStyle(
+                          //       color: Colors.grey,
+                          //       fontSize: 10,
+                          //       fontWeight: FontWeight.w600),
+                          // ),
                           Flexible(
                             child: Container(
                               child: FutureBuilder<String?>(
@@ -186,7 +186,17 @@ class _StoreViewProductsState extends State<StoreViewProducts> {
                                             fontSize: 14,
                                             fontWeight: FontWeight.w700));
                                   } else {
-                                    return Text(snapshot.data ?? "");
+                                    return Text(
+                                      snapshot.data ?? "",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontFamily: 'Proxima Nova',
+                                        fontWeight: FontWeight.w400,
+                                        height: 0.92,
+                                      ),
+                                    );
                                   }
                                 },
                               ),

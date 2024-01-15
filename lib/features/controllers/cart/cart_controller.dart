@@ -93,7 +93,7 @@ class CartController extends GetxController {
       var response = jsonDecode(responseBody.body);
       // log("added cart items || $responseBody");
       log("added cart items response || $response");
-      SuccessSnackbar.show(context, "${response['message']}");
+      SuccessSnackbar.show(context, "Item added to cart");
       return true;
     } catch (e) {
       print(e);
