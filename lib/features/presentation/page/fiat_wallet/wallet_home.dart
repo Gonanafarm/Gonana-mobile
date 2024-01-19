@@ -87,7 +87,7 @@ class _FiatWalletHomeState extends State<FiatWalletHome> {
                         padding: EdgeInsets.symmetric(vertical: 10.0),
                         child: Obx(() {
                           return Text(
-                              'NGN ${transactionController.balanceModel?.value.balance ?? 0}',
+                              'NGN ${transactionController.balanceModel.value.balance ?? 0}',
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                   color: Colors.white,
@@ -161,28 +161,43 @@ class _FiatWalletHomeState extends State<FiatWalletHome> {
                     ]),
               ),
             ),
-            (BVNisSubmited != null && BVNisSubmited!) ||
+            ((BVNisSubmited != null && BVNisSubmited!) ||
+                        (userController.userModel != null &&
+                            userController
+                                    .userModel.value.virtualAccountNumber !=
+                                null &&
+                            userController.userModel.value.virtualAccountNumber!
+                                .isNotEmpty)) ||
                     (userController.userModel != null &&
-                        userController.userModel.value.virtualAccountNumber !=
-                            null &&
-                        userController
-                            .userModel.value.virtualAccountNumber!.isNotEmpty)
+                        userController.userModel.value.country != null &&
+                        !userController.userModel.value.country!
+                            .contains("Nigeria"))
                 ? sizeVer(1)
                 : sizeVer(20),
-            (BVNisSubmited != null && BVNisSubmited!) ||
+            ((BVNisSubmited != null && BVNisSubmited!) ||
+                        (userController.userModel != null &&
+                            userController
+                                    .userModel.value.virtualAccountNumber !=
+                                null &&
+                            userController.userModel.value.virtualAccountNumber!
+                                .isNotEmpty)) ||
                     (userController.userModel != null &&
-                        userController.userModel.value.virtualAccountNumber !=
-                            null &&
-                        userController
-                            .userModel.value.virtualAccountNumber!.isNotEmpty)
+                        userController.userModel.value.country != null &&
+                        !userController.userModel.value.country!
+                            .contains("Nigeria"))
                 ? Container(height: 1)
                 : WarningWidget(),
-            (BVNisSubmited != null && BVNisSubmited!) ||
+            ((BVNisSubmited != null && BVNisSubmited!) ||
+                        (userController.userModel != null &&
+                            userController
+                                    .userModel.value.virtualAccountNumber !=
+                                null &&
+                            userController.userModel.value.virtualAccountNumber!
+                                .isNotEmpty)) ||
                     (userController.userModel != null &&
-                        userController.userModel.value.virtualAccountNumber !=
-                            null &&
-                        userController
-                            .userModel.value.virtualAccountNumber!.isNotEmpty)
+                        userController.userModel.value.country != null &&
+                        !userController.userModel.value.country!
+                            .contains("Nigeria"))
                 ? sizeVer(1)
                 : sizeVer(20),
             (transactionController.transactionModel != null &&

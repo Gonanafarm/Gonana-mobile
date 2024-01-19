@@ -91,8 +91,12 @@ class _StoreState extends State<Store> {
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
                   BVNisSubmited = prefs.getBool('bvnSubmission');
-                  if (userController.userModel.value.virtualAccountNumber !=
-                      null) {
+                  if ((userController.userModel.value.virtualAccountNumber !=
+                          null) &&
+                      (userController.userModel != null &&
+                          userController.userModel.value.country != null &&
+                          !userController.userModel.value.country!
+                              .contains("Nigeria"))) {
                     Get.to(() => AddProduct());
                   } else if ((userController
                               .userModel.value.virtualAccountNumber ==
@@ -125,12 +129,16 @@ class _StoreState extends State<Store> {
           ),
         ),
         sizeVer(10),
-        (BVNisSubmited != null && BVNisSubmited!) ||
+        ((BVNisSubmited != null && BVNisSubmited!) ||
+                    (userController.userModel != null &&
+                        userController.userModel.value.virtualAccountNumber !=
+                            null &&
+                        userController.userModel.value.virtualAccountNumber!
+                            .isNotEmpty)) ||
                 (userController.userModel != null &&
-                    userController.userModel.value.virtualAccountNumber !=
-                        null &&
-                    userController
-                        .userModel.value.virtualAccountNumber!.isNotEmpty)
+                    userController.userModel.value.country != null &&
+                    !userController.userModel.value.country!
+                        .contains("Nigeria"))
             ? Container(height: 1)
             : WarningWidget(),
         marketController.userMarketModel == null ||

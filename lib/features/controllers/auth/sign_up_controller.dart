@@ -20,6 +20,7 @@ class SignUpController extends GetxController {
       String email,
       //String accountType,
       String password,
+      String countryValue,
       var context) async {
     //print(countryId.runtimeType);
     try {
@@ -30,6 +31,7 @@ class SignUpController extends GetxController {
         'email': email,
         'account_type': "FARMER",
         'password': password,
+        'country': countryValue,
       };
       var res = await NetworkApi().postData(data, 'api/auth/signup');
       final result = jsonDecode(res.body);

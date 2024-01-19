@@ -41,6 +41,7 @@ class UserController extends GetxController {
       // final response = jsonDecode(responseBody.body);
       userModel.value = userModelFromJson(responseBody.body);
       update();
+      log(responseBody.body);
       log(" user details gotten ${userModel.value.email}");
       return true;
     } catch (e) {

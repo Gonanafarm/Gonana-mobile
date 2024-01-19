@@ -24,6 +24,9 @@ class UserModel {
   String? virtualAccountBankName;
   String? virtual_account_name;
   List<dynamic>? address;
+  String? walletBalance;
+  String? walletAddress;
+  String? country;
 
   UserModel({
     this.id,
@@ -41,6 +44,9 @@ class UserModel {
     this.virtualAccountBankName,
     this.virtual_account_name,
     this.address,
+    this.walletBalance,
+    this.walletAddress,
+    this.country,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
@@ -61,6 +67,9 @@ class UserModel {
         address: json["address"] == null
             ? []
             : List<dynamic>.from(json["address"]!.map((x) => x)),
+        walletBalance: json["wallet"],
+        walletAddress: json["wallet_address"],
+        country: json["country"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -80,5 +89,8 @@ class UserModel {
         "virtual_account_name": virtualAccountBankName,
         "address":
             address == null ? [] : List<dynamic>.from(address!.map((x) => x)),
+        "wallet": walletBalance,
+        "wallet_address": walletAddress,
+        "country": country,
       };
 }

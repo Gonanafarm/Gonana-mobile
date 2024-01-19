@@ -51,7 +51,7 @@ class _ResetPasswordVerificationState extends State<ResetPasswordVerification> {
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'Enter the code that was sent to Johndavid@gmail.com',
+                      'Enter the code that was sent to your email',
                       style:
                           TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                       textAlign: TextAlign.left,

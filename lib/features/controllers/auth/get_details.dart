@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:gonana/features/controllers/fiat_wallet/transaction_controller.dart';
 
 import '../cart/cart_controller.dart';
 import '../market/market_controllers.dart';
@@ -9,6 +10,8 @@ class GetDetailsController extends GetxController {
   PostController postsController = Get.put(PostController());
   ProductController productController = Get.put(ProductController());
   UserController userController = Get.put(UserController());
+  TransactionController transactionController =
+      Get.put(TransactionController());
   CartController cartController = Get.put(CartController());
   Future<bool> getPosts() async {
     var data = await postsController.getPosts();
@@ -48,8 +51,15 @@ class GetDetailsController extends GetxController {
     var data2 = await getDiscountedProducts();
     var data3 = await getProducts();
     var data4 = await getPosts();
+    var data5 = await transactionController.fetchCryptoBalance();
+    var data6 = await transactionController.fetchBalance();
     print("User details gotten");
-    if (data1 != false && data2 != false && data3 != false && data4 != null) {
+    if (data1 != false &&
+        data2 != false &&
+        data3 != false &&
+        data4 != null &&
+        data5 != null &&
+        data6 != null) {
       return true;
     } else {
       return false;

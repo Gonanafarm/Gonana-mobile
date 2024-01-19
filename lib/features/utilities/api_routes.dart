@@ -31,7 +31,7 @@ class ApiRoute {
   static const getPosts = "api/catalog/posts?type=post";
   static const likePost = "api/catalog/posts/like";
   static const unlikePost = "api/catalog/posts/unlike";
-  static const comment = "api/catalog/posts/comment" ;
+  static const comment = "api/catalog/posts/comment";
   static const getComments = "api/catalog/posts/post-comments";
 
   // static const getProducts = "api/catalog/posts?$page=1&limit=2&type=product";
@@ -85,6 +85,7 @@ class ApiRoute {
 
   // get wallet balance
   static const getWalletBalance = 'api/transaction/user-balance';
+  static const getCryptoWalletBalance = 'api/transaction/crypto-balance';
 
   // get wallet transactions
   static const getWalletTransactions = 'api/transaction/user-transactions';

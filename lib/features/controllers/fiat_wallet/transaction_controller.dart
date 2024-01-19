@@ -6,6 +6,7 @@ import 'package:gonana/features/data/models/get_balance_model.dart';
 import 'package:gonana/features/data/models/get_transaction_model.dart'
     as Transaction;
 
+import '../../data/models/CryptoBalanceModel.dart';
 import '../../presentation/widgets/widgets.dart';
 import '../../utilities/api_routes.dart';
 import '../../utilities/network.dart';
@@ -26,6 +27,7 @@ class TransactionController extends GetxController {
         print(responseBody.statusCode);
         SuccessSnackbar.show(context,
             "BVN submitted successfully,\nyou would get a an email concerning your email verification");
+        // SuccessSnackbar.show(context, "${response['responseMessage']}");
         return true;
       } else {
         ErrorSnackbar.show(context, "${response['message']}");
@@ -48,6 +50,28 @@ class TransactionController extends GetxController {
         balanceModel.value = getBalanceModelFromJson(responseBody.body);
         log("Wallet balance || $response");
         log("Wallet balance || ${balanceModel.value.balance}");
+        return true;
+      } else {
+        log(response);
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  var cryptoBalanceModel = GetCryptoBalance();
+  Future<bool> fetchCryptoBalance() async {
+    try {
+      var responseBody =
+          await NetworkApi().authGetData(ApiRoute.getCryptoWalletBalance);
+      final response = jsonDecode(responseBody.body);
+      print("crypto wallet balance");
+      if (responseBody.statusCode == 200) {
+        cryptoBalanceModel = getCryptoBalanceFromJson(responseBody.body);
+        log("Crypto wallet balance || $response");
+        log("Crypto wallet balance || ${cryptoBalanceModel.cryptoWalletBalanceInNgn}");
         return true;
       } else {
         log(response);

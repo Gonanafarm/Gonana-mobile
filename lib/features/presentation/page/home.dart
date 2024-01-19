@@ -44,7 +44,8 @@ class _HomePageState extends State<HomePage> {
   final screens = [
     const MarketPage(),
     // const WalletPage(),
-    const FiatWalletHome(),
+    // const FiatWalletHome(),
+    WalletPage(),
     const FeedsPage(),
     // const Notifications(),
     const Settings(),

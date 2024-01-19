@@ -90,8 +90,8 @@ class _AddressCourierState extends State<AddressCourier> {
                 ShortGradientButton(
                     title: 'Validate',
                     onPressed: () async {
-                      var isSuccess =
-                          await cartController.validateAddress(address);
+                      var isSuccess = await cartController.validateAddress(
+                          address, context);
                       if (isSuccess == true) {
                         log('isSUccess: $isSuccess');
                         SuccessSnackbar.show(
@@ -265,7 +265,8 @@ class _AddressCourierState extends State<AddressCourier> {
                           // setState(() {
                           //   isLoading = false;
                           // });
-                          if (isValidated && isiTemSelected) {
+                          // if (isValidated && isiTemSelected) {
+                          if (isiTemSelected) {
                             setState(() {
                               isLoading = true;
                             });

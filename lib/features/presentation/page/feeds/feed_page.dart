@@ -259,16 +259,23 @@ class _FeedsPageState extends State<FeedsPage> {
                             ? Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  (BVNisSubmited != null && BVNisSubmited!) ||
+                                  ((BVNisSubmited != null && BVNisSubmited!) ||
+                                              (userController.userModel != null &&
+                                                  userController.userModel.value
+                                                          .virtualAccountNumber !=
+                                                      null &&
+                                                  userController
+                                                      .userModel
+                                                      .value
+                                                      .virtualAccountNumber!
+                                                      .isNotEmpty)) ||
                                           (userController.userModel != null &&
                                               userController.userModel.value
-                                                      .virtualAccountNumber !=
+                                                      .country !=
                                                   null &&
-                                              userController
-                                                  .userModel
-                                                  .value
-                                                  .virtualAccountNumber!
-                                                  .isNotEmpty)
+                                              !userController
+                                                  .userModel.value.country!
+                                                  .contains("Nigeria"))
                                       ? Container(height: 1)
                                       : const WarningWidget(),
                                   Container(
@@ -778,16 +785,23 @@ class _FeedsPageState extends State<FeedsPage> {
                               )
                             : Column(
                                 children: [
-                                  (BVNisSubmited != null && BVNisSubmited!) ||
+                                  ((BVNisSubmited != null && BVNisSubmited!) ||
+                                              (userController.userModel != null &&
+                                                  userController.userModel.value
+                                                          .virtualAccountNumber !=
+                                                      null &&
+                                                  userController
+                                                      .userModel
+                                                      .value
+                                                      .virtualAccountNumber!
+                                                      .isNotEmpty)) &&
                                           (userController.userModel != null &&
                                               userController.userModel.value
-                                                      .virtualAccountNumber !=
+                                                      .country !=
                                                   null &&
-                                              userController
-                                                  .userModel
-                                                  .value
-                                                  .virtualAccountNumber!
-                                                  .isNotEmpty)
+                                              !userController
+                                                  .userModel.value.country!
+                                                  .contains("Nigeria"))
                                       ? Container(height: 0)
                                       : const WarningWidget(),
                                   Center(

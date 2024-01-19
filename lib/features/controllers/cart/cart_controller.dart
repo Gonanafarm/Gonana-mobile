@@ -260,7 +260,7 @@ class CartController extends GetxController {
     return false;
   }
 
-  Future<bool> validateAddress(String address) async {
+  Future<bool> validateAddress(String address, var context) async {
     try {
       var data = {'address': address};
       var res = await NetworkApi().authPostData(data, ApiRoute.validateAddress);
@@ -271,6 +271,7 @@ class CartController extends GetxController {
         return true;
       } else {
         log('rezzzz: $result');
+        ErrorSnackbar.show(context, result['message']);
         return false;
       }
     } catch (e, s) {

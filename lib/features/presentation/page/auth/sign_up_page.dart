@@ -1,3 +1,4 @@
+import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gonana/consts.dart';
@@ -46,6 +47,8 @@ class _SignUpState extends State<SignUp> {
     prefs.setInt('registrationStage', 1);
   }
 
+  String countryValue = '';
+  bool countryValueError = false;
   @override
   Widget build(BuildContext context) {
     SignUpController signUpController = Get.put(SignUpController());
@@ -161,6 +164,46 @@ class _SignUpState extends State<SignUp> {
                                               hintText: 'Enter your password'),
                                         ),
                                         const SizedBox(height: 10),
+                                        CSCPicker(
+                                          showCities: false,
+                                          showStates: false,
+                                          dropdownDecoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(8)),
+                                              color: Colors.transparent,
+                                              border: Border.all(
+                                                  color: countryValueError
+                                                      ? Colors.red
+                                                      : Colors.grey,
+                                                  width: 1)),
+                                          onCountryChanged: (value) {
+                                            setState(() {
+                                              countryValue = value;
+                                              countryValueError = true;
+                                            });
+                                          },
+                                          onStateChanged: (state) {
+                                            if (state != null) {
+                                              setState(() {
+                                                var selectedState = state!;
+                                              });
+                                            }
+                                          },
+                                          onCityChanged: (city) {
+                                            if (city != null) {
+                                              setState(() {
+                                                var selectedCity = city!;
+                                              });
+                                            }
+                                          },
+                                        ),
+                                        countryValueError == true
+                                            ? const Text(
+                                                "Select a country",
+                                                style: TextStyle(
+                                                    color: Colors.red),
+                                              )
+                                            : const Text("")
                                         // EnterFormText(
                                         //     controller: _bvn,
                                         //     validator: bvnValidator,
@@ -191,7 +234,7 @@ class _SignUpState extends State<SignUp> {
                       title: 'Proceed',
                       onPressed: () async {
                         bool isValid = _signInkey.currentState!.validate();
-                        if (isValid) {
+                        if (isValid && countryValueError) {
                           setState(() {
                             isLoading = true;
                           });
@@ -201,6 +244,7 @@ class _SignUpState extends State<SignUp> {
                             phoneNumber,
                             email,
                             password,
+                            countryValue,
                             context,
                           );
                           if (isSuccess) {
@@ -212,6 +256,9 @@ class _SignUpState extends State<SignUp> {
                             });
                           }
                         } else {
+                          setState(() {
+                            countryValueError = true;
+                          });
                           setState(() {
                             isLoading = false;
                           });

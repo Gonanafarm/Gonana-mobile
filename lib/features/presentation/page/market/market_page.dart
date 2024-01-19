@@ -287,13 +287,21 @@ class _MarketPageState extends State<MarketPage> {
                             },
                           ),
                         ),
-                        (BVNisSubmited != null && BVNisSubmited!) ||
+                        ((BVNisSubmited != null && BVNisSubmited!) ||
+                                    (userController.userModel != null &&
+                                        userController.userModel.value
+                                                .virtualAccountNumber !=
+                                            null &&
+                                        userController
+                                            .userModel
+                                            .value
+                                            .virtualAccountNumber!
+                                            .isNotEmpty)) ||
                                 (userController.userModel != null &&
-                                    userController.userModel.value
-                                            .virtualAccountNumber !=
+                                    userController.userModel.value.country !=
                                         null &&
-                                    userController.userModel.value
-                                        .virtualAccountNumber!.isNotEmpty)
+                                    !userController.userModel.value.country!
+                                        .contains("Nigeria"))
                             ? Container(height: 1)
                             : WarningWidget(),
                         sizeVer(15),

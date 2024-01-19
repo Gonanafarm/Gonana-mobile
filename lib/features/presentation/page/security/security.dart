@@ -52,7 +52,7 @@ class _SecurityState extends State<Security> {
               const Padding(
                 padding: EdgeInsets.only(bottom: 28.0),
                 child: Text(
-                  'Strengthen you security',
+                  'Strengthen your security',
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                   textAlign: TextAlign.left,
                 ),
@@ -65,7 +65,6 @@ class _SecurityState extends State<Security> {
                         vertical: 14.0, horizontal: 0.0),
                     child: GestureDetector(
                       onTap: () {
-                        
                         Get.to(() => ResetPassword());
                       },
                       child: Container(
@@ -89,20 +88,17 @@ class _SecurityState extends State<Security> {
                               Padding(
                                 padding: const EdgeInsets.only(right: 15.0),
                                 child: IconButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => ResetPassword()
-                                      )
-                                    );
-                                  },
-                                  icon: const Icon(Icons.arrow_forward_ios)
-                                ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ResetPassword()));
+                                    },
+                                    icon: const Icon(Icons.arrow_forward_ios)),
                               )
                             ],
-                          )
-                        ),
+                          )),
                     ),
                   ),
                   Padding(

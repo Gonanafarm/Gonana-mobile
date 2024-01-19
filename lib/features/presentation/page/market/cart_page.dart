@@ -220,9 +220,16 @@ class _CartPageState extends State<CartPage> {
                                         await SharedPreferences.getInstance();
                                     BVNisSubmited =
                                         prefs.getBool('bvnSubmission');
-                                    if (userController.userModel.value
-                                            .virtualAccountNumber !=
-                                        null) {
+                                    if ((userController.userModel.value
+                                                .virtualAccountNumber !=
+                                            null) ||
+                                        (userController.userModel != null &&
+                                            userController
+                                                    .userModel.value.country !=
+                                                null &&
+                                            !userController
+                                                .userModel.value.country!
+                                                .contains("Nigeria"))) {
                                       setState(() {
                                         isLoading = true;
                                       });
