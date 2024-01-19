@@ -112,7 +112,8 @@ class _CryptoPasscodeState extends State<CryptoPasscode> {
                   onPressed: () async {
                     bool created = false;
                     print("passcode: $passCode");
-                    created = await passcodeController.verifyPasscode(passCode);
+                    created = await passcodeController.verifyPasscode(
+                        passCode, context);
                     if (created) {
                       showDialog(
                         context: context,

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:gonana/consts.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+
+import '../../../controllers/user/user_controller.dart';
 
 class SendReceiveQR extends StatefulWidget {
   const SendReceiveQR({super.key});
@@ -12,6 +15,7 @@ class SendReceiveQR extends StatefulWidget {
 }
 
 class _SendReceiveQRState extends State<SendReceiveQR> {
+  UserController userController = Get.put(UserController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,48 +46,68 @@ class _SendReceiveQRState extends State<SendReceiveQR> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: SizedBox(
-                  height: 216,
-                  width: 216,
+                  height: MediaQuery.of(context).size.height * 0.25,
+                  // width: MediaQuery.of(context).size.width * 0.8,
                   child: QrImageView(
-                    data: 'GonanaApp.dev.',
+                    data: '${userController.userModel.value.walletAddress}',
                     version: QrVersions.auto,
-                    size: 210.0,
+                    size: 200.0,
                   ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Container(
-                    width: 342,
+                    width: MediaQuery.of(context).size.width * 0.8,
                     height: 74,
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(5)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text(
-                          '0xfeebabe6b0418ec13b30aadf129f5dcdd4f70cea',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              '${userController.userModel.value.walletAddress}',
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              textAlign: TextAlign.left,
+                              overflow: TextOverflow.fade,
+                            ),
                           ),
-                          textAlign: TextAlign.left,
-                          overflow: TextOverflow.fade,
-                        ),
-                        SvgPicture.asset('assets/svgs/content_edit.svg')
-                      ],
+                          sizeHor(10),
+                          GestureDetector(
+                              onTap: () {
+                                String textToCopy =
+                                    "${userController.userModel.value.walletAddress}";
+                                Clipboard.setData(
+                                    ClipboardData(text: textToCopy));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        "Wallet address copied to clipboard"),
+                                  ),
+                                );
+                              },
+                              child: SvgPicture.asset(
+                                  'assets/svgs/content_edit.svg'))
+                        ],
+                      ),
                     )),
               ),
-              const Text(
-                'Minimum receivable: 20GNX',
-                style: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w400,
-                ),
-                textAlign: TextAlign.center,
-              ),
+              // const Text(
+              //   'Minimum receivable: 20GNX',
+              //   style: TextStyle(
+              //     fontSize: 10,
+              //     fontWeight: FontWeight.w400,
+              //   ),
+              //   textAlign: TextAlign.center,
+              // ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Container(
@@ -93,7 +117,7 @@ class _SendReceiveQRState extends State<SendReceiveQR> {
                     width: 1,
                   )),
                   child: const Text(
-                      'Warning !!!\n please send only Gona to this address, sending any other\n token to this address would result in permanent loss',
+                      'Warning !!!\n please send only eth to this address, sending any other\n token to this address would result in permanent loss',
                       style: TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.w600,

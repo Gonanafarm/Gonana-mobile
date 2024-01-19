@@ -334,8 +334,8 @@ class _SendPasscodeState extends State<SendPasscode> {
                     setState(() {
                       isLoading = true;
                     });
-                    bool isPasscode = await passcodeController
-                        .verifyPasscode(_passCodeController.text);
+                    bool isPasscode = await passcodeController.verifyPasscode(
+                        _passCodeController.text, context);
                     if (isPasscode == true) {
                       log("Correct passcode");
                       bool transactionSucces = await transactionController

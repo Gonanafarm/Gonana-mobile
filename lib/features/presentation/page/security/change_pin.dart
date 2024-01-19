@@ -92,8 +92,8 @@ class _ChangePinState extends State<ChangePin> {
                   setState(() {
                     isLoading = true;
                   });
-                  bool isPasscode =
-                      await passcodeController.verifyPasscode(_oldPin.text);
+                  bool isPasscode = await passcodeController.verifyPasscode(
+                      _oldPin.text, context);
                   if (isPasscode) {
                     setState(() {
                       isLoading = false;

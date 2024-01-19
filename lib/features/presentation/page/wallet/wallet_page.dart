@@ -10,6 +10,7 @@ import '../../../controllers/fiat_wallet/transaction_controller.dart';
 import '../../../controllers/user/user_controller.dart';
 import '../../widgets/warning_widget.dart';
 import '../savings/savings_splash.dart';
+import '../send/send_chart.dart';
 import '../staking/staking_splash.dart';
 import '../swap/swap_page.dart';
 
@@ -325,52 +326,57 @@ class _WalletPageState extends State<WalletPage> {
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20.0, vertical: 6),
-                          child: Container(
-                              width: 342,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: primaryColor),
-                              child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Image.asset(
-                                        'assets/images/ethereum_logo.png'),
-                                    const SizedBox(width: 20),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Text(
-                                            'ETH ${transactionController.cryptoBalanceModel.cryptoWalletBalanceInEth ?? 0}',
-                                            style: const TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w600)),
-                                        Text(
-                                            'NGN ${transactionController.cryptoBalanceModel.cryptoWalletBalanceInNgn ?? 0}',
-                                            style: const TextStyle(
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.w400)),
-                                      ],
-                                    ),
-                                    const SizedBox(width: 20),
-                                    const SizedBox(
-                                      width: 60,
-                                      child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            // Text('-1.23%',
-                                            //     style: TextStyle(
-                                            //         color: redColor,
-                                            //         fontSize: 10,
-                                            //         fontWeight:
-                                            //             FontWeight.w400)),
-                                            Icon(Icons.arrow_forward_ios)
-                                          ]),
-                                    ),
-                                  ])),
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.to(() => const SendChart());
+                            },
+                            child: Container(
+                                // width: 342,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: primaryColor),
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Image.asset(
+                                          'assets/images/ethereum_logo.png'),
+                                      const SizedBox(width: 20),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Text(
+                                              'ETH ${transactionController.cryptoBalanceModel.cryptoWalletBalanceInEth ?? 0}',
+                                              style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w600)),
+                                          Text(
+                                              'NGN ${transactionController.cryptoBalanceModel.cryptoWalletBalanceInNgn ?? 0}',
+                                              style: const TextStyle(
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.w400)),
+                                        ],
+                                      ),
+                                      const SizedBox(width: 20),
+                                      const SizedBox(
+                                        width: 60,
+                                        child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              // Text('-1.23%',
+                                              //     style: TextStyle(
+                                              //         color: redColor,
+                                              //         fontSize: 10,
+                                              //         fontWeight:
+                                              //             FontWeight.w400)),
+                                              Icon(Icons.arrow_forward_ios)
+                                            ]),
+                                      ),
+                                    ])),
+                          ),
                         ),
                       ],
                     ),

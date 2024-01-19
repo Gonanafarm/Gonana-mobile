@@ -29,7 +29,7 @@ class PasscodeController extends GetxController {
     }
   }
 
-  Future<bool> verifyPasscode(String? passcode) async {
+  Future<bool> verifyPasscode(String? passcode, var context) async {
     var data = {
       "passcode": passcode,
     };
@@ -40,8 +40,10 @@ class PasscodeController extends GetxController {
       log("passcode response || ${responseBody.body}");
       print(responseBody.statusCode);
       if (responseBody.statusCode == 200) {
+        SuccessSnackbar.show(context, response["message"]);
         return true;
       } else {
+        ErrorSnackbar.show(context, response["message"]);
         return false;
       }
     } catch (e) {
@@ -99,7 +101,8 @@ class PasscodeController extends GetxController {
   Future<bool> resetPasscodeOtp(String? otp, String? pin, var context) async {
     var data = {"otp": otp, "passcode": pin};
     try {
-      var responseBody = await NetworkApi().authPostData(data, ApiRoute.verifyResetOtp);
+      var responseBody =
+          await NetworkApi().authPostData(data, ApiRoute.verifyResetOtp);
       final response = jsonDecode(responseBody.body);
       log("passcode response || ${responseBody.body}");
       print(responseBody.statusCode);

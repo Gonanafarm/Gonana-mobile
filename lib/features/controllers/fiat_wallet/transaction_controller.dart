@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:gonana/features/data/models/get_balance_model.dart';
 import 'package:gonana/features/data/models/get_transaction_model.dart'
@@ -167,6 +168,36 @@ class TransactionController extends GetxController {
         print(responseBody.statusCode);
         return true;
       } else {
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> sendToken(
+    String amount,
+    String walletAddress,
+    BuildContext context,
+  ) async {
+    try {
+      var data = {
+        'amount': amount,
+        'address': walletAddress,
+      };
+      print(data);
+      var responseBody =
+          await NetworkApi().authPostData(data, ApiRoute.transferCrypto);
+      var response = jsonDecode(responseBody.body);
+      // log("added cart items || $responseBody");
+      log("crypto transfer || $response");
+      if (responseBody.statusCode == 201) {
+        print(responseBody.statusCode);
+        SuccessSnackbar.show(context, response["message"]);
+        return true;
+      } else {
+        ErrorSnackbar.show(context, response["message"]);
         return false;
       }
     } catch (e) {

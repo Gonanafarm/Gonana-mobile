@@ -67,6 +67,7 @@ class ApiRoute {
 
   //Payment url
   static const transferFunds = "api/transaction/transfer";
+  static const transferCrypto = "api/transaction/send-eth";
 
   //Validate Address
   static const validateAddress = 'api/logistics/validate-user-address';
