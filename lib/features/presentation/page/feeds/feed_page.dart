@@ -932,9 +932,11 @@ class _FeedsPageState extends State<FeedsPage> {
                                     ? (postController
                                                 .commentModel!
                                                 .comments![index]
-                                                .image
-                                                ?.isNotEmpty ??
-                                            true)
+                                                .image!
+                                                .isNotEmpty ||
+                                            postController.commentModel!
+                                                    .comments![index].image !=
+                                                null)
                                         ? Container(
                                             height: 25,
                                             width: 25,
@@ -944,23 +946,20 @@ class _FeedsPageState extends State<FeedsPage> {
                                               ),
                                             ),
                                           )
-                                        : Obx(() {
-                                            return Container(
-                                              height: 25,
-                                              width: 25,
-                                              child: ClipOval(
+                                        : Container(
+                                            height: 25,
+                                            width: 25,
+                                            child: ClipOval(
                                                 child: FadeInImage(
-                                                  fit: BoxFit.cover,
-                                                  image: NetworkImage(
-                                                    "${postController.commentModel!.comments![index].image}",
-                                                  ),
-                                                  placeholder: const AssetImage(
-                                                    "assets/images/gonanas_profile.png",
-                                                  ),
-                                                ),
+                                              fit: BoxFit.cover,
+                                              image: NetworkImage(
+                                                "${postController.commentModel!.comments![index].image}",
                                               ),
-                                            );
-                                          })
+                                              placeholder: const AssetImage(
+                                                "assets/images/gonanas_profile.png",
+                                              ),
+                                            )),
+                                          )
                                     : Container(),
                                 // Handle the case when userModel.value is null
                                 SizedBox(
