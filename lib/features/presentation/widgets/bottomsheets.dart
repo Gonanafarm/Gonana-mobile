@@ -468,25 +468,30 @@ checkout(BuildContext context, var courier) {
 }
 
 cryptoPayBottomSheet(BuildContext context) {
+  TransactionController transactionController =
+      Get.put(TransactionController());
   List<String> tokenNames = [
-    'ETH 0',
-    'BTC 0',
-    'Gona',
-    'CCDT 0',
-    'USDT 0',
-    'BNB 0',
-    'MATIC 0'
+    'ETH ',
+    // 'BTC 0',
+    // 'Gona',
+    // 'CCDT 0',
+    // 'USDT 0',
+    // 'BNB 0',
+    // 'MATIC 0'
   ];
   List<String> tokenLogo = [
     'eth',
-    'btc_logo',
-    'gona_logo',
-    'ccd_logo',
-    'usdt_logo',
-    'bnb_logo',
-    'matic_logo'
+    // 'btc_logo',
+    // 'gona_logo',
+    // 'ccd_logo',
+    // 'usdt_logo',
+    // 'bnb_logo',
+    // 'matic_logo'
   ];
-  List<String> tokenValue = ['0', '0', '500,000', '', '0', '0', '0'];
+  List<String> tokenValue = [
+    'ETH ${transactionController.cryptoBalanceModel.cryptoWalletBalanceInEth ?? 0}',
+    // '0', '500,000', '', '0', '0', '0'
+  ];
   showModalBottomSheet(
       context: context,
       isScrollControlled: true,
