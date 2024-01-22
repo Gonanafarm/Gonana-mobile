@@ -4,13 +4,18 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:gonana/features/controllers/cart/cart_controller.dart';
+import 'package:gonana/features/controllers/crypto/crypto_pay.dart';
 import 'package:gonana/features/presentation/page/auth/emailverification.dart';
+import 'package:gonana/features/presentation/page/crypto_pay/crypto_pay.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../consts.dart';
+import '../../controllers/fiat_wallet/transaction_controller.dart';
 import '../../controllers/swap/swap_controller.dart';
+import '../../controllers/user/user_controller.dart';
 import '../page/home.dart';
+import '../page/market/product_checkout.dart';
 import '../page/swap/swap_page.dart';
 import '../page/verification/verification.dart';
 import 'CheckoutButton.dart';
@@ -249,68 +254,222 @@ tokenBottomSheet2(BuildContext context) {
 }
 
 final cartController = Get.find<CartController>();
-checkout(BuildContext context) {
+checkout(BuildContext context, var courier) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
     builder: (context) {
-      return Container(
-        height: MediaQuery.of(context).size.height * 0.85,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: IconButton(
-                    icon: const Icon(
-                      Icons.close,
-                      color: greyColor,
-                      size: 29,
+      String selectedRadioValue = '';
+      UserController userController = Get.put(UserController());
+      TransactionController transactionController =
+          Get.put(TransactionController());
+      var totalPrice =
+          "${cartController.succesfullTransactionModel!.totalShippingCost != null ? (double.parse(cartController.succesfullTransactionModel!.totalShippingCost.toString()) + cartController.succesfullTransactionModel!.productCost!) : cartController.succesfullTransactionModel!.productCost!}";
+      return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.55,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.close,
+                        color: greyColor,
+                        size: 29,
+                      ),
+                      onPressed: () {
+                        Future.delayed(Duration.zero, () {
+                          Navigator.pop(context);
+                        });
+                      },
                     ),
-                    onPressed: () {
-                      Future.delayed(Duration.zero, () {
-                        Navigator.pop(context);
-                      });
-                    },
                   ),
-                ),
-                sizeVer(15.0),
-                Center(
-                  child: Text(
-                    "NGN ${cartController.totalPrice}",
-                    style: GoogleFonts.montserrat(
-                        fontSize: 24,
-                        color: greenColor,
-                        fontWeight: FontWeight.w600),
+                  // sizeVer(15.0),
+                  // Center(
+                  //   child: Text(
+                  //     "NGN ${cartController.totalPrice}",
+                  //     style: GoogleFonts.montserrat(
+                  //         fontSize: 24,
+                  //         color: greenColor,
+                  //         fontWeight: FontWeight.w600),
+                  //   ),
+                  // ),
+                  cartController.succesfullTransactionModel != null
+                      ? Center(
+                          child: Text(
+                            "NGN ${cartController.succesfullTransactionModel!.totalShippingCost != null ? (double.parse(cartController.succesfullTransactionModel!.totalShippingCost.toString()) + cartController.succesfullTransactionModel!.productCost!) : cartController.succesfullTransactionModel!.productCost!}",
+                            style: GoogleFonts.montserrat(
+                                fontSize: 24,
+                                color: greenColor,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        )
+                      : Text(""),
+                  sizeVer(15),
+                  myDivider(),
+                  Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: primaryColor),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Payment Type",
+                            style: GoogleFonts.montserrat(
+                              fontSize: 16,
+                              color: darkColor,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          sizeVer(10),
+                          ListTile(
+                            visualDensity:
+                                VisualDensity(horizontal: -4, vertical: -4),
+                            contentPadding:
+                                EdgeInsets.only(left: 0.0, right: 0.0),
+                            title: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Pay with crypto",
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 14,
+                                    color: darkColor,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                sizeVer(10),
+                                Row(
+                                  children: [
+                                    // Image.asset(
+                                    //   "assets/images/image 7.png",
+                                    //   width: 32,
+                                    //   height: 20,
+                                    // ),
+                                    // sizeHor(10),
+                                    Text(
+                                      "Crypto balance: ${userController.userModel.value.walletBalance ?? 20}",
+                                      style: GoogleFonts.montserrat(
+                                        fontSize: 10,
+                                        color: darkColor,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                            trailing: Icon(
+                              Icons.chevron_right_outlined,
+                              color: greyColor,
+                            ),
+                            leading: Radio(
+                              activeColor: Color(0xff29844B),
+                              value: 'Option 1',
+                              groupValue: selectedRadioValue,
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedRadioValue = value.toString();
+                                });
+                              },
+                            ),
+                          ),
+                          sizeVer(15),
+                          ListTile(
+                            visualDensity:
+                                VisualDensity(horizontal: -4, vertical: -4),
+                            contentPadding:
+                                EdgeInsets.only(left: 0.0, right: 0.0),
+                            title: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Pay with Gonnana Wallet",
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 14,
+                                    color: darkColor,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                sizeVer(8),
+                                Text(
+                                  "Available balance: NGN ${transactionController.balanceModel.value.balance ?? 0}",
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 10,
+                                    color: darkColor,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                // Text(
+                                //   "Estimation: NGN 500,000",
+                                //   style: GoogleFonts.montserrat(
+                                //     fontSize: 10,
+                                //     color: darkColor,
+                                //     fontWeight: FontWeight.w400,
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                            trailing: Icon(
+                              Icons.chevron_right_outlined,
+                              color: greyColor,
+                            ),
+                            leading: Radio(
+                              activeColor: Color(0xff29844B),
+                              value: 'Option 2',
+                              groupValue: selectedRadioValue,
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedRadioValue = value.toString();
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-                sizeVer(15),
-                myDivider(),
-                sizeVer(15),
-                sizeVer(15),
-                const DeliveryCard(),
-                sizeVer(15),
-                myDivider(),
-                const PaymentCard(),
-                sizeVer(15),
-                myDivider(),
-                sizeVer(15),
-                const CheckoutButton(),
-                sizeVer(15)
-              ],
+                  myDivider(),
+                  sizeVer(15),
+                  GestureDetector(
+                      onTap: () {
+                        if (selectedRadioValue == "Option 1") {
+                          Get.to(() => CryptoPay(), arguments: {
+                            "courier": courier,
+                            "productPrice": totalPrice
+                          });
+                        }
+
+                        if (selectedRadioValue == "Option 2") {
+                          Get.to(() => const PayWithWalletPasscode(),
+                              arguments: {"courier": courier});
+                        }
+                      },
+                      child: const CheckoutButton()),
+                  sizeVer(15)
+                ],
+              ),
             ),
           ),
-        ),
-      );
+        );
+      });
     },
   );
 }
 
 cryptoPayBottomSheet(BuildContext context) {
   List<String> tokenNames = [
+    'ETH 0',
     'BTC 0',
     'Gona',
     'CCDT 0',
@@ -319,6 +478,7 @@ cryptoPayBottomSheet(BuildContext context) {
     'MATIC 0'
   ];
   List<String> tokenLogo = [
+    'eth',
     'btc_logo',
     'gona_logo',
     'ccd_logo',
@@ -326,11 +486,13 @@ cryptoPayBottomSheet(BuildContext context) {
     'bnb_logo',
     'matic_logo'
   ];
-  List<String> tokenValue = ['0', '500,000', '', '0', '0', '0'];
+  List<String> tokenValue = ['0', '0', '500,000', '', '0', '0', '0'];
   showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (context) {
+        CryptoPayController cryptoPayController =
+            Get.put(CryptoPayController());
         return Container(
             height: MediaQuery.of(context).size.height * 0.85,
             child: Padding(
@@ -368,6 +530,8 @@ cryptoPayBottomSheet(BuildContext context) {
                             padding: const EdgeInsets.all(10.0),
                             child: InkWell(
                               onTap: () async {
+                                cryptoPayController.updateTokens(
+                                    tokenNames[index], tokenLogo[index]);
                                 Get.back();
                               },
                               child: Container(
@@ -381,16 +545,38 @@ cryptoPayBottomSheet(BuildContext context) {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 15.0),
-                                            child: SvgPicture.asset(
-                                                "assets/svgs/${tokenLogo[index]}.svg")),
-                                        Text(
-                                          '${tokenNames[index]}',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w600),
-                                        )
+                                            padding: tokenLogo[index]
+                                                    .contains("ethereum_logo")
+                                                ? const EdgeInsets.only(
+                                                    top: 15.0, left: 10)
+                                                : const EdgeInsets.only(
+                                                    top: 15.0),
+                                            child: Container(
+                                                width: tokenLogo[index]
+                                                        .contains("eth")
+                                                    ? 30
+                                                    : 60,
+                                                height: tokenLogo[index]
+                                                        .contains("eth")
+                                                    ? 60
+                                                    : 60,
+                                                child: SvgPicture.asset(
+                                                    "assets/svgs/${tokenLogo[index]}.svg"))),
+                                        tokenLogo[index].contains("eth")
+                                            ? Text(
+                                                '   ${tokenNames[index]}',
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              )
+                                            : Text(
+                                                '${tokenNames[index]}',
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              )
                                       ],
                                     ),
                                     Row(

@@ -106,7 +106,7 @@ class _SendChartState extends State<SendChart> {
                                 Image.asset(
                                     height: 50,
                                     width: 30,
-                                    'assets/images/ethereum_logo.png'),
+                                    'assets/images/ethereum_logo.svg'),
                                 sizeHor(20),
                                 Column(children: [
                                   Text(

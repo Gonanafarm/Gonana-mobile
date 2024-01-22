@@ -5,10 +5,16 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:gonana/features/presentation/page/crypto_pay/crypto_passcode.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
 
+import '../../../controllers/crypto/crypto_pay.dart';
 import '../../widgets/bottomsheets.dart';
 
 class CryptoPay extends StatelessWidget {
-  const CryptoPay({Key? key}) : super(key: key);
+  CryptoPay({Key? key}) : super(key: key);
+  dynamic argument = Get.arguments;
+
+  late String courier = argument['courier'];
+  late String totalPrice = argument['productPrice'];
+  CryptoPayController cryptoPayController = Get.put(CryptoPayController());
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +24,9 @@ class CryptoPay extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.back();
+            },
             icon: const Icon(
               Icons.arrow_back,
               size: 20,
@@ -32,10 +40,11 @@ class CryptoPay extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Crypto Py\ay',
+                'Crypto Pay',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
               ),
-              const Text('Feel in the details to pay with crypto'),
+              const Text(
+                  'Select your preferred crypto currency to pay with crypto'),
               const SizedBox(height: 42),
               const Text(
                 '  From',
@@ -52,8 +61,10 @@ class CryptoPay extends StatelessWidget {
                     children: [
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.3,
-                        child: const TextField(
-                          decoration: InputDecoration(
+                        child: TextField(
+                          controller: TextEditingController(text: totalPrice),
+                          enabled: false,
+                          decoration: const InputDecoration(
                             hintText: "Amount",
                             hintStyle: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.w400),
@@ -73,14 +84,21 @@ class CryptoPay extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                                padding: const EdgeInsets.only(top: 15.0),
-                                child: SvgPicture.asset(
-                                    "assets/svgs/gona_logo.svg")),
-                            Text(
-                              "Gona",
-                              style: const TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.w400),
-                            ),
+                                padding: const EdgeInsets.only(
+                                    top: 15.0, bottom: 10),
+                                child: Obx(() {
+                                  return SvgPicture.asset(
+                                      height: 60,
+                                      width: 30,
+                                      "assets/svgs/${cryptoPayController.tokenLogo.value}.svg");
+                                })),
+                            Obx(() {
+                              return Text(
+                                cryptoPayController.tokenName.value,
+                                style: const TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.w400),
+                              );
+                            }),
                             Padding(
                               padding: const EdgeInsets.only(bottom: 8.0),
                               child: IconButton(

@@ -9,6 +9,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:gonana/consts.dart';
 import 'package:gonana/features/controllers/cart/cart_controller.dart';
 import 'package:gonana/features/presentation/page/home.dart';
+import 'package:gonana/features/presentation/widgets/bottomsheets.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -195,9 +196,10 @@ class _ProductCheckoutState extends State<ProductCheckout> {
                                     borderRadius: BorderRadius.circular(5)),
                                 child: ElevatedButton(
                                     onPressed: () async {
-                                      Get.to(
-                                          () => const PayWithWalletPasscode(),
-                                          arguments: {"courier": courier});
+                                      // Get.to(
+                                      //     () => const PayWithWalletPasscode(),
+                                      //     arguments: {"courier": courier});
+                                      checkout(context, courier);
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.transparent,
@@ -214,7 +216,7 @@ class _ProductCheckoutState extends State<ProductCheckout> {
                                         Flexible(
                                             child: Padding(
                                           padding: EdgeInsets.all(8.0),
-                                          child: Text('Pay with wallet'),
+                                          child: Text('Pay'),
                                         )),
                                         const SizedBox(width: 10.0),
                                         // const Icon(Icons.content_copy_outlined),
@@ -246,6 +248,7 @@ class _SendPasscodeState extends State<PayWithWalletPasscode> {
   bool isLoading = false;
 
   PasscodeController passcodeController = Get.put(PasscodeController());
+  final cartController = Get.find<CartController>();
 
   final TextEditingController _passCodeController = TextEditingController();
 

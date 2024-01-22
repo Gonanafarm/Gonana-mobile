@@ -38,7 +38,7 @@ class _PaymentCardState extends State<PaymentCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Card Payment",
+                    "Pay with crypto",
                     style: GoogleFonts.montserrat(
                       fontSize: 14,
                       color: darkColor,
@@ -48,14 +48,14 @@ class _PaymentCardState extends State<PaymentCard> {
                   sizeVer(10),
                   Row(
                     children: [
-                      Image.asset(
-                        "assets/images/image 7.png",
-                        width: 32,
-                        height: 20,
-                      ),
-                      sizeHor(10),
+                      // Image.asset(
+                      //   "assets/images/image 7.png",
+                      //   width: 32,
+                      //   height: 20,
+                      // ),
+                      // sizeHor(10),
                       Text(
-                        "519931*****0074",
+                        "Crypto balance: ",
                         style: GoogleFonts.montserrat(
                           fontSize: 10,
                           color: darkColor,

@@ -6,7 +6,7 @@ import 'dart:developer';
 
 class NetworkApi {
   // final baseurl = 'https://starfish-app-4q3vo.ondigitalocean.app';
-  final baseurl = 'https://gonana-backend-v2-production.up.railway.app';
+  final baseurl = 'https://web-production-6f76.up.railway.app';
 
   postData(formData, routeUrl) async {
     var url = Uri.parse('$baseurl/$routeUrl');

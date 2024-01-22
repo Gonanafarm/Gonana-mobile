@@ -93,15 +93,19 @@ class _StoreState extends State<Store> {
                   BVNisSubmited = prefs.getBool('bvnSubmission');
                   if ((userController.userModel.value.virtualAccountNumber !=
                           null) &&
+                      (userController.userModel != null ||
+                          userController.userModel.value.country != null &&
+                              !userController.userModel.value.country!
+                                  .contains("Nigeria"))) {
+                    Get.to(() => AddProduct());
+                  } else if (((userController
+                                  .userModel.value.virtualAccountNumber ==
+                              null) &&
+                          BVNisSubmited != null) ||
                       (userController.userModel != null &&
                           userController.userModel.value.country != null &&
                           !userController.userModel.value.country!
                               .contains("Nigeria"))) {
-                    Get.to(() => AddProduct());
-                  } else if ((userController
-                              .userModel.value.virtualAccountNumber ==
-                          null) &&
-                      BVNisSubmited != null) {
                     if (BVNisSubmited!) {
                       ErrorSnackbar.show(
                           context, "Your BVN is awaiting verification");
