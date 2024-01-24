@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:gonana/consts.dart';
+import 'package:gonana/features/presentation/page/home.dart';
 import 'package:gonana/features/presentation/page/send/send_page.dart';
 import 'package:gonana/features/presentation/page/send/send_receive.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
@@ -103,10 +104,10 @@ class _SendChartState extends State<SendChart> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Image.asset(
+                                SvgPicture.asset(
                                     height: 50,
                                     width: 30,
-                                    'assets/images/ethereum_logo.svg'),
+                                    'assets/svgs/eth.svg'),
                                 sizeHor(20),
                                 Column(children: [
                                   Text(

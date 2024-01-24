@@ -59,10 +59,11 @@ class _FiatWalletHomeState extends State<FiatWalletHome> {
   UserController userController = Get.put(UserController());
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: const Color(0xffF1F1F1),
         body: SingleChildScrollView(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
             Container(
               width: double.infinity,
@@ -76,8 +77,23 @@ class _FiatWalletHomeState extends State<FiatWalletHome> {
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      Padding(
+                        padding:
+                            EdgeInsets.only(top: size.height * 0.0, left: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            IconButton(
+                                onPressed: () {
+                                  Get.back();
+                                },
+                                icon: const Icon(Icons.arrow_back,
+                                    color: Colors.white)),
+                          ],
+                        ),
+                      ),
                       const Padding(
-                          padding: EdgeInsets.only(top: 60.0, bottom: 10),
+                          padding: EdgeInsets.only(top: 20.0, bottom: 10),
                           child: Text('Fiat Wallet',
                               style: TextStyle(
                                   color: Colors.white,

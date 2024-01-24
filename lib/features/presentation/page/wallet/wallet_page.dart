@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../controllers/fiat_wallet/transaction_controller.dart';
 import '../../../controllers/user/user_controller.dart';
 import '../../widgets/warning_widget.dart';
+import '../fiat_wallet/wallet_home.dart';
 import '../savings/savings_splash.dart';
 import '../send/send_chart.dart';
 import '../staking/staking_splash.dart';
@@ -45,8 +46,20 @@ class _WalletPageState extends State<WalletPage> {
     getBVNStatus();
   }
 
+  List icons = ["eth", "gona_logo"];
+  List text = ["ETH", "Gonana wallet"];
+  List<Widget> nextPage = [const SendChart(), const FiatWalletHome()];
+
   @override
   Widget build(BuildContext context) {
+    List amountInNaira = [
+      "NGN ${transactionController.cryptoBalanceModel.cryptoWalletBalanceInNgn ?? 0}",
+      "NGN ${transactionController.balanceModel.value.balance ?? 0}"
+    ];
+    List amountInEth = [
+      "ETH ${transactionController.cryptoBalanceModel.cryptoWalletBalanceInEth ?? 0}",
+      ""
+    ];
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: const Color(0xffF1F1F1),
@@ -65,9 +78,10 @@ class _WalletPageState extends State<WalletPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                    const Padding(
-                      padding: EdgeInsets.only(top: 60.0, bottom: 10),
-                      child: Text('Fiat balance',
+                    Padding(
+                      padding:
+                          EdgeInsets.only(top: size.height * 0.06, bottom: 10),
+                      child: const Text('Fiat balance',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 14,
@@ -77,7 +91,7 @@ class _WalletPageState extends State<WalletPage> {
                       padding: const EdgeInsets.symmetric(vertical: 10.0),
                       child: Text(
                           'NGN ${transactionController.balanceModel.value.balance ?? 0}',
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontSize: 24,
                               fontWeight: FontWeight.w600)),
@@ -149,237 +163,254 @@ class _WalletPageState extends State<WalletPage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10.0),
                       child: Container(
-                          height: 32,
+                          // height: 32,
                           width: 254,
                           decoration: BoxDecoration(
                               color: primaryColor,
                               borderRadius: BorderRadius.circular(5)),
-                          child: Center(
-                              child: Text(
-                                  'Portfolio Value : NGN ${userController.userModel.value.walletBalance ?? 0}'))),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Center(
+                                child: Text(
+                              'Portfolio Value : NGN ${userController.userModel.value.walletBalance ?? 0}',
+                              textAlign: TextAlign.center,
+                            )),
+                          )),
                     )
                   ])),
             ),
             Container(
               //color: Color(0xff1E1E1E),
-              child: Column(
+              height: size.height * 0.68,
+              child: ListView(
                 children: [
-                  SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 20),
-                          // child: Container(
-                          //   height: 72,
-                          //   width: 342,
-                          //   decoration: BoxDecoration(
-                          //       color: primaryColor,
-                          //       borderRadius: BorderRadius.circular(5)),
-                          //   child: Row(
-                          //       mainAxisAlignment:
-                          //           MainAxisAlignment.spaceEvenly,
-                          //       children: [
-                          //         Padding(
-                          //             padding: const EdgeInsets.all(8),
-                          //             child: GestureDetector(
-                          //                 onTap: () {
-                          //                   Get.to(() =>
-                          //                       const SavingsSplashScreen());
-                          //                 },
-                          //                 child: Column(
-                          //                     mainAxisAlignment:
-                          //                         MainAxisAlignment.spaceEvenly,
-                          //                     children: [
-                          //                       SvgPicture.asset(
-                          //                           'assets/svgs/savings.svg'),
-                          //                       const Text('Savings',
-                          //                           style: TextStyle(
-                          //                               fontSize: 10,
-                          //                               fontWeight:
-                          //                                   FontWeight.w400))
-                          //                     ]))),
-                          //         Padding(
-                          //             padding: const EdgeInsets.all(8),
-                          //             child: GestureDetector(
-                          //                 onTap: () {
-                          //                   // Get.to(() => const SwapScreen());
-                          //                 },
-                          //                 child: Column(
-                          //                     mainAxisAlignment:
-                          //                         MainAxisAlignment.spaceEvenly,
-                          //                     children: [
-                          //                       SvgPicture.asset(
-                          //                           'assets/svgs/swap.svg'),
-                          //                       const Text('Swap',
-                          //                           style: TextStyle(
-                          //                               fontSize: 10,
-                          //                               fontWeight:
-                          //                                   FontWeight.w400))
-                          //                     ]))),
-                          //         Padding(
-                          //             padding: const EdgeInsets.all(8),
-                          //             child: GestureDetector(
-                          //                 onTap: () {},
-                          //                 child: Column(
-                          //                     mainAxisAlignment:
-                          //                         MainAxisAlignment.spaceEvenly,
-                          //                     children: [
-                          //                       SvgPicture.asset(
-                          //                           'assets/svgs/token.svg'),
-                          //                       const Text('Buy token',
-                          //                           style: TextStyle(
-                          //                               fontSize: 10,
-                          //                               fontWeight:
-                          //                                   FontWeight.w400))
-                          //                     ]))),
-                          //         Padding(
-                          //             padding: const EdgeInsets.all(8),
-                          //             child: GestureDetector(
-                          //                 onTap: () {},
-                          //                 child: Column(
-                          //                     mainAxisAlignment:
-                          //                         MainAxisAlignment.spaceEvenly,
-                          //                     children: [
-                          //                       SvgPicture.asset(
-                          //                           'assets/svgs/sell_token.svg'),
-                          //                       const Text('Sell token',
-                          //                           style: TextStyle(
-                          //                               fontSize: 10,
-                          //                               fontWeight:
-                          //                                   FontWeight.w400))
-                          //                     ]))),
-                          //         Padding(
-                          //             padding: const EdgeInsets.all(8),
-                          //             child: GestureDetector(
-                          //                 onTap: () {
-                          //                   Get.to(() =>
-                          //                       const StakingSplashScreen());
-                          //                 },
-                          //                 child: Column(
-                          //                     mainAxisAlignment:
-                          //                         MainAxisAlignment.spaceEvenly,
-                          //                     children: [
-                          //                       SvgPicture.asset(
-                          //                           'assets/svgs/stake.svg'),
-                          //                       const Text('Stake',
-                          //                           style: TextStyle(
-                          //                               fontSize: 10,
-                          //                               fontWeight:
-                          //                                   FontWeight.w400))
-                          //                     ]))),
-                          //       ]),
-                          // ),
-                        ),
-                        ((BVNisSubmited != null && BVNisSubmited!) ||
-                                    (userController.userModel != null &&
-                                        userController.userModel.value
-                                                .virtualAccountNumber !=
-                                            null &&
-                                        userController
-                                            .userModel
-                                            .value
-                                            .virtualAccountNumber!
-                                            .isNotEmpty)) ||
-                                (userController.userModel != null &&
-                                    userController.userModel.value.country !=
-                                        null &&
-                                    !userController.userModel.value.country!
-                                        .contains("Nigeria"))
-                            ? sizeVer(0)
-                            : sizeVer(0),
-                        ((BVNisSubmited != null && BVNisSubmited!) ||
-                                    (userController.userModel != null &&
-                                        userController.userModel.value
-                                                .virtualAccountNumber !=
-                                            null &&
-                                        userController
-                                            .userModel
-                                            .value
-                                            .virtualAccountNumber!
-                                            .isNotEmpty)) &&
-                                (userController.userModel != null &&
-                                        userController
-                                                .userModel.value.country !=
-                                            null ||
-                                    !userController.userModel.value.country!
-                                        .contains("Nigeria"))
-                            ? Container(height: 1)
-                            : WarningWidget(),
-                        ((BVNisSubmited != null && BVNisSubmited!) ||
-                                    (userController.userModel != null &&
-                                        userController.userModel.value
-                                                .virtualAccountNumber !=
-                                            null &&
-                                        userController
-                                            .userModel
-                                            .value
-                                            .virtualAccountNumber!
-                                            .isNotEmpty)) ||
-                                (userController.userModel != null &&
-                                    userController.userModel.value.country !=
-                                        null &&
-                                    !userController.userModel.value.country!
-                                        .contains("Nigeria"))
-                            ? sizeVer(1)
-                            : sizeVer(20),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20.0, vertical: 6),
-                          child: GestureDetector(
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 0.0, horizontal: 20),
+                    // child: Container(
+                    //   height: 72,
+                    //   width: 342,
+                    //   decoration: BoxDecoration(
+                    //       color: primaryColor,
+                    //       borderRadius: BorderRadius.circular(5)),
+                    //   child: Row(
+                    //       mainAxisAlignment:
+                    //           MainAxisAlignment.spaceEvenly,
+                    //       children: [
+                    //         Padding(
+                    //             padding: const EdgeInsets.all(8),
+                    //             child: GestureDetector(
+                    //                 onTap: () {
+                    //                   Get.to(() =>
+                    //                       const SavingsSplashScreen());
+                    //                 },
+                    //                 child: Column(
+                    //                     mainAxisAlignment:
+                    //                         MainAxisAlignment.spaceEvenly,
+                    //                     children: [
+                    //                       SvgPicture.asset(
+                    //                           'assets/svgs/savings.svg'),
+                    //                       const Text('Savings',
+                    //                           style: TextStyle(
+                    //                               fontSize: 10,
+                    //                               fontWeight:
+                    //                                   FontWeight.w400))
+                    //                     ]))),
+                    //         Padding(
+                    //             padding: const EdgeInsets.all(8),
+                    //             child: GestureDetector(
+                    //                 onTap: () {
+                    //                   // Get.to(() => const SwapScreen());
+                    //                 },
+                    //                 child: Column(
+                    //                     mainAxisAlignment:
+                    //                         MainAxisAlignment.spaceEvenly,
+                    //                     children: [
+                    //                       SvgPicture.asset(
+                    //                           'assets/svgs/swap.svg'),
+                    //                       const Text('Swap',
+                    //                           style: TextStyle(
+                    //                               fontSize: 10,
+                    //                               fontWeight:
+                    //                                   FontWeight.w400))
+                    //                     ]))),
+                    //         Padding(
+                    //             padding: const EdgeInsets.all(8),
+                    //             child: GestureDetector(
+                    //                 onTap: () {},
+                    //                 child: Column(
+                    //                     mainAxisAlignment:
+                    //                         MainAxisAlignment.spaceEvenly,
+                    //                     children: [
+                    //                       SvgPicture.asset(
+                    //                           'assets/svgs/token.svg'),
+                    //                       const Text('Buy token',
+                    //                           style: TextStyle(
+                    //                               fontSize: 10,
+                    //                               fontWeight:
+                    //                                   FontWeight.w400))
+                    //                     ]))),
+                    //         Padding(
+                    //             padding: const EdgeInsets.all(8),
+                    //             child: GestureDetector(
+                    //                 onTap: () {},
+                    //                 child: Column(
+                    //                     mainAxisAlignment:
+                    //                         MainAxisAlignment.spaceEvenly,
+                    //                     children: [
+                    //                       SvgPicture.asset(
+                    //                           'assets/svgs/sell_token.svg'),
+                    //                       const Text('Sell token',
+                    //                           style: TextStyle(
+                    //                               fontSize: 10,
+                    //                               fontWeight:
+                    //                                   FontWeight.w400))
+                    //                     ]))),
+                    //         Padding(
+                    //             padding: const EdgeInsets.all(8),
+                    //             child: GestureDetector(
+                    //                 onTap: () {
+                    //                   Get.to(() =>
+                    //                       const StakingSplashScreen());
+                    //                 },
+                    //                 child: Column(
+                    //                     mainAxisAlignment:
+                    //                         MainAxisAlignment.spaceEvenly,
+                    //                     children: [
+                    //                       SvgPicture.asset(
+                    //                           'assets/svgs/stake.svg'),
+                    //                       const Text('Stake',
+                    //                           style: TextStyle(
+                    //                               fontSize: 10,
+                    //                               fontWeight:
+                    //                                   FontWeight.w400))
+                    //                     ]))),
+                    //       ]),
+                    // ),
+                  ),
+                  ((BVNisSubmited != null && BVNisSubmited!) ||
+                              (userController.userModel != null &&
+                                  userController.userModel.value
+                                          .virtualAccountNumber !=
+                                      null &&
+                                  userController.userModel.value
+                                      .virtualAccountNumber!.isNotEmpty)) ||
+                          (userController.userModel != null &&
+                              userController.userModel.value.country != null &&
+                              !userController.userModel.value.country!
+                                  .contains("Nigeria"))
+                      ? sizeVer(0)
+                      : sizeVer(0),
+                  ((BVNisSubmited != null && BVNisSubmited!) ||
+                              (userController.userModel != null &&
+                                  userController.userModel.value
+                                          .virtualAccountNumber !=
+                                      null &&
+                                  userController.userModel.value
+                                      .virtualAccountNumber!.isNotEmpty)) &&
+                          (userController.userModel != null &&
+                                  userController.userModel.value.country !=
+                                      null ||
+                              !userController.userModel.value.country!
+                                  .contains("Nigeria"))
+                      ? Container(height: 1)
+                      : WarningWidget(),
+                  ((BVNisSubmited != null && BVNisSubmited!) ||
+                              (userController.userModel != null &&
+                                  userController.userModel.value
+                                          .virtualAccountNumber !=
+                                      null &&
+                                  userController.userModel.value
+                                      .virtualAccountNumber!.isNotEmpty)) ||
+                          (userController.userModel != null &&
+                              userController.userModel.value.country != null &&
+                              !userController.userModel.value.country!
+                                  .contains("Nigeria"))
+                      ? sizeVer(1)
+                      : sizeVer(20),
+                  SizedBox(
+                    height: size.height * 0.68,
+                    child: ListView.builder(
+                        itemCount: text.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
                             onTap: () {
-                              Get.to(() => const SendChart());
+                              Get.to(() => nextPage[index]);
                             },
-                            child: Container(
-                                // width: 342,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: primaryColor),
-                                child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Image.asset(
-                                          'assets/images/ethereum_logo.png'),
-                                      const SizedBox(width: 20),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Text(
-                                              'ETH ${transactionController.cryptoBalanceModel.cryptoWalletBalanceInEth ?? 0}',
-                                              style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w600)),
-                                          Text(
-                                              'NGN ${transactionController.cryptoBalanceModel.cryptoWalletBalanceInNgn ?? 0}',
-                                              style: const TextStyle(
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.w400)),
-                                        ],
-                                      ),
-                                      const SizedBox(width: 20),
-                                      const SizedBox(
-                                        width: 60,
-                                        child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              // Text('-1.23%',
-                                              //     style: TextStyle(
-                                              //         color: redColor,
-                                              //         fontSize: 10,
-                                              //         fontWeight:
-                                              //             FontWeight.w400)),
-                                              Icon(Icons.arrow_forward_ios)
-                                            ]),
-                                      ),
-                                    ])),
-                          ),
-                        ),
-                      ],
-                    ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              child: Container(
+                                  // width: 342,
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: primaryColor),
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        SvgPicture.asset(
+                                            height: 55,
+                                            width: 30,
+                                            'assets/svgs/${icons[index]}.svg'),
+                                        const SizedBox(width: 20),
+                                        !text[index].contains("Gonana wallet")
+                                            ? Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: [
+                                                  Text(amountInEth[index],
+                                                      style: const TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w600)),
+                                                  Text(amountInNaira[index],
+                                                      style: const TextStyle(
+                                                          fontSize: 10,
+                                                          fontWeight:
+                                                              FontWeight.w400)),
+                                                ],
+                                              )
+                                            : Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: [
+                                                  Text(text[index],
+                                                      style: const TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w600)),
+                                                  Text(amountInNaira[index],
+                                                      style: const TextStyle(
+                                                          fontSize: 10,
+                                                          fontWeight:
+                                                              FontWeight.w400)),
+                                                ],
+                                              ),
+                                        const SizedBox(width: 20),
+                                        const SizedBox(
+                                          width: 60,
+                                          child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                // Text('-1.23%',
+                                                //     style: TextStyle(
+                                                //         color: redColor,
+                                                //         fontSize: 10,
+                                                //         fontWeight:
+                                                //             FontWeight.w400)),
+                                                Icon(Icons.arrow_forward_ios)
+                                              ]),
+                                        ),
+                                      ])),
+                            ),
+                          );
+                        }),
                   ),
                 ],
               ),
