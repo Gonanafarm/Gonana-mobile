@@ -256,8 +256,8 @@ class CartController extends GetxController {
     } catch (e, s) {
       log("checkOut Error=> $e");
       log("checkOut Stack=> $s");
+      return false;
     }
-    return false;
   }
 
   Future<bool> validateAddress(String address, var context) async {

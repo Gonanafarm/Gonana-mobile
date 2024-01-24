@@ -5,13 +5,14 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:gonana/features/presentation/page/crypto_pay/crypto_passcode.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
 
-import '../../../controllers/crypto/crypto_pay.dart';
+import '../../../controllers/cart/cart_controller.dart';
+import '../../../controllers/crypto/cryptoController.dart';
 import '../../widgets/bottomsheets.dart';
 
 class CryptoPay extends StatelessWidget {
   CryptoPay({Key? key}) : super(key: key);
+  final cartController = Get.find<CartController>();
   dynamic argument = Get.arguments;
-
   late String courier = argument['courier'];
   late String totalPrice = argument['productPrice'];
   CryptoPayController cryptoPayController = Get.put(CryptoPayController());
@@ -121,7 +122,10 @@ class CryptoPay extends StatelessWidget {
                   child: LongGradientButton(
                       title: "Pay Now",
                       onPressed: () {
-                        Get.to(() => CryptoPasscode());
+                        Get.to(() => const CryptoPasscode(), arguments: {
+                          "courier": courier,
+                          "productPrice": totalPrice
+                        });
                       }))
             ],
           ),

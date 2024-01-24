@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:gonana/features/controllers/cart/cart_controller.dart';
-import 'package:gonana/features/controllers/crypto/crypto_pay.dart';
+import 'package:gonana/features/controllers/crypto/cryptoController.dart';
 import 'package:gonana/features/presentation/page/auth/emailverification.dart';
 import 'package:gonana/features/presentation/page/crypto_pay/crypto_pay.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
@@ -253,7 +253,6 @@ tokenBottomSheet2(BuildContext context) {
       });
 }
 
-final cartController = Get.find<CartController>();
 checkout(BuildContext context, var courier) {
   showModalBottomSheet(
     context: context,
@@ -263,6 +262,7 @@ checkout(BuildContext context, var courier) {
       UserController userController = Get.put(UserController());
       TransactionController transactionController =
           Get.put(TransactionController());
+      final cartController = Get.find<CartController>();
       var totalPrice =
           "${cartController.succesfullTransactionModel!.totalShippingCost != null ? (double.parse(cartController.succesfullTransactionModel!.totalShippingCost.toString()) + cartController.succesfullTransactionModel!.productCost!) : cartController.succesfullTransactionModel!.productCost!}";
       return StatefulBuilder(
@@ -453,6 +453,11 @@ checkout(BuildContext context, var courier) {
                         if (selectedRadioValue == "Option 2") {
                           Get.to(() => const PayWithWalletPasscode(),
                               arguments: {"courier": courier});
+                        }
+
+                        if (selectedRadioValue.isEmpty) {
+                          ErrorSnackbar.show(
+                              context, "Select a means of payment");
                         }
                       },
                       child: const CheckoutButton()),
