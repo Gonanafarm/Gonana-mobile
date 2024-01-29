@@ -294,7 +294,9 @@ class _WalletPageState extends State<WalletPage> {
                                           .virtualAccountNumber !=
                                       null &&
                                   userController.userModel.value
-                                      .virtualAccountNumber!.isNotEmpty)) ||
+                                      .virtualAccountNumber!.isNotEmpty &&
+                                  userController.userModel.value.country !=
+                                      null)) ||
                           (userController.userModel != null &&
                               userController.userModel.value.country != null &&
                               !userController.userModel.value.country!
@@ -307,10 +309,9 @@ class _WalletPageState extends State<WalletPage> {
                                           .virtualAccountNumber !=
                                       null &&
                                   userController.userModel.value
-                                      .virtualAccountNumber!.isNotEmpty)) &&
+                                      .virtualAccountNumber!.isNotEmpty)) ||
                           (userController.userModel != null &&
-                                  userController.userModel.value.country !=
-                                      null ||
+                              userController.userModel.value.country != null &&
                               !userController.userModel.value.country!
                                   .contains("Nigeria"))
                       ? Container(height: 1)
@@ -321,7 +322,9 @@ class _WalletPageState extends State<WalletPage> {
                                           .virtualAccountNumber !=
                                       null &&
                                   userController.userModel.value
-                                      .virtualAccountNumber!.isNotEmpty)) ||
+                                      .virtualAccountNumber!.isNotEmpty &&
+                                  userController.userModel.value.country !=
+                                      null)) ||
                           (userController.userModel != null &&
                               userController.userModel.value.country != null &&
                               !userController.userModel.value.country!

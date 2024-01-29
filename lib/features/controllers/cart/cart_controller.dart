@@ -281,6 +281,27 @@ class CartController extends GetxController {
     }
   }
 
+  Future<bool> updateAddress(String address, var context) async {
+    try {
+      var data = {'address': address};
+      var res = await NetworkApi().patch(data, ApiRoute.updateAddress);
+      final result = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        log('statcode: ${res.statusCode}');
+        log('rezz: $result');
+        return true;
+      } else {
+        log('rezzzz: $result');
+        ErrorSnackbar.show(context, result['message']);
+        return false;
+      }
+    } catch (e, s) {
+      log("vaalidate Error=> $e");
+      log("vaalidate Stack=> $s");
+      return false;
+    }
+  }
+
   CourierModel? courierModel;
   Future<bool> fetchActiveCourier() async {
     try {

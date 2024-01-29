@@ -52,13 +52,19 @@ class _FeedsPageState extends State<FeedsPage> {
   bool isCommentLoading = false;
   bool isVisitStoreLoading = false;
   Widget getImageWidget(String imageUrl) {
-    if (imageUrl.isNotEmpty && Uri.parse(imageUrl).isAbsolute) {
-      return FadeInImage(
-        placeholder: AssetImage(placeholderAssetName),
-        image: NetworkImage(imageUrl),
-        fit: BoxFit.cover,
-      );
-    } else {
+    try {
+      if (imageUrl.isNotEmpty && Uri.parse(imageUrl).isAbsolute) {
+        return FadeInImage(
+          placeholder: AssetImage(placeholderAssetName),
+          image: NetworkImage(imageUrl),
+          fit: BoxFit.cover,
+        );
+      } else {
+        return Image.asset(placeholderAssetName);
+      }
+    } catch (e) {
+      // Handle the exception (e.g., log it) and return the placeholder image
+      print("Error loading image: $e");
       return Image.asset(placeholderAssetName);
     }
   }

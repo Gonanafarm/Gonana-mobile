@@ -90,8 +90,8 @@ class _AddressCourierState extends State<AddressCourier> {
                 ShortGradientButton(
                     title: 'Validate',
                     onPressed: () async {
-                      var isSuccess = await cartController.validateAddress(
-                          address, context);
+                      var isSuccess =
+                          await cartController.updateAddress(address, context);
                       if (isSuccess == true) {
                         log('isSUccess: $isSuccess');
                         SuccessSnackbar.show(
@@ -252,37 +252,39 @@ class _AddressCourierState extends State<AddressCourier> {
                           // Get.to(() => const AddressCourier());
                           // Passes the value here
                           print(courierItem.serviceCode);
-                          // setState(() {
-                          //   isLoading = true;
-                          // });
-                          // bool isSuccess = await cartController.getRates(
-                          //     orderList, courierItem.serviceCode, context);
-                          // if (isSuccess) {
-                          //   Get.to(() => const ProductCheckout(), arguments: {
-                          //     "courier": courierItem.serviceCode
-                          //   });
-                          // }
-                          // setState(() {
-                          //   isLoading = false;
-                          // });
-                          // if (isValidated && isiTemSelected) {
-                          if (isiTemSelected) {
-                            setState(() {
-                              isLoading = true;
+                          setState(() {
+                            isLoading = true;
+                          });
+                          bool isSuccess = await cartController.getRates(
+                              orderList, courierItem.serviceCode, context);
+                          if (isSuccess) {
+                            Get.to(() => const ProductCheckout(), arguments: {
+                              "courier": courierItem.serviceCode
                             });
-                            bool isSuccess = await cartController.getRates(
-                                orderList, courierItem.serviceCode, context);
-                            if (isSuccess) {
-                              Get.to(() => const ProductCheckout(), arguments: {
-                                "courier": courierItem.serviceCode
+                          }
+                          setState(() {
+                            isLoading = false;
+                          });
+                          if (isValidated && isiTemSelected) {
+                            if (isiTemSelected) {
+                              setState(() {
+                                isLoading = true;
                               });
+                              bool isSuccess = await cartController.getRates(
+                                  orderList, courierItem.serviceCode, context);
+                              if (isSuccess) {
+                                Get.to(() => const ProductCheckout(),
+                                    arguments: {
+                                      "courier": courierItem.serviceCode
+                                    });
+                              }
+                              setState(() {
+                                isLoading = false;
+                              });
+                            } else {
+                              ErrorSnackbar.show(context,
+                                  "Validate your address and select your Courier service");
                             }
-                            setState(() {
-                              isLoading = false;
-                            });
-                          } else {
-                            ErrorSnackbar.show(context,
-                                "Validate your address and select your Courier service");
                           }
                         }))
               ],

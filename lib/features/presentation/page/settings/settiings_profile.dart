@@ -78,13 +78,19 @@ class _SettingsProfileState extends State<SettingsProfile> {
       'assets/images/gonanas_profile.png'; // Replace with your placeholder asset
 
   Widget getImageWidget(String imageUrl) {
-    if (imageUrl.isNotEmpty && Uri.parse(imageUrl).isAbsolute) {
-      return FadeInImage(
-        placeholder: AssetImage(placeholderAssetName),
-        image: NetworkImage(imageUrl),
-        fit: BoxFit.cover,
-      );
-    } else {
+    try {
+      if (imageUrl.isNotEmpty && Uri.parse(imageUrl).isAbsolute) {
+        return FadeInImage(
+          placeholder: AssetImage(placeholderAssetName),
+          image: NetworkImage(imageUrl),
+          fit: BoxFit.cover,
+        );
+      } else {
+        return Image.asset(placeholderAssetName);
+      }
+    } catch (e) {
+      // Handle the exception (e.g., log it) and return the placeholder image
+      print("Error loading image: $e");
       return Image.asset(placeholderAssetName);
     }
   }
