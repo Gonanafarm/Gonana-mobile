@@ -109,13 +109,15 @@ class _SendChartState extends State<SendChart> {
                                     width: 30,
                                     'assets/svgs/eth.svg'),
                                 sizeHor(20),
-                                Column(children: [
-                                  Text(
-                                      'ETH ${transactionController.cryptoBalanceModel.cryptoWalletBalanceInEth ?? 0}',
-                                      style: const TextStyle(
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.w600)),
-                                ])
+                                Expanded(
+                                  child: Column(children: [
+                                    Text(
+                                        'ETH ${transactionController.cryptoBalanceModel.cryptoWalletBalanceInEth ?? 0}',
+                                        style: const TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.w600)),
+                                  ]),
+                                )
                               ]),
                           // Padding(
                           //   padding: const EdgeInsets.symmetric(vertical: 6.0),

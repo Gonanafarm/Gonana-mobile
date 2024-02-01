@@ -172,7 +172,7 @@ class _WalletPageState extends State<WalletPage> {
                             padding: const EdgeInsets.all(10.0),
                             child: Center(
                                 child: Text(
-                              'Portfolio Value : NGN ${userController.userModel.value.walletBalance ?? 0}',
+                              'Portfolio Value : NGN ${userController.userModel.value.cryptoWalletBalanceInNgn ?? 0}',
                               textAlign: TextAlign.center,
                             )),
                           )),

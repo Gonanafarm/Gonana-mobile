@@ -112,7 +112,6 @@ class UserController extends GetxController {
       var res = await NetworkApi().putData(data, ApiRoute.putUpdateProfile);
       final response = jsonDecode(res.body);
       log("all cart items || ${res.body}");
-      Get.to(() => SettingsProfile());
       return true;
       // final result = jsonDecode(res.body);
       // log(result);

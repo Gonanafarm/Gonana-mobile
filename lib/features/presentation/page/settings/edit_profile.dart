@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:gonana/features/controllers/auth/get_details.dart';
+import 'package:gonana/features/presentation/page/home.dart';
 import 'package:gonana/features/presentation/page/settings/settiings_profile.dart';
 import 'package:gonana/features/presentation/page/settings/settings.dart';
 import 'package:image_picker/image_picker.dart';
@@ -233,7 +234,7 @@ class _EditProfileState extends State<EditProfile> {
                       emailController.text);
                   await userController.fetchUserByEmail();
                   Get.to(
-                    () => const Settings(),
+                    () => HomePage(navIndex: 3),
                   );
                   setState(() {
                     isLoading = false;

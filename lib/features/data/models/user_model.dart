@@ -25,6 +25,7 @@ class UserModel {
   String? virtual_account_name;
   List<dynamic>? address;
   String? walletBalance;
+  String? cryptoWalletBalanceInNgn;
   String? walletAddress;
   String? country;
 
@@ -45,6 +46,7 @@ class UserModel {
     this.virtual_account_name,
     this.address,
     this.walletBalance,
+    this.cryptoWalletBalanceInNgn,
     this.walletAddress,
     this.country,
   });
@@ -68,6 +70,7 @@ class UserModel {
             ? []
             : List<dynamic>.from(json["address"]!.map((x) => x)),
         walletBalance: json["wallet"],
+        cryptoWalletBalanceInNgn: json["cryptoWalletBalanceInNgn"],
         walletAddress: json["wallet_address"],
         country: json["country"],
       );
@@ -90,6 +93,7 @@ class UserModel {
         "address":
             address == null ? [] : List<dynamic>.from(address!.map((x) => x)),
         "wallet": walletBalance,
+        "cryptoWalletBalanceInNgn": cryptoWalletBalanceInNgn,
         "wallet_address": walletAddress,
         "country": country,
       };
