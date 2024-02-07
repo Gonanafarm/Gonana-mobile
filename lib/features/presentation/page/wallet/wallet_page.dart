@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -49,6 +51,11 @@ class _WalletPageState extends State<WalletPage> {
   List icons = ["eth", "gona_logo"];
   List text = ["ETH", "Gonana wallet"];
   List<Widget> nextPage = [const SendChart(), const FiatWalletHome()];
+
+  // double roundToDecimalPlaces(double value, int decimalPlaces) {
+  //   double multiplier = pow(10, decimalPlaces).toDouble();
+  //   return (value * multiplier).round() / multiplier;
+  // }
 
   @override
   Widget build(BuildContext context) {

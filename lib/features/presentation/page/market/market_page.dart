@@ -16,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../consts.dart';
 import '../../../controllers/auth/get_details.dart';
+import '../../../controllers/order/order_controller.dart';
 import '../../../controllers/post/post_controllers.dart';
 import '../../../controllers/user/user_controller.dart';
 import '../../../data/models/post_model.dart';
@@ -48,6 +49,7 @@ class _MarketPageState extends State<MarketPage> {
   GetDetailsController detailsController = Get.put(GetDetailsController());
   ScrollController scrollController = ScrollController();
   List filteredItems = [];
+  OrderController orderController = Get.put(OrderController());
 
   // bool isLoadingMoreRunning = false;
   int page = 0;
@@ -70,6 +72,7 @@ class _MarketPageState extends State<MarketPage> {
     getBVNStatus();
     fetchData = detailsController.getUserDetails();
     transactionController.fetchTransactions();
+    orderController.getOrders();
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
@@ -151,15 +154,53 @@ class _MarketPageState extends State<MarketPage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              // GestureDetector(
-                              //   onTap: () {
-                              //     Get.to(() => const Orders());
-                              //   },
-                              //   child: SvgPicture.asset(
-                              //       height: 40,
-                              //       width: 40,
-                              //       "assets/svgs/order.svg"),
-                              // ),
+                              GestureDetector(
+                                onTap: () {
+                                  Get.to(() => const Orders());
+                                },
+                                child: Stack(
+                                  children: [
+                                    SvgPicture.asset(
+                                        height: 40,
+                                        width: 40,
+                                        "assets/svgs/order.svg"),
+                                    Positioned(
+                                      bottom: 0,
+                                      right: 0,
+                                      child: Container(
+                                        // width: 15,
+                                        // height: 15,
+                                        decoration: BoxDecoration(
+                                          color: Colors.red[500],
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(3.0),
+                                          child: Center(
+                                            child: Obx(() {
+                                              return Text(
+                                                orderController
+                                                            .getOrderModel!
+                                                            .value
+                                                            .orders!
+                                                            .isNotEmpty ||
+                                                        cartController
+                                                                .cartModel! ==
+                                                            null
+                                                    ? "${orderController.getOrderModel!.value.orders!.length}"
+                                                    : "",
+                                                style: const TextStyle(
+                                                  color: primaryColor,
+                                                ),
+                                              );
+                                            }),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                               sizeHor(10),
                               GestureDetector(
                                 onTap: () {

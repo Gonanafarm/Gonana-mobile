@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:get/get.dart' as getx;
 import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:gonana/features/controllers/cart/cart_controller.dart';
 import 'package:gonana/features/data/models/cart_model.dart';
@@ -15,26 +16,20 @@ import '../../utilities/network.dart';
 class OrderController extends GetxController {
   String item = "";
   final cartController = Get.find<CartController>();
-  GetOrderModel getOrderModel = GetOrderModel();
-  OrdersModel orderModel = OrdersModel();
+  Rx<GetOrdersModel> getOrderModel = Rx<GetOrdersModel>(GetOrdersModel());
 
-  void updateOrdersUnit(int newUnit, int index) {
-    orderModel.orders![index].units = newUnit;
-    update();
+  Future<bool> getOrders() async {
+    try {
+      var responseBody = await NetworkApi().authGetData(ApiRoute.getOrders);
+      final response = jsonDecode(responseBody.body);
+      getOrderModel.value = getOrdersModelFromJson(responseBody.body);
+      log("all orders || $response");
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
   }
-
-//   Future<bool> getOrders() async {
-//     try {
-//       var responseBody = await NetworkApi().authGetData(ApiRoute.getOrders);
-//       final response = jsonDecode(responseBody.body);
-//       getOrderModel = getOrderModelFromJson(responseBody) as GetOrderModel;
-//       log("all orders || $responseBody");
-//       return true;
-//     } catch (e) {
-//       print(e);
-//       return false;
-//     }
-//   }
 //
 //   Future<bool> order() async {
 //     try {

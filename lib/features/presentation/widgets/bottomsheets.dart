@@ -493,8 +493,19 @@ cryptoPayBottomSheet(BuildContext context) {
     // 'bnb_logo',
     // 'matic_logo'
   ];
+  var stringValue =
+      transactionController.cryptoBalanceModel.cryptoWalletBalanceInEth;
+  var doubleValue = double.tryParse(stringValue!);
+  var tokenValueInDec;
+  if (doubleValue != null) {
+    tokenValueInDec = doubleValue.toStringAsFixed(5);
+    // Rest of your code...
+  } else {
+    // Handle the case where the conversion to double fails
+    print('Invalid numeric value');
+  }
   List<String> tokenValue = [
-    'ETH ${transactionController.cryptoBalanceModel.cryptoWalletBalanceInEth ?? 0}',
+    'ETH ${tokenValueInDec ?? 0}',
     // '0', '500,000', '', '0', '0', '0'
   ];
   showModalBottomSheet(
@@ -595,7 +606,8 @@ cryptoPayBottomSheet(BuildContext context) {
                                       children: [
                                         Text(
                                           '${tokenValue[index]}',
-                                          style: TextStyle(
+                                          style: const TextStyle(
+                                              overflow: TextOverflow.ellipsis,
                                               fontSize: 16,
                                               fontWeight: FontWeight.w400),
                                         ),

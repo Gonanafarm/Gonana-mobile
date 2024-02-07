@@ -1,92 +1,92 @@
-// To parse this JSON data, do
-//
-//     final getOrderModel = getOrderModelFromJson(jsonString);
-
 import 'dart:convert';
 
-List<GetOrderModel> getOrderModelFromJson(String str) =>
-    List<GetOrderModel>.from(
-        json.decode(str).map((x) => GetOrderModel.fromJson(x)));
+GetOrdersModel getOrdersModelFromJson(String str) =>
+    GetOrdersModel.fromJson(json.decode(str));
 
-String getOrderModelToJson(List<GetOrderModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String getOrdersModelToJson(GetOrdersModel data) => json.encode(data.toJson());
 
-class GetOrderModel {
-  List<Item>? items;
-  int? sumTotal;
-  String? paymentMethod;
-  String? paymentUrl;
-  String? paymentStatus;
-  String? status;
-  String? createdAt;
-  String? updatedAt;
+class GetOrdersModel {
+  List<Order>? orders;
 
-  GetOrderModel({
-    this.items,
-    this.sumTotal,
-    this.paymentMethod,
-    this.paymentUrl,
-    this.paymentStatus,
-    this.status,
-    this.createdAt,
-    this.updatedAt,
+  GetOrdersModel({
+    this.orders,
   });
 
-  factory GetOrderModel.fromJson(Map<String, dynamic> json) => GetOrderModel(
-        items: json["items"] == null
+  factory GetOrdersModel.fromJson(Map<String, dynamic> json) => GetOrdersModel(
+        orders: json["orders"] == null
             ? []
-            : List<Item>.from(json["items"]!.map((x) => Item.fromJson(x))),
-        sumTotal: json["sum_total"],
-        paymentMethod: json["payment_method"],
-        paymentUrl: json["payment_url"],
-        paymentStatus: json["payment_status"],
-        status: json["status"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
+            : List<Order>.from(json["orders"]!.map((x) => Order.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "items": items == null
+        "orders": orders == null
             ? []
-            : List<dynamic>.from(items!.map((x) => x.toJson())),
-        "sum_total": sumTotal,
-        "payment_method": paymentMethod,
-        "payment_url": paymentUrl,
-        "payment_status": paymentStatus,
-        "status": status,
-        "created_at": createdAt,
-        "updated_at": updatedAt,
+            : List<dynamic>.from(orders!.map((x) => x.toJson())),
       };
 }
 
-class Item {
-  String? image;
-  String? productName;
-  String? productId;
-  int? quantity;
+class Order {
+  String? id;
+  String? paymentMethod;
+  String? customerId;
   int? amount;
+  int? quantity;
+  String? productId;
+  String? productName;
+  List<String>? image;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? v;
+  String? orderId;
 
-  Item({
-    this.image,
-    this.productName,
-    this.productId,
-    this.quantity,
+  Order({
+    this.id,
+    this.paymentMethod,
+    this.customerId,
     this.amount,
+    this.quantity,
+    this.productId,
+    this.productName,
+    this.image,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
+    this.orderId,
   });
 
-  factory Item.fromJson(Map<String, dynamic> json) => Item(
-        image: json["image"],
-        productName: json["product_name"],
-        productId: json["product_id"],
-        quantity: json["quantity"],
+  factory Order.fromJson(Map<String, dynamic> json) => Order(
+        id: json["_id"],
+        paymentMethod: json["payment_method"],
+        customerId: json["customer_id"],
         amount: json["amount"],
+        quantity: json["quantity"],
+        productId: json["product_id"],
+        productName: json["product_name"],
+        image: json["image"] == null
+            ? []
+            : List<String>.from(json["image"]!.map((x) => x)),
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
+        v: json["__v"],
+        orderId: json["id"],
       );
 
   Map<String, dynamic> toJson() => {
-        "image": image,
-        "product_name": productName,
-        "product_id": productId,
-        "quantity": quantity,
+        "_id": id,
+        "payment_method": paymentMethod,
+        "customer_id": customerId,
         "amount": amount,
+        "quantity": quantity,
+        "product_id": productId,
+        "product_name": productName,
+        "image": image == null ? [] : List<dynamic>.from(image!.map((x) => x)),
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+        "__v": v,
+        "id": orderId,
       };
 }
