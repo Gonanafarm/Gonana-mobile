@@ -152,6 +152,29 @@ class _HotDealsItemState extends State<HotDealsItem> {
                   ],
                 ),
                 sizeVer(5.0),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: widget.productModel!.usd_price != null
+                            ? "\$ ${widget.productModel!.usd_price}"
+                            : "\$ ",
+                        style: GoogleFonts.montserrat(
+                            fontSize: 24,
+                            color: const Color.fromRGBO(41, 132, 75, 1),
+                            fontWeight: FontWeight.w600),
+                      ),
+                      TextSpan(
+                        text: "/Piece",
+                        style: GoogleFonts.montserrat(
+                            color: darkColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                ),
+                sizeVer(5.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -163,11 +186,11 @@ class _HotDealsItemState extends State<HotDealsItem> {
                     //       decorationColor: Colors.black,
                     //       decorationThickness: 2.0,
                     //     )),
-                    Text("Location: ",
-                        style: GoogleFonts.montserrat(
-                            color: const Color.fromRGBO(0, 0, 0, 1),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400)),
+                    // Text("Location: ",
+                    //     style: GoogleFonts.montserrat(
+                    //         color: const Color.fromRGBO(0, 0, 0, 1),
+                    //         fontSize: 14,
+                    //         fontWeight: FontWeight.w400)),
                     Flexible(
                       child: Container(
                         child: FutureBuilder<String?>(

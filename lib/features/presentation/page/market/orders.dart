@@ -1,11 +1,13 @@
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:gonana/features/controllers/order/order_controller.dart';
 import 'package:gonana/features/data/models/get_order_model.dart';
 import 'package:gonana/features/presentation/page/market/cart_page.dart';
 
+import '../../../../consts.dart';
 import '../home.dart';
 
 class Orders extends StatefulWidget {
@@ -17,11 +19,13 @@ class Orders extends StatefulWidget {
 
 class _OrdersState extends State<Orders> {
   late Future<bool> fetchData;
+  late Future<bool> fetchData2;
   OrderController getOrdersController = Get.find<OrderController>();
   @override
   void initState() {
     super.initState();
     fetchData = getOrdersController.getOrders();
+    fetchData2 = getOrdersController.getOutGoingOrders();
   }
 
   @override
@@ -114,129 +118,164 @@ class _OrdersState extends State<Orders> {
                             } else {
                               return TabBarView(
                                 children: [
-                                  ListView.builder(
-                                      itemCount: orderController
-                                          .getOrderModel.value.orders!.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20.0),
-                                          child: Column(
-                                            children: [
-                                              SizedBox(
+                                  orderController
+                                          .getOrderModel.value.data!.isNotEmpty
+                                      ? ListView.builder(
+                                          itemCount: orderController
+                                              .getOrderModel.value.data!.length,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 20.0),
+                                              child: Column(
+                                                children: [
+                                                  SizedBox(
 // width: MediaQuery.of(context).size.width * 0.8,
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 20.0),
-                                                  child: Row(
-                                                    children: [
-                                                      SizedBox(
-                                                          width: 129,
-                                                          height: 108,
-                                                          child: Image.network(
-                                                              "${orderController.getOrderModel.value.orders![index].image![0]}")),
-                                                      Flexible(
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  left: 10.0),
-                                                          child: Column(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Row(
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 20.0),
+                                                      child: Row(
+                                                        children: [
+                                                          SizedBox(
+                                                              width: 129,
+                                                              height: 108,
+                                                              child: Image.network(
+                                                                  "${orderController.getOrderModel.value.data![index].image![0]}")),
+                                                          Flexible(
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                      left:
+                                                                          10.0),
+                                                              child: Column(
                                                                 mainAxisAlignment:
                                                                     MainAxisAlignment
                                                                         .spaceBetween,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
                                                                 children: [
+                                                                  Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      Flexible(
+                                                                        child:
+                                                                            Text(
+                                                                          '${orderController.getOrderModel.value.data![index].productName}',
+                                                                          style: const TextStyle(
+                                                                              overflow: TextOverflow.ellipsis,
+                                                                              fontSize: 12,
+                                                                              fontWeight: FontWeight.w600,
+                                                                              color: Colors.black),
+                                                                        ),
+                                                                      ),
+                                                                      sizeHor(
+                                                                          5),
+                                                                      Flexible(
+                                                                        child:
+                                                                            Text(
+                                                                          'Confirm order',
+                                                                          style:
+                                                                              TextStyle(
+                                                                            overflow:
+                                                                                TextOverflow.ellipsis,
+                                                                            color:
+                                                                                Color(0xFF31DE72),
+                                                                            fontSize:
+                                                                                14,
+                                                                            fontFamily:
+                                                                                'Proxima Nova',
+                                                                            fontWeight:
+                                                                                FontWeight.w800,
+                                                                          ),
+                                                                        ),
+                                                                      )
+                                                                    ],
+                                                                  ),
                                                                   Text(
-                                                                    '${orderController.getOrderModel.value.orders![index].productName}',
-                                                                    style: const TextStyle(
+                                                                    'X${orderController.getOrderModel.value.data![index].quantity}',
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                    style: TextStyle(
                                                                         fontSize:
                                                                             12,
                                                                         fontWeight:
                                                                             FontWeight
-                                                                                .w600,
-                                                                        color: Colors
-                                                                            .black),
+                                                                                .w400,
+                                                                        color: Color(
+                                                                            0xff444444)),
                                                                   ),
                                                                   Text(
-                                                                    'Confirm order',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      color: Color(
-                                                                          0xFF31DE72),
-                                                                      fontSize:
-                                                                          15,
-                                                                      fontFamily:
-                                                                          'Proxima Nova',
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w800,
-                                                                    ),
-                                                                  )
-                                                                ],
-                                                              ),
-                                                              Text(
-                                                                'X${orderController.getOrderModel.value.orders![index].quantity}',
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        12,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400,
-                                                                    color: Color(
-                                                                        0xff444444)),
-                                                              ),
-                                                              Text(
-                                                                'The product is natural with',
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        12,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400,
-                                                                    color: Color(
-                                                                        0xff444444)),
-                                                              ),
-                                                              SizedBox(
-                                                                  height: 10),
-                                                              Text(
-                                                                "NGN ${orderController.getOrderModel.value.orders![index].amount}",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        16,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                    color: Color(
-                                                                        0xff29844B)),
-                                                              ),
-                                                              Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Flexible(
-                                                                    child:
-                                                                        Column(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .spaceEvenly,
-                                                                      children: [
+                                                                    '${orderController.getOrderModel.value.data![index].productDescription}',
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            12,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w400,
+                                                                        color: Color(
+                                                                            0xff444444)),
+                                                                  ),
+                                                                  SizedBox(
+                                                                      height:
+                                                                          10),
+                                                                  Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      Text(
+                                                                        "NGN ${orderController.getOrderModel.value.data![index].productAmount}",
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                16,
+                                                                            fontWeight:
+                                                                                FontWeight.w600,
+                                                                            color: Color(0xff29844B)),
+                                                                      ),
+                                                                      Flexible(
+                                                                        child:
+                                                                            Text(
+                                                                          '${orderController.getOrderModel.value.data![index].status}',
+                                                                          style:
+                                                                              TextStyle(
+                                                                            overflow:
+                                                                                TextOverflow.ellipsis,
+                                                                            color: orderController.getOrderModel.value.data![index].status == "pending"
+                                                                                ? Colors.yellow.shade700
+                                                                                : Color(0xFF31DE72),
+                                                                            fontSize:
+                                                                                14,
+                                                                            fontFamily:
+                                                                                'Proxima Nova',
+                                                                            fontWeight:
+                                                                                FontWeight.w800,
+                                                                          ),
+                                                                        ),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                  Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      Flexible(
+                                                                        child:
+                                                                            Column(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.spaceEvenly,
+                                                                          children: [
 // Text(
 //   "NGN 30,000",
 //   style: TextStyle(
@@ -279,26 +318,272 @@ class _OrdersState extends State<Orders> {
 //                                                                             Text("Plateau state"),
 //                                                                           ],
 //                                                                         )
-                                                                      ],
-                                                                    ),
-                                                                  ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  )
                                                                 ],
-                                                              )
-                                                            ],
+                                                              ),
+                                                            ),
                                                           ),
-                                                        ),
+                                                        ],
                                                       ),
-                                                    ],
+                                                    ),
                                                   ),
+                                                ],
+                                              ),
+                                            );
+                                          })
+                                      : Center(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              sizeVer(MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.1),
+                                              SvgPicture.asset(
+                                                "assets/svgs/empty_product.svg",
+                                                width: 189.71,
+                                                height: 156.03,
+                                              ),
+                                              const Text(
+                                                'Sorry! no product bought yet',
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 24,
+                                                  fontFamily: 'Proxima Nova',
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                              const Text(
+                                                'All bought products would be visible here',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 14,
+                                                  fontFamily: 'Proxima Nova',
+                                                  fontWeight: FontWeight.w400,
                                                 ),
                                               ),
                                             ],
                                           ),
-                                        );
-                                      }),
-                                  Center(
-                                    child: Icon(Icons.directions_transit),
-                                  ),
+                                        ),
+                                  orderController.getOutGoingOrderModel.value!
+                                          .data!.isNotEmpty
+                                      ? ListView.builder(
+                                          itemCount: orderController
+                                              .getOutGoingOrderModel
+                                              .value!
+                                              .data!
+                                              .length,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 20.0),
+                                              child: Column(
+                                                children: [
+                                                  SizedBox(
+// width: MediaQuery.of(context).size.width * 0.8,
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 20.0),
+                                                      child: Row(
+                                                        children: [
+                                                          SizedBox(
+                                                              width: 129,
+                                                              height: 108,
+                                                              child: Image.network(
+                                                                  "${orderController.getOutGoingOrderModel.value!.data![index].image![0]}")),
+                                                          Flexible(
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                      left:
+                                                                          10.0),
+                                                              child: Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      Text(
+                                                                        '${orderController.getOutGoingOrderModel.value!.data![index].productName}',
+                                                                        style: const TextStyle(
+                                                                            fontSize:
+                                                                                12,
+                                                                            fontWeight:
+                                                                                FontWeight.w600,
+                                                                            color: Colors.black),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  Text(
+                                                                    'X${orderController.getOutGoingOrderModel.value!.data![index].quantity}',
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            12,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w400,
+                                                                        color: Color(
+                                                                            0xff444444)),
+                                                                  ),
+                                                                  Text(
+                                                                    '${orderController.getOutGoingOrderModel.value!.data![index].productDescription}',
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            12,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w400,
+                                                                        color: Color(
+                                                                            0xff444444)),
+                                                                  ),
+                                                                  SizedBox(
+                                                                      height:
+                                                                          10),
+                                                                  Text(
+                                                                    "NGN ${orderController.getOutGoingOrderModel.value!.data![index].productAmount}",
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            16,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w600,
+                                                                        color: Color(
+                                                                            0xff29844B)),
+                                                                  ),
+                                                                  Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      Flexible(
+                                                                        child:
+                                                                            Column(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.spaceEvenly,
+                                                                          children: [
+// Text(
+//   "NGN 30,000",
+//   style: TextStyle(
+//       decoration:
+//           TextDecoration.lineThrough,
+//       fontSize: 10,
+//       fontWeight: FontWeight.w400,
+//       color: Color(0xff444444)),
+// ),
+// FutureBuilder<
+//     String?>(
+//   future: marketController
+//       .userProductAddress(
+//       index),
+//   builder: (BuildContext
+//   context,
+//       AsyncSnapshot<
+//           String?>
+//       snapshot) {
+//     if (snapshot
+//         .connectionState ==
+//         ConnectionState
+//             .waiting) {
+//       return CircularProgressIndicator();
+//     } else if (snapshot
+//         .hasError) {
+//       return Text(
+//           "Error: ${snapshot.error}");
+//     } else {
+//       return Text(
+//           snapshot.data ??
+//               "");
+//     }
+//   },
+// ),
+//                                                                         Row(
+//                                                                           mainAxisAlignment:
+//                                                                               MainAxisAlignment.spaceBetween,
+//                                                                           children: [
+//                                                                             Text("Plateau state"),
+//                                                                           ],
+//                                                                         )
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          })
+                                      : Center(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              sizeVer(MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.1),
+                                              SvgPicture.asset(
+                                                "assets/svgs/empty_product.svg",
+                                                width: 189.71,
+                                                height: 156.03,
+                                              ),
+                                              const Text(
+                                                'Sorry! non of your products have been bought yet ',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 24,
+                                                  fontFamily: 'Proxima Nova',
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                              const Text(
+                                                'All bought products would be visible here',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 14,
+                                                  fontFamily: 'Proxima Nova',
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                 ],
                               );
                             }

@@ -151,6 +151,29 @@ class _BuyNowPageState extends State<BuyNowPage> {
                   ],
                 ),
                 sizeVer(5.0),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: widget.productModel!.product!.usd_price != null
+                            ? "\$ ${widget.productModel!.product!.usd_price}"
+                            : "\$ ",
+                        style: GoogleFonts.montserrat(
+                            fontSize: 24,
+                            color: const Color.fromRGBO(41, 132, 75, 1),
+                            fontWeight: FontWeight.w600),
+                      ),
+                      TextSpan(
+                        text: "/Piece",
+                        style: GoogleFonts.montserrat(
+                            color: darkColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                ),
+                sizeVer(5.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [

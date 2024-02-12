@@ -8,7 +8,7 @@ PostModel postModelFromJson(String str) => PostModel.fromJson(json.decode(str));
 
 String postModelToJson(PostModel data) => json.encode(data.toJson());
 
-class  PostModel {
+class PostModel {
   bool? success;
   List<Datum>? data;
 
@@ -70,6 +70,7 @@ class Product {
   int? weight;
   int? quantity;
   int? amount;
+  double? usd_price;
   String? status;
   List<dynamic>? tags;
   String? body;
@@ -91,6 +92,7 @@ class Product {
     this.weight,
     this.quantity,
     this.amount,
+    this.usd_price,
     this.status,
     this.tags,
     this.body,
@@ -120,6 +122,7 @@ class Product {
         weight: json["weight"],
         quantity: json["quantity"],
         amount: json["amount"],
+        usd_price: json["usd_price"],
         status: json["status"],
         tags: json["tags"] == null
             ? []
@@ -150,6 +153,7 @@ class Product {
         "weight": weight,
         "quantity": quantity,
         "amount": amount,
+        "usd_price": usd_price,
         "status": status,
         "tags": tags == null ? [] : List<dynamic>.from(tags!.map((x) => x)),
         "body": body,

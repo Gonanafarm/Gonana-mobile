@@ -214,11 +214,12 @@ class CartController extends GetxController {
       var res = await NetworkApi().authPostData(data, ApiRoute.getRates);
       var response = jsonDecode(res.body);
       print("got here");
-      log('Message: $response');
+      // log('Message: $response');
       log('status code: ${res.statusCode}');
       if (res.statusCode == 201) {
         succesfullTransactionModel =
             succesfullTransactionModelFromJson(res.body);
+        log('Message: $response');
         SuccessSnackbar.show(context, "successful");
         return true;
       } else {

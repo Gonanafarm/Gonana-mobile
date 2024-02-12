@@ -496,6 +496,18 @@ class _CartCardState extends State<CartCard> {
                         color: greenColor,
                         fontWeight: FontWeight.w600),
                   ),
+                  sizeVer(5),
+                  Text(
+                    cartController.cartModel!.value.products![widget.index]
+                                .usdAmount !=
+                            null
+                        ? "\$ ${cartController.cartModel!.value.products![widget.index].usdAmount!}"
+                        : "\$",
+                    style: GoogleFonts.montserrat(
+                        fontSize: 20,
+                        color: greenColor,
+                        fontWeight: FontWeight.w600),
+                  ),
                   sizeVer(4.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

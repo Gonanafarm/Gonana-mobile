@@ -96,16 +96,35 @@ class _ProductCheckoutState extends State<ProductCheckout> {
                                               fontSize: 14,
                                               fontWeight: FontWeight.w400,
                                               color: Color(0xff444444))),
-                                      cartController
-                                                  .succesfullTransactionModel !=
-                                              null
-                                          ? Text(
-                                              "NGN ${cartController.succesfullTransactionModel!.productCost ?? ""}",
-                                              style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Color(0xff444444)))
-                                          : Text(""),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          cartController
+                                                      .succesfullTransactionModel !=
+                                                  null
+                                              ? Text(
+                                                  "NGN ${cartController.succesfullTransactionModel!.productCost ?? "0"}",
+                                                  style: const TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Color(0xff444444)))
+                                              : Text(""),
+                                          sizeVer(5),
+                                          cartController
+                                                      .succesfullTransactionModel !=
+                                                  null
+                                              ? Text(
+                                                  "\$ ${cartController.succesfullTransactionModel!.product_cost_in_usd ?? "0"}",
+                                                  style: const TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Color(0xff444444)))
+                                              : Text(""),
+                                        ],
+                                      )
                                     ]),
                                 sizeVer(30),
                                 Row(
@@ -117,16 +136,34 @@ class _ProductCheckoutState extends State<ProductCheckout> {
                                               fontSize: 14,
                                               fontWeight: FontWeight.w400,
                                               color: Color(0xff444444))),
-                                      cartController
-                                                  .succesfullTransactionModel !=
-                                              null
-                                          ? Text(
-                                              "NGN ${cartController.succesfullTransactionModel!.totalShippingCost ?? ""}",
-                                              style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Color(0xff444444)))
-                                          : Text(""),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          cartController
+                                                      .succesfullTransactionModel !=
+                                                  null
+                                              ? Text(
+                                                  "NGN ${cartController.succesfullTransactionModel!.totalShippingCost ?? "0"}",
+                                                  style: const TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Color(0xff444444)))
+                                              : Text(""),
+                                          cartController
+                                                      .succesfullTransactionModel !=
+                                                  null
+                                              ? Text(
+                                                  "\$ ${cartController.succesfullTransactionModel!.total_shipping_cost_in_usd ?? "0"}",
+                                                  style: const TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Color(0xff444444)))
+                                              : Text(""),
+                                        ],
+                                      )
                                     ]),
                                 sizeVer(30),
                                 Row(
@@ -141,12 +178,29 @@ class _ProductCheckoutState extends State<ProductCheckout> {
                                       cartController
                                                   .succesfullTransactionModel !=
                                               null
-                                          ? Text(
-                                              "NGN ${cartController.succesfullTransactionModel!.totalShippingCost != null ? (double.parse(cartController.succesfullTransactionModel!.totalShippingCost.toString()) + cartController.succesfullTransactionModel!.productCost!) : cartController.succesfullTransactionModel!.productCost!}",
-                                              style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Color(0xff444444)))
+                                          ? Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                Text(
+                                                    "NGN ${cartController.succesfullTransactionModel!.totalShippingCost != null ? (double.parse(cartController.succesfullTransactionModel!.totalShippingCost.toString()) + cartController.succesfullTransactionModel!.productCost!) : cartController.succesfullTransactionModel!.productCost!}",
+                                                    style: const TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color:
+                                                            Color(0xff444444))),
+                                                sizeVer(5),
+                                                Text(
+                                                    "\$ ${cartController.succesfullTransactionModel!.total_shipping_cost_in_usd != null ? (double.parse(cartController.succesfullTransactionModel!.total_shipping_cost_in_usd.toString()) + double.parse(cartController.succesfullTransactionModel!.product_cost_in_usd!)) : cartController.succesfullTransactionModel!.product_cost_in_usd!}",
+                                                    style: const TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color:
+                                                            Color(0xff444444))),
+                                              ],
+                                            )
                                           : Text(""),
                                     ])
                               ]),

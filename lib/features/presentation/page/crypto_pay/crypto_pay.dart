@@ -15,6 +15,7 @@ class CryptoPay extends StatelessWidget {
   dynamic argument = Get.arguments;
   late String courier = argument['courier'];
   late String totalPrice = argument['productPrice'];
+  late String totalPriceInDollar = argument['totalPriceInDollar'];
   CryptoPayController cryptoPayController = Get.put(CryptoPayController());
 
   @override
@@ -63,7 +64,8 @@ class CryptoPay extends StatelessWidget {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.3,
                         child: TextField(
-                          controller: TextEditingController(text: totalPrice),
+                          controller: TextEditingController(
+                              text: "\$ $totalPriceInDollar"),
                           enabled: false,
                           decoration: const InputDecoration(
                             hintText: "Amount",

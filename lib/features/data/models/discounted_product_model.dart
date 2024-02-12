@@ -44,6 +44,7 @@ class Datum {
   int? weight;
   int? quantity;
   int? amount;
+  double? usd_price;
   List<dynamic>? tags;
   String? body;
   List<String>? images;
@@ -64,6 +65,7 @@ class Datum {
     this.weight,
     this.quantity,
     this.amount,
+    this.usd_price,
     this.tags,
     this.body,
     this.images,
@@ -92,6 +94,7 @@ class Datum {
         weight: json["weight"],
         quantity: json["quantity"],
         amount: json["amount"],
+        usd_price: json["usd_price"],
         tags: json["tags"] == null
             ? []
             : List<dynamic>.from(json["tags"]!.map((x) => x)),
@@ -121,6 +124,7 @@ class Datum {
         "weight": weight,
         "quantity": quantity,
         "amount": amount,
+        "usd_price": usd_price,
         "tags": tags == null ? [] : List<dynamic>.from(tags!.map((x) => x)),
         "body": body,
         "images":

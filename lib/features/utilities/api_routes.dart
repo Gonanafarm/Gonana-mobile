@@ -25,7 +25,8 @@ class ApiRoute {
   static const me = "api/auth/me";
 
   // order urls
-  static const getOrders = "api/catalog/order";
+  static const getIncomingOrders = "api/catalog/orders/incoming";
+  static const getOutgoingOrders = "api/catalog/orders/outgoing";
 
   //post urls
   static const createPost = "api/catalog/posts";

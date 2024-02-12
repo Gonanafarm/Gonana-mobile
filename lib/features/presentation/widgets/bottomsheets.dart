@@ -265,6 +265,10 @@ checkout(BuildContext context, var courier) {
       final cartController = Get.find<CartController>();
       var totalPrice =
           "${cartController.succesfullTransactionModel!.totalShippingCost != null ? (double.parse(cartController.succesfullTransactionModel!.totalShippingCost.toString()) + cartController.succesfullTransactionModel!.productCost!) : cartController.succesfullTransactionModel!.productCost!}";
+
+      var totalPriceInDollar =
+          "${cartController.succesfullTransactionModel!.total_shipping_cost_in_usd != null ? (double.parse(cartController.succesfullTransactionModel!.total_shipping_cost_in_usd.toString()) + double.parse(cartController.succesfullTransactionModel!.product_cost_in_usd!)) : cartController.succesfullTransactionModel!.product_cost_in_usd!}";
+
       return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
         return Container(
@@ -446,7 +450,8 @@ checkout(BuildContext context, var courier) {
                         if (selectedRadioValue == "Option 1") {
                           Get.to(() => CryptoPay(), arguments: {
                             "courier": courier,
-                            "productPrice": totalPrice
+                            "productPrice": totalPrice,
+                            "totalPriceInDollar": totalPriceInDollar
                           });
                         }
 

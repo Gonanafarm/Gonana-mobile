@@ -134,6 +134,7 @@ class _CryptoPasscodeState extends State<CryptoPasscode> {
                       setState(() {
                         isLoading = false;
                       });
+                      // bool isSuccess = true;
                       if (isSuccess) {
                         showDialog(
                           context: context,

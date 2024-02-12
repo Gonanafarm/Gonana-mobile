@@ -37,6 +37,7 @@ class Product {
   String? id;
   String? title;
   int? amount;
+  String? usdAmount;
   int? unit;
   String? body;
   String? from;
@@ -46,6 +47,7 @@ class Product {
     this.id,
     this.title,
     this.amount,
+    this.usdAmount,
     this.unit,
     this.body,
     this.from,
@@ -56,6 +58,7 @@ class Product {
         id: json["id"],
         title: json["Title"],
         amount: json["Amount"],
+        usdAmount: json["usdAmount"],
         body: json["body"],
         from: json["From"],
         image: json["image"] == null
@@ -67,6 +70,7 @@ class Product {
         "id": id,
         "Title": title,
         "Amount": amount,
+        "usdAmount": usdAmount,
         "body": body,
         "From": from,
         "image": image == null ? [] : List<dynamic>.from(image!.map((x) => x)),

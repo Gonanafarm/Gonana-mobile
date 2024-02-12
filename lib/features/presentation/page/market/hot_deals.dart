@@ -290,7 +290,15 @@ class _HotDealsCardState extends State<HotDealsCard> {
                 ),
                 sizeVer(10),
                 Text(
-                  "${marketController.discountMarketModel!.data![widget.index].amount}",
+                  "NGN ${marketController.discountMarketModel!.data![widget.index].amount}",
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: greenColor,
+                      fontWeight: FontWeight.w600),
+                ),
+                sizeVer(4.0),
+                Text(
+                  "\$ ${marketController.discountMarketModel!.data![widget.index].usd_price}",
                   style: TextStyle(
                       fontSize: 20,
                       color: greenColor,

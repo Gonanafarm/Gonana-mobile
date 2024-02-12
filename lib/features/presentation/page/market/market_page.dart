@@ -178,18 +178,23 @@ class _MarketPageState extends State<MarketPage> {
                                           padding: const EdgeInsets.all(3.0),
                                           child: Center(
                                             child: Obx(() {
+                                              final orders = orderController
+                                                      .getOrderModel
+                                                      ?.value
+                                                      ?.data ??
+                                                  [];
+                                              final outgoingOrders =
+                                                  orderController
+                                                          .getOutGoingOrderModel
+                                                          ?.value
+                                                          ?.data ??
+                                                      [];
+                                              final totalLength =
+                                                  orders.length +
+                                                      outgoingOrders.length;
                                               return Text(
-                                                orderController
-                                                            .getOrderModel!
-                                                            .value
-                                                            .orders!
-                                                            .isNotEmpty ||
-                                                        cartController
-                                                                .cartModel! ==
-                                                            null
-                                                    ? "${orderController.getOrderModel!.value.orders!.length}"
-                                                    : "",
-                                                style: const TextStyle(
+                                                '$totalLength',
+                                                style: TextStyle(
                                                   color: primaryColor,
                                                 ),
                                               );
@@ -510,7 +515,7 @@ class _HotDealsCardState extends State<HotDealsCard> {
             children: [
               Container(
                 width: 115,
-                height: 103,
+                // height: 103,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   // image: const DecorationImage(
@@ -574,6 +579,11 @@ class _HotDealsCardState extends State<HotDealsCard> {
             style: const TextStyle(
                 fontSize: 14, color: greenColor, fontWeight: FontWeight.w600),
           ),
+          Text(
+            "\$ ${marketController.discountMarketModel!.data![widget.index].usd_price}",
+            style: const TextStyle(
+                fontSize: 14, color: greenColor, fontWeight: FontWeight.w600),
+          ),
           // sizeVer(8.0),
           // Text("NGN 30000",
           //     style: GoogleFonts.montserrat(
@@ -598,7 +608,7 @@ class _HotDealsCardState extends State<HotDealsCard> {
               } else {
                 return Flexible(
                   child: Text(
-                    " ${snapshot.data}" ?? "",
+                    snapshot.data ?? "",
                     style: GoogleFonts.sourceSansPro(
                       color: const Color.fromRGBO(0, 0, 0, 1),
                       fontSize: 12,
@@ -686,7 +696,14 @@ class _BuyNowCardState extends State<BuyNowCard> {
                 fontWeight: FontWeight.w400),
           ),
           Text(
-            "${marketController.marketModel.value.data![widget.index].product!.amount}",
+            "NGN ${marketController.marketModel.value.data![widget.index].product!.amount}",
+            style: GoogleFonts.montserrat(
+                fontSize: 14,
+                color: const Color.fromRGBO(41, 132, 75, 1),
+                fontWeight: FontWeight.w600),
+          ),
+          Text(
+            "\$ ${marketController.marketModel.value.data![widget.index].product!.usd_price}",
             style: GoogleFonts.montserrat(
                 fontSize: 14,
                 color: const Color.fromRGBO(41, 132, 75, 1),
