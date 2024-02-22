@@ -351,7 +351,8 @@ class _MarketPageState extends State<MarketPage> {
                             ? Container(height: 1)
                             : WarningWidget(),
                         sizeVer(15),
-                        marketController.marketModel.value.data!.isEmpty
+                        marketController.marketModel.value.data == null ||
+                                marketController.marketModel.value.data!.isEmpty
                             ? Center(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -515,7 +516,7 @@ class _HotDealsCardState extends State<HotDealsCard> {
             children: [
               Container(
                 width: 115,
-                // height: 103,
+                height: 103,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   // image: const DecorationImage(

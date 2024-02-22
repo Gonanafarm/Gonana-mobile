@@ -241,6 +241,7 @@ class ProductController extends GetxController {
       //marketModel = marketModelFromJson(responseBody);
       // log("products abeg $response");
       marketModel.value = PostModel.postModelFromJson(responseBody.body);
+      print("product printing ${marketModel.value.data}");
       // log("response: $response");
       // log("${marketModel!.value.data![0].product!.images![0]}");
       // log("MarketProcuts: [$response]");

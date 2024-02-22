@@ -19,8 +19,6 @@ class _AllSearchedProductsState extends State<AllSearchedProducts> {
   ProductController marketController = Get.put(ProductController());
   late Future<bool> fetchData;
 
-
-
   @override
   void initState() {
     super.initState();
@@ -38,8 +36,8 @@ class _AllSearchedProductsState extends State<AllSearchedProducts> {
     double sHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-          backgroundColor: const Color(0xffF1F1F1),
-          appBar: AppBar(
+        backgroundColor: const Color(0xffF1F1F1),
+        appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
             leading: IconButton(
@@ -49,120 +47,114 @@ class _AllSearchedProductsState extends State<AllSearchedProducts> {
                 Get.back();
                 marketController.clearList();
               },
-            )
-          ),
-          body: SafeArea(
+            )),
+        body: SafeArea(
             child: ListView(children: [
-            Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 15.0, vertical: 15.0),
-                child: Column(
+          Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+              child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Results for: $searchQuery",
-                      style: const TextStyle(
-                        fontSize: 25.0,
-                        fontWeight: FontWeight.bold,
-                        color: secondaryColor
-                      )
-                    ),
+                        style: const TextStyle(
+                            fontSize: 25.0,
+                            fontWeight: FontWeight.bold,
+                            color: secondaryColor)),
                     SizedBox(
-                      height: sHeight * 0.8,
-                      child: ListView.builder(
-                        itemCount: searchResults.length,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          var sProducts = marketController.sProducts[index];
-                          log("no, of widgets: ${marketController.sProducts.length}");
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 8,
-                            ),
-                            child: Container(
-                              height: sHeight * 0.1,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10)
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(4.0),
-                                        child: Image.network(
-                                          height:  sHeight * 0.1,
-                                          sProducts.images![0],
-                                          fit: BoxFit.contain,
-                                        ),
+                        height: sHeight * 0.8,
+                        child: ListView.builder(
+                            itemCount: searchResults.length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              // var sProducts = marketController.sProducts[index];
+                              log("no, of widgets: ${marketController.sProducts.length}");
+                              return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 8,
+                                  ),
+                                  child: Container(
+                                    height: sHeight * 0.1,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: Image.network(
+                                              height: sHeight * 0.1,
+                                              marketController
+                                                  .sProducts[index].images![0],
+                                              fit: BoxFit.contain,
+                                            ),
+                                          ),
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                  "${marketController.sProducts[index].title}",
+                                                  style: const TextStyle(
+                                                      fontSize: 20.0,
+                                                      color: secondaryColor)),
+                                              Text(
+                                                  "${marketController.sProducts[index].body}",
+                                                  style: const TextStyle(
+                                                      fontSize: 14.0,
+                                                      color: secondaryColor)),
+                                              Text(
+                                                  "₦${marketController.sProducts[index].amount}",
+                                                  style: const TextStyle(
+                                                      fontSize: 20.0,
+                                                      color: greenColor)),
+                                            ],
+                                          ),
+                                          ElevatedButton(
+                                            onPressed: () async {
+                                              bool created = false;
+                                              created = await cartController
+                                                  .addToCart(
+                                                      marketController
+                                                          .sProducts[index].id,
+                                                      context);
+                                              if (created) {
+                                                await cartController
+                                                    .fetchCart();
+                                                SuccessSnackbar.show(context,
+                                                    "Item added to cart");
+                                                cartController
+                                                    .updateCartItems();
+                                              }
+                                            },
+                                            style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all<
+                                                      Color>(greenColor),
+                                              foregroundColor:
+                                                  MaterialStateProperty.all<
+                                                      Color>(primaryColor),
+                                            ),
+                                            child: const Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 13.0),
+                                              child: Text('Add to cart'),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text( 
-                                          "${marketController.sProducts[index].title}",
-                                          style: const TextStyle(
-                                            fontSize: 20.0,
-                                            color: secondaryColor
-                                          )
-                                        ),
-                                        Text( 
-                                          "${marketController.sProducts[index].body}",
-                                          style: const TextStyle(
-                                            fontSize: 14.0,
-                                            color: secondaryColor
-                                          )
-                                        ),
-                                        Text( 
-                                          "₦${marketController.sProducts[index].amount}",
-                                          style: const TextStyle(
-                                            fontSize: 20.0,
-                                            color: greenColor
-                                          )
-                                        ),
-                                      ],
                                     ),
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        bool created = false;
-                                        created = await cartController.addToCart(
-                                          marketController.sProducts[index].id,
-                                          context
-                                        );
-                                        if (created) {
-                                          await cartController.fetchCart();
-                                          SuccessSnackbar.show(context, "Item added to cart");
-                                          cartController.updateCartItems();
-                                        }
-                                      },
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all<Color>(greenColor),
-                                        foregroundColor:
-                                            MaterialStateProperty.all<Color>(primaryColor),
-                                      ),
-                                      child: const Padding(
-                                        padding: EdgeInsets.symmetric(vertical: 13.0),
-                                        child: Text('Add to cart'),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
-                          );
-                        }
-                      )
-                    )
-                  ]
-                )
-              )
-          ]
-        )
-      )
-    );
+                                  ));
+                            }))
+                  ]))
+        ])));
     //  FutureBuilder<bool>(
     //   future: fetchData,
     //   builder: (context, snapshot) {
@@ -262,14 +254,14 @@ class _AllSearchedProductsState extends State<AllSearchedProducts> {
     //                                   Column(
     //                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     //                                     children: [
-    //                                       Text( 
+    //                                       Text(
     //                                         "${marketController.sProducts[index].title}",
     //                                         style: const TextStyle(
     //                                           fontSize: 16.0,
     //                                           color: secondaryColor
     //                                         )
     //                                       ),
-    //                                       Text( 
+    //                                       Text(
     //                                         "product: ${marketController.sProducts[index].body}",
     //                                         style: const TextStyle(
     //                                           fontSize: 14.0,

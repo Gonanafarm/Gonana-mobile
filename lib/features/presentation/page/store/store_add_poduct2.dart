@@ -238,7 +238,7 @@ class _AddProduct2State extends State<AddProduct2> {
                         const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
                           child: Text(
-                            "Note: You would be charged 1.5% on every successful product sale",
+                            "Note: You would be charged 2.5% on every successful product sale",
                             style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,

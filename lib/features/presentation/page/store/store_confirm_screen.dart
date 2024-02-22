@@ -412,7 +412,8 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
           false, // Set to true if you want to allow dismissing the dialog by tapping outside it
       builder: (BuildContext context) {
         return BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20), // Adjust the blur intensity as needed
+          filter: ImageFilter.blur(
+              sigmaX: 20, sigmaY: 20), // Adjust the blur intensity as needed
           child: Container(
             height: 100,
             child: AlertDialog(
@@ -438,7 +439,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                             // width: 185,
                             // height: 82,
                             child: Text(
-                              'Note:\nFor Every succesful transaction there would be 1.5% charge',
+                              'Note:\nFor Every succesful transaction there would be 2.5% charge',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Color(0xFF444444),

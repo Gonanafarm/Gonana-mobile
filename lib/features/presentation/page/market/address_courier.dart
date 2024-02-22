@@ -142,7 +142,10 @@ class _AddressCourierState extends State<AddressCourier> {
                                       ),
                                       const SizedBox(height: 20),
                                       SizedBox(
-                                          //height: MediaQuery.of(context).size.height * 0.5,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.5,
                                           child: cartController.courierModel !=
                                                   null
                                               ? ListView.builder(
@@ -233,7 +236,8 @@ class _AddressCourierState extends State<AddressCourier> {
                                                     );
                                                   },
                                                 )
-                                              : SizedBox(child: Container()))
+                                              : SizedBox(child: Container())),
+                                      sizeVer(20),
                                     ]),
                               ),
                             ]),
