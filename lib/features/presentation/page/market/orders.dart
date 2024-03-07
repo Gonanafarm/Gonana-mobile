@@ -6,6 +6,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:gonana/features/controllers/order/order_controller.dart';
 import 'package:gonana/features/data/models/get_order_model.dart';
 import 'package:gonana/features/presentation/page/market/cart_page.dart';
+import 'package:gonana/features/presentation/widgets/widgets.dart';
 
 import '../../../../consts.dart';
 import '../home.dart';
@@ -21,6 +22,7 @@ class _OrdersState extends State<Orders> {
   late Future<bool> fetchData;
   late Future<bool> fetchData2;
   OrderController getOrdersController = Get.find<OrderController>();
+  bool isLoadingSent = false;
   @override
   void initState() {
     super.initState();
@@ -118,8 +120,10 @@ class _OrdersState extends State<Orders> {
                             } else {
                               return TabBarView(
                                 children: [
-                                  orderController
-                                          .getOrderModel.value.data!.isNotEmpty
+                                  orderController.getOrderModel.value.data !=
+                                              null &&
+                                          orderController.getOrderModel.value
+                                              .data!.isNotEmpty
                                       ? ListView.builder(
                                           itemCount: orderController
                                               .getOrderModel.value.data!.length,
@@ -180,13 +184,14 @@ class _OrdersState extends State<Orders> {
                                                                       Flexible(
                                                                         child:
                                                                             Text(
-                                                                          'Confirm order',
+                                                                          '${orderController.getOrderModel.value.data![index].status}',
                                                                           style:
                                                                               TextStyle(
                                                                             overflow:
                                                                                 TextOverflow.ellipsis,
-                                                                            color:
-                                                                                Color(0xFF31DE72),
+                                                                            color: orderController.getOrderModel.value.data![index].status == "pending"
+                                                                                ? Colors.yellow.shade700
+                                                                                : Color(0xFF31DE72),
                                                                             fontSize:
                                                                                 14,
                                                                             fontFamily:
@@ -196,6 +201,21 @@ class _OrdersState extends State<Orders> {
                                                                           ),
                                                                         ),
                                                                       )
+                                                                      // orderController.getOrderModel.value.data![index].selfShipping ??
+                                                                      //         false
+                                                                      //     ? Flexible(
+                                                                      //         child: Text(
+                                                                      //           'Confirm order',
+                                                                      //           style: TextStyle(
+                                                                      //             overflow: TextOverflow.ellipsis,
+                                                                      //             color: Color(0xFF31DE72),
+                                                                      //             fontSize: 14,
+                                                                      //             fontFamily: 'Proxima Nova',
+                                                                      //             fontWeight: FontWeight.w800,
+                                                                      //           ),
+                                                                      //         ),
+                                                                      //       )
+                                                                      //     : Container()
                                                                     ],
                                                                   ),
                                                                   Text(
@@ -229,97 +249,104 @@ class _OrdersState extends State<Orders> {
                                                                   SizedBox(
                                                                       height:
                                                                           10),
-                                                                  Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    children: [
-                                                                      Text(
-                                                                        "NGN ${orderController.getOrderModel.value.data![index].productAmount}",
-                                                                        style: TextStyle(
-                                                                            fontSize:
-                                                                                16,
-                                                                            fontWeight:
-                                                                                FontWeight.w600,
-                                                                            color: Color(0xff29844B)),
-                                                                      ),
-                                                                      Flexible(
-                                                                        child:
-                                                                            Text(
-                                                                          '${orderController.getOrderModel.value.data![index].status}',
-                                                                          style:
-                                                                              TextStyle(
-                                                                            overflow:
-                                                                                TextOverflow.ellipsis,
-                                                                            color: orderController.getOrderModel.value.data![index].status == "pending"
-                                                                                ? Colors.yellow.shade700
-                                                                                : Color(0xFF31DE72),
-                                                                            fontSize:
-                                                                                14,
-                                                                            fontFamily:
-                                                                                'Proxima Nova',
-                                                                            fontWeight:
-                                                                                FontWeight.w800,
-                                                                          ),
-                                                                        ),
-                                                                      )
-                                                                    ],
+                                                                  Text(
+                                                                    "NGN ${orderController.getOrderModel.value.data![index].productAmount}",
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            16,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w600,
+                                                                        color: Color(
+                                                                            0xff29844B)),
                                                                   ),
+//                                                                   Row(
+//                                                                     mainAxisAlignment:
+//                                                                         MainAxisAlignment
+//                                                                             .spaceBetween,
+//                                                                     children: [
+//                                                                       Flexible(
+//                                                                         child:
+//                                                                             Column(
+//                                                                           mainAxisAlignment:
+//                                                                               MainAxisAlignment.spaceEvenly,
+//                                                                           children: [
+// // Text(
+// //   "NGN 30,000",
+// //   style: TextStyle(
+// //       decoration:
+// //           TextDecoration.lineThrough,
+// //       fontSize: 10,
+// //       fontWeight: FontWeight.w400,
+// //       color: Color(0xff444444)),
+// // ),
+// // FutureBuilder<
+// //     String?>(
+// //   future: marketController
+// //       .userProductAddress(
+// //       index),
+// //   builder: (BuildContext
+// //   context,
+// //       AsyncSnapshot<
+// //           String?>
+// //       snapshot) {
+// //     if (snapshot
+// //         .connectionState ==
+// //         ConnectionState
+// //             .waiting) {
+// //       return CircularProgressIndicator();
+// //     } else if (snapshot
+// //         .hasError) {
+// //       return Text(
+// //           "Error: ${snapshot.error}");
+// //     } else {
+// //       return Text(
+// //           snapshot.data ??
+// //               "");
+// //     }
+// //   },
+// // ),
+// //                                                                         Row(
+// //                                                                           mainAxisAlignment:
+// //                                                                               MainAxisAlignment.spaceBetween,
+// //                                                                           children: [
+// //                                                                             Text("Plateau state"),
+// //                                                                           ],
+// //                                                                         )
+//                                                                           ],
+//                                                                         ),
+//                                                                       ),
+//                                                                     ],
+//                                                                   )
+                                                                  sizeVer(10),
                                                                   Row(
                                                                     mainAxisAlignment:
                                                                         MainAxisAlignment
                                                                             .spaceBetween,
                                                                     children: [
-                                                                      Flexible(
-                                                                        child:
-                                                                            Column(
-                                                                          mainAxisAlignment:
-                                                                              MainAxisAlignment.spaceEvenly,
-                                                                          children: [
-// Text(
-//   "NGN 30,000",
-//   style: TextStyle(
-//       decoration:
-//           TextDecoration.lineThrough,
-//       fontSize: 10,
-//       fontWeight: FontWeight.w400,
-//       color: Color(0xff444444)),
-// ),
-// FutureBuilder<
-//     String?>(
-//   future: marketController
-//       .userProductAddress(
-//       index),
-//   builder: (BuildContext
-//   context,
-//       AsyncSnapshot<
-//           String?>
-//       snapshot) {
-//     if (snapshot
-//         .connectionState ==
-//         ConnectionState
-//             .waiting) {
-//       return CircularProgressIndicator();
-//     } else if (snapshot
-//         .hasError) {
-//       return Text(
-//           "Error: ${snapshot.error}");
-//     } else {
-//       return Text(
-//           snapshot.data ??
-//               "");
-//     }
-//   },
-// ),
-//                                                                         Row(
-//                                                                           mainAxisAlignment:
-//                                                                               MainAxisAlignment.spaceBetween,
-//                                                                           children: [
-//                                                                             Text("Plateau state"),
-//                                                                           ],
-//                                                                         )
-                                                                          ],
-                                                                        ),
+                                                                      TinyButton(
+                                                                        isLoading:
+                                                                            false,
+                                                                        title:
+                                                                            "Complain",
+                                                                        onPressed:
+                                                                            () {},
+                                                                        borderColor:
+                                                                            true,
+                                                                        textColor:
+                                                                            Colors.redAccent,
+                                                                      ),
+                                                                      TinyButton(
+                                                                        isLoading:
+                                                                            false,
+                                                                        title:
+                                                                            "Received?",
+                                                                        onPressed:
+                                                                            () {},
+                                                                        borderColor:
+                                                                            false,
+                                                                        textColor:
+                                                                            Colors.white,
                                                                       ),
                                                                     ],
                                                                   )
@@ -373,8 +400,11 @@ class _OrdersState extends State<Orders> {
                                             ],
                                           ),
                                         ),
-                                  orderController.getOutGoingOrderModel.value!
-                                          .data!.isNotEmpty
+                                  orderController.getOutGoingOrderModel.value
+                                                  .data !=
+                                              null &&
+                                          orderController.getOutGoingOrderModel
+                                              .value!.data!.isNotEmpty
                                       ? ListView.builder(
                                           itemCount: orderController
                                               .getOutGoingOrderModel
@@ -475,61 +505,99 @@ class _OrdersState extends State<Orders> {
                                                                         color: Color(
                                                                             0xff29844B)),
                                                                   ),
+//                                                                   Row(
+//                                                                     mainAxisAlignment:
+//                                                                         MainAxisAlignment
+//                                                                             .spaceBetween,
+//                                                                     children: [
+//                                                                       Flexible(
+//                                                                         child:
+//                                                                             Column(
+//                                                                           mainAxisAlignment:
+//                                                                               MainAxisAlignment.spaceEvenly,
+//                                                                           children: [
+// // Text(
+// //   "NGN 30,000",
+// //   style: TextStyle(
+// //       decoration:
+// //           TextDecoration.lineThrough,
+// //       fontSize: 10,
+// //       fontWeight: FontWeight.w400,
+// //       color: Color(0xff444444)),
+// // ),
+// // FutureBuilder<
+// //     String?>(
+// //   future: marketController
+// //       .userProductAddress(
+// //       index),
+// //   builder: (BuildContext
+// //   context,
+// //       AsyncSnapshot<
+// //           String?>
+// //       snapshot) {
+// //     if (snapshot
+// //         .connectionState ==
+// //         ConnectionState
+// //             .waiting) {
+// //       return CircularProgressIndicator();
+// //     } else if (snapshot
+// //         .hasError) {
+// //       return Text(
+// //           "Error: ${snapshot.error}");
+// //     } else {
+// //       return Text(
+// //           snapshot.data ??
+// //               "");
+// //     }
+// //   },
+// // ),
+// //                                                                         Row(
+// //                                                                           mainAxisAlignment:
+// //                                                                               MainAxisAlignment.spaceBetween,
+// //                                                                           children: [
+// //                                                                             Text("Plateau state"),
+// //                                                                           ],
+// //                                                                         )
+//                                                                           ],
+//                                                                         ),
+//                                                                       ),
+//                                                                     ],
+//                                                                   )
+                                                                  sizeVer(10),
                                                                   Row(
                                                                     mainAxisAlignment:
                                                                         MainAxisAlignment
                                                                             .spaceBetween,
                                                                     children: [
-                                                                      Flexible(
-                                                                        child:
-                                                                            Column(
-                                                                          mainAxisAlignment:
-                                                                              MainAxisAlignment.spaceEvenly,
-                                                                          children: [
-// Text(
-//   "NGN 30,000",
-//   style: TextStyle(
-//       decoration:
-//           TextDecoration.lineThrough,
-//       fontSize: 10,
-//       fontWeight: FontWeight.w400,
-//       color: Color(0xff444444)),
-// ),
-// FutureBuilder<
-//     String?>(
-//   future: marketController
-//       .userProductAddress(
-//       index),
-//   builder: (BuildContext
-//   context,
-//       AsyncSnapshot<
-//           String?>
-//       snapshot) {
-//     if (snapshot
-//         .connectionState ==
-//         ConnectionState
-//             .waiting) {
-//       return CircularProgressIndicator();
-//     } else if (snapshot
-//         .hasError) {
-//       return Text(
-//           "Error: ${snapshot.error}");
-//     } else {
-//       return Text(
-//           snapshot.data ??
-//               "");
-//     }
-//   },
-// ),
-//                                                                         Row(
-//                                                                           mainAxisAlignment:
-//                                                                               MainAxisAlignment.spaceBetween,
-//                                                                           children: [
-//                                                                             Text("Plateau state"),
-//                                                                           ],
-//                                                                         )
-                                                                          ],
-                                                                        ),
+                                                                      TinyButton(
+                                                                        title:
+                                                                            "Sent order?",
+                                                                        onPressed:
+                                                                            () async {
+                                                                          setState(
+                                                                              () {
+                                                                            isLoadingSent =
+                                                                                true;
+                                                                          });
+                                                                          bool success = await orderController.confirmOrderSent(
+                                                                              orderController.getOutGoingOrderModel.value.data![index].productId,
+                                                                              context);
+                                                                          if (success) {
+                                                                            setState(() {
+                                                                              isLoadingSent = false;
+                                                                            });
+                                                                          } else {
+                                                                            setState(() {
+                                                                              isLoadingSent = false;
+                                                                            });
+                                                                          }
+                                                                        },
+                                                                        borderColor:
+                                                                            false,
+                                                                        textColor:
+                                                                            Colors.white,
+                                                                        isLoading:
+                                                                            isLoadingSent,
                                                                       ),
                                                                     ],
                                                                   )
@@ -545,43 +613,46 @@ class _OrdersState extends State<Orders> {
                                               ),
                                             );
                                           })
-                                      : Center(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              sizeVer(MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.1),
-                                              SvgPicture.asset(
-                                                "assets/svgs/empty_product.svg",
-                                                width: 189.71,
-                                                height: 156.03,
-                                              ),
-                                              const Text(
-                                                'Sorry! non of your products have been bought yet ',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 24,
-                                                  fontFamily: 'Proxima Nova',
-                                                  fontWeight: FontWeight.w600,
+                                      : Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: Center(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                sizeVer(MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.1),
+                                                SvgPicture.asset(
+                                                  "assets/svgs/empty_product.svg",
+                                                  width: 189.71,
+                                                  height: 156.03,
                                                 ),
-                                              ),
-                                              const Text(
-                                                'All bought products would be visible here',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 14,
-                                                  fontFamily: 'Proxima Nova',
-                                                  fontWeight: FontWeight.w400,
+                                                const Text(
+                                                  'Sorry! non of your products have been bought yet ',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 24,
+                                                    fontFamily: 'Proxima Nova',
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                                const Text(
+                                                  'All bought products would be visible here',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 14,
+                                                    fontFamily: 'Proxima Nova',
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                 ],

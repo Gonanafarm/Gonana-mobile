@@ -196,8 +196,8 @@ class _AddProduct2State extends State<AddProduct2> {
                                   child: EnterFormText(
                                       validator: inputValidator,
                                       onChanged: (weight) {
-                                        productController
-                                            .updateAddress(address);
+                                        cartController.validateAddress(
+                                            address, context);
                                       },
                                       controller: _address,
                                       label: 'Product Address',

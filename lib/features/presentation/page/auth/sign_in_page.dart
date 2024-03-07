@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:gonana/consts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../../../services/local_auth_service.dart';
 import '../../../controllers/auth/get_details.dart';
 import '../../../controllers/auth/password_controller.dart';
 import '../../../controllers/auth/sign_in_controller.dart';
@@ -29,6 +31,26 @@ class _LoginState extends State<Login> {
 
   bool visibility = false;
   bool isLoading = false;
+
+  bool authenticate = false;
+  Future<bool> getBiometrics() async {
+    authenticate = await LocalAuth.authenticate();
+    return authenticate;
+  }
+
+  var userEmail;
+  Future getEmail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    userEmail = prefs.getString("userEmail") ?? "";
+    print(userEmail);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getEmail();
+  }
+
   @override
   Widget build(BuildContext context) {
     SignInController signInController = Get.put(SignInController());
@@ -128,47 +150,82 @@ class _LoginState extends State<Login> {
                         const SizedBox(
                           height: 15,
                         ),
-                        InkWell(
-                          onTap: () {
-                            Get.to(() => ForgotPassword());
-                          },
-                          child: const Padding(
-                            padding: EdgeInsets.only(left: 30.0),
-                            child: Text('Forgot Password?',
-                                style: TextStyle(color: Colors.grey)),
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Get.to(() => ForgotPassword());
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.only(left: 30.0),
+                                child: Text('Forgot Password?',
+                                    style: TextStyle(color: Colors.grey)),
+                              ),
+                            ),
+                            userEmail != ""
+                                ? Flexible(
+                                    child: InkWell(
+                                      onTap: () async {
+                                        await getBiometrics();
+                                        if (authenticate) {
+                                          setState(() {
+                                            isLoading = true;
+                                          });
+                                          bool isSuccess =
+                                              await signInController
+                                                  .signInWithBiometrics(
+                                                      userEmail, context);
+                                          if (isSuccess) {
+                                            Get.to(() => HomePage(navIndex: 0));
+                                            setState(() {
+                                              isLoading = false;
+                                            });
+                                          } else {
+                                            setState(() {
+                                              isLoading = false;
+                                            });
+                                          }
+                                        }
+                                      },
+                                      child: Text('Login with biometrics',
+                                          style: TextStyle(color: Colors.grey)),
+                                    ),
+                                  )
+                                : Container()
+                          ],
                         ),
                         const SizedBox(
                           height: 20,
                         ),
                         Center(
-                          child: LongGradientButton(
-                              isLoading: isLoading,
-                              title: 'Login',
-                              onPressed: () async {
-                                setState(() {
-                                  isLoading = true;
-                                });
-                                bool isValid =
-                                    _signInkey.currentState!.validate();
-                                if (isValid) {
-                                  bool isSuccess = await signInController
-                                      .signIn(email, password, context);
-                                  log('isSuccess: $isSuccess');
-                                  if (isSuccess == true) {
-                                    // Get.to(() => HomePage(navIndex: 0));
+                            child: LongGradientButton(
+                                isLoading: isLoading,
+                                title: 'Login',
+                                onPressed: () async {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  bool isValid =
+                                      _signInkey.currentState!.validate();
+                                  if (isValid) {
+                                    bool isSuccess = await signInController
+                                        .signIn(email, password, context);
+                                    log('isSuccess: $isSuccess');
+                                    if (isSuccess == true) {
+                                      // Get.to(() => HomePage(navIndex: 0));
+                                    } else {
+                                      setState(() {
+                                        isLoading =
+                                            false; // Set isLoading to false on failure
+                                      });
+                                    }
                                   } else {
                                     setState(() {
-                                      isLoading =
-                                          false; // Set isLoading to false on failure
+                                      isLoading = false;
                                     });
                                   }
-                                } else {
-                                  setState(() {
-                                    isLoading = false;
-                                  });
-                                }
-                              })),
+                                })),
                         const SizedBox(
                           height: 15,
                         ),

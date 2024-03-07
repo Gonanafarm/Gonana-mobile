@@ -429,7 +429,7 @@ Future<dynamic> successDialog(BuildContext context) {
                     bool cleared = false;
                     SharedPreferences preferences =
                         await SharedPreferences.getInstance();
-                    cleared = await preferences.clear();
+                    cleared = await preferences.remove("token");
                     if (cleared) {
                       print("cleared");
                       Get.to(() => const Splash4());

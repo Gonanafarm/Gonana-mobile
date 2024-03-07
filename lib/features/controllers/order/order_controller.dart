@@ -11,6 +11,7 @@ import 'package:gonana/features/data/models/get_order_model.dart';
 import 'package:gonana/features/data/models/get_outgoing_orders.dart';
 import 'package:gonana/features/data/models/order_model.dart';
 
+import '../../presentation/widgets/widgets.dart';
 import '../../utilities/api_routes.dart';
 import '../../utilities/network.dart';
 
@@ -43,6 +44,24 @@ class OrderController extends GetxController {
       getOutGoingOrderModel.value =
           getOutgoingOrdersModelFromJson(responseBody.body);
       log("all orders || $response");
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> confirmOrderSent(String? productId, context) async {
+    try {
+      var data = {
+        'product_id': productId,
+      };
+      var responseBody =
+          await NetworkApi().authPostData(data, ApiRoute.confirmSentOrder);
+      var response = jsonDecode(responseBody.body);
+      // log("added cart items || $responseBody");
+      log("order || $response");
+      SuccessSnackbar.show(context, "Order confirmation received");
       return true;
     } catch (e) {
       print(e);

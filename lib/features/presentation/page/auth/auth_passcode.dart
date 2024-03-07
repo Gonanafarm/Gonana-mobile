@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gonana/features/controllers/auth/passcode_controller.dart';
+import 'package:gonana/features/controllers/auth/sign_in_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../services/local_auth_service.dart';
 import '../../../controllers/user/user_controller.dart';
@@ -22,6 +23,7 @@ class SetPasscode extends StatefulWidget {
 class _SetPasscodeState extends State<SetPasscode> {
   final TextEditingController _passCodeController = TextEditingController();
   PasscodeController passcodeController = Get.put(PasscodeController());
+  SignInController signInController = Get.put(SignInController());
   final userController = Get.find<UserController>();
   String get passCode => _passCodeController.text;
   @override
@@ -148,8 +150,8 @@ class _SetPasscodeState extends State<SetPasscode> {
                                   Icons.check_circle_outlined,
                                 ),
                               ),
-                              content: Padding(
-                                padding: const EdgeInsets.only(left: 60.0),
+                              content: const Padding(
+                                padding: EdgeInsets.only(left: 60.0),
                                 child: Text('Four digits pin set'),
                               ),
                               actions: [
@@ -159,6 +161,8 @@ class _SetPasscodeState extends State<SetPasscode> {
                                     title: 'Proceed',
                                     onPressed: () async {
                                       Get.to(() => HomePage(navIndex: 0));
+                                      signInController
+                                          .startLogoutTimer(context);
                                     },
                                   ),
                                 ),

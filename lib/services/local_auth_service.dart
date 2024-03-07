@@ -15,7 +15,7 @@ class LocalAuth {
       if (!await _canAuthenticate()) return false;
 
       return await _auth.authenticate(
-          localizedReason: 'Use FaceId to authenticate',
+          localizedReason: 'Use Biometrics to authenticate',
           authMessages: const <AuthMessages>[
             AndroidAuthMessages(
               signInTitle: 'Oops! Biometric authentication required!',

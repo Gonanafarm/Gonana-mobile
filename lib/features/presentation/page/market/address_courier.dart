@@ -90,8 +90,8 @@ class _AddressCourierState extends State<AddressCourier> {
                 ShortGradientButton(
                     title: 'Validate',
                     onPressed: () async {
-                      var isSuccess =
-                          await cartController.updateAddress(address, context);
+                      var isSuccess = await cartController.validateAddress(
+                          address, context);
                       if (isSuccess == true) {
                         log('isSUccess: $isSuccess');
                         SuccessSnackbar.show(
@@ -100,7 +100,7 @@ class _AddressCourierState extends State<AddressCourier> {
                           isValidated = true;
                         });
                       } else {
-                        ErrorSnackbar.show(context, 'Address not validated');
+                        // ErrorSnackbar.show(context, 'Address not validated');
                       }
                     }),
                 const Divider(),
@@ -111,7 +111,7 @@ class _AddressCourierState extends State<AddressCourier> {
                           TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
                       textAlign: TextAlign.left),
                 ),
-                sizeVer(10),
+                // sizeVer(10),
                 Container(
                   //height: MediaQuery.of(context).size.height * 0.75,
                   child: SingleChildScrollView(
@@ -140,12 +140,12 @@ class _AddressCourierState extends State<AddressCourier> {
                                             ),
                                             textAlign: TextAlign.left),
                                       ),
-                                      const SizedBox(height: 20),
+                                      // const SizedBox(height: 20),
                                       SizedBox(
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height *
-                                              0.5,
+                                              0.4,
                                           child: cartController.courierModel !=
                                                   null
                                               ? ListView.builder(
@@ -237,7 +237,7 @@ class _AddressCourierState extends State<AddressCourier> {
                                                   },
                                                 )
                                               : SizedBox(child: Container())),
-                                      sizeVer(20),
+                                      // sizeVer(20),
                                     ]),
                               ),
                             ]),
@@ -245,7 +245,7 @@ class _AddressCourierState extends State<AddressCourier> {
                     ),
                   ),
                 ),
-                sizeVer(45),
+                // sizeVer(45),
                 Align(
                     alignment: Alignment.bottomCenter,
                     child: LongGradientButton(
@@ -256,20 +256,20 @@ class _AddressCourierState extends State<AddressCourier> {
                           // Get.to(() => const AddressCourier());
                           // Passes the value here
                           print(courierItem.serviceCode);
-                          setState(() {
-                            isLoading = true;
-                          });
-                          bool isSuccess = await cartController.getRates(
-                              orderList, courierItem.serviceCode, context);
-                          if (isSuccess) {
-                            Get.to(() => const ProductCheckout(), arguments: {
-                              "courier": courierItem.serviceCode
-                            });
-                          }
-                          setState(() {
-                            isLoading = false;
-                          });
+                          // bool isSuccess = await cartController.getRates(
+                          //     orderList, courierItem.serviceCode, context);
+                          // if (isSuccess) {
+                          //   Get.to(() => const ProductCheckout(), arguments: {
+                          //     "courier": courierItem.serviceCode
+                          //   });
+                          // }
+                          // setState(() {
+                          //   isLoading = false;
+                          // });
                           if (isValidated && isiTemSelected) {
+                            setState(() {
+                              isLoading = true;
+                            });
                             if (isiTemSelected) {
                               setState(() {
                                 isLoading = true;

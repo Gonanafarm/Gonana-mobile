@@ -27,6 +27,7 @@ class ApiRoute {
   // order urls
   static const getIncomingOrders = "api/catalog/orders/incoming";
   static const getOutgoingOrders = "api/catalog/orders/outgoing";
+  static const confirmSentOrder = "api/catalog/orders/confirm-sent";
 
   //post urls
   static const createPost = "api/catalog/posts";
@@ -51,6 +52,8 @@ class ApiRoute {
   static const verifyPasswordotp = 'api/auth/VerifyPasswordOtp';
   static const resetPasscode = 'api/profile/reset-passcode';
   static const verifyResetOtp = 'api/profile/verify-passcode-otp';
+
+  static const registerPlayerId = 'api/user/update-player-id';
 
   //Taxonomy urls
   static const getTaxonomy = "api/catalog/taxonomy";

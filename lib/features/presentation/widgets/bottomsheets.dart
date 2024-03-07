@@ -267,7 +267,7 @@ checkout(BuildContext context, var courier) {
           "${cartController.succesfullTransactionModel!.totalShippingCost != null ? (double.parse(cartController.succesfullTransactionModel!.totalShippingCost.toString()) + cartController.succesfullTransactionModel!.productCost!) : cartController.succesfullTransactionModel!.productCost!}";
 
       var totalPriceInDollar =
-          "${cartController.succesfullTransactionModel!.total_shipping_cost_in_usd != null ? (double.parse(cartController.succesfullTransactionModel!.total_shipping_cost_in_usd.toString()) + double.parse(cartController.succesfullTransactionModel!.product_cost_in_usd!)) : cartController.succesfullTransactionModel!.product_cost_in_usd!}";
+          "${cartController.succesfullTransactionModel!.total_shipping_cost_in_usd != null && cartController.succesfullTransactionModel!.product_cost_in_usd == null ? (double.parse(cartController.succesfullTransactionModel!.total_shipping_cost_in_usd.toString())) : cartController.succesfullTransactionModel!.total_shipping_cost_in_usd == null && cartController.succesfullTransactionModel!.product_cost_in_usd != null ? double.parse(cartController.succesfullTransactionModel!.product_cost_in_usd!) : "0"}";
 
       return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
@@ -305,14 +305,29 @@ checkout(BuildContext context, var courier) {
                   //   ),
                   // ),
                   cartController.succesfullTransactionModel != null
-                      ? Center(
-                          child: Text(
-                            "NGN ${cartController.succesfullTransactionModel!.totalShippingCost != null ? (double.parse(cartController.succesfullTransactionModel!.totalShippingCost.toString()) + cartController.succesfullTransactionModel!.productCost!) : cartController.succesfullTransactionModel!.productCost!}",
-                            style: GoogleFonts.montserrat(
-                                fontSize: 24,
-                                color: greenColor,
-                                fontWeight: FontWeight.w600),
-                          ),
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Center(
+                              child: Text(
+                                "NGN ${cartController.succesfullTransactionModel!.totalShippingCost != null ? (double.parse(cartController.succesfullTransactionModel!.totalShippingCost.toString()) + cartController.succesfullTransactionModel!.productCost!) : cartController.succesfullTransactionModel!.productCost!}",
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 24,
+                                    color: greenColor,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                            sizeVer(10),
+                            Center(
+                              child: Text(
+                                "\$ $totalPriceInDollar",
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 24,
+                                    color: greenColor,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ],
                         )
                       : Text(""),
                   sizeVer(15),

@@ -15,6 +15,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../consts.dart';
+import '../../../../services/push_notifier.dart';
 import '../../../controllers/auth/get_details.dart';
 import '../../../controllers/order/order_controller.dart';
 import '../../../controllers/post/post_controllers.dart';
@@ -79,6 +80,7 @@ class _MarketPageState extends State<MarketPage> {
         getMoreData();
       }
     });
+    PushNotifier().updatePlayerId();
   }
 
   setStage() async {
@@ -516,7 +518,7 @@ class _HotDealsCardState extends State<HotDealsCard> {
             children: [
               Container(
                 width: 115,
-                height: 103,
+                // height: 103,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   // image: const DecorationImage(

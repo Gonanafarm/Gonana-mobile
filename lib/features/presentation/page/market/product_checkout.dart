@@ -191,8 +191,19 @@ class _ProductCheckoutState extends State<ProductCheckout> {
                                                         color:
                                                             Color(0xff444444))),
                                                 sizeVer(5),
+                                                // Text(
+                                                //     "\$ ${cartController.succesfullTransactionModel!.total_shipping_cost_in_usd != null &&
+                                                //         cartController.succesfullTransactionModel!.product_cost_in_usd == null ?
+                                                //     (double.parse(cartController.succesfullTransactionModel!.total_shipping_cost_in_usd.toString()) +
+                                                //         double.parse(cartController.succesfullTransactionModel!.product_cost_in_usd!)) : "0"}",
+                                                //     style: const TextStyle(
+                                                //         fontSize: 16,
+                                                //         fontWeight:
+                                                //             FontWeight.w600,
+                                                //         color:
+                                                //             Color(0xff444444))),
                                                 Text(
-                                                    "\$ ${cartController.succesfullTransactionModel!.total_shipping_cost_in_usd != null ? (double.parse(cartController.succesfullTransactionModel!.total_shipping_cost_in_usd.toString()) + double.parse(cartController.succesfullTransactionModel!.product_cost_in_usd!)) : cartController.succesfullTransactionModel!.product_cost_in_usd!}",
+                                                    "\$ ${cartController.succesfullTransactionModel!.total_shipping_cost_in_usd != null && cartController.succesfullTransactionModel!.product_cost_in_usd == null ? (double.parse(cartController.succesfullTransactionModel!.total_shipping_cost_in_usd.toString())) : cartController.succesfullTransactionModel!.total_shipping_cost_in_usd == null && cartController.succesfullTransactionModel!.product_cost_in_usd != null ? double.parse(cartController.succesfullTransactionModel!.product_cost_in_usd!) : "0"}",
                                                     style: const TextStyle(
                                                         fontSize: 16,
                                                         fontWeight:

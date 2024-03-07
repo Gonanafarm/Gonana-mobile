@@ -314,6 +314,45 @@ class ShortGradientButton extends StatelessWidget {
   }
 }
 
+class TinyButton extends StatelessWidget {
+  final String title;
+  final Color textColor;
+  final VoidCallback onPressed;
+  bool isLoading = false;
+  bool borderColor = false;
+  TinyButton(
+      {super.key,
+      required this.title,
+      required this.onPressed,
+      required this.borderColor,
+      required this.isLoading,
+      required this.textColor});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        decoration: BoxDecoration(
+            border: Border.all(
+                color: borderColor ? Colors.redAccent : Color(0xff29844B)),
+            borderRadius: BorderRadius.circular(15),
+            color: borderColor ? Colors.transparent : Color(0xff29844B)),
+        child: Center(
+            child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: isLoading
+              ? const CircularProgressIndicator(color: Colors.white)
+              : Text(
+                  title,
+                  style: TextStyle(color: textColor),
+                ),
+        )),
+      ),
+    );
+  }
+}
+
 //Long Border Buttton
 class LongBorderButton extends StatelessWidget {
   final String title;

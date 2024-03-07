@@ -38,6 +38,7 @@ class Datum {
   String? productId;
   String? productDescription;
   String? customerId;
+  String? farmerId;
   String? productName;
   int? productAmount;
   int? quantity;
@@ -47,6 +48,8 @@ class Datum {
   List<String>? image;
   String? paymentMethod;
   bool? selfShipping;
+  bool? farmerShipped;
+  bool? customerReceived;
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -55,6 +58,7 @@ class Datum {
     this.productId,
     this.productDescription,
     this.customerId,
+    this.farmerId,
     this.productName,
     this.productAmount,
     this.quantity,
@@ -64,6 +68,8 @@ class Datum {
     this.image,
     this.paymentMethod,
     this.selfShipping,
+    this.farmerShipped,
+    this.customerReceived,
     this.createdAt,
     this.updatedAt,
   });
@@ -73,6 +79,7 @@ class Datum {
         productId: json["product_id"],
         productDescription: json["product_description"],
         customerId: json["customer_id"],
+        farmerId: json["farmer_id"],
         productName: json["product_name"],
         productAmount: json["product_amount"],
         quantity: json["quantity"],
@@ -84,6 +91,8 @@ class Datum {
             : List<String>.from(json["image"]!.map((x) => x)),
         paymentMethod: json["payment_method"],
         selfShipping: json["self_shipping"],
+        farmerShipped: json["farmer_shipped"],
+        customerReceived: json["customer_received"],
         createdAt: json["createdAt"] == null
             ? null
             : DateTime.parse(json["createdAt"]),
@@ -97,6 +106,7 @@ class Datum {
         "product_id": productId,
         "product_description": productDescription,
         "customer_id": customerId,
+        "farmer_id": farmerId,
         "product_name": productName,
         "product_amount": productAmount,
         "quantity": quantity,
@@ -106,6 +116,8 @@ class Datum {
         "image": image == null ? [] : List<dynamic>.from(image!.map((x) => x)),
         "payment_method": paymentMethod,
         "self_shipping": selfShipping,
+        "farmer_shipped": farmerShipped,
+        "customer_received": customerReceived,
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
       };

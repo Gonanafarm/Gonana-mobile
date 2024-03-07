@@ -31,7 +31,7 @@ class Splash4 extends StatelessWidget {
             padding: EdgeInsets.only(
               left: 20.0,
               right: 20,
-              top: MediaQuery.of(context).size.height * 0.55,
+              top: MediaQuery.of(context).size.height * 0.5,
             ),
             child: SizedBox(
               child: Column(

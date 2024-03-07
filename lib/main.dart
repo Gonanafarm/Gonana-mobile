@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gonana/features/controllers/auth/get_details.dart';
 import 'package:gonana/features/controllers/cart/cart_controller.dart';
+import 'package:gonana/features/presentation/page/auth/sign_in_page.dart';
 import 'package:gonana/features/presentation/page/home.dart';
+import 'package:gonana/services/push_notifier.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:uni_links/uni_links.dart';
 import 'package:upgrader/upgrader.dart';
@@ -22,7 +24,7 @@ GetDetailsController detailsController = Get.put(GetDetailsController());
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Get.put(CartController());
-
+  PushNotifier().initPlatform();
   runApp(const MyApp());
 }
 
@@ -145,11 +147,10 @@ class _MyAppState extends State<MyApp> {
             );
           } else {
             token = prefs!.getString('token');
-            print("token: $token");
             return GetMaterialApp(
               debugShowCheckedModeBanner: false,
               home: token != null && registrationStage == 5
-                  ? UpgradeAlert(child: HomePage(navIndex: 0))
+                  ? UpgradeAlert(child: const Login())
                   : token != null && registrationStage == 4
                       ? const SetPasscode()
                       : token != null && registrationStage == 3

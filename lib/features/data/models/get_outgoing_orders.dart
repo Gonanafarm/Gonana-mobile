@@ -36,12 +36,16 @@ class GetOutgoingOrdersModel {
 }
 
 class Datum {
-  String? status;
   String? id;
   String? paymentMethod;
+  String? customerId;
+  String? status;
   String? type;
+  bool? selfShipping;
   String? shipbubbleId;
   String? productDescription;
+  bool? customerReceived;
+  bool? farmerShipped;
   String? farmerId;
   int? productAmount;
   int? quantity;
@@ -54,12 +58,16 @@ class Datum {
   String? datumId;
 
   Datum({
-    this.status,
     this.id,
     this.paymentMethod,
+    this.customerId,
+    this.status,
     this.type,
+    this.selfShipping,
     this.shipbubbleId,
     this.productDescription,
+    this.customerReceived,
+    this.farmerShipped,
     this.farmerId,
     this.productAmount,
     this.quantity,
@@ -73,12 +81,16 @@ class Datum {
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        status: json["status"],
         id: json["_id"],
         paymentMethod: json["payment_method"],
+        customerId: json["customer_id"],
+        status: json["status"],
         type: json["type"],
+        selfShipping: json["self_shipping"],
         shipbubbleId: json["shipbubble_id"],
         productDescription: json["product_description"],
+        customerReceived: json["customer_received"],
+        farmerShipped: json["farmer_shipped"],
         farmerId: json["farmer_id"],
         productAmount: json["product_amount"],
         quantity: json["quantity"],
@@ -98,12 +110,16 @@ class Datum {
       );
 
   Map<String, dynamic> toJson() => {
-        "status": status,
         "_id": id,
         "payment_method": paymentMethod,
+        "customer_id": customerId,
+        "status": status,
         "type": type,
+        "self_shipping": selfShipping,
         "shipbubble_id": shipbubbleId,
         "product_description": productDescription,
+        "customer_received": customerReceived,
+        "farmer_shipped": farmerShipped,
         "farmer_id": farmerId,
         "product_amount": productAmount,
         "quantity": quantity,
