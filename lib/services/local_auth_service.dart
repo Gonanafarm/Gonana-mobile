@@ -5,6 +5,7 @@ import 'package:local_auth_ios/local_auth_ios.dart';
 
 class LocalAuth {
   static final _auth = LocalAuthentication();
+  static int _retryCount = 3;
 
   static Future<bool> _canAuthenticate() async =>
       await _auth.canCheckBiometrics || await _auth.isDeviceSupported();
@@ -13,8 +14,9 @@ class LocalAuth {
     // bool biometricsEnabled = await localStorage.getBool("biometricsEnabled");
     try {
       if (!await _canAuthenticate()) return false;
-
-      return await _auth.authenticate(
+      bool authenticated;
+      for (int i = 0; i < _retryCount; i++) {
+        authenticated = await _auth.authenticate(
           localizedReason: 'Use Biometrics to authenticate',
           authMessages: const <AuthMessages>[
             AndroidAuthMessages(
@@ -28,7 +30,11 @@ class LocalAuth {
           options: const AuthenticationOptions(
             useErrorDialogs: true,
             stickyAuth: true,
-          ));
+          ),
+        );
+        if (authenticated) return true;
+      }
+      return false;
     } catch (e) {
       debugPrint("Error $e");
       return false;

@@ -28,6 +28,8 @@ class ApiRoute {
   static const getIncomingOrders = "api/catalog/orders/incoming";
   static const getOutgoingOrders = "api/catalog/orders/outgoing";
   static const confirmSentOrder = "api/catalog/orders/confirm-sent";
+  static const confirmReceivedOrder = "api/catalog/orders/confirm-received";
+  static const complain = "api/catalog/orders/complain";
 
   //post urls
   static const createPost = "api/catalog/posts";

@@ -56,6 +56,8 @@ class Datum {
   DateTime? updatedAt;
   int? v;
   String? datumId;
+  DateTime? farmer_ship_date;
+  DateTime? customer_received_date;
 
   Datum({
     this.id,
@@ -78,6 +80,8 @@ class Datum {
     this.updatedAt,
     this.v,
     this.datumId,
+    this.farmer_ship_date,
+    this.customer_received_date,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
@@ -106,6 +110,12 @@ class Datum {
             ? null
             : DateTime.parse(json["updated_at"]),
         v: json["__v"],
+        farmer_ship_date: json["farmer_ship_date"] == null
+            ? null
+            : DateTime.parse(json["farmer_ship_date"]),
+        customer_received_date: json["customer_received_date"] == null
+            ? null
+            : DateTime.parse(json["customer_received_date"]),
         datumId: json["id"],
       );
 
@@ -128,6 +138,8 @@ class Datum {
         "image": image == null ? [] : List<dynamic>.from(image!.map((x) => x)),
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
+        "farmer_ship_date": farmer_ship_date?.toIso8601String(),
+        "customer_received_date": customer_received_date?.toIso8601String(),
         "__v": v,
         "id": datumId,
       };

@@ -432,8 +432,15 @@ class LongGradientButton extends StatelessWidget {
 class DialogGradientButton extends StatelessWidget {
   final String title;
   final VoidCallback onPressed;
-  const DialogGradientButton(
-      {super.key, required this.title, required this.onPressed});
+  final Gradient? color;
+  final bool? isLoading;
+  const DialogGradientButton({
+    super.key,
+    required this.title,
+    required this.onPressed,
+    this.color,
+    this.isLoading,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -441,10 +448,10 @@ class DialogGradientButton extends StatelessWidget {
       height: 60,
       width: 230,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        gradient: const LinearGradient(
-            colors: [Color(0xff29844B), Color(0xff072C27)]),
-      ),
+          borderRadius: BorderRadius.circular(5),
+          gradient: color ??
+              const LinearGradient(
+                  colors: [Color(0xff29844B), Color(0xff072C27)])),
       child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
@@ -454,18 +461,20 @@ class DialogGradientButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(5.0),
             ),
           ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Flexible(
-                  child: Text(
-                title,
-                textAlign: TextAlign.center,
-              )),
-              const SizedBox(width: 10.0),
-              Flexible(child: const Icon(Icons.arrow_forward)),
-            ],
-          )),
+          child: isLoading ?? false
+              ? const CircularProgressIndicator(color: Colors.white)
+              : Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Flexible(
+                        child: Text(
+                      title,
+                      textAlign: TextAlign.center,
+                    )),
+                    const SizedBox(width: 10.0),
+                    Flexible(child: const Icon(Icons.arrow_forward)),
+                  ],
+                )),
     );
   }
 }

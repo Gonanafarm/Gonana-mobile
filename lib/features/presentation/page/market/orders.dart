@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -22,7 +24,6 @@ class _OrdersState extends State<Orders> {
   late Future<bool> fetchData;
   late Future<bool> fetchData2;
   OrderController getOrdersController = Get.find<OrderController>();
-  bool isLoadingSent = false;
   @override
   void initState() {
     super.initState();
@@ -330,7 +331,87 @@ class _OrdersState extends State<Orders> {
                                                                         title:
                                                                             "Complain",
                                                                         onPressed:
-                                                                            () {},
+                                                                            () async {
+                                                                          showDialog(
+                                                                            context:
+                                                                                context,
+                                                                            barrierDismissible:
+                                                                                true, // Set to true if you want to allow dismissing the dialog by tapping outside it
+                                                                            builder:
+                                                                                (BuildContext context) {
+                                                                              bool isLoadingComplain = false;
+                                                                              return BackdropFilter(
+                                                                                filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20), // Adjust the blur intensity as needed
+                                                                                child: Container(
+                                                                                  // height: 100,
+                                                                                  child: StatefulBuilder(builder: (context, setState) {
+                                                                                    return AlertDialog(
+                                                                                      title: const Center(
+                                                                                        child: Icon(
+                                                                                          size: 60,
+                                                                                          Icons.warning_amber,
+                                                                                          color: redColor,
+                                                                                        ),
+                                                                                      ),
+                                                                                      content: Padding(
+                                                                                        padding: EdgeInsets.only(left: 0.0),
+                                                                                        child: Container(
+                                                                                          height: 80,
+                                                                                          child: const Column(
+                                                                                            // crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                            children: [
+                                                                                              Center(
+                                                                                                child: Text(
+                                                                                                  'Note: You are prompting for this because you haven\'t received this item in 5 days?',
+                                                                                                  textAlign: TextAlign.center,
+                                                                                                ),
+                                                                                              ),
+                                                                                            ],
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                      actions: [
+                                                                                        Center(
+                                                                                            child: DialogGradientButton(
+                                                                                                color: const LinearGradient(colors: [Colors.red, Colors.redAccent]),
+                                                                                                title: 'Proceed',
+                                                                                                onPressed: () async {
+                                                                                                  setState(() {
+                                                                                                    isLoadingComplain = true;
+                                                                                                  });
+                                                                                                  bool success = await orderController.complain(orderController.getOrderModel.value.data![index].id, context);
+                                                                                                  if (success) {
+                                                                                                    setState(() {
+                                                                                                      isLoadingComplain = false;
+                                                                                                    });
+                                                                                                    Navigator.pop(context);
+                                                                                                  } else {
+                                                                                                    setState(() {
+                                                                                                      isLoadingComplain = false;
+                                                                                                    });
+                                                                                                    Navigator.pop(context);
+                                                                                                  }
+                                                                                                },
+                                                                                                isLoading: isLoadingComplain)),
+                                                                                        // Padding(
+                                                                                        //   padding: const EdgeInsets.only(bottom: 10, top: 20),
+                                                                                        //   child: Center(
+                                                                                        //     child: DialogWhiteButton(
+                                                                                        //       title: 'No, go back',
+                                                                                        //       onPressed: () {
+                                                                                        //         Get.back();
+                                                                                        //       },
+                                                                                        //     ),
+                                                                                        //   ),
+                                                                                        // ),
+                                                                                      ],
+                                                                                    );
+                                                                                  }),
+                                                                                ),
+                                                                              );
+                                                                            },
+                                                                          );
+                                                                        },
                                                                         borderColor:
                                                                             true,
                                                                         textColor:
@@ -342,7 +423,87 @@ class _OrdersState extends State<Orders> {
                                                                         title:
                                                                             "Received?",
                                                                         onPressed:
-                                                                            () {},
+                                                                            () async {
+                                                                          showDialog(
+                                                                            context:
+                                                                                context,
+                                                                            barrierDismissible:
+                                                                                true, // Set to true if you want to allow dismissing the dialog by tapping outside it
+                                                                            builder:
+                                                                                (BuildContext context) {
+                                                                              bool isLoadingReceived = false;
+                                                                              return BackdropFilter(
+                                                                                filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20), // Adjust the blur intensity as needed
+                                                                                child: Container(
+                                                                                  height: 100,
+                                                                                  child: StatefulBuilder(builder: (context, setState) {
+                                                                                    return AlertDialog(
+                                                                                      title: const Center(
+                                                                                        child: Icon(
+                                                                                          size: 60,
+                                                                                          Icons.check,
+                                                                                          color: greenColor,
+                                                                                        ),
+                                                                                      ),
+                                                                                      content: Padding(
+                                                                                        padding: EdgeInsets.only(left: 0.0),
+                                                                                        child: Container(
+                                                                                          height: 80,
+                                                                                          child: const Column(
+                                                                                            // crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                            children: [
+                                                                                              Center(
+                                                                                                child: Text(
+                                                                                                  'Note: You are prompting this to confirm that you have received this item',
+                                                                                                  textAlign: TextAlign.center,
+                                                                                                ),
+                                                                                              ),
+                                                                                            ],
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                      actions: [
+                                                                                        Center(
+                                                                                            child: DialogGradientButton(
+                                                                                          title: "Proceed",
+                                                                                          onPressed: () async {
+                                                                                            setState(() {
+                                                                                              isLoadingReceived = true;
+                                                                                            });
+                                                                                            bool success = await orderController.confirmOrderReceived(orderController.getOrderModel.value.data![index].id, context);
+                                                                                            if (success) {
+                                                                                              setState(() {
+                                                                                                isLoadingReceived = false;
+                                                                                              });
+                                                                                              Navigator.pop(context);
+                                                                                            } else {
+                                                                                              setState(() {
+                                                                                                isLoadingReceived = false;
+                                                                                              });
+                                                                                              Navigator.pop(context);
+                                                                                            }
+                                                                                          },
+                                                                                          isLoading: isLoadingReceived,
+                                                                                        )),
+                                                                                        // Padding(
+                                                                                        //   padding: const EdgeInsets.only(bottom: 10, top: 20),
+                                                                                        //   child: Center(
+                                                                                        //     child: DialogWhiteButton(
+                                                                                        //       title: 'No, go back',
+                                                                                        //       onPressed: () {
+                                                                                        //         Get.back();
+                                                                                        //       },
+                                                                                        //     ),
+                                                                                        //   ),
+                                                                                        // ),
+                                                                                      ],
+                                                                                    );
+                                                                                  }),
+                                                                                ),
+                                                                              );
+                                                                            },
+                                                                          );
+                                                                        },
                                                                         borderColor:
                                                                             false,
                                                                         textColor:
@@ -574,30 +735,92 @@ class _OrdersState extends State<Orders> {
                                                                             "Sent order?",
                                                                         onPressed:
                                                                             () async {
-                                                                          setState(
-                                                                              () {
-                                                                            isLoadingSent =
-                                                                                true;
-                                                                          });
-                                                                          bool success = await orderController.confirmOrderSent(
-                                                                              orderController.getOutGoingOrderModel.value.data![index].productId,
-                                                                              context);
-                                                                          if (success) {
-                                                                            setState(() {
-                                                                              isLoadingSent = false;
-                                                                            });
-                                                                          } else {
-                                                                            setState(() {
-                                                                              isLoadingSent = false;
-                                                                            });
-                                                                          }
+                                                                          showDialog(
+                                                                            context:
+                                                                                context,
+                                                                            barrierDismissible:
+                                                                                true, // Set to true if you want to allow dismissing the dialog by tapping outside it
+                                                                            builder:
+                                                                                (BuildContext context) {
+                                                                              bool isLoadingSent = false;
+                                                                              return BackdropFilter(
+                                                                                filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20), // Adjust the blur intensity as needed
+                                                                                child: Container(
+                                                                                  height: 100,
+                                                                                  child: StatefulBuilder(builder: (context, setState) {
+                                                                                    return AlertDialog(
+                                                                                      title: const Center(
+                                                                                        child: Icon(
+                                                                                          size: 60,
+                                                                                          Icons.check,
+                                                                                          color: greenColor,
+                                                                                        ),
+                                                                                      ),
+                                                                                      content: Padding(
+                                                                                        padding: EdgeInsets.only(left: 0.0),
+                                                                                        child: Container(
+                                                                                          height: 80,
+                                                                                          child: const Column(
+                                                                                            // crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                            children: [
+                                                                                              Center(
+                                                                                                child: Text(
+                                                                                                  'Note: You are prompting this to confirm that you have sent this item',
+                                                                                                  textAlign: TextAlign.center,
+                                                                                                ),
+                                                                                              ),
+                                                                                            ],
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                      actions: [
+                                                                                        Center(
+                                                                                            child: DialogGradientButton(
+                                                                                          title: "Proceed",
+                                                                                          onPressed: () async {
+                                                                                            setState(() {
+                                                                                              isLoadingSent = true;
+                                                                                            });
+                                                                                            bool success = await orderController.confirmOrderSent(orderController.getOutGoingOrderModel.value.data![index].id, context);
+                                                                                            if (success) {
+                                                                                              setState(() {
+                                                                                                isLoadingSent = false;
+                                                                                              });
+                                                                                              Navigator.pop(context);
+                                                                                            } else {
+                                                                                              setState(() {
+                                                                                                isLoadingSent = false;
+                                                                                              });
+                                                                                              Navigator.pop(context);
+                                                                                            }
+                                                                                          },
+                                                                                          isLoading: isLoadingSent,
+                                                                                        )),
+                                                                                        // Padding(
+                                                                                        //   padding: const EdgeInsets.only(bottom: 10, top: 20),
+                                                                                        //   child: Center(
+                                                                                        //     child: DialogWhiteButton(
+                                                                                        //       title: 'No, go back',
+                                                                                        //       onPressed: () {
+                                                                                        //         Get.back();
+                                                                                        //       },
+                                                                                        //     ),
+                                                                                        //   ),
+                                                                                        // ),
+                                                                                      ],
+                                                                                    );
+                                                                                  }),
+                                                                                ),
+                                                                              );
+                                                                            },
+                                                                          );
                                                                         },
                                                                         borderColor:
                                                                             false,
                                                                         textColor:
                                                                             Colors.white,
                                                                         isLoading:
-                                                                            isLoadingSent,
+                                                                            false,
                                                                       ),
                                                                     ],
                                                                   )

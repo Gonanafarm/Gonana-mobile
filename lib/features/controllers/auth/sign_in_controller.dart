@@ -100,7 +100,7 @@ class SignInController extends GetxController {
   }
 
   Timer? _timer;
-  static const int _minutesRemaining = 30;
+  static const int _minutesRemaining = 5;
 
   // Method to start the logout timer
   void startLogoutTimer(var context) {

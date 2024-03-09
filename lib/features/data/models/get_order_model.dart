@@ -52,6 +52,8 @@ class Datum {
   bool? customerReceived;
   DateTime? createdAt;
   DateTime? updatedAt;
+  DateTime? farmer_ship_date;
+  DateTime? customer_received_date;
 
   Datum({
     this.id,
@@ -72,6 +74,8 @@ class Datum {
     this.customerReceived,
     this.createdAt,
     this.updatedAt,
+    this.farmer_ship_date,
+    this.customer_received_date,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
@@ -99,6 +103,12 @@ class Datum {
         updatedAt: json["updatedAt"] == null
             ? null
             : DateTime.parse(json["updatedAt"]),
+        farmer_ship_date: json["farmer_ship_date"] == null
+            ? null
+            : DateTime.parse(json["farmer_ship_date"]),
+        customer_received_date: json["customer_received_date"] == null
+            ? null
+            : DateTime.parse(json["customer_received_date"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -120,5 +130,7 @@ class Datum {
         "customer_received": customerReceived,
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
+        "farmer_ship_date": farmer_ship_date?.toIso8601String(),
+        "customer_received_date": customer_received_date?.toIso8601String(),
       };
 }

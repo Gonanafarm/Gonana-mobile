@@ -54,15 +54,67 @@ class OrderController extends GetxController {
   Future<bool> confirmOrderSent(String? productId, context) async {
     try {
       var data = {
-        'product_id': productId,
+        'orderId': productId,
       };
       var responseBody =
           await NetworkApi().authPostData(data, ApiRoute.confirmSentOrder);
       var response = jsonDecode(responseBody.body);
       // log("added cart items || $responseBody");
       log("order || $response");
-      SuccessSnackbar.show(context, "Order confirmation received");
-      return true;
+      if (responseBody.statusCode == 201) {
+        SuccessSnackbar.show(context, "Order confirmation received");
+        return true;
+      } else {
+        ErrorSnackbar.show(context, response["message"]);
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> confirmOrderReceived(String? productId, context) async {
+    try {
+      var data = {
+        'orderId': productId,
+      };
+      print("data: $data");
+      var responseBody =
+          await NetworkApi().authPostData(data, ApiRoute.confirmReceivedOrder);
+      var response = jsonDecode(responseBody.body);
+      // log("added cart items || $responseBody");
+      log("order || $response");
+      if (responseBody.statusCode == 201) {
+        SuccessSnackbar.show(context, "Order confirmation received");
+        return true;
+      } else {
+        ErrorSnackbar.show(context, response["message"]);
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> complain(String? productId, context) async {
+    try {
+      var data = {
+        'orderId': productId,
+      };
+      var responseBody =
+          await NetworkApi().authPostData(data, ApiRoute.confirmReceivedOrder);
+      var response = jsonDecode(responseBody.body);
+      // log("added cart items || $responseBody");
+      log("order || $response");
+      if (responseBody.statusCode == 201) {
+        SuccessSnackbar.show(context, "Order complain received");
+        return true;
+      } else {
+        ErrorSnackbar.show(context, response["message"]);
+        return false;
+      }
     } catch (e) {
       print(e);
       return false;
