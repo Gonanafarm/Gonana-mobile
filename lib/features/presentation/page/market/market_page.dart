@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:gonana/features/controllers/auth/notification_controller.dart';
 import 'package:gonana/features/controllers/fiat_wallet/transaction_controller.dart';
 import 'package:gonana/features/controllers/market/market_controllers.dart';
 import 'package:gonana/features/presentation/page/market/hot_deals_item.dart';
@@ -24,6 +25,7 @@ import '../../../data/models/post_model.dart';
 import '../../../utilities/network.dart';
 import '../../widgets/search_page.dart';
 import '../../widgets/warning_widget.dart';
+import '../notification/notification.dart';
 import 'buy_now.dart';
 import 'cart_page.dart';
 import 'hot_deals.dart';
@@ -51,6 +53,8 @@ class _MarketPageState extends State<MarketPage> {
   ScrollController scrollController = ScrollController();
   List filteredItems = [];
   OrderController orderController = Get.put(OrderController());
+  NotificationController notificationController =
+      Get.put(NotificationController());
 
   // bool isLoadingMoreRunning = false;
   int page = 0;
@@ -74,6 +78,7 @@ class _MarketPageState extends State<MarketPage> {
     fetchData = detailsController.getUserDetails();
     transactionController.fetchTransactions();
     orderController.getOrders();
+    notificationController.fetchNotification();
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
@@ -156,6 +161,57 @@ class _MarketPageState extends State<MarketPage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Get.to(() => const Notifications());
+                                },
+                                child: Stack(
+                                  children: [
+                                    // SvgPicture.asset(
+                                    //     height: 40,
+                                    //     width: 40,
+                                    //     "assets/svgs/Notification.svg"),
+                                    Icon(
+                                      Icons.notifications_outlined,
+                                      size: 40,
+                                    ),
+                                    Positioned(
+                                      bottom: 0,
+                                      right: 0,
+                                      child: Container(
+                                        // width: 15,
+                                        // height: 15,
+                                        decoration: BoxDecoration(
+                                          color: Colors.red[500],
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(3.0),
+                                          child: Center(
+                                            child: Obx(() {
+                                              final notifications =
+                                                  notificationController
+                                                          .notificationModel
+                                                          ?.value
+                                                          ?.data ??
+                                                      [];
+                                              final totalLength =
+                                                  notifications.length;
+                                              return Text(
+                                                '$totalLength',
+                                                style: TextStyle(
+                                                  color: primaryColor,
+                                                ),
+                                              );
+                                            }),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              sizeHor(10),
                               GestureDetector(
                                 onTap: () {
                                   Get.to(() => const Orders());
@@ -514,60 +570,62 @@ class _HotDealsCardState extends State<HotDealsCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Stack(
-            children: [
-              Container(
-                width: 115,
-                // height: 103,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  // image: const DecorationImage(
-                  //   image: AssetImage('assets/images/image 4.png'),
-                  //   fit: BoxFit.cover,
-                  // ),
-                ),
-                child: (marketController.discountMarketModel != null &&
-                        marketController.discountMarketModel!.data != null &&
-                        marketController
-                            .discountMarketModel!.data!.isNotEmpty &&
-                        marketController.discountMarketModel!
-                                .data![widget.index].images !=
-                            null &&
-                        marketController.discountMarketModel!
-                            .data![widget.index].images!.isNotEmpty)
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.network(
+          Flexible(
+            child: Stack(
+              children: [
+                Container(
+                  width: 115,
+                  height: 103,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    // image: const DecorationImage(
+                    //   image: AssetImage('assets/images/image 4.png'),
+                    //   fit: BoxFit.cover,
+                    // ),
+                  ),
+                  child: (marketController.discountMarketModel != null &&
+                          marketController.discountMarketModel!.data != null &&
+                          marketController
+                              .discountMarketModel!.data!.isNotEmpty &&
                           marketController.discountMarketModel!
-                              .data![widget.index].images![0],
-                          fit: BoxFit.cover,
-                          errorBuilder: (BuildContext context, Object error,
-                              StackTrace? stackTrace) {
-                            // Handle the error, log it, or show a placeholder image.
-                            return Center(child: const Icon(Icons.error));
-                          },
-                        ),
-                      )
-                    : Container(), // Handle the case where data is empty or images are missing
-              ),
-              // Container(
-              //   width: 50,
-              //   height: 26.6,
-              //   decoration: BoxDecoration(
-              //     color: Colors.red[500],
-              //     borderRadius: BorderRadius.circular(5),
-              //   ),
-              //   child: Center(
-              //     child: Text(
-              //       "-20%",
-              //       style: GoogleFonts.montserrat(
-              //           color: primaryColor,
-              //           fontSize: 13,
-              //           fontWeight: FontWeight.w400),
-              //     ),
-              //   ),
-              // )
-            ],
+                                  .data![widget.index].images !=
+                              null &&
+                          marketController.discountMarketModel!
+                              .data![widget.index].images!.isNotEmpty)
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.network(
+                            marketController.discountMarketModel!
+                                .data![widget.index].images![0],
+                            fit: BoxFit.cover,
+                            errorBuilder: (BuildContext context, Object error,
+                                StackTrace? stackTrace) {
+                              // Handle the error, log it, or show a placeholder image.
+                              return Center(child: const Icon(Icons.error));
+                            },
+                          ),
+                        )
+                      : Container(), // Handle the case where data is empty or images are missing
+                ),
+                // Container(
+                //   width: 50,
+                //   height: 26.6,
+                //   decoration: BoxDecoration(
+                //     color: Colors.red[500],
+                //     borderRadius: BorderRadius.circular(5),
+                //   ),
+                //   child: Center(
+                //     child: Text(
+                //       "-20%",
+                //       style: GoogleFonts.montserrat(
+                //           color: primaryColor,
+                //           fontSize: 13,
+                //           fontWeight: FontWeight.w400),
+                //     ),
+                //   ),
+                // )
+              ],
+            ),
           ),
           sizeVer(5),
           Text(
@@ -583,7 +641,7 @@ class _HotDealsCardState extends State<HotDealsCard> {
                 fontSize: 14, color: greenColor, fontWeight: FontWeight.w600),
           ),
           Text(
-            "\$ ${marketController.discountMarketModel!.data![widget.index].usd_price}",
+            "\$ ${marketController.discountMarketModel!.data![widget.index].usd_price?.toStringAsFixed(3) ?? ''}",
             style: const TextStyle(
                 fontSize: 14, color: greenColor, fontWeight: FontWeight.w600),
           ),
@@ -706,7 +764,7 @@ class _BuyNowCardState extends State<BuyNowCard> {
                 fontWeight: FontWeight.w600),
           ),
           Text(
-            "\$ ${marketController.marketModel.value.data![widget.index].product!.usd_price}",
+            "\$ ${marketController.marketModel.value.data![widget.index].product!.usd_price?.toStringAsFixed(3) ?? ''}",
             style: GoogleFonts.montserrat(
                 fontSize: 14,
                 color: const Color.fromRGBO(41, 132, 75, 1),

@@ -243,7 +243,7 @@ class ProductController extends GetxController {
       marketModel.value = PostModel.postModelFromJson(responseBody.body);
       print("product printing ${marketModel.value.data}");
       // log("response: $response");
-      // log("${marketModel!.value.data![0].product!.images![0]}");
+      log("Buy now ${marketModel!.value.data![0].product!.usd_price}");
       // log("MarketProcuts: [$response]");
       return true;
     } catch (e, s) {
@@ -419,8 +419,8 @@ class ProductController extends GetxController {
       //marketModel = marketModelFromJson(responseBody);
       discountMarketModel =
           DiscountedModel.discountedProductModelFromJson(responseBody.body);
-      print(discountMarketModel);
-      log("Discountproducts || $response");
+      // print(discountMarketModel);
+      log("Discountproducts || ${discountMarketModel!.data![0].usd_price}");
       return true;
     } catch (e, s) {
       print(e);

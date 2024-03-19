@@ -70,7 +70,7 @@ class Product {
   int? weight;
   int? quantity;
   int? amount;
-  int? usd_price;
+  dynamic? usd_price;
   String? status;
   List<dynamic>? tags;
   String? body;
@@ -122,7 +122,7 @@ class Product {
         weight: json["weight"],
         quantity: json["quantity"],
         amount: json["amount"],
-        usd_price: json["usd_price"]?.toInt(),
+        usd_price: json["usd_price"],
         status: json["status"],
         tags: json["tags"] == null
             ? []

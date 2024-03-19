@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:get/get.dart';
 
+import '../../data/models/notification_model.dart';
 import '../../utilities/api_routes.dart';
 import '../../utilities/network.dart';
 
@@ -24,6 +25,23 @@ class NotificationController extends GetxController {
       }
     } catch (e) {
       log("Register error Error=> $e");
+      return false;
+    }
+  }
+
+  Rx<NotificationModel> notificationModel =
+      Rx<NotificationModel>(NotificationModel());
+  Future<bool> fetchNotification() async {
+    try {
+      var responseBody =
+          await NetworkApi().authGetData(ApiRoute.fetchNotifications);
+      final response = jsonDecode(responseBody.body);
+      print("notification got here");
+      notificationModel.value = notificationModelFromJson(responseBody.body);
+      // log("all cart items || $response");
+      return true;
+    } catch (e) {
+      print(e);
       return false;
     }
   }

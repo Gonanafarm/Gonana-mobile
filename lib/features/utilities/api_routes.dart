@@ -14,6 +14,9 @@ class ApiRoute {
   static const placeOrder = "api/catalog/cart/place-order";
   static const cryptoPlaceOrder = "api/catalog/cart/pay-with-eth";
 
+  //
+  static const fetchNotifications = "api/user/notifications";
+
   //auth urls
   static const login = "api/auth/login";
   static const activate = "api/auth/activate";
@@ -29,7 +32,7 @@ class ApiRoute {
   static const getOutgoingOrders = "api/catalog/orders/outgoing";
   static const confirmSentOrder = "api/catalog/orders/confirm-sent";
   static const confirmReceivedOrder = "api/catalog/orders/confirm-received";
-  static const complain = "api/catalog/orders/complain";
+  static const complain = "api/catalog/orders/complaint";
 
   //post urls
   static const createPost = "api/catalog/posts";

@@ -450,7 +450,10 @@ class _SendPasscodeState extends State<PayWithWalletPasscode> {
                                   ),
                                   content: const Padding(
                                     padding: EdgeInsets.only(left: 60.0),
-                                    child: Text('Your order has been placed'),
+                                    child: Text(
+                                      'Your order has been placed, it would take about 3-5 days to get to you',
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
                                   actions: [
                                     Padding(

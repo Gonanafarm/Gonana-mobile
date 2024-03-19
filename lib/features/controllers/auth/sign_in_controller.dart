@@ -46,7 +46,7 @@ class SignInController extends GetxController {
         await userController.fetchUserByEmail();
         print("model email: ${userController.userModel.value.email}");
         // SuccessSnackbar.show(context, result['message']);
-        startLogoutTimer(context);
+        // startLogoutTimer(context);
         await Get.to(() => HomePage(navIndex: 0));
         // log(jsonDecode(res.body));
         return true;
@@ -83,7 +83,7 @@ class SignInController extends GetxController {
         await userController.fetchUserByEmail();
         print("model email: ${userController.userModel.value.email}");
         // SuccessSnackbar.show(context, result['message']);
-        startLogoutTimer(context);
+        // startLogoutTimer(context);
         await Get.to(() => HomePage(navIndex: 0));
         // log(jsonDecode(res.body));
         return true;
@@ -106,6 +106,9 @@ class SignInController extends GetxController {
   void startLogoutTimer(var context) {
     // Cancel the previous timer if it exists
     // Start a new timer for logout
+    if (_timer != null) {
+      _timer!.cancel();
+    }
     _timer = Timer(const Duration(minutes: _minutesRemaining), () {
       // Automatically log out the user after timer expiry
       logout(context);
@@ -113,9 +116,9 @@ class SignInController extends GetxController {
   }
 
   // Method to handle user logout
-  void logout(var context) {
+  void logout(BuildContext context) {
     // Cancel the timer when the user logs out
-    _timer!.cancel();
+    // _timer!.cancel();
     showDialog(
       context: context,
       barrierDismissible:
@@ -154,7 +157,7 @@ class SignInController extends GetxController {
               actions: [
                 Center(
                   child: DialogGradientButton(
-                    title: 'Logout',
+                    title: 'Login',
                     onPressed: () async {
                       bool cleared = false;
                       SharedPreferences preferences =
@@ -163,6 +166,7 @@ class SignInController extends GetxController {
                       if (cleared) {
                         print("cleared");
                         Get.to(() => const Splash4());
+                        Navigator.pop(context);
                       }
                     },
                   ),

@@ -351,59 +351,59 @@ checkout(BuildContext context, var courier) {
                             ),
                           ),
                           sizeVer(10),
-                          ListTile(
-                            visualDensity:
-                                VisualDensity(horizontal: -4, vertical: -4),
-                            contentPadding:
-                                EdgeInsets.only(left: 0.0, right: 0.0),
-                            title: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Pay with crypto",
-                                  style: GoogleFonts.montserrat(
-                                    fontSize: 14,
-                                    color: darkColor,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                sizeVer(10),
-                                Row(
-                                  children: [
-                                    // Image.asset(
-                                    //   "assets/images/image 7.png",
-                                    //   width: 32,
-                                    //   height: 20,
-                                    // ),
-                                    // sizeHor(10),
-                                    Text(
-                                      "Crypto balance: ${userController.userModel.value.walletBalance ?? 20}",
-                                      style: GoogleFonts.montserrat(
-                                        fontSize: 10,
-                                        color: darkColor,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                            trailing: Icon(
-                              Icons.chevron_right_outlined,
-                              color: greyColor,
-                            ),
-                            leading: Radio(
-                              activeColor: Color(0xff29844B),
-                              value: 'Option 1',
-                              groupValue: selectedRadioValue,
-                              onChanged: (value) {
-                                setState(() {
-                                  selectedRadioValue = value.toString();
-                                });
-                              },
-                            ),
-                          ),
-                          sizeVer(15),
+                          // ListTile(
+                          //   visualDensity:
+                          //       VisualDensity(horizontal: -4, vertical: -4),
+                          //   contentPadding:
+                          //       EdgeInsets.only(left: 0.0, right: 0.0),
+                          //   title: Column(
+                          //     crossAxisAlignment: CrossAxisAlignment.start,
+                          //     children: [
+                          //       Text(
+                          //         "Pay with crypto",
+                          //         style: GoogleFonts.montserrat(
+                          //           fontSize: 14,
+                          //           color: darkColor,
+                          //           fontWeight: FontWeight.w400,
+                          //         ),
+                          //       ),
+                          //       sizeVer(10),
+                          //       Row(
+                          //         children: [
+                          //           // Image.asset(
+                          //           //   "assets/images/image 7.png",
+                          //           //   width: 32,
+                          //           //   height: 20,
+                          //           // ),
+                          //           // sizeHor(10),
+                          //           Text(
+                          //             "Crypto balance: ${userController.userModel.value.walletBalance ?? 0}",
+                          //             style: GoogleFonts.montserrat(
+                          //               fontSize: 10,
+                          //               color: darkColor,
+                          //               fontWeight: FontWeight.w400,
+                          //             ),
+                          //           ),
+                          //         ],
+                          //       )
+                          //     ],
+                          //   ),
+                          //   trailing: Icon(
+                          //     Icons.chevron_right_outlined,
+                          //     color: greyColor,
+                          //   ),
+                          //   leading: Radio(
+                          //     activeColor: Color(0xff29844B),
+                          //     value: 'Option 1',
+                          //     groupValue: selectedRadioValue,
+                          //     onChanged: (value) {
+                          //       setState(() {
+                          //         selectedRadioValue = value.toString();
+                          //       });
+                          //     },
+                          //   ),
+                          // ),
+                          // sizeVer(15),
                           ListTile(
                             visualDensity:
                                 VisualDensity(horizontal: -4, vertical: -4),
