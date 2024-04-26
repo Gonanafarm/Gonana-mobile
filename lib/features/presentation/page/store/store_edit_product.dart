@@ -167,12 +167,14 @@ class _StoreEditProductState extends State<StoreEditProduct> {
                     onPressed: () async {
                       bool created = false;
                       created = await marketController.updatePrice(
-                          widget.userPostModel.id, int.tryParse(newPrice));
+                          widget.userPostModel.id,
+                          int.tryParse(newPrice),
+                          context);
                       if (created) {
+                        Get.to(() => SettingsProfile());
                         await marketController.fetchUserProduct();
                         await marketController.fetchProduct();
                         await marketController.fetchDiscountedProducts();
-                        Get.to(() => SettingsProfile());
                       }
                     },
                   )

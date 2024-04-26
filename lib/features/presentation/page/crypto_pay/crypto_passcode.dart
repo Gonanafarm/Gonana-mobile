@@ -166,7 +166,8 @@ class _CryptoPasscodeState extends State<CryptoPasscode> {
                                       child: DialogGradientButton(
                                         title: 'Proceed',
                                         onPressed: () async {
-                                          Get.to(() => HomePage(navIndex: 0));
+                                          Get.offAll(
+                                              () => HomePage(navIndex: 0));
                                         },
                                       ),
                                     ),

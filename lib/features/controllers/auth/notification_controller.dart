@@ -36,9 +36,10 @@ class NotificationController extends GetxController {
       var responseBody =
           await NetworkApi().authGetData(ApiRoute.fetchNotifications);
       final response = jsonDecode(responseBody.body);
-      print("notification got here");
+      print("notification got here $response");
       notificationModel.value = notificationModelFromJson(responseBody.body);
-      // log("all cart items || $response");
+      log("all cart items || ${notificationModel.value}");
+      log("all cart items || $response");
       return true;
     } catch (e) {
       print(e);

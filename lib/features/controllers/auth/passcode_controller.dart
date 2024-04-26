@@ -16,7 +16,7 @@ class PasscodeController extends GetxController {
       var responseBody =
           await NetworkApi().authPostData(data, ApiRoute.createPasscode);
       final response = jsonDecode(responseBody.body);
-      log("passcode response || $responseBody");
+      log("passcode response || $response");
       print(responseBody.statusCode);
       if (responseBody.statusCode == 201) {
         return true;
@@ -85,6 +85,27 @@ class PasscodeController extends GetxController {
       final response = jsonDecode(responseBody.body);
       if (responseBody.statusCode == 200) {
         resetPinModel = resetPinFromJson(responseBody.body);
+        log("$response");
+        SuccessSnackbar.show(context, response['message']);
+        return true;
+      } else {
+        ErrorSnackbar.show(context, response['message']);
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> resetPassword(
+      var context, String? email, String? password) async {
+    var data = {"email": email, "password": password};
+    try {
+      var responseBody =
+          await NetworkApi().authPostData(data, ApiRoute.resetPassword);
+      final response = jsonDecode(responseBody.body);
+      if (responseBody.statusCode == 200) {
         log("$response");
         SuccessSnackbar.show(context, response['message']);
         return true;

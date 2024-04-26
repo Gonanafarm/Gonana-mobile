@@ -179,7 +179,7 @@ class _SignUpState extends State<SignUp> {
                                           onCountryChanged: (value) {
                                             setState(() {
                                               countryValue = value;
-                                              countryValueError = true;
+                                              countryValueError = false;
                                             });
                                           },
                                           onStateChanged: (state) {

@@ -464,7 +464,9 @@ class _SendPasscodeState extends State<PayWithWalletPasscode> {
                                           title: 'Finish',
                                           onPressed: () async {
                                             print("here");
-                                            Get.to(() => HomePage(navIndex: 0));
+                                            Get.offAll(
+                                                () => HomePage(navIndex: 0));
+                                            Navigator.pop(context);
                                           },
                                         ),
                                       ),

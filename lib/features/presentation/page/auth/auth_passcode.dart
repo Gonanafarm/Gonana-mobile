@@ -160,7 +160,8 @@ class _SetPasscodeState extends State<SetPasscode> {
                                   child: DialogGradientButton(
                                     title: 'Proceed',
                                     onPressed: () async {
-                                      Get.to(() => HomePage(navIndex: 0));
+                                      Navigator.pop(context);
+                                      Get.offAll(() => HomePage(navIndex: 0));
                                       signInController
                                           .startLogoutTimer(context);
                                     },

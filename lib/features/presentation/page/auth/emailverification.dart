@@ -202,6 +202,7 @@ class _VerificationState extends State<Verification> {
                                     child: DialogGradientButton(
                                       title: 'Proceed',
                                       onPressed: () async {
+                                        Navigator.pop(context);
                                         Get.to(() => const AddProfilePhoto());
                                       },
                                     ),

@@ -463,10 +463,7 @@ class ProductController extends GetxController {
     }
   }
 
-  Future<bool> updatePrice(
-    String? id,
-    int? price,
-  ) async {
+  Future<bool> updatePrice(String? id, int? price, var context) async {
     try {
       var data = {
         'id': id,
@@ -480,6 +477,7 @@ class ProductController extends GetxController {
           await NetworkApi().patch(data, "${ApiRoute.updatePrice}");
       var response = jsonDecode(responseBody.body);
       log("price updated || $response");
+      SuccessSnackbar.show(context, "Successfully updated price");
       return true;
     } catch (e) {
       print(e);

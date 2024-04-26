@@ -533,7 +533,8 @@ class _SendPasscodeState extends State<SendPasscode> {
                                         title: 'Finish',
                                         onPressed: () async {
                                           print("Proceeded");
-                                          Get.to(() => HomePage(navIndex: 1));
+                                          Get.offAll(
+                                              () => HomePage(navIndex: 1));
                                         },
                                       ),
                                     ),

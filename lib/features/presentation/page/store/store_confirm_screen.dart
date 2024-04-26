@@ -439,7 +439,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                             // width: 185,
                             // height: 82,
                             child: Text(
-                              'Note:\nFor Every succesful transaction there would be 2.5% charge',
+                              'Note:\nFor Every succesful transaction there would be 5% charge',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Color(0xFF444444),
@@ -461,7 +461,8 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                   child: DialogGradientButton(
                     title: 'Proceed',
                     onPressed: () {
-                      Get.to(() => const SettingsProfile());
+                      Get.offAll(() => const SettingsProfile());
+                      Navigator.pop(context);
                     },
                   ),
                 ),

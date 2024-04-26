@@ -686,6 +686,7 @@ Future<dynamic> deleteDialog(BuildContext context) {
                       await marketController.fetchProduct();
                       await marketController.fetchDiscountedProducts();
                       Get.to(() => const SettingsProfile());
+                      Navigator.pop(context);
                     }
                   },
                 ),
@@ -696,7 +697,7 @@ Future<dynamic> deleteDialog(BuildContext context) {
                   child: DialogWhiteButton(
                     title: 'No, Keep this item',
                     onPressed: () {
-                      Get.back();
+                      Navigator.pop(context);
                     },
                   ),
                 ),

@@ -60,7 +60,7 @@ class _ConfirmPinState extends State<ConfirmPin> {
                           textAlign: TextAlign.left,
                         ),
                         Text(
-                          'Enter your password to confirm new Pin',
+                          'Enter your new pin to confirm correctness',
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.w400),
                           textAlign: TextAlign.left,
@@ -152,7 +152,7 @@ class _ConfirmPinState extends State<ConfirmPin> {
                                           child: DialogGradientButton(
                                             title: 'Proceed',
                                             onPressed: () {
-                                              Get.to(() => Security());
+                                              Get.offAll(() => Security());
                                             },
                                           ),
                                         ),
@@ -164,6 +164,9 @@ class _ConfirmPinState extends State<ConfirmPin> {
                             );
                           }
                         } else {
+                          setState(() {
+                            isLoading = true;
+                          });
                           ErrorSnackbar.show(
                               context, "Passcode does not match");
                         }

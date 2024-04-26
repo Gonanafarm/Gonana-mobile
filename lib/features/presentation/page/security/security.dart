@@ -101,41 +101,41 @@ class _SecurityState extends State<Security> {
                           )),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 14.0, horizontal: 0.0),
-                    child: GestureDetector(
-                      onTap: () async {
-                        Get.to(() => ChangePin());
-                      },
-                      child: Container(
-                          // width: 342,
-                          height: 56,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(5)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.only(left: 15.0),
-                                child: Text(
-                                  'Change Pin',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 15.0),
-                                child: IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.arrow_forward_ios)),
-                              )
-                            ],
-                          )),
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(
+                  //       vertical: 14.0, horizontal: 0.0),
+                  //   child: GestureDetector(
+                  //     onTap: () async {
+                  //       Get.to(() => ChangePin());
+                  //     },
+                  //     child: Container(
+                  //         // width: 342,
+                  //         height: 56,
+                  //         decoration: BoxDecoration(
+                  //             color: Colors.white,
+                  //             borderRadius: BorderRadius.circular(5)),
+                  //         child: Row(
+                  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //           children: [
+                  //             const Padding(
+                  //               padding: EdgeInsets.only(left: 15.0),
+                  //               child: Text(
+                  //                 'Change Pin',
+                  //                 style: TextStyle(
+                  //                     fontSize: 14,
+                  //                     fontWeight: FontWeight.w600),
+                  //               ),
+                  //             ),
+                  //             Padding(
+                  //               padding: const EdgeInsets.only(right: 15.0),
+                  //               child: IconButton(
+                  //                   onPressed: () {},
+                  //                   icon: const Icon(Icons.arrow_forward_ios)),
+                  //             )
+                  //           ],
+                  //         )),
+                  //   ),
+                  // ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 14.0, horizontal: 0.0),
@@ -257,11 +257,12 @@ class _SecurityState extends State<Security> {
                   child: DialogGradientButton(
                     title: 'Yes, I want to reset my pin',
                     onPressed: () async {
+                      Get.to(() => const ResetPin());
                       bool isPasscode =
                           await passcodeController.resetPin(context);
-                      if (isPasscode) {
-                        Get.to(() => const ResetPin());
-                      }
+                      // if (isPasscode) {
+                      //   Get.to(() => const ResetPin());
+                      // }
                     },
                   ),
                 ),
@@ -272,6 +273,7 @@ class _SecurityState extends State<Security> {
                       title: 'No, go back',
                       onPressed: () {
                         Get.back();
+                        Navigator.pop(context);
                       },
                     ),
                   ),

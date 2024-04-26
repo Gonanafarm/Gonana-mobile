@@ -22,7 +22,7 @@ class _ResetPinState extends State<ResetPin> {
 
   final TextEditingController _otp = TextEditingController();
 
-  final passcodeController = Get.find<PasscodeController>();
+  PasscodeController passcodeController = Get.put(PasscodeController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,29 +75,29 @@ class _ResetPinState extends State<ResetPin> {
           ),
           const Spacer(),
           LongGradientButton(
-            isLoading: isLoading,
-            title: 'Confirm',
-            onPressed: () async {
-              bool isValidated = _resetPinKey.currentState!.validate();
-              if (isValidated) {
-                setState(() {
-                  isLoading = true;
-                });
-                bool isPasscode = await passcodeController.resetPasscodeOtp(
-                    _otp.text, _newPin.text, context);
-                if (isPasscode) {
+              isLoading: isLoading,
+              title: 'Confirm',
+              onPressed: () async {
+                bool isValidated = _resetPinKey.currentState!.validate();
+                if (isValidated) {
                   setState(() {
-                    isLoading = false;
+                    isLoading = true;
                   });
-                  Get.to(() => const Security());
-                } else {
-                  setState(() {
-                    isLoading = false;
-                  });
+                  bool isPasscode = await passcodeController.resetPasscodeOtp(
+                      _otp.text, _newPin.text, context);
+                  if (isPasscode) {
+                    setState(() {
+                      isLoading = false;
+                    });
+                    Get.offAll(() => const Security());
+                    Navigator.pop(context);
+                  } else {
+                    setState(() {
+                      isLoading = false;
+                    });
+                  }
                 }
-              }
-            }
-          )
+              })
         ]),
       ),
     );

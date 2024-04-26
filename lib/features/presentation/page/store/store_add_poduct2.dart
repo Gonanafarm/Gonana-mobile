@@ -196,13 +196,13 @@ class _AddProduct2State extends State<AddProduct2> {
                                   child: EnterFormText(
                                       validator: inputValidator,
                                       onChanged: (weight) {
-                                        cartController.validateAddress(
-                                            address, context);
+                                        // cartController.validateAddress(
+                                        //     address, context);
                                       },
                                       controller: _address,
                                       label: 'Product Address',
                                       hint: 'Enter address for pick up')),
-                              const SizedBox(height: 10),
+                              // const SizedBox(height: 10),
                               // !selfShipping
                               //     ? Row(
                               //         mainAxisAlignment:
@@ -238,7 +238,7 @@ class _AddProduct2State extends State<AddProduct2> {
                         const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
                           child: Text(
-                            "Note: You would be charged 2.5% on every successful product sale",
+                            "Note: You would be charged 5% on every successful product sale",
                             style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,

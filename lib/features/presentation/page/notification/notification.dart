@@ -46,18 +46,53 @@ class _NotificationsState extends State<Notifications> {
           } else if (!snapshot.data!) {
             return Container(
               color: Colors.white,
-              child: const Center(
+              child: Center(
                 child: Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text(
-                    'No network connection. Please check your internet connection.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700),
-                  ),
-                ),
+                    padding: EdgeInsets.all(10.0),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height * 0.3),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          sizeVer(MediaQuery.of(context).size.height * 0.1),
+                          SvgPicture.asset(
+                            "assets/svgs/empty_product.svg",
+                            width: 189.71,
+                            height: 156.03,
+                          ),
+                          const Text(
+                            'Sorry! no notifications yet',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 24,
+                              fontFamily: 'Proxima Nova',
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const Text(
+                            'All notifications will be visible here',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontFamily: 'Proxima Nova',
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                    // Text(
+                    //   'No network connection. Please check your internet connection.',
+                    //   textAlign: TextAlign.center,
+                    //   style: TextStyle(
+                    //       color: Colors.black,
+                    //       fontSize: 20,
+                    //       fontWeight: FontWeight.w700),
+                    // ),
+                    ),
               ),
             );
           } else {
@@ -94,7 +129,9 @@ class _NotificationsState extends State<Notifications> {
                   ),
                   Container(
                       height: MediaQuery.of(context).size.height * 0.8,
-                      child: notificationController
+                      child: notificationController.notificationModel.value ==
+                                  null ||
+                              notificationController
                                       .notificationModel.value.data ==
                                   null ||
                               notificationController

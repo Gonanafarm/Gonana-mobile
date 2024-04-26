@@ -3,13 +3,17 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:gonana/features/presentation/page/security/security.dart';
 import 'package:gonana/features/presentation/page/security/verify_changed_password.dart';
+import 'package:gonana/features/presentation/page/settings/settiings_profile.dart';
 import 'package:gonana/features/presentation/widgets/numpad.dart';
 import 'package:gonana/features/presentation/widgets/pinWidget.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ConfirmPassword extends StatefulWidget {
-  const ConfirmPassword({super.key});
+  final String? password;
+  const ConfirmPassword({super.key, this.password});
 
   @override
   State<ConfirmPassword> createState() => _ConfirmPasswordState();
@@ -46,12 +50,14 @@ class _ConfirmPasswordState extends State<ConfirmPassword> {
                   children: [
                     Text(
                       'Four Digit passcode',
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
                       textAlign: TextAlign.left,
                     ),
                     Text(
                       'Enter your four digit password to confirm your new password',
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                       textAlign: TextAlign.left,
                     ),
                   ],
@@ -67,8 +73,21 @@ class _ConfirmPasswordState extends State<ConfirmPassword> {
               ),
               LongGradientButton(
                   title: 'Proceed',
-                  onPressed: () {
-                    Get.to(() => ResetPasswordVerification());
+                  onPressed: () async {
+                    bool created = false;
+                    print("passcode: $textEditingController");
+                    created = await passcodeController.verifyPasscode(
+                        textEditingController.text, context);
+                    if (created) {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      var email = prefs.getString("userEmail");
+                      bool reset = await passcodeController.resetPassword(
+                          context, email, widget.password);
+                      if (reset) {
+                        Get.offAll(Security());
+                      }
+                    }
                   })
             ],
           ),

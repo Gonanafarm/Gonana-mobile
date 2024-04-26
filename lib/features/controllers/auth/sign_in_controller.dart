@@ -47,7 +47,7 @@ class SignInController extends GetxController {
         print("model email: ${userController.userModel.value.email}");
         // SuccessSnackbar.show(context, result['message']);
         // startLogoutTimer(context);
-        await Get.to(() => HomePage(navIndex: 0));
+        await Get.offAll(() => HomePage(navIndex: 0));
         // log(jsonDecode(res.body));
         return true;
       } else {

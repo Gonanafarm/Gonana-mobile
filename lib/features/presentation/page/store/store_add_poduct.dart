@@ -480,7 +480,7 @@ class _AddProductState extends State<AddProduct> {
                     child: DialogGradientButton(
                       title: 'Proceed',
                       onPressed: () {
-                        Get.back();
+                        Navigator.pop(context);
                       },
                     ),
                   ),
