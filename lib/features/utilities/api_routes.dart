@@ -94,6 +94,7 @@ class ApiRoute {
 
   // verify BVN
   static const verifyBVN = 'api/transaction/create-virtual-account';
+  static const recoverBvn = 'api/transaction/recover-virtual-account';
 
   // get wallet balance
   static const getWalletBalance = 'api/transaction/user-balance';

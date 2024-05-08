@@ -234,7 +234,7 @@ class _SignUpState extends State<SignUp> {
                       title: 'Proceed',
                       onPressed: () async {
                         bool isValid = _signInkey.currentState!.validate();
-                        if (isValid && countryValueError) {
+                        if (isValid && !countryValueError) {
                           setState(() {
                             isLoading = true;
                           });
@@ -256,9 +256,9 @@ class _SignUpState extends State<SignUp> {
                             });
                           }
                         } else {
-                          setState(() {
-                            countryValueError = true;
-                          });
+                          // setState(() {
+                          //   countryValueError = true;
+                          // });
                           setState(() {
                             isLoading = false;
                           });

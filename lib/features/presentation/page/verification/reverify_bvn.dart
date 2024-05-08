@@ -1,23 +1,21 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:gonana/features/controllers/fiat_wallet/transaction_controller.dart';
-import 'package:gonana/features/presentation/page/home.dart';
-import 'package:gonana/features/presentation/page/verification/reverify_bvn.dart';
-import 'package:gonana/features/presentation/widgets/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../consts.dart';
+import '../../../controllers/fiat_wallet/transaction_controller.dart';
+import '../../widgets/widgets.dart';
+import '../home.dart';
 
-class VerificationBvn extends StatefulWidget {
-  VerificationBvn({super.key});
+class ReverifyBVN extends StatefulWidget {
+  const ReverifyBVN({Key? key}) : super(key: key);
 
   @override
-  State<VerificationBvn> createState() => _VerificationBvnState();
+  State<ReverifyBVN> createState() => _ReverifyBVNState();
 }
 
-class _VerificationBvnState extends State<VerificationBvn> {
+class _ReverifyBVNState extends State<ReverifyBVN> {
   final TextEditingController _bvn = TextEditingController();
 
   String get bvn => _bvn.text;
@@ -62,7 +60,7 @@ class _VerificationBvnState extends State<VerificationBvn> {
                             textAlign: TextAlign.left,
                           ),
                           const Text(
-                            'Verify yourself to be able to enjoy the best of Gonana',
+                            'Recover your BVN to be able to enjoy the best of Gonana',
                             style: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.w400),
                             textAlign: TextAlign.left,
@@ -93,24 +91,6 @@ class _VerificationBvnState extends State<VerificationBvn> {
                               ),
                             ),
                           ),
-                          sizeVer(10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Get.to(() => const ReverifyBVN());
-                                },
-                                child: const Text(
-                                  'Revalidate your BVN on Gonana?',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ],
-                          )
                         ],
                       ),
                     ),
@@ -124,7 +104,7 @@ class _VerificationBvnState extends State<VerificationBvn> {
                           bool isValid = _bvnKey.currentState!.validate();
                           if (isValid) {
                             bool created = await transactionController
-                                .verifyBVN(_bvn.text, context);
+                                .recoverBvn(_bvn.text, context);
                             if (created) {
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();

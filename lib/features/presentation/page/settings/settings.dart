@@ -371,7 +371,10 @@ class _SettingsState extends State<Settings> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5.0),
                       )),
-                  child: const Text('Logout'),
+                  child: const Text(
+                    'Logout',
+                    style: TextStyle(color: Colors.white),
+                  ),
                   onPressed: () async {
                     successDialog(context);
                   },

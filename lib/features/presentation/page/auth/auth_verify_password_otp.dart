@@ -52,6 +52,7 @@ class _AuthVerifyPasswordOtpState extends State<AuthVerifyPasswordOtp> {
   }
 
   late String otp;
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -146,13 +147,20 @@ class _AuthVerifyPasswordOtpState extends State<AuthVerifyPasswordOtp> {
           const Spacer(),
           LongGradientButton(
               title: 'Proceed',
+              isLoading: isLoading,
               onPressed: () async {
+                setState(() {
+                  isLoading = true;
+                });
                 bool isSuccess = await forgotPassWordController.verifyOtp(otp);
                 if (isSuccess) {
+                  setState(() {
+                    isLoading = false;
+                  });
                   showDialog(
                     context: context,
                     barrierDismissible:
-                        true, // Set to true if you want to allow dismissing the dialog by tapping outside it
+                        false, // Set to true if you want to allow dismissing the dialog by tapping outside it
                     builder: (BuildContext context) {
                       return BackdropFilter(
                         filter: ImageFilter.blur(
@@ -179,6 +187,7 @@ class _AuthVerifyPasswordOtpState extends State<AuthVerifyPasswordOtp> {
                                   title: 'Proceed',
                                   onPressed: () async {
                                     Get.to(() => const SetNewPassword());
+                                    Navigator.pop(context);
                                   },
                                 ),
                               ),
@@ -188,6 +197,11 @@ class _AuthVerifyPasswordOtpState extends State<AuthVerifyPasswordOtp> {
                       );
                     },
                   );
+                } else {
+                  setState(() {
+                    isLoading = true;
+                  });
+                  ErrorSnackbar.show(context, "Unsuccessful");
                 }
               })
         ]),

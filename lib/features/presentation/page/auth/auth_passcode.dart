@@ -37,6 +37,8 @@ class _SetPasscodeState extends State<SetPasscode> {
     prefs.setInt('registrationStage', 4);
   }
 
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +74,7 @@ class _SetPasscodeState extends State<SetPasscode> {
                               ),
                               textAlign: TextAlign.left),
                           Text(
-                              'Enter your four digit pin and strengthen your security\n or use the finger print varification',
+                              'Enter your four digit pin and strengthen your security\n or use the finger print verification',
                               textAlign: TextAlign.left)
                         ]),
                   ),
@@ -126,11 +128,18 @@ class _SetPasscodeState extends State<SetPasscode> {
             ),
             LongGradientButton(
                 title: 'Proceed',
+                isLoading: isLoading,
                 onPressed: () async {
+                  setState(() {
+                    isLoading = true;
+                  });
                   bool created = false;
                   print("passcode: $passCode");
                   created = await passcodeController.createPasscode(passCode);
                   if (created) {
+                    setState(() {
+                      isLoading = false;
+                    });
                     showDialog(
                       context: context,
                       barrierDismissible:
@@ -173,6 +182,11 @@ class _SetPasscodeState extends State<SetPasscode> {
                         );
                       },
                     );
+                  } else {
+                    ErrorSnackbar.show(context, "Unsuccessful");
+                    setState(() {
+                      isLoading = true;
+                    });
                   }
                 })
           ],

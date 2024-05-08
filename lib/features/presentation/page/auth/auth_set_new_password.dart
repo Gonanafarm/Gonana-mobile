@@ -9,6 +9,8 @@ import 'package:gonana/features/presentation/page/auth/forgotpassword.dart';
 import 'package:gonana/features/presentation/page/auth/sign_in_page.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
 
+import 'auth_splash4.dart';
+
 class SetNewPassword extends StatefulWidget {
   const SetNewPassword({super.key});
 
@@ -31,6 +33,8 @@ class _SetNewPasswordState extends State<SetNewPassword> {
 
   bool visibility1 = false;
   bool visibility2 = false;
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -146,23 +150,30 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                 padding: const EdgeInsets.all(20.0),
                 child: LongGradientButton(
                     title: 'Finish',
+                    isLoading: isLoading,
                     onPressed: () async {
                       if (newPassword == newPassword1) {
+                        setState(() {
+                          isLoading = true;
+                        });
                         bool isSuccess =
                             await forgotPassWordController.resetPassword(
                                 forgotPasswordEmail.email, newPassword);
                         if (isSuccess == true) {
                           // ignore: use_build_context_synchronously
+                          setState(() {
+                            isLoading = false;
+                          });
                           showDialog(
                             context: context,
                             barrierDismissible:
-                                true, // Set to true if you want to allow dismissing the dialog by tapping outside it
+                                false, // Set to true if you want to allow dismissing the dialog by tapping outside it
                             builder: (BuildContext context) {
                               return BackdropFilter(
                                 filter: ImageFilter.blur(
                                     sigmaX: 20,
-                                    sigmaY:20
-                                ), // Adjust the blur intensity as needed
+                                    sigmaY:
+                                        20), // Adjust the blur intensity as needed
                                 child: SizedBox(
                                   height: 100,
                                   child: AlertDialog(
@@ -174,15 +185,18 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                                     ),
                                     content: const Padding(
                                       padding: EdgeInsets.only(left: 60.0),
-                                      child: Text('Password changed succesfully'),
+                                      child:
+                                          Text('Password changed successfully'),
                                     ),
                                     actions: [
                                       Padding(
-                                        padding: const EdgeInsets.only(right: 30.0),
+                                        padding:
+                                            const EdgeInsets.only(right: 30.0),
                                         child: DialogGradientButton(
                                           title: 'Proceed',
                                           onPressed: () async {
-                                            Get.to(() => Login());
+                                            Get.offAll(() => Splash4());
+                                            Navigator.pop(context);
                                           },
                                         ),
                                       ),
@@ -193,9 +207,14 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                             },
                           );
                         } else {
+                          setState(() {
+                            isLoading = false;
+                          });
                           ErrorSnackbar.show(
-                              context, 'Email not succesfully set');
+                              context, 'Email password not successfully set');
                         }
+                      } else {
+                        ErrorSnackbar.show(context, 'Passwords do not match');
                       }
                     }),
               ),

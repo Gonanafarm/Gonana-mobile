@@ -193,7 +193,8 @@ class DeletePassoce extends StatelessWidget {
                                     child: DialogGradientButton(
                                       title: 'Proceed',
                                       onPressed: () async {
-                                        Get.to(() => Splash1());
+                                        Get.offAll(() => Splash1());
+                                        Navigator.pop(context);
                                       },
                                     ),
                                   ),

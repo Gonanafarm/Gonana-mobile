@@ -12,10 +12,16 @@ class ForgotPasswordEmail extends GetxController {
   String get email => _email.text;
 }
 
-class ForgotPassword extends StatelessWidget {
+class ForgotPassword extends StatefulWidget {
   ForgotPassword({super.key});
 
+  @override
+  State<ForgotPassword> createState() => _ForgotPasswordState();
+}
+
+class _ForgotPasswordState extends State<ForgotPassword> {
   final _forgotPasswordKey = GlobalKey<FormState>();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -87,15 +93,25 @@ class ForgotPassword extends StatelessWidget {
                 const SizedBox(height: 10),
                 LongGradientButton(
                   title: 'Proceed',
+                  isLoading: isLoading,
                   onPressed: () async {
                     bool isValid = _forgotPasswordKey.currentState!.validate();
                     if (isValid) {
+                     setState(() {
+                       isLoading = true;
+                     });
                       var isSuccess = await passwordController.forgotPassword(forgotPasswordEmail.email);
                       if (isSuccess[0] == true) {
                         log("isSuccess:$isSuccess");
+                        setState(() {
+                          isLoading = false;
+                        });
                         Get.to(() => const AuthVerifyPasswordOtp());
                       } else {
                         // ignore: use_build_context_synchronously
+                        setState(() {
+                          isLoading = false;
+                        });
                         ErrorSnackbar.show(context, isSuccess[1]);
                       }
                     }

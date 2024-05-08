@@ -26,8 +26,34 @@ class TransactionController extends GetxController {
       log("BVN verification|| $response");
       if (responseBody.statusCode == 201) {
         print(responseBody.statusCode);
-        SuccessSnackbar.show(context,
-            "BVN submitted successfully,\nyou would get a an email concerning your email verification");
+        SuccessSnackbar.show(context, "BVN generated successfully");
+        // SuccessSnackbar.show(context, "${response['responseMessage']}");
+        return true;
+      } else {
+        print('res');
+        ErrorSnackbar.show(context, "${response['message']}");
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> recoverBvn(String bvn, var context) async {
+    try {
+      var data = {
+        'bvn': bvn,
+      };
+      print(data);
+      var responseBody =
+          await NetworkApi().authPostData(data, ApiRoute.recoverBvn);
+      var response = jsonDecode(responseBody.body);
+      // log("added cart items || $responseBody");
+      log("BVN verification|| $response");
+      if (responseBody.statusCode == 201) {
+        print(responseBody.statusCode);
+        SuccessSnackbar.show(context, "Virtual account recovered");
         // SuccessSnackbar.show(context, "${response['responseMessage']}");
         return true;
       } else {

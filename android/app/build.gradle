@@ -61,8 +61,8 @@ android {
         minSdkVersion 21
         multiDexEnabled true
         targetSdkVersion flutter.targetSdkVersion
-        versionCode 19
-        versionName "Version 9.1"
+        versionCode 20
+        versionName "Version 9.2"
     }
 
     signingConfigs {

@@ -6,7 +6,6 @@ import '../../presentation/widgets/widgets.dart';
 import '../../utilities/api_routes.dart';
 import '../../utilities/network.dart';
 
-
 class ForgotPassWordController extends GetxController {
   forgotPassword(String email) async {
     try {
@@ -73,19 +72,21 @@ class ForgotPassWordController extends GetxController {
     }
   }
 
-  Future<bool> initPasswordReset(var context)async{
-    try{
+  Future<bool> initPasswordReset(var context) async {
+    try {
       var res = await NetworkApi().authGetData(ApiRoute.resetPassword);
       final result = jsonDecode(res.body);
-      if(res.statusCode == 200){
+      if (res.statusCode == 200) {
         log("result: $result");
-        SuccessSnackbar.show(context, res['message'] ?? "Succesful: Check your mail for otp");
+        SuccessSnackbar.show(
+            context, res['message'] ?? "Successful: Check your mail for otp");
         return true;
-      }else{
-        ErrorSnackbar.show(context, res['message'] ?? "Failed: couldn't initiate password reset");
+      } else {
+        ErrorSnackbar.show(context,
+            res['message'] ?? "Failed: couldn't initiate password reset");
         return false;
       }
-    }catch(e,s){ 
+    } catch (e, s) {
       log("initpasser: $e");
       log("initpassStack: $s");
       return false;
@@ -93,27 +94,25 @@ class ForgotPassWordController extends GetxController {
   }
 
   Future<bool> completePasswordReset(
-    String? otp,
-    String? password,
-    var context
-  )async{
-    var data ={
+      String? otp, String? password, var context) async {
+    var data = {
       "otp": otp,
       "password": password,
     };
-    try{
-      var res = await NetworkApi().authPostData(data, ApiRoute.verifyPasswordotp);
+    try {
+      var res =
+          await NetworkApi().authPostData(data, ApiRoute.verifyPasswordotp);
       final result = jsonDecode(res.body);
-      if(res.statusCode == 200){
+      if (res.statusCode == 200) {
         log("result: $result");
         SuccessSnackbar.show(context, res['message']);
         return true;
-      }else{
+      } else {
         ErrorSnackbar.show(context, res['message']);
         return false;
       }
       return false;
-    }catch(e,s){
+    } catch (e, s) {
       log("initpasser: $e");
       log("initpassStack: $s");
       return false;

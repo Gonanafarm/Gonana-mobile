@@ -200,9 +200,15 @@ class ShortFlatButton extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(title),
+            Text(
+              title,
+              style: TextStyle(color: Colors.white),
+            ),
             const SizedBox(width: 10.0),
-            const Icon(Icons.arrow_forward),
+            const Icon(
+              Icons.arrow_forward,
+              color: Colors.white,
+            ),
           ],
         ));
   }
@@ -305,9 +311,16 @@ class ShortGradientButton extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Flexible(child: Text(title)),
+              Flexible(
+                  child: Text(
+                title,
+                style: TextStyle(color: Colors.white),
+              )),
               const SizedBox(width: 10.0),
-              const Icon(Icons.arrow_forward),
+              const Icon(
+                Icons.arrow_forward,
+                color: Colors.white,
+              ),
             ],
           )),
     );
@@ -376,9 +389,15 @@ class LongBorderButton extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(title),
+          Text(
+            title,
+            style: TextStyle(color: Colors.white),
+          ),
           const SizedBox(width: 10.0),
-          const Icon(Icons.arrow_forward),
+          const Icon(
+            Icons.arrow_forward,
+            color: Colors.white,
+          ),
         ],
       ),
     );
@@ -420,9 +439,15 @@ class LongGradientButton extends StatelessWidget {
               : Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(title),
+                    Text(
+                      title,
+                      style: TextStyle(color: Colors.white),
+                    ),
                     const SizedBox(width: 10.0),
-                    const Icon(Icons.arrow_forward),
+                    const Icon(
+                      Icons.arrow_forward,
+                      color: Colors.white,
+                    ),
                   ],
                 )),
     );
@@ -469,10 +494,15 @@ class DialogGradientButton extends StatelessWidget {
                     Flexible(
                         child: Text(
                       title,
+                      style: TextStyle(color: Colors.white),
                       textAlign: TextAlign.center,
                     )),
                     const SizedBox(width: 10.0),
-                    Flexible(child: const Icon(Icons.arrow_forward)),
+                    Flexible(
+                        child: const Icon(
+                      Icons.arrow_forward,
+                      color: Colors.white,
+                    )),
                   ],
                 )),
     );
@@ -548,9 +578,12 @@ class LongTransparentButton extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(title),
+              Text(
+                title,
+                style: TextStyle(color: Colors.white),
+              ),
               const SizedBox(width: 10.0),
-              const Icon(Icons.arrow_forward),
+              const Icon(Icons.arrow_forward, color: Colors.white),
             ],
           )),
     );
@@ -580,9 +613,15 @@ class LongFlatButton extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(title),
+          Text(
+            title,
+            style: TextStyle(color: Colors.white),
+          ),
           const SizedBox(width: 10.0),
-          const Icon(Icons.arrow_forward),
+          const Icon(
+            Icons.arrow_forward,
+            color: Colors.white,
+          ),
         ],
       ),
     );

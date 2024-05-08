@@ -74,7 +74,10 @@ class Splash4 extends StatelessWidget {
                             Text('Login',
                                 style: TextStyle(color: Colors.black)),
                             SizedBox(width: 10.0),
-                            Icon(Icons.arrow_forward),
+                            Icon(
+                              Icons.arrow_forward,
+                              color: Colors.black,
+                            ),
                           ],
                         ),
                       )),
