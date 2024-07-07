@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   final screens = [
-    const MarketPage(),
+    MarketPage(),
     // const WalletPage(),
     // const FiatWalletHome(),
     const WalletPage(),

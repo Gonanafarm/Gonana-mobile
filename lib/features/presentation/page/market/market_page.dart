@@ -17,7 +17,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../consts.dart';
 import '../../../../services/push_notifier.dart';
+import '../../../../services/session_listener.dart';
 import '../../../controllers/auth/get_details.dart';
+import '../../../controllers/auth/sign_in_controller.dart';
 import '../../../controllers/order/order_controller.dart';
 import '../../../controllers/post/post_controllers.dart';
 import '../../../controllers/user/user_controller.dart';
@@ -33,7 +35,7 @@ import 'hot_deals.dart';
 GetDetailsController detailsController = Get.put(GetDetailsController());
 
 class MarketPage extends StatefulWidget {
-  const MarketPage({Key? key}) : super(key: key);
+  MarketPage({super.key});
 
   @override
   State<MarketPage> createState() => _MarketPageState();
@@ -105,6 +107,7 @@ class _MarketPageState extends State<MarketPage> {
     BVNisSubmited = prefs.getBool('bvnSubmission');
   }
 
+  SignInController signInController = Get.put(SignInController());
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<bool>(
