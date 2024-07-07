@@ -79,7 +79,7 @@ class _WarningWidgetState extends State<WarningWidget> {
                         padding: EdgeInsets.only(left: 25.0),
                         child: Text(
                           textAlign: TextAlign.start,
-                          'Verify your account quickly and start enjoying the services available on the gonana app.',
+                          'Verify your account quickly and start enjoying the services available on the Gonana app.',
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 10,

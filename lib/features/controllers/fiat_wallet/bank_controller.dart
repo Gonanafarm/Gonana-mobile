@@ -39,7 +39,7 @@ class BankController extends GetxController {
     banks.clear();
     // this will get each course and add it to the courses list i declared above
     for (var i = 0; i < bankModel!.data!.length; i++) {
-      banks.insert(0, bankModel!.data!.elementAt(i).name!);
+      banks.insert(0, bankModel!.data!.elementAt(i).bankName!);
     }
   }
 

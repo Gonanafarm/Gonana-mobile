@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gonana/consts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -385,13 +386,15 @@ class _AddProductState extends State<AddProduct> {
                                         });
                                       }),
                                 ),
-                                const Text(
-                                  'I would like to ship my product myself',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color: greenColor),
-                                  textAlign: TextAlign.left,
+                                Flexible(
+                                  child: const Text(
+                                    'I would like to ship my product myself',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        color: greenColor),
+                                    textAlign: TextAlign.left,
+                                  ),
                                 )
                               ],
                             ),

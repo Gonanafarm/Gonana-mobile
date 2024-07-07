@@ -37,17 +37,18 @@ class Splash2 extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
                           'Simple and fast\nWeb3 enabled\nMarketplace',
                           style: TextStyle(
-                              fontSize: 45.08,
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.09,
                               fontWeight: FontWeight.w400,
                               color: Color(0xffFFFFFF)),
-                          textAlign: TextAlign.center,
+                          textAlign: TextAlign.left,
                         ),
                       ],
                     ),

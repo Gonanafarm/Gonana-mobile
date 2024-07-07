@@ -322,8 +322,8 @@ class _StoreState extends State<Store> {
                                                           Flexible(
                                                             flex: 1,
                                                             child: Container(
-                                                              height: 40,
-                                                              width: 55,
+                                                              // height: 40,
+                                                              // width: 55,
                                                               child:
                                                                   ElevatedButton(
                                                                 onPressed: () {

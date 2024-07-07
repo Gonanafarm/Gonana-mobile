@@ -33,21 +33,33 @@ class BankModel {
 }
 
 class Datum {
-  String? code;
-  String? name;
+  String? bankCode;
+  String? bankName;
+  String? bankShortName;
+  String? bankIdentifyCode;
+  String? bankCode2;
 
   Datum({
-    this.code,
-    this.name,
+    this.bankCode,
+    this.bankName,
+    this.bankShortName,
+    this.bankIdentifyCode,
+    this.bankCode2,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        code: json["code"],
-        name: json["name"],
+        bankCode: json["bankCode"],
+        bankName: json["bankName"],
+        bankShortName: json["bankShortName"],
+        bankIdentifyCode: json["bankIdentifyCode"],
+        bankCode2: json["bankCode2"],
       );
 
   Map<String, dynamic> toJson() => {
-        "code": code,
-        "name": name,
+        "bankCode": bankCode,
+        "bankName": bankName,
+        "bankShortName": bankShortName,
+        "bankIdentifyCode": bankIdentifyCode,
+        "bankCode2": bankCode2,
       };
 }

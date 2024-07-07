@@ -139,6 +139,9 @@ class _SignUpState extends State<SignUp> {
                                           obscureText: visibility,
                                           validator: passwordValidator,
                                           decoration: InputDecoration(
+                                              focusedBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: greenColor)),
                                               suffixIcon: IconButton(
                                                 onPressed: () {
                                                   visibility == true

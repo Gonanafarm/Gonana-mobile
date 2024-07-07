@@ -48,18 +48,9 @@ class _WalletPageState extends State<WalletPage> {
     getBVNStatus();
   }
 
-  List icons = [
-    // "eth",
-    "gona_logo"
-  ];
-  List text = [
-    // "ETH",
-    "Gonana wallet"
-  ];
-  List<Widget> nextPage = [
-    // const SendChart(),
-    const FiatWalletHome()
-  ];
+  List icons = ["eth", "gona_logo"];
+  List text = ["ETH", "Gonana wallet"];
+  List<Widget> nextPage = [const SendChart(), const FiatWalletHome()];
 
   // double roundToDecimalPlaces(double value, int decimalPlaces) {
   //   double multiplier = pow(10, decimalPlaces).toDouble();
@@ -69,7 +60,7 @@ class _WalletPageState extends State<WalletPage> {
   @override
   Widget build(BuildContext context) {
     List amountInNaira = [
-      // "NGN ${transactionController.cryptoBalanceModel.cryptoWalletBalanceInNgn ?? 0}",
+      "NGN ${transactionController.cryptoBalanceModel.cryptoWalletBalanceInNgn ?? 0}",
       "NGN ${transactionController.balanceModel.value.balance ?? 0}"
     ];
     List amountInEth = [
@@ -346,7 +337,7 @@ class _WalletPageState extends State<WalletPage> {
                               !userController.userModel.value.country!
                                   .contains("Nigeria"))
                       ? sizeVer(1)
-                      : sizeVer(20),
+                      : sizeVer(0),
                   SizedBox(
                     height: size.height * 0.68,
                     child: ListView.builder(

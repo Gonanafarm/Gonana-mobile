@@ -104,81 +104,84 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     token = prefs?.getString('token') ?? null;
-    return SessionTimeoutListener(
-      duration: const Duration(minutes: 5),
-      onTimeout: () {
-        print("Time out");
-        signInController.logout(context);
-        // Get.to(() => const Login());
-      },
-      // child: Directionality(
-      //   textDirection: TextDirection.ltr,
-      //   child: FutureBuilder<bool>(
-      //     future: fetchData,
-      //     builder: (context, snapshot) {
-      //       if (snapshot.connectionState == ConnectionState.waiting) {
-      child: showLoading
-          ? Container(
-              decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topRight,
-                      end: Alignment.bottomLeft,
-                      colors: [Color(0xff29844B), Color(0xff003633)])),
-              child: Center(
-                child: Container(
-                  // height: 150,
-                  // width: 150,
-                  child: Stack(
-                    alignment: AlignmentDirectional.center,
-                    children: [
-                      Center(child: Image.asset('assets/images/whit1.png')),
-                    ],
-                  ),
-                  // CircularProgressIndicator(
-                  //   color: Color.fromRGBO(41, 132, 75, 1),
-                  // )),
+    return showLoading
+        ? Container(
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [Color(0xff29844B), Color(0xff003633)])),
+            child: Center(
+              child: Container(
+                // height: 150,
+                // width: 150,
+                child: Stack(
+                  alignment: AlignmentDirectional.center,
+                  children: [
+                    Center(child: Image.asset('assets/images/whit1.png')),
+                  ],
                 ),
-              ))
-          :
-          // Show a loading indicator while waiting
-          // } else if (snapshot.hasError) {
-          //   return Text('Error: ${snapshot.error}');
-          // } else if (!snapshot.data!) {
-          //   return Container(
-          //     color: Colors.white,
-          //     child: const Center(
-          //       child: Padding(
-          //         padding: EdgeInsets.all(10.0),
-          //         child: Text(
-          //           'No network connection. Please check your internet connection.',
-          //           textAlign: TextAlign.center,
-          //           style: TextStyle(
-          //               color: Colors.black,
-          //               fontSize: 20,
-          //               fontWeight: FontWeight.w700),
-          //         ),
-          //       ),
-          //     ),
-          //   );
-          // } else {
+                // CircularProgressIndicator(
+                //   color: Color.fromRGBO(41, 132, 75, 1),
+                // )),
+              ),
+            ))
+        :
+        // Show a loading indicator while waiting
+        // } else if (snapshot.hasError) {
+        //   return Text('Error: ${snapshot.error}');
+        // } else if (!snapshot.data!) {
+        //   return Container(
+        //     color: Colors.white,
+        //     child: const Center(
+        //       child: Padding(
+        //         padding: EdgeInsets.all(10.0),
+        //         child: Text(
+        //           'No network connection. Please check your internet connection.',
+        //           textAlign: TextAlign.center,
+        //           style: TextStyle(
+        //               color: Colors.black,
+        //               fontSize: 20,
+        //               fontWeight: FontWeight.w700),
+        //         ),
+        //       ),
+        //     ),
+        //   );
+        // } else {
 
-          GetMaterialApp(
-              debugShowCheckedModeBanner: false,
-              home: token != null && registrationStage == 5
-                  ? UpgradeAlert(child: const Login())
-                  // ? UpgradeAlert(child:  HomePage(navIndex: 0))
-                  : token != null && registrationStage == 4
-                      ? const SetPasscode()
-                      : token != null && registrationStage == 3
-                          ? const AddProfilePhoto()
-                          : token != null && registrationStage == 2
-                              ? const Verification()
-                              : token != null && registrationStage == 1
-                                  ? const SignUp()
-                                  : const Splash1(),
-              // home: Splash(),
-            ),
-    );
+        token != null && registrationStage == 5
+            ? SessionTimeoutListener(
+                duration: const Duration(minutes: 5),
+                onTimeout: () {
+                  print("Time out");
+                  signInController.logout(context);
+                  // Get.to(() => const Login());
+                },
+                child: GetMaterialApp(
+                    debugShowCheckedModeBanner: false,
+                    home: UpgradeAlert(child: const Login())),
+              )
+            : token != null && registrationStage == 4
+                ? GetMaterialApp(
+                    debugShowCheckedModeBanner: false,
+                    home: const SetPasscode())
+                : token != null && registrationStage == 3
+                    ? GetMaterialApp(
+                        debugShowCheckedModeBanner: false,
+                        home: const AddProfilePhoto())
+                    : token != null && registrationStage == 2
+                        ? GetMaterialApp(
+                            debugShowCheckedModeBanner: false,
+                            home: const Verification())
+                        : token != null && registrationStage == 1
+                            ? GetMaterialApp(
+                                debugShowCheckedModeBanner: false,
+                                home: const SignUp())
+                            : GetMaterialApp(
+                                debugShowCheckedModeBanner: false,
+                                home: const Splash1()
+                                // home: Splash(),
+                                );
     // }
     // },
     // ),

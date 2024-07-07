@@ -10,19 +10,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../consts.dart';
 
-class VerificationBvn extends StatefulWidget {
-  VerificationBvn({super.key});
+class KYCVerification extends StatefulWidget {
+  KYCVerification({super.key});
 
   @override
-  State<VerificationBvn> createState() => _VerificationBvnState();
+  State<KYCVerification> createState() => _VerificationBvnState();
 }
 
-class _VerificationBvnState extends State<VerificationBvn> {
+class _VerificationBvnState extends State<KYCVerification> {
+  final TextEditingController _kyc = TextEditingController();
   final TextEditingController _bvn = TextEditingController();
 
+  String get kyc => _kyc.text;
   String get bvn => _bvn.text;
 
-  final _bvnKey = GlobalKey<FormState>();
+  final _kycKey = GlobalKey<FormState>();
 
   TransactionController transactionController =
       Get.put(TransactionController());
@@ -56,13 +58,13 @@ class _VerificationBvnState extends State<VerificationBvn> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            'BVN',
+                            'KYC',
                             style: TextStyle(
                                 fontSize: 24, fontWeight: FontWeight.w600),
                             textAlign: TextAlign.left,
                           ),
                           const Text(
-                            'Verify yourself to be able to enjoy the best of Gonana',
+                            'Enter your date of birth and BVN verify to yourself to be able to enjoy the best of Gonana',
                             style: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.w400),
                             textAlign: TextAlign.left,
@@ -76,51 +78,32 @@ class _VerificationBvnState extends State<VerificationBvn> {
                                   fontSize: 10, fontWeight: FontWeight.w600),
                             ),
                           ),
-                          const SizedBox(
-                            width: double.infinity,
-                            child: Text(
-                              'Ensure your KYC is verified first',
-                              style: TextStyle(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w600,
-                                  color: redColor),
+                          sizeVer(10),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 20, 0, 8.0),
+                            child: SizedBox(
+                              child: EnterFormText(
+                                  controller: _bvn,
+                                  validator: bvnValidator,
+                                  label: 'BVN',
+                                  hint: 'Enter your Bank Verification Number'),
                             ),
                           ),
-                          // sizeVer(30),
                           Form(
-                            key: _bvnKey,
+                            key: _kycKey,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(0, 20, 0, 8.0),
                               child: SizedBox(
                                 child: EnterFormText(
-                                    controller: _bvn,
-                                    validator: bvnValidator,
-                                    label: 'BVN',
-                                    hint:
-                                        'Enter your Bank Verification Number'),
+                                    controller: _kyc,
+                                    validator: inputValidator,
+                                    label: 'D.O.B',
+                                    hint: 'eg: 30-OCT-2001'),
                               ),
                             ),
                           ),
-                          sizeVer(10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Get.to(() => const ReverifyBVN());
-                                },
-                                child: const Text(
-                                  'Revalidate your BVN on Gonana?',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ],
-                          )
                         ],
                       ),
                     ),
@@ -131,15 +114,18 @@ class _VerificationBvnState extends State<VerificationBvn> {
                           setState(() {
                             isLoading = true;
                           });
-                          bool isValid = _bvnKey.currentState!.validate();
+                          bool isValid = _kycKey.currentState!.validate();
                           if (isValid) {
-                            bool created = await transactionController
-                                .verifyBVN(_bvn.text, context);
+                            bool created =
+                                await transactionController.verifyKYC(
+                                    _kyc.text.trim(),
+                                    _bvn.text.trim(),
+                                    context);
                             if (created) {
+                              Get.to(() => HomePage(navIndex: 3));
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
                               prefs.setBool('bvnSubmission', true);
-                              Get.to(() => HomePage(navIndex: 3));
                               isLoading = false;
                             } else {
                               setState(() {

@@ -110,7 +110,7 @@ class _SettingsState extends State<Settings> {
                               ),
                             ),
                             subtitle: const Text(
-                              'Update your BVN for transaction verification',
+                              'Update your KYC and BVN for transaction verification',
                               style: TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.w400,

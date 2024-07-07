@@ -43,7 +43,7 @@ class _SendPageState extends State<SendPage> {
               const SizedBox(
                 width: double.infinity,
                 child: Text(
-                  'Send Gona',
+                  'Send Coin',
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 24,

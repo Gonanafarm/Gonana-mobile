@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -161,7 +162,7 @@ class _DepositState extends State<Deposit> {
                             Center(
                               child: Container(
                                 height: 40,
-                                width: 114,
+                                // width: 114,
                                 decoration: BoxDecoration(
                                     gradient: const LinearGradient(colors: [
                                       Color(0xff29844B),
@@ -198,9 +199,14 @@ class _DepositState extends State<Deposit> {
                                     child: const Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Flexible(child: Text('Copy')),
+                                        Flexible(
+                                            child: Text(
+                                          'Copy',
+                                          style: TextStyle(color: Colors.white),
+                                        )),
                                         const SizedBox(width: 10.0),
-                                        const Icon(Icons.content_copy_outlined),
+                                        const Icon(Icons.content_copy_outlined,
+                                            color: Colors.white),
                                       ],
                                     )),
                               ),

@@ -64,6 +64,8 @@ class _VerificationState extends State<Verification> {
     super.dispose();
   }
 
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     OTPController otpController = Get.put(OTPController());
@@ -165,56 +167,68 @@ class _VerificationState extends State<Verification> {
               ),
               const Spacer(),
               LongGradientButton(
-                  title: 'Proceed',
-                  onPressed: () async {
-                    print("otp: $otpPin");
-                    bool created = false;
-                    created =
-                        await otpController.otpVerification(otpPin, context);
-                    if (created) {
-                      // ignore: use_build_context_synchronously
-                      showDialog(
-                        context: context,
-                        barrierDismissible:
-                            true, // Set to true if you want to allow dismissing the dialog by tapping outside it
-                        builder: (BuildContext context) {
-                          return BackdropFilter(
-                            filter: ImageFilter.blur(
-                                sigmaX: 20,
-                                sigmaY:
-                                    20), // Adjust the blur intensity as needed
-                            child: SizedBox(
-                              height: 100,
-                              child: AlertDialog(
-                                title: Center(
-                                  child: Icon(
-                                    size: 60,
-                                    Icons.check_circle_outlined,
-                                  ),
+                title: 'Proceed',
+                onPressed: () async {
+                  setState(() {
+                    isLoading = true;
+                  });
+                  print("otp: $otpPin");
+                  bool created = false;
+                  created =
+                      await otpController.otpVerification(otpPin, context);
+                  if (created) {
+                    // ignore: use_build_context_synchronously
+                    showDialog(
+                      context: context,
+                      barrierDismissible:
+                          false, // Set to true if you want to allow dismissing the dialog by tapping outside it
+                      builder: (BuildContext context) {
+                        return BackdropFilter(
+                          filter: ImageFilter.blur(
+                              sigmaX: 20,
+                              sigmaY:
+                                  20), // Adjust the blur intensity as needed
+                          child: SizedBox(
+                            height: 100,
+                            child: AlertDialog(
+                              title: Center(
+                                child: Icon(
+                                  size: 60,
+                                  Icons.check_circle_outlined,
                                 ),
-                                content: Padding(
-                                  padding: const EdgeInsets.only(left: 60.0),
-                                  child: Text('Email Verified'),
-                                ),
-                                actions: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 30.0),
-                                    child: DialogGradientButton(
-                                      title: 'Proceed',
-                                      onPressed: () async {
-                                        Navigator.pop(context);
-                                        Get.to(() => const AddProfilePhoto());
-                                      },
-                                    ),
-                                  ),
-                                ],
                               ),
+                              content: Padding(
+                                padding: const EdgeInsets.only(left: 60.0),
+                                child: Text('Email Verified'),
+                              ),
+                              actions: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 30.0),
+                                  child: DialogGradientButton(
+                                    title: 'Proceed',
+                                    onPressed: () async {
+                                      Navigator.pop(context);
+                                      Get.to(() => const AddProfilePhoto());
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
-                          );
-                        },
-                      );
-                    }
-                  })
+                          ),
+                        );
+                      },
+                    );
+                    setState(() {
+                      isLoading = false;
+                    });
+                  } else {
+                    setState(() {
+                      isLoading = false;
+                    });
+                  }
+                },
+                isLoading: isLoading,
+              )
             ],
           ),
         ),

@@ -13,6 +13,35 @@ import '../../utilities/api_routes.dart';
 import '../../utilities/network.dart';
 
 class TransactionController extends GetxController {
+  Future<bool> verifyKYC(String dob, String bvn, var context) async {
+    try {
+      var data = {
+        'dob': dob,
+        'bvn': bvn,
+      };
+      print(data);
+      var responseBody =
+          await NetworkApi().authPostData(data, ApiRoute.verifyKyc);
+      var response = jsonDecode(responseBody.body);
+      // log("added cart items || $responseBody");
+      log("BVN verification|| $response");
+      if (responseBody.statusCode == 201) {
+        print(responseBody.statusCode);
+        await verifyBVN(bvn, context);
+        SuccessSnackbar.show(context, "KYC verified successfully");
+        // SuccessSnackbar.show(context, "${response['responseMessage']}");
+        return true;
+      } else {
+        print('res');
+        ErrorSnackbar.show(context, "${response['message']}");
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   Future<bool> verifyBVN(String bvn, var context) async {
     try {
       var data = {
@@ -26,7 +55,7 @@ class TransactionController extends GetxController {
       log("BVN verification|| $response");
       if (responseBody.statusCode == 201) {
         print(responseBody.statusCode);
-        SuccessSnackbar.show(context, "BVN generated successfully");
+        SuccessSnackbar.show(context, "BVN verified successfully");
         // SuccessSnackbar.show(context, "${response['responseMessage']}");
         return true;
       } else {
@@ -176,13 +205,14 @@ class TransactionController extends GetxController {
   }
 
   Future<bool> transferFunds(double amount, String accountNumber,
-      String bankName, String narration) async {
+      String bankName, String narration, String accountName) async {
     try {
       var data = {
         'amount': amount,
         'accountNumber': accountNumber,
         'bankName': bankName,
         'narration': narration,
+        "accountName": accountName
       };
       print(data);
       var responseBody =

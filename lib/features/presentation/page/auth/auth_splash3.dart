@@ -37,17 +37,18 @@ class Splash3 extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
                           'Offering DeFi\n solutions.',
                           style: TextStyle(
-                              fontSize: 45.08,
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.09,
                               fontWeight: FontWeight.w400,
                               color: Color(0xffFFFFFF)),
-                          textAlign: TextAlign.center,
+                          textAlign: TextAlign.left,
                         ),
                       ],
                     ),

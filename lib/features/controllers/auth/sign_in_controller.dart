@@ -165,7 +165,7 @@ class SignInController extends GetxController {
                       cleared = await preferences.remove("token");
                       if (cleared) {
                         print("cleared");
-                        Get.to(() => const Splash4());
+                        Get.offAll(() => const Splash4());
                         Navigator.pop(context);
                       }
                     },

@@ -56,18 +56,18 @@ class _LoginState extends State<Login> {
     SignInController signInController = Get.put(SignInController());
     return Scaffold(
         backgroundColor: const Color(0xffF1F1F1),
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-                color: Colors.black,
-              )),
-        ),
+        // appBar: AppBar(
+        //   backgroundColor: Colors.transparent,
+        //   elevation: 0,
+        //   leading: IconButton(
+        //       onPressed: () {
+        //         Navigator.pop(context);
+        //       },
+        //       icon: const Icon(
+        //         Icons.arrow_back,
+        //         color: Colors.black,
+        //       )),
+        // ),
         body: SafeArea(
           child: Center(
             child: Padding(
@@ -122,6 +122,9 @@ class _LoginState extends State<Login> {
                                   obscureText: visibility,
                                   validator: inputValidator,
                                   decoration: InputDecoration(
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: greenColor)),
                                       suffixIcon: IconButton(
                                         onPressed: () {
                                           visibility == true

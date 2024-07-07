@@ -93,6 +93,7 @@ class ApiRoute {
   static const updateBankDetail = 'api/transaction/save-account-number';
 
   // verify BVN
+  static const verifyKyc = 'api/transaction/kyc';
   static const verifyBVN = 'api/transaction/create-virtual-account';
   static const recoverBvn = 'api/transaction/recover-virtual-account';
 

@@ -38,16 +38,16 @@ class Splash4 extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
                           'Crypto as a \nmeans of \npayment.',
                           style: TextStyle(
-                              fontSize: 45.08,
+                              fontSize: MediaQuery.of(context).size.width * 0.1,
                               fontWeight: FontWeight.w400,
-                              color: Color(0xffFFFFFF)),
+                              color: const Color(0xffFFFFFF)),
                           textAlign: TextAlign.left,
                         ),
                       ],

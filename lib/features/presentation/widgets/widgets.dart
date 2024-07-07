@@ -40,6 +40,8 @@ class EnterText extends StatelessWidget {
           autofocus: false,
           decoration: InputDecoration(
               border: const OutlineInputBorder(),
+              focusedBorder:
+                  OutlineInputBorder(borderSide: BorderSide(color: greenColor)),
               hintText: hint,
               hintStyle: const TextStyle(
                   color: Color(0xFF444444),
@@ -96,6 +98,8 @@ class EnterFormText extends StatelessWidget {
                 color: Color(0xff444444),
                 fontSize: 14,
                 fontWeight: FontWeight.w400),
+            focusedBorder:
+                OutlineInputBorder(borderSide: BorderSide(color: greenColor)),
             errorBorder:
                 OutlineInputBorder(borderSide: BorderSide(color: redColor)),
             focusedErrorBorder:
@@ -147,6 +151,8 @@ class EnterLargeText extends StatelessWidget {
             maxLines: null,
             decoration: InputDecoration(
                 border: const OutlineInputBorder(),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: greenColor)),
                 hintText: hint,
                 hintStyle: const TextStyle(
                     color: Color(0xff444444),

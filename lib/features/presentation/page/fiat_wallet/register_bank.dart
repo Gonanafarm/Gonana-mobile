@@ -331,6 +331,7 @@ class _SendPasscodeState extends State<SendPasscode> {
       Get.put(TransactionController());
 
   final TextEditingController _passCodeController = TextEditingController();
+  final bankController = Get.find<BankController>();
 
   dynamic argument = Get.arguments;
 
@@ -495,7 +496,9 @@ class _SendPasscodeState extends State<SendPasscode> {
                               double.parse(amount),
                               accountNumber,
                               bankName,
-                              narration);
+                              narration,
+                              bankController
+                                  .resolveBankModel!.data!.data!.accountName!);
                       if (transactionSucces == true) {
                         setState(() {
                           isLoading = false;

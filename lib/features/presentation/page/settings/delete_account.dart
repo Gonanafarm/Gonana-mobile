@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:gonana/consts.dart';
 import 'package:gonana/features/presentation/page/savings/passcode.dart';
 import 'package:gonana/features/presentation/page/settings/delete_passcode.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
@@ -49,6 +50,12 @@ class _DeleteAccountState extends State<DeleteAccount> {
                             style: TextStyle(
                                 fontSize: 24, fontWeight: FontWeight.w600)),
                         SizedBox(height: 10),
+                        const Text(
+                            'Note: If you delete you can never recover your virtual account, hence, withdraw all your money',
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: redColor)),
                         ListTile(
                           contentPadding:
                               EdgeInsets.symmetric(horizontal: -4.0),

@@ -4,80 +4,94 @@
 
 import 'dart:convert';
 
-ResolveBankModel resolveBankModelFromJson(String str) =>
-    ResolveBankModel.fromJson(json.decode(str));
+ResolveBankModel resolveBankModelFromJson(String str) => ResolveBankModel.fromJson(json.decode(str));
 
-String resolveBankModelToJson(ResolveBankModel data) =>
-    json.encode(data.toJson());
+String resolveBankModelToJson(ResolveBankModel data) => json.encode(data.toJson());
 
 class ResolveBankModel {
+  bool? success;
   ResolveBankModelData? data;
   String? bankCode;
 
   ResolveBankModel({
+    this.success,
     this.data,
     this.bankCode,
   });
 
-  factory ResolveBankModel.fromJson(Map<String, dynamic> json) =>
-      ResolveBankModel(
-        data: json["data"] == null
-            ? null
-            : ResolveBankModelData.fromJson(json["data"]),
-        bankCode: json["bankCode"],
-      );
+  factory ResolveBankModel.fromJson(Map<String, dynamic> json) => ResolveBankModel(
+    success: json["success"],
+    data: json["data"] == null ? null : ResolveBankModelData.fromJson(json["data"]),
+    bankCode: json["bankCode"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "data": data?.toJson(),
-        "bankCode": bankCode,
-      };
+    "success": success,
+    "data": data?.toJson(),
+    "bankCode": bankCode,
+  };
 }
 
 class ResolveBankModelData {
-  String? responseCode;
-  String? responseMessage;
+  bool? result;
   DataData? data;
 
   ResolveBankModelData({
-    this.responseCode,
-    this.responseMessage,
+    this.result,
     this.data,
   });
 
-  factory ResolveBankModelData.fromJson(Map<String, dynamic> json) =>
-      ResolveBankModelData(
-        responseCode: json["responseCode"],
-        responseMessage: json["responseMessage"],
-        data: json["data"] == null ? null : DataData.fromJson(json["data"]),
-      );
+  factory ResolveBankModelData.fromJson(Map<String, dynamic> json) => ResolveBankModelData(
+    result: json["result"],
+    data: json["data"] == null ? null : DataData.fromJson(json["data"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "responseCode": responseCode,
-        "responseMessage": responseMessage,
-        "data": data?.toJson(),
-      };
+    "result": result,
+    "data": data?.toJson(),
+  };
 }
 
 class DataData {
+  String? sessionId;
+  String? destinationInstitutionCode;
+  String? channelCode;
   String? accountNumber;
   String? accountName;
-  String? sessionId;
+  String? bankVerificationNumber;
+  String? kycLevel;
+  String? responseCode;
 
   DataData({
+    this.sessionId,
+    this.destinationInstitutionCode,
+    this.channelCode,
     this.accountNumber,
     this.accountName,
-    this.sessionId,
+    this.bankVerificationNumber,
+    this.kycLevel,
+    this.responseCode,
   });
 
   factory DataData.fromJson(Map<String, dynamic> json) => DataData(
-        accountNumber: json["accountNumber"],
-        accountName: json["accountName"],
-        sessionId: json["sessionId"],
-      );
+    sessionId: json["sessionID"],
+    destinationInstitutionCode: json["destinationInstitutionCode"],
+    channelCode: json["channelCode"],
+    accountNumber: json["accountNumber"],
+    accountName: json["accountName"],
+    bankVerificationNumber: json["bankVerificationNumber"],
+    kycLevel: json["kycLevel"],
+    responseCode: json["responseCode"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "accountNumber": accountNumber,
-        "accountName": accountName,
-        "sessionId": sessionId,
-      };
+    "sessionID": sessionId,
+    "destinationInstitutionCode": destinationInstitutionCode,
+    "channelCode": channelCode,
+    "accountNumber": accountNumber,
+    "accountName": accountName,
+    "bankVerificationNumber": bankVerificationNumber,
+    "kycLevel": kycLevel,
+    "responseCode": responseCode,
+  };
 }

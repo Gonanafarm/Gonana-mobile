@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:gonana/consts.dart';
 import 'package:gonana/features/presentation/page/home.dart';
 import 'package:gonana/features/presentation/page/verification/verification_bvn.dart';
 import 'package:gonana/features/presentation/page/verification/verification_drivers_license.dart';
 import 'package:gonana/features/presentation/page/verification/verification_international_passport.dart';
+import 'package:gonana/features/presentation/page/verification/verification_kyc.dart';
 import 'package:gonana/features/presentation/page/verification/verification_nin.dart';
 import 'package:gonana/features/presentation/page/verification/verification_voters_card.dart';
 
@@ -34,7 +36,7 @@ class UserVerificationPage extends StatelessWidget {
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
               const Padding(
-                padding: EdgeInsets.only(bottom: 38.0),
+                padding: EdgeInsets.only(bottom: 10.0),
                 child: SizedBox(
                   width: double.infinity,
                   child: Column(
@@ -53,6 +55,14 @@ class UserVerificationPage extends StatelessWidget {
                             fontSize: 14, fontWeight: FontWeight.w400),
                         textAlign: TextAlign.left,
                       ),
+                      // Text(
+                      //   'Ensure you verify your KYC before your BVN',
+                      //   style: TextStyle(
+                      //       fontSize: 14,
+                      //       fontWeight: FontWeight.w400,
+                      //       color: redColor),
+                      //   textAlign: TextAlign.left,
+                      // ),
                     ],
                   ),
                 ),
@@ -214,7 +224,7 @@ class UserVerificationPage extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              VerificationBvn()));
+                                              KYCVerification()));
                                 },
                                 child: Container(
                                     width: 342,
@@ -227,7 +237,7 @@ class UserVerificationPage extends StatelessWidget {
                                           Padding(
                                             padding:
                                                 EdgeInsets.only(left: 15.0),
-                                            child: Text('BVN',
+                                            child: Text('KYC',
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w600,
@@ -240,7 +250,42 @@ class UserVerificationPage extends StatelessWidget {
                                                 Icon(Icons.arrow_forward_ios),
                                           )
                                         ])),
-                              ))
+                              )),
+                          // Padding(
+                          //     padding: const EdgeInsets.all(8),
+                          //     child: GestureDetector(
+                          //       onTap: () {
+                          //         Navigator.push(
+                          //             context,
+                          //             MaterialPageRoute(
+                          //                 builder: (context) =>
+                          //                     VerificationBvn()));
+                          //       },
+                          //       child: Container(
+                          //           width: 342,
+                          //           height: 56,
+                          //           color: Colors.white,
+                          //           child: const Row(
+                          //               mainAxisAlignment:
+                          //                   MainAxisAlignment.spaceBetween,
+                          //               children: [
+                          //                 Padding(
+                          //                   padding:
+                          //                       EdgeInsets.only(left: 15.0),
+                          //                   child: Text('BVN',
+                          //                       style: TextStyle(
+                          //                           fontSize: 14,
+                          //                           fontWeight: FontWeight.w600,
+                          //                           color: Colors.black)),
+                          //                 ),
+                          //                 Padding(
+                          //                   padding:
+                          //                       EdgeInsets.only(right: 15.0),
+                          //                   child:
+                          //                       Icon(Icons.arrow_forward_ios),
+                          //                 )
+                          //               ])),
+                          //     ))
                         ])),
               ),
             ]),
