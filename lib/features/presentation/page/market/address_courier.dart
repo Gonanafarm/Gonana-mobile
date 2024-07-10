@@ -83,8 +83,9 @@ class _AddressCourierState extends State<AddressCourier> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: EnterText(
-                      label: 'Address',
-                      hint: 'Enter delivery address',
+                      label: 'Delivery Address',
+                      hint:
+                          'eg: no 4 penguin close zoo estate, enugu , nigeria',
                       controller: _address),
                 ),
                 ShortGradientButton(

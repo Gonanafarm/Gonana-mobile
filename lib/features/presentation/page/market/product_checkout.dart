@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -281,7 +282,11 @@ class _ProductCheckoutState extends State<ProductCheckout> {
                                         Flexible(
                                             child: Padding(
                                           padding: EdgeInsets.all(8.0),
-                                          child: Text('Pay'),
+                                          child: Text(
+                                            'Pay',
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
                                         )),
                                         const SizedBox(width: 10.0),
                                         // const Icon(Icons.content_copy_outlined),

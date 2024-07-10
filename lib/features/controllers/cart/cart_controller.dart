@@ -261,6 +261,28 @@ class CartController extends GetxController {
     }
   }
 
+  Future<bool> buyValidateProduct(String address, var context) async {
+    try {
+      var data = {'address': address};
+      var res =
+          await NetworkApi().authPostData(data, ApiRoute.validateUserAddress);
+      final result = jsonDecode(res.body);
+      if (res.statusCode == 201) {
+        log('statcode: ${res.statusCode}');
+        log('rezz: $result');
+        return true;
+      } else {
+        log('rezzzz: $result');
+        ErrorSnackbar.show(context, result['message']);
+        return false;
+      }
+    } catch (e, s) {
+      log("vaalidate Error=> $e");
+      log("vaalidate Stack=> $s");
+      return false;
+    }
+  }
+
   Future<bool> validateAddress(String address, var context) async {
     try {
       var data = {'address': address};

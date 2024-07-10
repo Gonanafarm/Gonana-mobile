@@ -202,34 +202,34 @@ class _AddProduct2State extends State<AddProduct2> {
                                       controller: _address,
                                       label: 'Product Address',
                                       hint: 'Enter address for pick up')),
-                              // const SizedBox(height: 10),
-                              // !selfShipping
-                              //     ? Row(
-                              //         mainAxisAlignment:
-                              //             MainAxisAlignment.start,
-                              //         children: [
-                              //           ShortGradientButton(
-                              //               title: 'Validate',
-                              //               onPressed: () async {
-                              //                 var isSuccess =
-                              //                     await cartController
-                              //                         .validateAddress(
-                              //                             address, context);
-                              //                 if (isSuccess == true) {
-                              //                   log('isSUccess: $isSuccess');
-                              //                   SuccessSnackbar.show(context,
-                              //                       'Address succesfully validated');
-                              //                   setState(() {
-                              //                     isValidated = true;
-                              //                   });
-                              //                 } else {
-                              //                   ErrorSnackbar.show(context,
-                              //                       'Address not validated');
-                              //                 }
-                              //               }),
-                              //         ],
-                              //       )
-                              //     : Container(height: 1),
+                              const SizedBox(height: 10),
+                              !selfShipping
+                                  ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        ShortGradientButton(
+                                            title: 'Validate',
+                                            onPressed: () async {
+                                              var isSuccess =
+                                                  await cartController
+                                                      .buyValidateProduct(
+                                                          address, context);
+                                              if (isSuccess == true) {
+                                                log('isSUccess: $isSuccess');
+                                                SuccessSnackbar.show(context,
+                                                    'Address succesfully validated');
+                                                setState(() {
+                                                  isValidated = true;
+                                                });
+                                              } else {
+                                                ErrorSnackbar.show(context,
+                                                    'Address not validated');
+                                              }
+                                            }),
+                                      ],
+                                    )
+                                  : Container(height: 1),
                             ],
                           ),
                         ),

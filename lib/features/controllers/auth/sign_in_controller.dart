@@ -21,7 +21,7 @@ class SignInController extends GetxController {
   String userEmail = '';
   UserController userController = Get.put(UserController());
   UserModel userModel = UserModel();
-
+  var isSignedIn = false.obs;
   Future<bool> signIn(String email, String password, var context
       //String accountType,
       ) async {
@@ -45,6 +45,8 @@ class SignInController extends GetxController {
         print("Email: $userEmail");
         await userController.fetchUserByEmail();
         print("model email: ${userController.userModel.value.email}");
+        isSignedIn = true.obs;
+        print(isSignedIn.value);
         // SuccessSnackbar.show(context, result['message']);
         // startLogoutTimer(context);
         await Get.offAll(() => HomePage(navIndex: 0));

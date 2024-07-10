@@ -81,6 +81,8 @@ class ApiRoute {
 
   //Validate Address
   static const validateAddress = 'api/logistics/validate-user-address';
+  static const validateUserAddress =
+      'api/catalog/cart/validate-user-address-by-cart';
   static const updateAddress = 'api/logistics/update-user-address';
 
   //Fetch Courier

@@ -434,14 +434,14 @@ class _AddProductState extends State<AddProduct> {
           return BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
             child: Container(
-              height: 150,
+              // height: 150,
               child: AlertDialog(
                 title: const Center(
                     child: Icon(size: 60, Icons.check_circle_outline)),
                 content: Padding(
                     padding: const EdgeInsets.all(8),
                     child: Container(
-                      height: 200,
+                      // height: 200,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [

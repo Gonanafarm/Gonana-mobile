@@ -299,7 +299,7 @@ class ShortGradientButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 60,
-      width: 125,
+      width: 140,
       decoration: BoxDecoration(
           gradient: const LinearGradient(
               colors: [Color(0xff29844B), Color(0xff072C27)]),
@@ -525,7 +525,7 @@ class DialogWhiteButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 60,
-      width: 200,
+      // width: 200,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           color: Colors.white,

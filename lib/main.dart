@@ -100,15 +100,28 @@ class _MyAppState extends State<MyApp> {
   var token;
   SharedPreferences? prefs;
 
+  int minutes = 5;
+
   // final _navKey = GlobalKey<NavigatorSate>();
   @override
   Widget build(BuildContext context) {
     token = prefs?.getString('token') ?? null;
     return SessionTimeoutListener(
-      duration: const Duration(minutes: 5),
+      duration: Duration(minutes: minutes),
       onTimeout: () {
+        print(signInController.isSignedIn.value);
         print("Time out");
         signInController.logout(context);
+        // if (signInController.isSignedIn.value) {
+        //   print(signInController.isSignedIn.value);
+        //   print("Time out");
+        //   signInController.logout(context);
+        // } else {
+        //   print("Time out ??");
+        //   setState(() {
+        //     minutes = 5;
+        //   });
+        // }
         // Get.to(() => const Login());
       },
       // child: Directionality(
