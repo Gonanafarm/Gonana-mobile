@@ -801,7 +801,7 @@ class _FeedsPageState extends State<FeedsPage> {
                                                       .userModel
                                                       .value
                                                       .virtualAccountNumber!
-                                                      .isNotEmpty)) &&
+                                                      .isNotEmpty)) ||
                                           (userController.userModel != null &&
                                               userController.userModel.value
                                                       .country !=

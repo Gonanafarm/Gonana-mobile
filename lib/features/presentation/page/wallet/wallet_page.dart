@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:gonana/consts.dart';
 import 'package:gonana/features/presentation/page/wallet/wallet_deposit.dart';
 import 'package:gonana/features/presentation/page/wallet/wallet_withdrawal.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../controllers/fiat_wallet/transaction_controller.dart';
@@ -35,8 +36,37 @@ class _WalletPageState extends State<WalletPage> {
     BVNisSubmited = prefs.getBool('bvnSubmission');
   }
 
+  int totalAmountNgn = 0;
   getBalance() async {
     await transactionController.fetchBalance();
+    // Get the raw string values
+    String? cryptoBalanceStr =
+        transactionController.cryptoBalanceModel.cryptoWalletBalanceInNgn;
+    String? nairaBalanceStr = transactionController.balanceModel.value.balance;
+
+// Print raw values for debugging
+    print('Crypto Balance String: $cryptoBalanceStr');
+    print('Naira Balance String: $nairaBalanceStr');
+
+// Trim and attempt to parse the first string to an integer, defaulting to 0 if parsing fails
+    double cryptoAmount =
+        double.tryParse(cryptoBalanceStr?.trim() ?? '0.0') ?? 0.0;
+
+// Trim and attempt to parse the second string to an integer, defaulting to 0 if parsing fails
+    double nairaAmount =
+        double.tryParse(nairaBalanceStr?.trim() ?? '0.0') ?? 0.0;
+
+// Add the parsed integer values together
+    int calculatedAmount = (cryptoAmount + nairaAmount).toInt();
+
+    setState(() {
+      totalAmountNgn = calculatedAmount;
+    });
+
+// Print the total amount in Naira
+    print('Total Amount in NGN: $totalAmountNgn');
+
+    print("This: $totalAmountNgn");
     await transactionController.fetchCryptoBalance();
     await transactionController.fetchTransactions();
   }
@@ -52,21 +82,34 @@ class _WalletPageState extends State<WalletPage> {
   List text = ["ETH", "Gonana wallet"];
   List<Widget> nextPage = [const SendChart(), const FiatWalletHome()];
 
-  // double roundToDecimalPlaces(double value, int decimalPlaces) {
-  //   double multiplier = pow(10, decimalPlaces).toDouble();
-  //   return (value * multiplier).round() / multiplier;
-  // }
+  double roundToDecimalPlaces(double value, int decimalPlaces) {
+    double multiplier = pow(10, decimalPlaces).toDouble();
+    return (value * multiplier).round() / multiplier;
+  }
+
+  static String formatAmount(dynamic amount) {
+    final value = NumberFormat('#,##0.00', 'en_US');
+    if (amount is! num) {
+      final format = double.tryParse(amount);
+      if (format == null) return '0.00';
+      return value.format(format);
+    }
+    // final format = amount as double?;
+    // if (format == null) return '0.00';
+    return value.format(amount);
+  }
 
   @override
   Widget build(BuildContext context) {
     List amountInNaira = [
-      "NGN ${transactionController.cryptoBalanceModel.cryptoWalletBalanceInNgn ?? 0}",
-      "NGN ${transactionController.balanceModel.value.balance ?? 0}"
+      "NGN ${formatAmount(transactionController.cryptoBalanceModel.cryptoWalletBalanceInNgn) ?? 0}",
+      "NGN ${formatAmount(transactionController.balanceModel.value.balance) ?? 0}"
     ];
     List amountInEth = [
-      "ETH ${transactionController.cryptoBalanceModel.cryptoWalletBalanceInEth ?? 0}",
+      "ETH ${roundToDecimalPlaces(double.tryParse(transactionController.cryptoBalanceModel.cryptoWalletBalanceInEth ?? '0.0') ?? 0.0, 4)}",
       ""
     ];
+
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: const Color(0xffF1F1F1),
@@ -88,7 +131,7 @@ class _WalletPageState extends State<WalletPage> {
                     Padding(
                       padding:
                           EdgeInsets.only(top: size.height * 0.06, bottom: 10),
-                      child: const Text('Fiat balance',
+                      child: const Text('Total balance',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 14,
@@ -96,8 +139,7 @@ class _WalletPageState extends State<WalletPage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: Text(
-                          'NGN ${transactionController.balanceModel.value.balance ?? 0}',
+                      child: Text('NGN ${formatAmount(totalAmountNgn)}',
                           style: const TextStyle(
                               color: Colors.white,
                               fontSize: 24,

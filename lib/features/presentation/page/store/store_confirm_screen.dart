@@ -90,7 +90,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                               cartController
                                           .cartModel!.value.products!.length !=
                                       null
-                                  ? "${cartController.cartItems}"
+                                  ? "${cartController.cartModel!.value.products!.length}"
                                   : "",
                               style: const TextStyle(
                                 color: primaryColor,
@@ -388,7 +388,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                             setState(() {
                               isLoading = false;
                             });
-                            successDialog(context);
+                            await successDialog(context);
                             await productController.fetchProduct();
                             await productController.fetchUserProduct();
                           } else {
@@ -461,8 +461,8 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                   child: DialogGradientButton(
                     title: 'Proceed',
                     onPressed: () {
-                      Get.offAll(() => const SettingsProfile());
                       Navigator.pop(context);
+                      Get.offAll(() => const SettingsProfile());
                     },
                   ),
                 ),

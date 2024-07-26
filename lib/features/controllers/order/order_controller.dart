@@ -51,30 +51,34 @@ class OrderController extends GetxController {
     }
   }
 
-  Future<bool> confirmOrderSent(String? productId, context) async {
+  Future<Map<String, dynamic>> confirmOrderSent(
+      String? productId, context) async {
+    var response;
     try {
       var data = {
         'orderId': productId,
       };
       var responseBody =
           await NetworkApi().authPostData(data, ApiRoute.confirmSentOrder);
-      var response = jsonDecode(responseBody.body);
+      response = jsonDecode(responseBody.body);
       // log("added cart items || $responseBody");
       log("order || $response");
       if (responseBody.statusCode == 201) {
         SuccessSnackbar.show(context, "Order confirmation received");
-        return true;
+        return response;
       } else {
         ErrorSnackbar.show(context, response["message"]);
-        return false;
+        return response;
       }
     } catch (e) {
       print(e);
-      return false;
+      return response;
     }
   }
 
-  Future<bool> confirmOrderReceived(String? productId, context) async {
+  Future<Map<String, dynamic>> confirmOrderReceived(
+      String? productId, context) async {
+    var response;
     try {
       var data = {
         'orderId': productId,
@@ -82,42 +86,43 @@ class OrderController extends GetxController {
       print("data: $data");
       var responseBody =
           await NetworkApi().authPostData(data, ApiRoute.confirmReceivedOrder);
-      var response = jsonDecode(responseBody.body);
+      response = jsonDecode(responseBody.body);
       // log("added cart items || $responseBody");
       log("order || $response");
       if (responseBody.statusCode == 201) {
         SuccessSnackbar.show(context, "Order confirmation received");
-        return true;
+        return response;
       } else {
         ErrorSnackbar.show(context, response["message"]);
-        return false;
+        return response;
       }
     } catch (e) {
       print(e);
-      return false;
+      return response;
     }
   }
 
-  Future<bool> complain(String? productId, context) async {
+  Future<Map<String, dynamic>> complain(String? productId, context) async {
+    var response;
     try {
       var data = {
         'orderId': productId,
       };
       var responseBody =
           await NetworkApi().authPostData(data, ApiRoute.confirmReceivedOrder);
-      var response = jsonDecode(responseBody.body);
+      response = jsonDecode(responseBody.body);
       // log("added cart items || $responseBody");
       log("order || $response");
       if (responseBody.statusCode == 201) {
         SuccessSnackbar.show(context, "Order complain received");
-        return true;
+        return response;
       } else {
         ErrorSnackbar.show(context, response["message"]);
-        return false;
+        return response;
       }
     } catch (e) {
       print(e);
-      return false;
+      return response;
     }
   }
 //

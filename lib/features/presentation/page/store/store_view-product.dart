@@ -685,8 +685,8 @@ Future<dynamic> deleteDialog(BuildContext context) {
                       await marketController.fetchUserProduct();
                       await marketController.fetchProduct();
                       await marketController.fetchDiscountedProducts();
-                      Get.to(() => const SettingsProfile());
                       Navigator.pop(context);
+                      Get.to(() => const SettingsProfile());
                     }
                   },
                 ),

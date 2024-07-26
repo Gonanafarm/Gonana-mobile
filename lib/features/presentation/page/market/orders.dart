@@ -340,6 +340,7 @@ class _OrdersState extends State<Orders> {
                                                                             builder:
                                                                                 (BuildContext context) {
                                                                               bool isLoadingComplain = false;
+                                                                              var response = "";
                                                                               return BackdropFilter(
                                                                                 filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20), // Adjust the blur intensity as needed
                                                                                 child: Container(
@@ -357,12 +358,12 @@ class _OrdersState extends State<Orders> {
                                                                                         padding: EdgeInsets.only(left: 0.0),
                                                                                         child: Container(
                                                                                           height: 80,
-                                                                                          child: const Column(
+                                                                                          child: Column(
                                                                                             // crossAxisAlignment: CrossAxisAlignment.center,
                                                                                             children: [
                                                                                               Center(
                                                                                                 child: Text(
-                                                                                                  'Note: You are prompting for this because you haven\'t received this item in 5 days?',
+                                                                                                  response != "" ? response : 'Note: You are prompting for this because you haven\'t received this item in 5 days?',
                                                                                                   textAlign: TextAlign.center,
                                                                                                 ),
                                                                                               ),
@@ -379,17 +380,19 @@ class _OrdersState extends State<Orders> {
                                                                                                   setState(() {
                                                                                                     isLoadingComplain = true;
                                                                                                   });
-                                                                                                  bool success = await orderController.complain(orderController.getOrderModel.value.data![index].id, context);
-                                                                                                  if (success) {
+                                                                                                  var success = await orderController.complain(orderController.getOrderModel.value.data![index].id, context);
+                                                                                                  if (success["statusCode"] == 201) {
                                                                                                     setState(() {
+                                                                                                      response = success["message"];
                                                                                                       isLoadingComplain = false;
                                                                                                     });
-                                                                                                    Navigator.pop(context);
+                                                                                                    // Navigator.pop(context);
                                                                                                   } else {
                                                                                                     setState(() {
+                                                                                                      response = success["message"];
                                                                                                       isLoadingComplain = false;
                                                                                                     });
-                                                                                                    Navigator.pop(context);
+                                                                                                    // Navigator.pop(context);
                                                                                                   }
                                                                                                 },
                                                                                                 isLoading: isLoadingComplain)),
@@ -432,6 +435,7 @@ class _OrdersState extends State<Orders> {
                                                                             builder:
                                                                                 (BuildContext context) {
                                                                               bool isLoadingReceived = false;
+                                                                              var response = "";
                                                                               return BackdropFilter(
                                                                                 filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20), // Adjust the blur intensity as needed
                                                                                 child: Container(
@@ -449,12 +453,12 @@ class _OrdersState extends State<Orders> {
                                                                                         padding: EdgeInsets.only(left: 0.0),
                                                                                         child: Container(
                                                                                           height: 80,
-                                                                                          child: const Column(
+                                                                                          child: Column(
                                                                                             // crossAxisAlignment: CrossAxisAlignment.center,
                                                                                             children: [
                                                                                               Center(
                                                                                                 child: Text(
-                                                                                                  'Note: You are prompting this to confirm that you have received this item',
+                                                                                                  response != "" ? response : 'Note: You are prompting this to confirm that you have received this item',
                                                                                                   textAlign: TextAlign.center,
                                                                                                 ),
                                                                                               ),
@@ -470,17 +474,19 @@ class _OrdersState extends State<Orders> {
                                                                                             setState(() {
                                                                                               isLoadingReceived = true;
                                                                                             });
-                                                                                            bool success = await orderController.confirmOrderReceived(orderController.getOrderModel.value.data![index].id, context);
-                                                                                            if (success) {
+                                                                                            var success = await orderController.confirmOrderReceived(orderController.getOrderModel.value.data![index].id, context);
+                                                                                            if (success["statusCode"] == 201) {
                                                                                               setState(() {
+                                                                                                response = success["message"];
                                                                                                 isLoadingReceived = false;
                                                                                               });
-                                                                                              Navigator.pop(context);
+                                                                                              // Navigator.pop(context);
                                                                                             } else {
                                                                                               setState(() {
+                                                                                                response = success["message"];
                                                                                                 isLoadingReceived = false;
                                                                                               });
-                                                                                              Navigator.pop(context);
+                                                                                              // Navigator.pop(context);
                                                                                             }
                                                                                           },
                                                                                           isLoading: isLoadingReceived,
@@ -743,6 +749,7 @@ class _OrdersState extends State<Orders> {
                                                                             builder:
                                                                                 (BuildContext context) {
                                                                               bool isLoadingSent = false;
+                                                                              var response = "";
                                                                               return BackdropFilter(
                                                                                 filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20), // Adjust the blur intensity as needed
                                                                                 child: Container(
@@ -760,12 +767,12 @@ class _OrdersState extends State<Orders> {
                                                                                         padding: EdgeInsets.only(left: 0.0),
                                                                                         child: Container(
                                                                                           height: 80,
-                                                                                          child: const Column(
+                                                                                          child: Column(
                                                                                             // crossAxisAlignment: CrossAxisAlignment.center,
                                                                                             children: [
                                                                                               Center(
                                                                                                 child: Text(
-                                                                                                  'Note: You are prompting this to confirm that you have sent this item',
+                                                                                                  response != "" ? response : 'Note: You are prompting this to confirm that you have sent this item',
                                                                                                   textAlign: TextAlign.center,
                                                                                                 ),
                                                                                               ),
@@ -781,17 +788,19 @@ class _OrdersState extends State<Orders> {
                                                                                             setState(() {
                                                                                               isLoadingSent = true;
                                                                                             });
-                                                                                            bool success = await orderController.confirmOrderSent(orderController.getOutGoingOrderModel.value.data![index].id, context);
-                                                                                            if (success) {
+                                                                                            var success = await orderController.confirmOrderSent(orderController.getOutGoingOrderModel.value.data![index].id, context);
+                                                                                            if (success["statusCode"] == 201) {
                                                                                               setState(() {
+                                                                                                response = success["message"];
                                                                                                 isLoadingSent = false;
                                                                                               });
-                                                                                              Navigator.pop(context);
+                                                                                              // Navigator.pop(context);
                                                                                             } else {
                                                                                               setState(() {
+                                                                                                response = success["message"];
                                                                                                 isLoadingSent = false;
                                                                                               });
-                                                                                              Navigator.pop(context);
+                                                                                              // Navigator.pop(context);
                                                                                             }
                                                                                           },
                                                                                           isLoading: isLoadingSent,

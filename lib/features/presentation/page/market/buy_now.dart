@@ -25,6 +25,7 @@ class BuyNowPage extends StatefulWidget {
 class _BuyNowPageState extends State<BuyNowPage> {
   CartController cartController = Get.put(CartController());
   final marketController = Get.put(ProductController());
+
   @override
   Widget build(BuildContext context) {
     var productModelPost = widget.productModel;
