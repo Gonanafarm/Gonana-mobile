@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,6 +11,7 @@ import 'package:gonana/features/presentation/page/auth/emailverification.dart';
 import 'package:gonana/features/presentation/page/crypto_pay/crypto_pay.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 import '../../../consts.dart';
 import '../../controllers/fiat_wallet/transaction_controller.dart';
@@ -254,6 +257,11 @@ tokenBottomSheet2(BuildContext context) {
 }
 
 checkout(BuildContext context, var courier) {
+  double roundToDecimalPlaces(double value, int decimalPlaces) {
+    double multiplier = pow(10, decimalPlaces).toDouble();
+    return (value * multiplier).round() / multiplier;
+  }
+
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -377,7 +385,7 @@ checkout(BuildContext context, var courier) {
                                     // ),
                                     // sizeHor(10),
                                     Text(
-                                      "Crypto balance: ${userController.userModel.value.walletBalance ?? 0}",
+                                      "Crypto balance: ${roundToDecimalPlaces(double.tryParse(transactionController.cryptoBalanceModel.cryptoWalletBalanceInEth ?? '0.0') ?? 0.0, 4)}",
                                       style: GoogleFonts.montserrat(
                                         fontSize: 10,
                                         color: darkColor,
@@ -496,7 +504,7 @@ cryptoPayBottomSheet(BuildContext context) {
   TransactionController transactionController =
       Get.put(TransactionController());
   List<String> tokenNames = [
-    'ETH ',
+    'CCD ',
     // 'BTC 0',
     // 'Gona',
     // 'CCDT 0',
@@ -505,7 +513,7 @@ cryptoPayBottomSheet(BuildContext context) {
     // 'MATIC 0'
   ];
   List<String> tokenLogo = [
-    'eth',
+    'ccd',
     // 'btc_logo',
     // 'gona_logo',
     // 'ccd_logo',
@@ -525,7 +533,7 @@ cryptoPayBottomSheet(BuildContext context) {
     print('Invalid numeric value');
   }
   List<String> tokenValue = [
-    'ETH ${tokenValueInDec ?? 0}',
+    'CCD ${tokenValueInDec ?? 0}',
     // '0', '500,000', '', '0', '0', '0'
   ];
   showModalBottomSheet(

@@ -78,8 +78,8 @@ class _WalletPageState extends State<WalletPage> {
     getBVNStatus();
   }
 
-  List icons = ["eth", "gona_logo"];
-  List text = ["ETH", "Gonana wallet"];
+  List icons = ["ccd", "gona_logo"];
+  List text = ["CCD", "Gonana wallet"];
   List<Widget> nextPage = [const SendChart(), const FiatWalletHome()];
 
   double roundToDecimalPlaces(double value, int decimalPlaces) {
@@ -106,7 +106,7 @@ class _WalletPageState extends State<WalletPage> {
       "NGN ${formatAmount(transactionController.balanceModel.value.balance) ?? 0}"
     ];
     List amountInEth = [
-      "ETH ${roundToDecimalPlaces(double.tryParse(transactionController.cryptoBalanceModel.cryptoWalletBalanceInEth ?? '0.0') ?? 0.0, 4)}",
+      "CCD ${roundToDecimalPlaces(double.tryParse(transactionController.cryptoBalanceModel.cryptoWalletBalanceInEth ?? '0.0') ?? 0.0, 4)}",
       ""
     ];
 

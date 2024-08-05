@@ -464,16 +464,17 @@ class _SendPasscodeState extends State<PayWithWalletPasscode> {
                                     Padding(
                                       padding:
                                           const EdgeInsets.only(right: 30.0),
-                                      child: Center(
-                                        child: DialogGradientButton(
-                                          title: 'Finish',
-                                          onPressed: () async {
-                                            print("here");
+                                      child: DialogGradientButton(
+                                        title: 'Proceed',
+                                        onPressed: () async {
+                                          Navigator.pop(context);
+                                          Future.delayed(
+                                              const Duration(milliseconds: 500),
+                                              () {
                                             Get.offAll(
                                                 () => HomePage(navIndex: 0));
-                                            Navigator.pop(context);
-                                          },
-                                        ),
+                                          });
+                                        },
                                       ),
                                     ),
                                   ],

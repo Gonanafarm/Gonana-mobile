@@ -57,7 +57,7 @@ class Splash4 extends StatelessWidget {
                       child: Center(
                           child: ElevatedButton(
                         onPressed: () {
-                          Get.to(() => const Login());
+                          Get.offAll(() => const Login());
                         },
                         style: ElevatedButton.styleFrom(
                             side: const BorderSide(

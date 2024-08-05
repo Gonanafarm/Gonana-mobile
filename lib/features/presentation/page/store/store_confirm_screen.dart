@@ -7,7 +7,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:gonana/features/controllers/cart/cart_controller.dart';
 import 'package:gonana/features/controllers/market/market_controllers.dart';
+import 'package:gonana/features/presentation/page/home.dart';
 import 'package:gonana/features/presentation/page/settings/settiings_profile.dart';
+import 'package:gonana/features/presentation/page/settings/settings.dart';
 import 'package:gonana/features/presentation/page/store/store_logistics.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
 
@@ -388,7 +390,88 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                             setState(() {
                               isLoading = false;
                             });
-                            await successDialog(context);
+                            await showDialog(
+                              context: context,
+                              barrierDismissible:
+                                  false, // Set to true if you want to allow dismissing the dialog by tapping outside it
+                              builder: (BuildContext context) {
+                                return BackdropFilter(
+                                  filter: ImageFilter.blur(
+                                      sigmaX: 20,
+                                      sigmaY:
+                                          20), // Adjust the blur intensity as needed
+                                  child: Container(
+                                    height: 100,
+                                    child: AlertDialog(
+                                      title: const Center(
+                                        child: Icon(
+                                          size: 60,
+                                          Icons.check_circle_outlined,
+                                        ),
+                                      ),
+                                      content: Padding(
+                                        padding: const EdgeInsets.all(8),
+                                        child: Container(
+                                          height: 105,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              const Text(
+                                                  'Product post successful'),
+                                              Container(height: 10),
+                                              const Flexible(
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: SizedBox(
+                                                    // width: 185,
+                                                    // height: 82,
+                                                    child: Text(
+                                                      'Note:\nFor Every succesful transaction there would be 5% charge',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                        color:
+                                                            Color(0xFF444444),
+                                                        fontSize: 14,
+                                                        fontFamily:
+                                                            'Proxima Nova',
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      actions: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: 30.0),
+                                          child: DialogGradientButton(
+                                            title: 'Proceed',
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                              Future.delayed(
+                                                  const Duration(
+                                                      milliseconds: 500), () {
+                                                Get.offAll(() =>
+                                                    HomePage(navIndex: 3));
+                                              });
+
+                                              // Navigator.pop(context);
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
                             await productController.fetchProduct();
                             await productController.fetchUserProduct();
                           } else {
@@ -404,76 +487,80 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
       ),
     );
   }
-
-  Future<dynamic> successDialog(BuildContext context) {
-    return showDialog(
-      context: context,
-      barrierDismissible:
-          false, // Set to true if you want to allow dismissing the dialog by tapping outside it
-      builder: (BuildContext context) {
-        return BackdropFilter(
-          filter: ImageFilter.blur(
-              sigmaX: 20, sigmaY: 20), // Adjust the blur intensity as needed
-          child: Container(
-            height: 100,
-            child: AlertDialog(
-              title: const Center(
-                child: Icon(
-                  size: 60,
-                  Icons.check_circle_outlined,
-                ),
-              ),
-              content: Padding(
-                padding: const EdgeInsets.all(8),
-                child: Container(
-                  height: 105,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text('Product post succesful'),
-                      Container(height: 10),
-                      const Flexible(
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            // width: 185,
-                            // height: 82,
-                            child: Text(
-                              'Note:\nFor Every succesful transaction there would be 5% charge',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color(0xFF444444),
-                                fontSize: 14,
-                                fontFamily: 'Proxima Nova',
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 30.0),
-                  child: DialogGradientButton(
-                    title: 'Proceed',
-                    onPressed: () {
-                      Navigator.pop(context);
-                      Get.offAll(() => const SettingsProfile());
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
 }
+
+// Future<dynamic> successDialog(BuildContext context) {
+//   return showDialog(
+//     context: context,
+//     barrierDismissible:
+//         false, // Set to true if you want to allow dismissing the dialog by tapping outside it
+//     builder: (BuildContext context) {
+//       return BackdropFilter(
+//         filter: ImageFilter.blur(
+//             sigmaX: 20, sigmaY: 20), // Adjust the blur intensity as needed
+//         child: Container(
+//           height: 100,
+//           child: AlertDialog(
+//             title: const Center(
+//               child: Icon(
+//                 size: 60,
+//                 Icons.check_circle_outlined,
+//               ),
+//             ),
+//             content: Padding(
+//               padding: const EdgeInsets.all(8),
+//               child: Container(
+//                 height: 105,
+//                 child: Column(
+//                   crossAxisAlignment: CrossAxisAlignment.center,
+//                   children: [
+//                     const Text('Product post succesful'),
+//                     Container(height: 10),
+//                     const Flexible(
+//                       child: Padding(
+//                         padding: EdgeInsets.all(8.0),
+//                         child: SizedBox(
+//                           // width: 185,
+//                           // height: 82,
+//                           child: Text(
+//                             'Note:\nFor Every succesful transaction there would be 5% charge',
+//                             textAlign: TextAlign.center,
+//                             style: TextStyle(
+//                               color: Color(0xFF444444),
+//                               fontSize: 14,
+//                               fontFamily: 'Proxima Nova',
+//                               fontWeight: FontWeight.w400,
+//                             ),
+//                           ),
+//                         ),
+//                       ),
+//                     )
+//                   ],
+//                 ),
+//               ),
+//             ),
+//             actions: [
+//               Padding(
+//                 padding: const EdgeInsets.only(right: 30.0),
+//                 child: DialogGradientButton(
+//                   title: 'Proceed',
+//                   onPressed: () {
+//                     Navigator.pop(context);
+//                     Future.delayed(const Duration(seconds: 1), () {
+//                       Get.offAll(() => const SettingsProfile());
+//                     });
+//
+//                     // Navigator.pop(context);
+//                   },
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       );
+//     },
+//   );
+// }
 
 Widget buildItem(cardItem, index) => Padding(
       padding: const EdgeInsets.all(10.0),

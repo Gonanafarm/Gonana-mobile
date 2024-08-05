@@ -24,7 +24,7 @@ class SettingsProfile extends StatefulWidget {
 class _SettingsProfileState extends State<SettingsProfile> {
   UserController userController = Get.put(UserController());
   UserModel userModel = UserModel();
-  late TabController _tabController;
+  // late TabController  _tabController;
 
   @override
   void initState() {
@@ -42,7 +42,7 @@ class _SettingsProfileState extends State<SettingsProfile> {
   @override
   void dispose() {
     super.dispose();
-    _tabController.dispose();
+    // _tabController.dispose();
   }
 
   final picker = ImagePicker();

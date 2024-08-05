@@ -9,9 +9,9 @@ import '../../utilities/api_routes.dart';
 import '../../utilities/network.dart';
 
 class CryptoPayController extends GetxController {
-  RxString tokenName = "ETH".obs;
+  RxString tokenName = "CCD".obs;
   RxList<String> tokenNamesList = <String>[].obs;
-  RxString tokenLogo = "eth".obs;
+  RxString tokenLogo = "ccd".obs;
   RxString tokenValue = "0".obs;
 
   void updateTokens(String newTokenName, String newTokenLogo) {

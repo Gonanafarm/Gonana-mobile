@@ -167,8 +167,12 @@ class _CryptoPasscodeState extends State<CryptoPasscode> {
                                         title: 'Proceed',
                                         onPressed: () async {
                                           Navigator.pop(context);
-                                          Get.offAll(
-                                              () => HomePage(navIndex: 0));
+                                          Future.delayed(
+                                              const Duration(milliseconds: 500),
+                                              () {
+                                            Get.offAll(
+                                                () => HomePage(navIndex: 0));
+                                          });
                                         },
                                       ),
                                     ),

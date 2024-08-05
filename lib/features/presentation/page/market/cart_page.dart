@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -356,6 +357,11 @@ class _CartCardState extends State<CartCard> {
   int _count = 1;
   bool value = false;
 
+  double roundToDecimalPlaces(double value, int decimalPlaces) {
+    double multiplier = pow(10, decimalPlaces).toDouble();
+    return (value * multiplier).round() / multiplier;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -501,7 +507,7 @@ class _CartCardState extends State<CartCard> {
                     cartController.cartModel!.value.products![widget.index]
                                 .usdAmount !=
                             null
-                        ? "\$ ${cartController.cartModel!.value.products![widget.index].usdAmount!}"
+                        ? "\$ ${roundToDecimalPlaces(double.tryParse(cartController.cartModel!.value.products![widget.index].usdAmount ?? '0.0') ?? 0.0, 4)} "
                         : "\$",
                     style: GoogleFonts.montserrat(
                         fontSize: 20,
