@@ -235,7 +235,7 @@ class _LoginState extends State<Login> {
                         Center(
                           child: InkWell(
                             onTap: () {
-                              Get.to(() => const SignUp());
+                              Get.offAll(() => const SignUp());
                             },
                             child: const Text('signup as new user',
                                 style: TextStyle(color: Colors.blue)),

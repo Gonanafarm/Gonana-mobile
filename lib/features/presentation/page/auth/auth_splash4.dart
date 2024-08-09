@@ -88,7 +88,7 @@ class Splash4 extends StatelessWidget {
                         child: LongTransparentButton(
                           title: 'Signup',
                           onPressed: () {
-                            Get.to(() => const SignUp());
+                            Get.offAll(() => const SignUp());
                           },
                         ),
                       ),

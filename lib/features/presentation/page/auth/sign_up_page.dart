@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gonana/consts.dart';
 import 'package:gonana/features/presentation/page/auth/emailverification.dart';
+import 'package:gonana/features/presentation/page/auth/sign_in_page.dart';
 import 'package:gonana/features/presentation/page/market/cart_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../controllers/auth/get_details.dart';
@@ -54,20 +55,20 @@ class _SignUpState extends State<SignUp> {
     SignUpController signUpController = Get.put(SignUpController());
     return Scaffold(
         backgroundColor: const Color(0xffF1F1F1),
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            ),
-            color: const Color(0x0F000000),
-          ),
-        ),
+        // appBar: AppBar(
+        //   backgroundColor: Colors.transparent,
+        //   elevation: 0,
+        //   leading: IconButton(
+        //     onPressed: () {
+        //       Navigator.pop(context);
+        //     },
+        //     icon: const Icon(
+        //       Icons.arrow_back,
+        //       color: Colors.black,
+        //     ),
+        //     color: const Color(0x0F000000),
+        //   ),
+        // ),
         body: SafeArea(
           child: Padding(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
@@ -224,7 +225,17 @@ class _SignUpState extends State<SignUp> {
                                         // )
                                       ]),
                                 ),
-                              )
+                              ),
+                              Center(
+                                child: InkWell(
+                                  onTap: () {
+                                    Get.offAll(() => const Login());
+                                  },
+                                  child: const Text(
+                                      'Already have an account? Login',
+                                      style: TextStyle(color: Colors.blue)),
+                                ),
+                              ),
                             ])
                       ],
                     ),
