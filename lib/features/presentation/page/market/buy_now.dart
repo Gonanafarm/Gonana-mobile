@@ -8,6 +8,7 @@ import 'package:gonana/features/presentation/widgets/image_slider.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import '../../../../consts.dart';
 import '../../../controllers/market/market_controllers.dart';
 import 'cart_page.dart';
@@ -25,6 +26,18 @@ class BuyNowPage extends StatefulWidget {
 class _BuyNowPageState extends State<BuyNowPage> {
   CartController cartController = Get.put(CartController());
   final marketController = Get.put(ProductController());
+
+  static String formatAmount(dynamic amount) {
+    final value = NumberFormat('#,##0.00', 'en_US');
+    if (amount is! num) {
+      final format = double.tryParse(amount);
+      if (format == null) return '0.00';
+      return value.format(format);
+    }
+    // final format = amount as double?;
+    // if (format == null) return '0.00';
+    return value.format(amount);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +130,7 @@ class _BuyNowPageState extends State<BuyNowPage> {
                         children: [
                           TextSpan(
                             text: widget.productModel!.product!.amount != null
-                                ? "NGN ${widget.productModel!.product!.amount}"
+                                ? "NGN ${formatAmount(widget.productModel!.product!.amount)}"
                                 : "NGN ",
                             style: GoogleFonts.montserrat(
                                 fontSize: 24,
@@ -157,7 +170,7 @@ class _BuyNowPageState extends State<BuyNowPage> {
                     children: [
                       TextSpan(
                         text: widget.productModel!.product!.usd_price != null
-                            ? "\$ ${widget.productModel!.product!.usd_price}"
+                            ? "\$ ${formatAmount(widget.productModel!.product!.usd_price)}"
                             : "\$ ",
                         style: GoogleFonts.montserrat(
                             fontSize: 24,

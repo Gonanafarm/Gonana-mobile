@@ -4,19 +4,63 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:gonana/features/presentation/page/crypto_pay/crypto_passcode.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
+import 'package:intl/intl.dart';
 
 import '../../../controllers/cart/cart_controller.dart';
 import '../../../controllers/crypto/cryptoController.dart';
+import '../../../controllers/fiat_wallet/transaction_controller.dart';
 import '../../widgets/bottomsheets.dart';
+import '../market/product_checkout.dart';
 
-class CryptoPay extends StatelessWidget {
+class CryptoPay extends StatefulWidget {
   CryptoPay({Key? key}) : super(key: key);
+
+  static String formatAmount(dynamic amount) {
+    final value = NumberFormat('#,##0.00', 'en_US');
+    if (amount is! num) {
+      final format = double.tryParse(amount);
+      if (format == null) return '0.00';
+      return value.format(format);
+    }
+    // final format = amount as double?;
+    // if (format == null) return '0.00';
+    return value.format(amount);
+  }
+
+  @override
+  State<CryptoPay> createState() => _CryptoPayState();
+}
+
+class _CryptoPayState extends State<CryptoPay> {
   final cartController = Get.find<CartController>();
+  final transactionController = Get.find<TransactionController>();
+
   dynamic argument = Get.arguments;
+
   late String courier = argument['courier'];
+
   late String totalPrice = argument['productPrice'];
+
   late String totalPriceInDollar = argument['totalPriceInDollar'];
+
   CryptoPayController cryptoPayController = Get.put(CryptoPayController());
+
+  @override
+  void initState() {
+    super.initState();
+    getCCDPrice();
+  }
+
+  double converted = 0.0;
+  getCCDPrice() async {
+    converted = await transactionController.ngnToToken("$totalPriceInNaira");
+    if (converted != 0.0) {
+      setState(() {
+        converted = converted;
+      });
+    }
+    return converted;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,19 +106,30 @@ class CryptoPay extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.3,
-                        child: TextField(
-                          controller: TextEditingController(
-                              text: "\$ $totalPriceInDollar"),
-                          enabled: false,
-                          decoration: const InputDecoration(
-                            hintText: "Amount",
-                            hintStyle: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.w400),
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          child: converted != 0.0
+                              ? TextField(
+                                  controller: TextEditingController(
+                                      text:
+                                          "CCD ${CryptoPay.formatAmount(converted)}"),
+                                  enabled: false,
+                                  decoration: const InputDecoration(
+                                    hintText: "Amount",
+                                    hintStyle: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400),
+                                    border: InputBorder.none,
+                                  ),
+                                )
+                              : Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal:
+                                          MediaQuery.of(context).size.width *
+                                              0.05),
+                                  child: const CircularProgressIndicator(
+                                    color: Colors.green,
+                                  ),
+                                )),
                       IntrinsicHeight(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

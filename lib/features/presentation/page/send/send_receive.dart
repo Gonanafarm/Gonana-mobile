@@ -35,7 +35,7 @@ class _SendReceiveQRState extends State<SendReceiveQR> {
               const SizedBox(
                 width: double.infinity,
                 child: Text(
-                  'Receive Gona',
+                  'Receive Token',
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 24,

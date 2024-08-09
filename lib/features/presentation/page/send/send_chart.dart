@@ -1,5 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:gonana/consts.dart';
@@ -7,6 +9,7 @@ import 'package:gonana/features/presentation/page/home.dart';
 import 'package:gonana/features/presentation/page/send/send_page.dart';
 import 'package:gonana/features/presentation/page/send/send_receive.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
+import 'package:intl/intl.dart';
 
 import '../../../controllers/fiat_wallet/transaction_controller.dart';
 
@@ -20,6 +23,35 @@ class SendChart extends StatefulWidget {
 class _SendChartState extends State<SendChart> {
   TransactionController transactionController =
       Get.put(TransactionController());
+
+  static String formatAmount(dynamic amount) {
+    final value = NumberFormat('#,##0.0000', 'en_US');
+    if (amount is! num) {
+      final format = double.tryParse(amount);
+      if (format == null) return '0.00';
+      return value.format(format);
+    }
+    // final format = amount as double?;
+    // if (format == null) return '0.00';
+    return value.format(amount);
+  }
+
+  void initState() {
+    super.initState();
+    getDollarValue();
+  }
+
+  double converted = 0.0;
+  getDollarValue() async {
+    converted = await transactionController.tokenToDolls("1");
+    if (converted != 0.0) {
+      setState(() {
+        converted = converted;
+      });
+    }
+    return converted;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +64,7 @@ class _SendChartState extends State<SendChart> {
               children: [
                 Container(
                     width: double.infinity,
-                    height: MediaQuery.of(context).size.height * 0.45,
+                    height: MediaQuery.of(context).size.height * 0.3,
                     decoration: const BoxDecoration(
                         gradient: LinearGradient(
                             begin: Alignment.topRight,
@@ -57,41 +89,85 @@ class _SendChartState extends State<SendChart> {
                               ],
                             ),
                           ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.8,
-                            height: MediaQuery.of(context).size.height * 0.3,
-                            child: LineChart(LineChartData(
-                                lineBarsData: [
-                                  LineChartBarData(
-                                      spots: const [
-                                        FlSpot(0, 2),
-                                        FlSpot(2.5, 2.1),
-                                        FlSpot(4.9, 2.3),
-                                        FlSpot(6.8, 2.5),
-                                        FlSpot(8, 3),
-                                        FlSpot(9.5, 3),
-                                        FlSpot(10, 3.5),
-                                      ],
-                                      isCurved: true,
-                                      dotData: const FlDotData(show: false),
-                                      color: Colors.white,
-                                      barWidth: 2,
-                                      belowBarData: BarAreaData(
-                                          show: true,
-                                          color: Colors.white.withOpacity(0.3)))
-                                ],
-                                minX: 0,
-                                maxX: 10,
-                                minY: 2,
-                                maxY: 5,
-                                titlesData: FlTitlesData(
-                                    show: true,
-                                    bottomTitles: AxisTitles(
-                                        axisNameWidget: const Text("Date Axis"),
-                                        sideTitles: SideTitles(
-                                          showTitles: false,
-                                        ))))),
+                          Text(
+                              'CCD ${formatAmount(transactionController.cryptoBalanceModel.cryptoWalletBalanceInEth ?? 0)}',
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 35,
+                                  fontWeight: FontWeight.w600)),
+
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 20, left: 10, right: 10),
+                            child: Wrap(
+                              spacing: 10.0, // Space between items horizontally
+                              runSpacing:
+                                  10.0, // Space between items vertically when wrapped
+                              alignment: WrapAlignment.spaceBetween,
+                              children: [
+                                ShortWhiteButton(
+                                    title: 'Transfer',
+                                    onPressed: () {
+                                      Get.to(() => const SendPage(
+                                            withdraw: false,
+                                          ));
+                                    }),
+                                ShortWhiteButton(
+                                    title: 'Withdraw',
+                                    onPressed: () {
+                                      Get.to(() => const SendPage(
+                                            withdraw: true,
+                                          ));
+                                    }),
+                                ShortWhiteButton(
+                                    title: 'Stake',
+                                    onPressed: () {
+                                      SuccessSnackbar.show(context,
+                                          "Not available now. Coming soon...");
+                                    }),
+                                ShortWhiteButton(
+                                    title: 'Receive',
+                                    onPressed: () {
+                                      Get.to(() => const SendReceiveQR());
+                                    }),
+                              ],
+                            ),
                           ),
+                          // SizedBox(
+                          //   width: MediaQuery.of(context).size.width * 0.8,
+                          //   height: MediaQuery.of(context).size.height * 0.3,
+                          //   child: LineChart(LineChartData(
+                          //       lineBarsData: [
+                          //         LineChartBarData(
+                          //             spots: const [
+                          //               FlSpot(0, 2),
+                          //               FlSpot(2.5, 2.1),
+                          //               FlSpot(4.9, 2.3),
+                          //               FlSpot(6.8, 2.5),
+                          //               FlSpot(8, 3),
+                          //               FlSpot(9.5, 3),
+                          //               FlSpot(10, 3.5),
+                          //             ],
+                          //             isCurved: true,
+                          //             dotData: const FlDotData(show: false),
+                          //             color: Colors.white,
+                          //             barWidth: 2,
+                          //             belowBarData: BarAreaData(
+                          //                 show: true,
+                          //                 color: Colors.white.withOpacity(0.3)))
+                          //       ],
+                          //       minX: 0,
+                          //       maxX: 10,
+                          //       minY: 2,
+                          //       maxY: 5,
+                          //       titlesData: FlTitlesData(
+                          //           show: true,
+                          //           bottomTitles: AxisTitles(
+                          //               axisNameWidget: const Text("Date Axis"),
+                          //               sideTitles: SideTitles(
+                          //                 showTitles: false,
+                          //               ))))),
+                          // ),
                         ],
                       ),
                     )),
@@ -99,26 +175,216 @@ class _SendChartState extends State<SendChart> {
                     padding: const EdgeInsets.all(24),
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                    height: 50,
-                                    width: 30,
-                                    'assets/svgs/eth.svg'),
-                                sizeHor(20),
-                                Expanded(
-                                  child: Column(children: [
-                                    Text(
-                                        'ETH ${transactionController.cryptoBalanceModel.cryptoWalletBalanceInEth ?? 0}',
-                                        style: const TextStyle(
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.w600)),
-                                  ]),
-                                )
-                              ]),
+                          const Text(
+                            "Staking",
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              SuccessSnackbar.show(
+                                  context, "Not available now. Coming soon...");
+                            },
+                            child: Container(
+                              // height: 70,
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topRight,
+                                      end: Alignment.bottomLeft,
+                                      colors: [
+                                        Color(0xff29844B),
+                                        Color(0xff003633)
+                                      ])),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white),
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Icon(
+                                            Icons.show_chart,
+                                            color: Colors.green,
+                                          ),
+                                        ),
+                                      ),
+                                      const Flexible(
+                                        child: Padding(
+                                          padding: EdgeInsets.only(left: 10.0),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Start earning CCD",
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.white),
+                                              ),
+                                              Text(
+                                                "Stake tokens and earn rewards",
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Colors.grey),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          sizeVer(30),
+                          const Text(
+                            "Price Details",
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black),
+                          ),
+                          Container(
+                            // height: 70,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                gradient: LinearGradient(
+                                    begin: Alignment.topRight,
+                                    end: Alignment.bottomLeft,
+                                    colors: [
+                                      Color(0xff29844B),
+                                      Color(0xff003633)
+                                    ])),
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        // Container(
+                                        //   decoration: const BoxDecoration(
+                                        //       shape: BoxShape.circle,
+                                        //       color: Colors.white),
+                                        //   child: const Padding(
+                                        //     padding: EdgeInsets.all(8.0),
+                                        //     child: Icon(
+                                        //       Icons.show_chart,
+                                        //       color: Colors.green,
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                        Row(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 20.0),
+                                              child: SvgPicture.asset(
+                                                  "assets/svgs/ccd.svg"),
+                                            ),
+                                          ],
+                                        ),
+                                        const Flexible(
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsets.only(left: 10.0),
+                                            child: Text(
+                                              "Concordiun",
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                        sizeHor(
+                                            MediaQuery.of(context).size.width *
+                                                0.18),
+                                        const Text(
+                                          "24h Price",
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.grey),
+                                        ),
+                                      ],
+                                    ),
+                                    const Divider(
+                                      thickness: 1,
+                                      height: 5,
+                                      color: Colors.grey,
+                                    ),
+                                    sizeVer(10),
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 15.0),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            "\$${formatAmount(converted)}",
+                                            style: const TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.white),
+                                          ),
+                                          // Text(
+                                          //   "+\$${15.2}",
+                                          //   style: TextStyle(
+                                          //       fontSize: 15,
+                                          //       fontWeight: FontWeight.w600,
+                                          //       color: Colors.green),
+                                          // ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                          // Row(
+                          //     mainAxisAlignment: MainAxisAlignment.start,
+                          //     crossAxisAlignment: CrossAxisAlignment.center,
+                          //     children: [
+                          //       SvgPicture.asset(
+                          //           height: 50,
+                          //           width: 30,
+                          //           'assets/svgs/ccd.svg'),
+                          //       sizeHor(20),
+                          //       Expanded(
+                          //         child: Column(children: [
+                          //           Text(
+                          //               'CCD ${transactionController.cryptoBalanceModel.cryptoWalletBalanceInEth ?? 0}',
+                          //               style: const TextStyle(
+                          //                   fontSize: 24,
+                          //                   fontWeight: FontWeight.w600)),
+                          //         ]),
+                          //       )
+                          //     ]),
                           // Padding(
                           //   padding: const EdgeInsets.symmetric(vertical: 6.0),
                           //   child: ListTile(
@@ -163,48 +429,6 @@ class _SendChartState extends State<SendChart> {
                           //       ),
                           //       trailing: const Text('Jan 25')),
                           // ),
-                          Padding(
-                              padding: const EdgeInsets.only(top: 20),
-                              child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    ShortGradientButton(
-                                        title: 'Send',
-                                        onPressed: () {
-                                          Get.to(() => const SendPage());
-                                        }),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        Get.to(() => const SendReceiveQR());
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                          elevation: 0,
-                                          side: const BorderSide(
-                                            color: greenColor,
-                                          ),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(5.0),
-                                          ),
-                                          minimumSize: const Size(125, 60),
-                                          backgroundColor: Colors.transparent,
-                                          shadowColor: Colors.transparent),
-                                      child: const Row(
-                                        children: [
-                                          Text(
-                                            "Recieve",
-                                            style: TextStyle(color: greenColor),
-                                          ),
-                                          SizedBox(width: 10.0),
-                                          Icon(
-                                            Icons.arrow_back,
-                                            color: greenColor,
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ]))
                         ])),
               ],
             ),

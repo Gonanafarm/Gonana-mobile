@@ -714,7 +714,10 @@ Future<dynamic> successDialog(BuildContext context, int index) {
                     if (created) {
                       cartController.updateCartItems();
                       await cartController.fetchCart();
-                      Get.to(() => HomePage(navIndex: 0));
+                      Navigator.pop(context);
+                      Future.delayed(const Duration(milliseconds: 500), () {
+                        Get.offAll(() => HomePage(navIndex: 0));
+                      });
                     }
                   },
                 ),

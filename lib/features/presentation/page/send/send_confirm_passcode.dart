@@ -13,7 +13,8 @@ import '../../../controllers/fiat_wallet/transaction_controller.dart';
 import '../wallet/wallet_page.dart';
 
 class SendCryptoPasscode extends StatefulWidget {
-  const SendCryptoPasscode({super.key});
+  final bool withdraw;
+  const SendCryptoPasscode({super.key, required this.withdraw});
 
   @override
   State<SendCryptoPasscode> createState() => _SendPasscodeState();
@@ -114,7 +115,7 @@ class _SendPasscodeState extends State<SendCryptoPasscode> {
                         passCode, context);
                     if (created) {
                       bool isSuccess = await transactionController.sendToken(
-                          amount, walletAddress, context);
+                          amount, walletAddress, widget.withdraw, context);
                       print(amount);
                       print(walletAddress);
                       if (isSuccess) {
@@ -148,7 +149,13 @@ class _SendPasscodeState extends State<SendCryptoPasscode> {
                                       child: DialogGradientButton(
                                         title: 'Proceed',
                                         onPressed: () async {
-                                          Get.to(() => HomePage(navIndex: 1));
+                                          Navigator.pop(context);
+                                          Future.delayed(
+                                              const Duration(milliseconds: 500),
+                                              () {
+                                            Get.offAll(
+                                                () => HomePage(navIndex: 1));
+                                          });
                                         },
                                       ),
                                     ),

@@ -89,13 +89,20 @@ class _WalletPageState extends State<WalletPage> {
 
   static String formatAmount(dynamic amount) {
     final value = NumberFormat('#,##0.00', 'en_US');
+
+    // Handle null values early
+    if (amount == null) {
+      return '0.00';
+    }
+
+    // Try parsing the amount if it's not a num
     if (amount is! num) {
-      final format = double.tryParse(amount);
+      final format = double.tryParse(amount.toString());
       if (format == null) return '0.00';
       return value.format(format);
     }
-    // final format = amount as double?;
-    // if (format == null) return '0.00';
+
+    // If it's already a number, format it directly
     return value.format(amount);
   }
 

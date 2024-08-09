@@ -25,12 +25,12 @@ class GetCryptoBalance {
       GetCryptoBalance(
         success: json["success"],
         cryptoWalletBalanceInNgn: json["cryptoWalletBalanceInNgn"],
-        cryptoWalletBalanceInEth: json["cryptoWalletBalanceInEth"],
+        cryptoWalletBalanceInEth: json["cryptoWalletBalanceInCcd"],
       );
 
   Map<String, dynamic> toJson() => {
         "success": success,
         "cryptoWalletBalanceInNgn": cryptoWalletBalanceInNgn,
-        "cryptoWalletBalanceInEth": cryptoWalletBalanceInEth,
+        "cryptoWalletBalanceInCcd": cryptoWalletBalanceInEth,
       };
 }

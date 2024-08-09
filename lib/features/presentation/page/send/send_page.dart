@@ -3,12 +3,14 @@ import 'package:get/get.dart';
 import 'package:gonana/consts.dart';
 import 'package:gonana/features/presentation/page/send/send_confirm_passcode.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
+import 'package:intl/intl.dart';
 
 import '../../../controllers/fiat_wallet/transaction_controller.dart';
 import '../fiat_wallet/register_bank.dart';
 
 class SendPage extends StatefulWidget {
-  const SendPage({super.key});
+  final bool withdraw;
+  const SendPage({super.key, required this.withdraw});
 
   @override
   State<SendPage> createState() => _SendPageState();
@@ -22,6 +24,17 @@ class _SendPageState extends State<SendPage> {
   String get amount => _amount.text;
   TransactionController transactionController =
       Get.put(TransactionController());
+  static String formatAmount(dynamic amount) {
+    final value = NumberFormat('#,##0.00', 'en_US');
+    if (amount is! num) {
+      final format = double.tryParse(amount);
+      if (format == null) return '0.00';
+      return value.format(format);
+    }
+    // final format = amount as double?;
+    // if (format == null) return '0.00';
+    return value.format(amount);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +56,7 @@ class _SendPageState extends State<SendPage> {
               const SizedBox(
                 width: double.infinity,
                 child: Text(
-                  'Send Coin',
+                  'Send Token',
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 24,
@@ -76,7 +89,7 @@ class _SendPageState extends State<SendPage> {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 4),
                 child: Text(
-                    'Your balance: ETH ${transactionController.cryptoBalanceModel.cryptoWalletBalanceInEth ?? 0}',
+                    'Your balance: CCD ${formatAmount(transactionController.cryptoBalanceModel.cryptoWalletBalanceInEth ?? 0)}',
                     style: const TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.w400,
@@ -104,10 +117,14 @@ class _SendPageState extends State<SendPage> {
                   onPressed: () async {
                     bool isValidated = _sendCryptoKey.currentState!.validate();
                     if (isValidated) {
-                      Get.to(() => SendCryptoPasscode(), arguments: {
-                        "amount": amount,
-                        "walletAddress": walletAddress,
-                      });
+                      Get.to(
+                          () => SendCryptoPasscode(
+                                withdraw: widget.withdraw,
+                              ),
+                          arguments: {
+                            "amount": amount,
+                            "walletAddress": walletAddress,
+                          });
                     }
                   })
             ],

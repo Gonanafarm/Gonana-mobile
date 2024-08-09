@@ -257,6 +257,18 @@ tokenBottomSheet2(BuildContext context) {
 }
 
 checkout(BuildContext context, var courier) {
+  String formatAmount(dynamic amount) {
+    final value = NumberFormat('#,##0.00', 'en_US');
+    if (amount is! num) {
+      final format = double.tryParse(amount);
+      if (format == null) return '0.00';
+      return value.format(format);
+    }
+    // final format = amount as double?;
+    // if (format == null) return '0.00';
+    return value.format(amount);
+  }
+
   double roundToDecimalPlaces(double value, int decimalPlaces) {
     double multiplier = pow(10, decimalPlaces).toDouble();
     return (value * multiplier).round() / multiplier;
@@ -328,7 +340,7 @@ checkout(BuildContext context, var courier) {
                             sizeVer(10),
                             Center(
                               child: Text(
-                                "\$ $totalPriceInDollar",
+                                "\$ ${formatAmount(totalPriceInDollar)}",
                                 style: GoogleFonts.montserrat(
                                     fontSize: 24,
                                     color: greenColor,
@@ -523,10 +535,11 @@ cryptoPayBottomSheet(BuildContext context) {
   ];
   var stringValue =
       transactionController.cryptoBalanceModel.cryptoWalletBalanceInEth;
-  var doubleValue = double.tryParse(stringValue!);
+  print("$stringValue");
+  var doubleValue = double.tryParse(stringValue ?? "0.0");
   var tokenValueInDec;
   if (doubleValue != null) {
-    tokenValueInDec = doubleValue.toStringAsFixed(5);
+    tokenValueInDec = doubleValue.toStringAsFixed(3);
     // Rest of your code...
   } else {
     // Handle the case where the conversion to double fails

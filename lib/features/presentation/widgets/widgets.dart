@@ -289,11 +289,61 @@ class BlackBorderButton extends StatelessWidget {
 }
 
 //ClickHere button with gradient
+class ShortWhiteButton extends StatelessWidget {
+  final String title;
+  final VoidCallback onPressed;
+  final Color? buttonColor;
+  final Color? textButtonColor;
+  const ShortWhiteButton(
+      {super.key,
+      required this.title,
+      required this.onPressed,
+      this.buttonColor,
+      this.textButtonColor});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 60,
+      width: 95,
+      decoration: BoxDecoration(
+          color: buttonColor ?? Colors.white,
+          borderRadius: BorderRadius.circular(10)),
+      child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            minimumSize: const Size(185, 60),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Flexible(
+                  child: Text(
+                title,
+                style: TextStyle(
+                    color: textButtonColor ?? Colors.black, fontSize: 10),
+              )),
+              const SizedBox(width: 10.0),
+            ],
+          )),
+    );
+  }
+}
+
 class ShortGradientButton extends StatelessWidget {
   final String title;
   final VoidCallback onPressed;
+  final Color? buttonColor;
   const ShortGradientButton(
-      {super.key, required this.title, required this.onPressed});
+      {super.key,
+      required this.title,
+      required this.onPressed,
+      this.buttonColor});
 
   @override
   Widget build(BuildContext context) {

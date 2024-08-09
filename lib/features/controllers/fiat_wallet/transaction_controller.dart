@@ -95,6 +95,54 @@ class TransactionController extends GetxController {
     }
   }
 
+  Future tokenToDolls(String token) async {
+    try {
+      var data = {
+        'ccd': token,
+      };
+      print(data);
+      var responseBody =
+          await NetworkApi().authPostData(data, ApiRoute.ccdToDolls);
+      var response = jsonDecode(responseBody.body);
+      // log("added cart items || $responseBody");
+      log("Conversion verification|| $response");
+      if (responseBody.statusCode == 201) {
+        print(responseBody.statusCode);
+        // SuccessSnackbar.show(context, "${response['responseMessage']}");
+        return response;
+      } else {
+        return 0.0;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future ngnToToken(String ngn) async {
+    try {
+      var data = {
+        'ngn': ngn,
+      };
+      print(data);
+      var responseBody =
+          await NetworkApi().authPostData(data, ApiRoute.ngnToCCD);
+      var response = jsonDecode(responseBody.body);
+      // log("added cart items || $responseBody");
+      log("Conversion verification|| $response");
+      if (responseBody.statusCode == 201) {
+        print(responseBody.statusCode);
+        // SuccessSnackbar.show(context, "${response['responseMessage']}");
+        return response;
+      } else {
+        return 0.0;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   var balanceModel = GetBalanceModel().obs;
   Future<bool> fetchBalance() async {
     try {
@@ -235,25 +283,29 @@ class TransactionController extends GetxController {
   Future<bool> sendToken(
     String amount,
     String walletAddress,
+    bool withdraw,
     BuildContext context,
   ) async {
     try {
-      var data = {
-        'amount': amount,
-        'address': walletAddress,
-      };
+      var data = withdraw
+          ? {
+              'amount': amount,
+              'recipient': walletAddress,
+            }
+          : {
+              'amount': amount,
+              'recipientId': walletAddress,
+            };
       print(data);
-      var responseBody =
-          await NetworkApi().authPostData(data, ApiRoute.transferCrypto);
+      var responseBody = await NetworkApi().authPostData(
+          data, withdraw ? ApiRoute.withdrawCCD : ApiRoute.transferCCD);
       var response = jsonDecode(responseBody.body);
       // log("added cart items || $responseBody");
       log("crypto transfer || $response");
-      if (responseBody.statusCode == 201) {
+      if (responseBody.statusCode == 201 || responseBody.statusCode == 200) {
         print(responseBody.statusCode);
-        SuccessSnackbar.show(context, response["message"]);
         return true;
       } else {
-        ErrorSnackbar.show(context, response["message"]);
         return false;
       }
     } catch (e) {

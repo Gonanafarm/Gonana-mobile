@@ -78,6 +78,8 @@ class ApiRoute {
   //Payment url
   static const transferFunds = "api/transaction/transfer";
   static const transferCrypto = "api/transaction/send-eth";
+  static const withdrawCCD = "api/transaction/withdraw-ccd";
+  static const transferCCD = "api/transaction/transfer-ccd";
 
   //Validate Address
   static const validateAddress = 'api/logistics/validate-user-address';
@@ -98,6 +100,9 @@ class ApiRoute {
   static const verifyKyc = 'api/transaction/kyc';
   static const verifyBVN = 'api/transaction/create-virtual-account';
   static const recoverBvn = 'api/transaction/recover-virtual-account';
+
+  static const ngnToCCD = 'api/transaction/ngn-ccd';
+  static const ccdToDolls = 'api/transaction/ccd-usd';
 
   // get wallet balance
   static const getWalletBalance = 'api/transaction/user-balance';

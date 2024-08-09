@@ -12,6 +12,7 @@ import 'package:gonana/features/controllers/cart/cart_controller.dart';
 import 'package:gonana/features/presentation/page/home.dart';
 import 'package:gonana/features/presentation/widgets/bottomsheets.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../controllers/auth/passcode_controller.dart';
@@ -35,6 +36,18 @@ class _ProductCheckoutState extends State<ProductCheckout> {
   void dispose() {
     orderList.clear();
     super.dispose();
+  }
+
+  static String formatAmount(dynamic amount) {
+    final value = NumberFormat('#,##0.00', 'en_US');
+    if (amount is! num) {
+      final format = double.tryParse(amount);
+      if (format == null) return '0.00';
+      return value.format(format);
+    }
+    // final format = amount as double?;
+    // if (format == null) return '0.00';
+    return value.format(amount);
   }
 
   @override
@@ -117,7 +130,7 @@ class _ProductCheckoutState extends State<ProductCheckout> {
                                                       .succesfullTransactionModel !=
                                                   null
                                               ? Text(
-                                                  "\$ ${cartController.succesfullTransactionModel!.product_cost_in_usd ?? "0"}",
+                                                  "\$ ${formatAmount(cartController.succesfullTransactionModel!.product_cost_in_usd ?? "0")}",
                                                   style: const TextStyle(
                                                       fontSize: 16,
                                                       fontWeight:
@@ -156,7 +169,7 @@ class _ProductCheckoutState extends State<ProductCheckout> {
                                                       .succesfullTransactionModel !=
                                                   null
                                               ? Text(
-                                                  "\$ ${cartController.succesfullTransactionModel!.total_shipping_cost_in_usd ?? "0"}",
+                                                  "\$ ${formatAmount(cartController.succesfullTransactionModel!.total_shipping_cost_in_usd ?? "0")}",
                                                   style: const TextStyle(
                                                       fontSize: 16,
                                                       fontWeight:
@@ -204,7 +217,7 @@ class _ProductCheckoutState extends State<ProductCheckout> {
                                                 //         color:
                                                 //             Color(0xff444444))),
                                                 Text(
-                                                    "\$ ${cartController.succesfullTransactionModel!.total_shipping_cost_in_usd != null && cartController.succesfullTransactionModel!.product_cost_in_usd == null ? (double.parse(cartController.succesfullTransactionModel!.total_shipping_cost_in_usd.toString())) : cartController.succesfullTransactionModel!.total_shipping_cost_in_usd == null && cartController.succesfullTransactionModel!.product_cost_in_usd != null ? double.parse(cartController.succesfullTransactionModel!.product_cost_in_usd!) : "0"}",
+                                                    "\$ ${formatAmount(cartController.succesfullTransactionModel!.total_shipping_cost_in_usd != null && cartController.succesfullTransactionModel!.product_cost_in_usd == null ? (double.parse(cartController.succesfullTransactionModel!.total_shipping_cost_in_usd.toString())) : cartController.succesfullTransactionModel!.total_shipping_cost_in_usd == null && cartController.succesfullTransactionModel!.product_cost_in_usd != null ? double.parse(cartController.succesfullTransactionModel!.product_cost_in_usd!) : "0")}",
                                                     style: const TextStyle(
                                                         fontSize: 16,
                                                         fontWeight:
@@ -306,6 +319,14 @@ class _ProductCheckoutState extends State<ProductCheckout> {
         )));
   }
 }
+
+num totalPriceInNaira =
+    cartController.succesfullTransactionModel!.totalShippingCost != null
+        ? (double.parse(cartController
+                .succesfullTransactionModel!.totalShippingCost
+                .toString()) +
+            cartController.succesfullTransactionModel!.productCost!)
+        : cartController.succesfullTransactionModel!.productCost!;
 
 class PayWithWalletPasscode extends StatefulWidget {
   const PayWithWalletPasscode({super.key});

@@ -158,7 +158,7 @@ class _AddProduct2State extends State<AddProduct2> {
                                     controller: _price,
                                     keyboardType: TextInputType.number,
                                     label: 'Price',
-                                    hint: 'Enter the amount',
+                                    hint: 'Enter amount in ₦',
                                   )),
                               const SizedBox(height: 10),
                               SizedBox(

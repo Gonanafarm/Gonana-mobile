@@ -122,7 +122,7 @@ class _VerificationBvnState extends State<KYCVerification> {
                                     _bvn.text.trim(),
                                     context);
                             if (created) {
-                              Get.to(() => HomePage(navIndex: 3));
+                              Get.offAll(() => HomePage(navIndex: 3));
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
                               prefs.setBool('bvnSubmission', true);
