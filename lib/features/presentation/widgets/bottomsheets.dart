@@ -397,7 +397,7 @@ checkout(BuildContext context, var courier) {
                                     // ),
                                     // sizeHor(10),
                                     Text(
-                                      "Crypto balance: ${roundToDecimalPlaces(double.tryParse(transactionController.cryptoBalanceModel.cryptoWalletBalanceInEth ?? '0.0') ?? 0.0, 4)}",
+                                      "Crypto balance: ${roundToDecimalPlaces(double.tryParse(transactionController.ccdBalanceModel.cryptoWalletBalanceInCcd ?? '0.0') ?? 0.0, 4)}",
                                       style: GoogleFonts.montserrat(
                                         fontSize: 10,
                                         color: darkColor,
@@ -517,6 +517,7 @@ cryptoPayBottomSheet(BuildContext context) {
       Get.put(TransactionController());
   List<String> tokenNames = [
     'CCD ',
+    'ETH ',
     // 'BTC 0',
     // 'Gona',
     // 'CCDT 0',
@@ -526,6 +527,7 @@ cryptoPayBottomSheet(BuildContext context) {
   ];
   List<String> tokenLogo = [
     'ccd',
+    'eth'
     // 'btc_logo',
     // 'gona_logo',
     // 'ccd_logo',
@@ -533,20 +535,27 @@ cryptoPayBottomSheet(BuildContext context) {
     // 'bnb_logo',
     // 'matic_logo'
   ];
-  var stringValue =
-      transactionController.cryptoBalanceModel.cryptoWalletBalanceInEth;
-  print("$stringValue");
-  var doubleValue = double.tryParse(stringValue ?? "0.0");
-  var tokenValueInDec;
+  var ccdStringValue =
+      transactionController.ccdBalanceModel.cryptoWalletBalanceInCcd;
+  var ethStringValue =
+      transactionController.ethBalanceModel.cryptoWalletBalanceInEth;
+  print("$ccdStringValue");
+  print("$ethStringValue");
+  var doubleValue = double.tryParse(ccdStringValue ?? "0.0");
+  var ethDoubleValue = double.tryParse(ethStringValue ?? "0.0");
+  var ccdTokenValueInDec;
+  var ethTokenValueInDec;
   if (doubleValue != null) {
-    tokenValueInDec = doubleValue.toStringAsFixed(3);
+    ccdTokenValueInDec = doubleValue.toStringAsFixed(3);
+    ethTokenValueInDec = doubleValue.toStringAsFixed(3);
     // Rest of your code...
   } else {
     // Handle the case where the conversion to double fails
     print('Invalid numeric value');
   }
   List<String> tokenValue = [
-    'CCD ${tokenValueInDec ?? 0}',
+    'CCD ${ccdTokenValueInDec ?? 0}',
+    'ETH ${ethTokenValueInDec ?? 0}',
     // '0', '500,000', '', '0', '0', '0'
   ];
   showModalBottomSheet(
@@ -592,6 +601,7 @@ cryptoPayBottomSheet(BuildContext context) {
                             padding: const EdgeInsets.all(10.0),
                             child: InkWell(
                               onTap: () async {
+                                await cryptoPayController.getTokenPrice();
                                 cryptoPayController.updateTokens(
                                     tokenNames[index], tokenLogo[index]);
                                 Get.back();
@@ -627,14 +637,14 @@ cryptoPayBottomSheet(BuildContext context) {
                                         tokenLogo[index].contains("eth")
                                             ? Text(
                                                 '   ${tokenNames[index]}',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontSize: 16,
                                                     fontWeight:
                                                         FontWeight.w600),
                                               )
                                             : Text(
-                                                '${tokenNames[index]}',
-                                                style: TextStyle(
+                                                tokenNames[index],
+                                                style: const TextStyle(
                                                     fontSize: 16,
                                                     fontWeight:
                                                         FontWeight.w600),

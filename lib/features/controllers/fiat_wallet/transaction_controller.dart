@@ -8,6 +8,7 @@ import 'package:gonana/features/data/models/get_transaction_model.dart'
     as Transaction;
 
 import '../../data/models/CryptoBalanceModel.dart';
+import '../../presentation/page/wallet/wallet_page.dart';
 import '../../presentation/widgets/widgets.dart';
 import '../../utilities/api_routes.dart';
 import '../../utilities/network.dart';
@@ -95,14 +96,14 @@ class TransactionController extends GetxController {
     }
   }
 
-  Future tokenToDolls(String token) async {
+  Future tokenToDolls(String token, Coin tokenType) async {
     try {
       var data = {
-        'ccd': token,
+        tokenType == Coin.ETH ? 'eth' : "ccd": token,
       };
       print(data);
-      var responseBody =
-          await NetworkApi().authPostData(data, ApiRoute.ccdToDolls);
+      var responseBody = await NetworkApi().authPostData(data,
+          tokenType == Coin.ETH ? ApiRoute.ethToDolls : ApiRoute.ccdToDolls);
       var response = jsonDecode(responseBody.body);
       // log("added cart items || $responseBody");
       log("Conversion verification|| $response");
@@ -165,20 +166,28 @@ class TransactionController extends GetxController {
     }
   }
 
-  var cryptoBalanceModel = GetCryptoBalance();
+  var ccdBalanceModel = GetCcdBalance();
+  var ethBalanceModel = GetEthBalance();
   Future<bool> fetchCryptoBalance() async {
     try {
-      var responseBody =
-          await NetworkApi().authGetData(ApiRoute.getCryptoWalletBalance);
-      final response = jsonDecode(responseBody.body);
+      var responseBody1 =
+          await NetworkApi().authGetData(ApiRoute.getCcdWalletBalance);
+      var responseBody2 =
+          await NetworkApi().authGetData(ApiRoute.getEthWalletBalance);
+      final response1 = jsonDecode(responseBody1.body);
+      final response2 = jsonDecode(responseBody1.body);
       print("crypto wallet balance");
-      if (responseBody.statusCode == 200) {
-        cryptoBalanceModel = getCryptoBalanceFromJson(responseBody.body);
-        log("Crypto wallet balance || $response");
-        log("Crypto wallet balance || ${cryptoBalanceModel.cryptoWalletBalanceInNgn}");
+      if (responseBody1.statusCode == 200 && responseBody2.statusCode == 200) {
+        ccdBalanceModel = getCcdBalanceFromJson(responseBody1.body);
+        ethBalanceModel = getEthBalanceFromJson(responseBody2.body);
+        log("Crypto wallet balance || $response1");
+        log("Crypto wallet balance || $response2");
+        log("Crypto wallet balance || ${ccdBalanceModel.cryptoWalletBalanceInNgn}");
+        log("Crypto wallet balance || ${ethBalanceModel.cryptoWalletBalanceInNgn}");
         return true;
       } else {
-        log(response);
+        log(response1);
+        log(response2);
         return false;
       }
     } catch (e) {
@@ -284,6 +293,7 @@ class TransactionController extends GetxController {
     String amount,
     String walletAddress,
     bool withdraw,
+    Coin coin,
     BuildContext context,
   ) async {
     try {
@@ -298,7 +308,7 @@ class TransactionController extends GetxController {
             };
       print(data);
       var responseBody = await NetworkApi().authPostData(
-          data, withdraw ? ApiRoute.withdrawCCD : ApiRoute.transferCCD);
+          data, withdraw && coin == Coin.CCD ? ApiRoute.withdrawCCD : coin == Coin.ETH ? ApiRoute.transferETH :ApiRoute.transferCCD);
       var response = jsonDecode(responseBody.body);
       // log("added cart items || $responseBody");
       log("crypto transfer || $response");

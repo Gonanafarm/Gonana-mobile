@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final userModel = userModelFromJson(jsonString);
-
 import 'dart:convert';
 
 UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
@@ -13,9 +9,9 @@ class UserModel {
   String? email;
   String? firstName;
   String? lastName;
-  String? accountType;
   String? profilePhoto;
   String? coverPhoto;
+  String? accountType;
   String? accountStatus;
   String? bio;
   String? phone;
@@ -24,9 +20,12 @@ class UserModel {
   String? virtualAccountBankName;
   String? virtual_account_name;
   List<dynamic>? address;
-  String? walletBalance;
-  String? cryptoWalletBalanceInNgn;
-  String? walletAddress;
+  String? ccdWallet;
+  String? arbitrumWallet;
+  String? arbitrumWalletBalanceInNgn;
+  String? arbitrumWalletAddress;
+  String? ccdWalletAddress;
+  String? ccdWalletBalanceInNgn;
   String? country;
 
   UserModel({
@@ -45,9 +44,12 @@ class UserModel {
     this.virtualAccountBankName,
     this.virtual_account_name,
     this.address,
-    this.walletBalance,
-    this.cryptoWalletBalanceInNgn,
-    this.walletAddress,
+    this.ccdWallet,
+    this.arbitrumWallet,
+    this.arbitrumWalletBalanceInNgn,
+    this.arbitrumWalletAddress,
+    this.ccdWalletAddress,
+    this.ccdWalletBalanceInNgn,
     this.country,
   });
 
@@ -69,9 +71,12 @@ class UserModel {
         address: json["address"] == null
             ? []
             : List<dynamic>.from(json["address"]!.map((x) => x)),
-        walletBalance: json["wallet"],
-        cryptoWalletBalanceInNgn: json["cryptoWalletBalanceInNgn"],
-        walletAddress: json["wallet_address"],
+        ccdWallet: json["ccd_wallet"],
+        arbitrumWallet: json["arbitrum_wallet"],
+        arbitrumWalletBalanceInNgn: json["arbitrumWalletBalanceInNgn"],
+        arbitrumWalletAddress: json["arbitrum_wallet_address"],
+        ccdWalletAddress: json["ccd_wallet_address"],
+        ccdWalletBalanceInNgn: json["ccdWalletBalanceInNgn"],
         country: json["country"],
       );
 
@@ -92,9 +97,12 @@ class UserModel {
         "virtual_account_name": virtualAccountBankName,
         "address":
             address == null ? [] : List<dynamic>.from(address!.map((x) => x)),
-        "wallet": walletBalance,
-        "cryptoWalletBalanceInNgn": cryptoWalletBalanceInNgn,
-        "wallet_address": walletAddress,
+        "ccd_wallet": ccdWallet,
+        "arbitrum_wallet": arbitrumWallet,
+        "arbitrumWalletBalanceInNgn": arbitrumWalletBalanceInNgn,
+        "arbitrum_wallet_address": arbitrumWalletAddress,
+        "ccd_wallet_address": ccdWalletAddress,
+        "ccdWalletBalanceInNgn": ccdWalletBalanceInNgn,
         "country": country,
       };
 }

@@ -77,7 +77,7 @@ class ApiRoute {
 
   //Payment url
   static const transferFunds = "api/transaction/transfer";
-  static const transferCrypto = "api/transaction/send-eth";
+  static const transferETH = "api/transaction/send-eth";
   static const withdrawCCD = "api/transaction/withdraw-ccd";
   static const transferCCD = "api/transaction/transfer-ccd";
 
@@ -103,10 +103,12 @@ class ApiRoute {
 
   static const ngnToCCD = 'api/transaction/ngn-ccd';
   static const ccdToDolls = 'api/transaction/ccd-usd';
+  static const ethToDolls = 'api/transaction/ccd-usd';
 
   // get wallet balance
   static const getWalletBalance = 'api/transaction/user-balance';
-  static const getCryptoWalletBalance = 'api/transaction/crypto-balance';
+  static const getCcdWalletBalance = 'api/transaction/ccd-balance';
+  static const getEthWalletBalance = 'api/transaction/arbitrum-balance';
 
   // get wallet transactions
   static const getWalletTransactions = 'api/transaction/user-transactions';

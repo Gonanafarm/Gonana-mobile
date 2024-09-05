@@ -258,6 +258,7 @@ class _SecurityState extends State<Security> {
                     title: 'Yes, I want to reset my pin',
                     onPressed: () async {
                       Get.to(() => const ResetPin());
+                      Navigator.pop(context);
                       bool isPasscode =
                           await passcodeController.resetPin(context);
                       // if (isPasscode) {

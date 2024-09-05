@@ -7,10 +7,12 @@ import 'package:intl/intl.dart';
 
 import '../../../controllers/fiat_wallet/transaction_controller.dart';
 import '../fiat_wallet/register_bank.dart';
+import '../wallet/wallet_page.dart';
 
 class SendPage extends StatefulWidget {
   final bool withdraw;
-  const SendPage({super.key, required this.withdraw});
+  final Coin coin;
+  const SendPage({super.key, required this.withdraw, required this.coin});
 
   @override
   State<SendPage> createState() => _SendPageState();
@@ -89,7 +91,7 @@ class _SendPageState extends State<SendPage> {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 4),
                 child: Text(
-                    'Your balance: CCD ${formatAmount(transactionController.cryptoBalanceModel.cryptoWalletBalanceInEth ?? 0)}',
+                    'Your balance: ${widget.coin == Coin.ETH ? "ETH" : "CCD"} ${widget.coin == Coin.ETH ? formatAmount(transactionController.ethBalanceModel.cryptoWalletBalanceInEth ?? 0) : formatAmount(transactionController.ccdBalanceModel.cryptoWalletBalanceInCcd ?? 0)}',
                     style: const TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.w400,
@@ -119,8 +121,10 @@ class _SendPageState extends State<SendPage> {
                     if (isValidated) {
                       Get.to(
                           () => SendCryptoPasscode(
-                                withdraw: widget.withdraw,
-                              ),
+                              withdraw: widget.withdraw,
+                              coin: widget.coin == Coin.ETH
+                                  ? Coin.ETH
+                                  : Coin.CCD),
                           arguments: {
                             "amount": amount,
                             "walletAddress": walletAddress,

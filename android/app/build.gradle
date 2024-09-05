@@ -62,8 +62,8 @@ android {
         multiDexEnabled true
 //        targetSdkVersion flutter.targetSdkVersion
         targetSdkVersion 34
-        versionCode 22
-        versionName "Version 9.4"
+        versionCode 23
+        versionName "Version 9.5"
     }
 
     signingConfigs {

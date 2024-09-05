@@ -18,6 +18,8 @@ import '../send/send_chart.dart';
 import '../staking/staking_splash.dart';
 import '../swap/swap_page.dart';
 
+enum Coin { CCD, ETH }
+
 class WalletPage extends StatefulWidget {
   const WalletPage({super.key});
 
@@ -41,7 +43,7 @@ class _WalletPageState extends State<WalletPage> {
     await transactionController.fetchBalance();
     // Get the raw string values
     String? cryptoBalanceStr =
-        transactionController.cryptoBalanceModel.cryptoWalletBalanceInNgn;
+        transactionController.ccdBalanceModel.cryptoWalletBalanceInNgn;
     String? nairaBalanceStr = transactionController.balanceModel.value.balance;
 
 // Print raw values for debugging
@@ -78,9 +80,13 @@ class _WalletPageState extends State<WalletPage> {
     getBVNStatus();
   }
 
-  List icons = ["ccd", "gona_logo"];
-  List text = ["CCD", "Gonana wallet"];
-  List<Widget> nextPage = [const SendChart(), const FiatWalletHome()];
+  List icons = ["ccd", "eth", "gona_logo"];
+  List text = ["CCD", "ETH", "Gonana wallet"];
+  List<Widget> nextPage = [
+    SendChart(coin: Coin.CCD),
+    SendChart(coin: Coin.ETH),
+    const FiatWalletHome()
+  ];
 
   double roundToDecimalPlaces(double value, int decimalPlaces) {
     double multiplier = pow(10, decimalPlaces).toDouble();
@@ -109,11 +115,13 @@ class _WalletPageState extends State<WalletPage> {
   @override
   Widget build(BuildContext context) {
     List amountInNaira = [
-      "NGN ${formatAmount(transactionController.cryptoBalanceModel.cryptoWalletBalanceInNgn) ?? 0}",
+      "NGN ${formatAmount(transactionController.ccdBalanceModel.cryptoWalletBalanceInNgn) ?? 0}",
+      "NGN ${formatAmount(transactionController.ccdBalanceModel.cryptoWalletBalanceInNgn) ?? 0}",
       "NGN ${formatAmount(transactionController.balanceModel.value.balance) ?? 0}"
     ];
-    List amountInEth = [
-      "CCD ${roundToDecimalPlaces(double.tryParse(transactionController.cryptoBalanceModel.cryptoWalletBalanceInEth ?? '0.0') ?? 0.0, 4)}",
+    List amountInCrypto = [
+      "CCD ${roundToDecimalPlaces(double.tryParse(transactionController.ccdBalanceModel.cryptoWalletBalanceInCcd ?? '0.0') ?? 0.0, 4)}",
+      "ETH ${roundToDecimalPlaces(double.tryParse(transactionController.ccdBalanceModel.cryptoWalletBalanceInCcd ?? '0.0') ?? 0.0, 4)}",
       ""
     ];
 
@@ -378,9 +386,7 @@ class _WalletPageState extends State<WalletPage> {
                                           .virtualAccountNumber !=
                                       null &&
                                   userController.userModel.value
-                                      .virtualAccountNumber!.isNotEmpty &&
-                                  userController.userModel.value.country !=
-                                      null)) ||
+                                      .virtualAccountNumber!.isNotEmpty)) ||
                           (userController.userModel != null &&
                               userController.userModel.value.country != null &&
                               !userController.userModel.value.country!
@@ -420,7 +426,7 @@ class _WalletPageState extends State<WalletPage> {
                                                     MainAxisAlignment
                                                         .spaceEvenly,
                                                 children: [
-                                                  Text(amountInEth[index],
+                                                  Text(amountInCrypto[index],
                                                       style: const TextStyle(
                                                           fontSize: 16,
                                                           fontWeight:

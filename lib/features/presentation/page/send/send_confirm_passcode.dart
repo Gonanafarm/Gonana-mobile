@@ -14,7 +14,9 @@ import '../wallet/wallet_page.dart';
 
 class SendCryptoPasscode extends StatefulWidget {
   final bool withdraw;
-  const SendCryptoPasscode({super.key, required this.withdraw});
+  final Coin coin;
+  const SendCryptoPasscode(
+      {super.key, required this.withdraw, required this.coin});
 
   @override
   State<SendCryptoPasscode> createState() => _SendPasscodeState();
@@ -53,7 +55,7 @@ class _SendPasscodeState extends State<SendCryptoPasscode> {
           child: ListView(
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
+              const SizedBox(
                 width: double.infinity,
                 child: Column(
                   children: [
@@ -115,7 +117,7 @@ class _SendPasscodeState extends State<SendCryptoPasscode> {
                         passCode, context);
                     if (created) {
                       bool isSuccess = await transactionController.sendToken(
-                          amount, walletAddress, widget.withdraw, context);
+                          amount, walletAddress, widget.withdraw, widget.coin == Coin.ETH ? Coin.ETH: Coin.CCD, context);
                       print(amount);
                       print(walletAddress);
                       if (isSuccess) {

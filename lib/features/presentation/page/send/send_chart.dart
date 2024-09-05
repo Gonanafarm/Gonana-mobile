@@ -8,13 +8,15 @@ import 'package:gonana/consts.dart';
 import 'package:gonana/features/presentation/page/home.dart';
 import 'package:gonana/features/presentation/page/send/send_page.dart';
 import 'package:gonana/features/presentation/page/send/send_receive.dart';
+import 'package:gonana/features/presentation/page/wallet/wallet_page.dart';
 import 'package:gonana/features/presentation/widgets/widgets.dart';
 import 'package:intl/intl.dart';
 
 import '../../../controllers/fiat_wallet/transaction_controller.dart';
 
 class SendChart extends StatefulWidget {
-  const SendChart({super.key});
+  Coin coin;
+  SendChart({super.key, required this.coin});
 
   @override
   State<SendChart> createState() => _SendChartState();
@@ -43,7 +45,8 @@ class _SendChartState extends State<SendChart> {
 
   double converted = 0.0;
   getDollarValue() async {
-    converted = await transactionController.tokenToDolls("1");
+    converted = await transactionController.tokenToDolls(
+        "1", widget.coin == Coin.ETH ? Coin.ETH : Coin.CCD);
     if (converted != 0.0) {
       setState(() {
         converted = converted;
@@ -90,12 +93,19 @@ class _SendChartState extends State<SendChart> {
                               ],
                             ),
                           ),
-                          Text(
-                              'CCD ${formatAmount(transactionController.cryptoBalanceModel.cryptoWalletBalanceInEth ?? 0)}',
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 35,
-                                  fontWeight: FontWeight.w600)),
+                          widget.coin == Coin.ETH
+                              ? Text(
+                                  'ETH ${formatAmount(transactionController.ccdBalanceModel.cryptoWalletBalanceInCcd ?? 0)}',
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 35,
+                                      fontWeight: FontWeight.w600))
+                              : Text(
+                                  'CCD ${formatAmount(transactionController.ccdBalanceModel.cryptoWalletBalanceInCcd ?? 0)}',
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 35,
+                                      fontWeight: FontWeight.w600)),
 
                           Padding(
                             padding: const EdgeInsets.only(
@@ -116,14 +126,20 @@ class _SendChartState extends State<SendChart> {
                                       ShortWhiteButton(
                                           title: 'Transfer',
                                           onPressed: () {
-                                            Get.to(() => const SendPage(
+                                            Get.to(() => SendPage(
+                                                  coin: widget.coin == Coin.ETH
+                                                      ? Coin.ETH
+                                                      : Coin.CCD,
                                                   withdraw: false,
                                                 ));
                                           }),
                                       ShortWhiteButton(
                                           title: 'Withdraw',
                                           onPressed: () {
-                                            Get.to(() => const SendPage(
+                                            Get.to(() => SendPage(
+                                                  coin: widget.coin == Coin.ETH
+                                                      ? Coin.ETH
+                                                      : Coin.CCD,
                                                   withdraw: true,
                                                 ));
                                           }),
@@ -136,7 +152,11 @@ class _SendChartState extends State<SendChart> {
                                       ShortWhiteButton(
                                           title: 'Receive',
                                           onPressed: () {
-                                            Get.to(() => const SendReceiveQR());
+                                            Get.to(() => SendReceiveQR(
+                                                  coin: widget.coin == Coin.ETH
+                                                      ? Coin.ETH
+                                                      : Coin.CCD,
+                                                ));
                                           }),
                                     ],
                                   ),
@@ -236,7 +256,7 @@ class _SendChartState extends State<SendChart> {
                                             ),
                                           ),
                                         ),
-                                        const Flexible(
+                                        Flexible(
                                           child: Padding(
                                             padding:
                                                 EdgeInsets.only(left: 10.0),
@@ -246,15 +266,26 @@ class _SendChartState extends State<SendChart> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Text(
-                                                  "Start earning CCD",
-                                                  style: TextStyle(
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color: Colors.white),
-                                                ),
-                                                Text(
+                                                widget.coin == Coin.ETH
+                                                    ? const Text(
+                                                        "Start earning  ETH",
+                                                        style: TextStyle(
+                                                            fontSize: 20,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color:
+                                                                Colors.white),
+                                                      )
+                                                    : const Text(
+                                                        "Start earning  CCD",
+                                                        style: TextStyle(
+                                                            fontSize: 20,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                const Text(
                                                   "Stake tokens and earn rewards",
                                                   style: TextStyle(
                                                       fontSize: 16,
@@ -328,8 +359,18 @@ class _SendChartState extends State<SendChart> {
                                                           .height *
                                                       0.025,
                                                 ),
-                                                child: SvgPicture.asset(
-                                                    "assets/svgs/ccd.svg"),
+                                                child: widget.coin == Coin.ETH
+                                                    ? Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: SvgPicture.asset(
+                                                            height: 55,
+                                                            width: 30,
+                                                            "assets/svgs/eth.svg"),
+                                                      )
+                                                    : SvgPicture.asset(
+                                                        "assets/svgs/ccd.svg"),
                                               ),
                                             ],
                                           ),
@@ -340,17 +381,37 @@ class _SendChartState extends State<SendChart> {
                                                           .size
                                                           .width *
                                                       0.01),
-                                              child: Text(
-                                                "Concordium",
-                                                style: TextStyle(
-                                                    fontSize:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.045,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.white),
-                                              ),
+                                              child: widget.coin == Coin.ETH
+                                                  ? Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 9.0),
+                                                      child: Text(
+                                                        "Etherium",
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.045,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    )
+                                                  : Text(
+                                                      "Concordium",
+                                                      style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.045,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: Colors.white),
+                                                    ),
                                             ),
                                           ),
                                           sizeHor(MediaQuery.of(context)

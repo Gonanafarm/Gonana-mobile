@@ -90,7 +90,7 @@ class _ResetPinState extends State<ResetPin> {
                       isLoading = false;
                     });
                     Get.offAll(() => const Security());
-                    Navigator.pop(context);
+                    // Navigator.pop(context);
                   } else {
                     setState(() {
                       isLoading = false;

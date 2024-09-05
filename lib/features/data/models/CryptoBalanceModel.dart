@@ -4,33 +4,65 @@
 
 import 'dart:convert';
 
-GetCryptoBalance getCryptoBalanceFromJson(String str) =>
-    GetCryptoBalance.fromJson(json.decode(str));
+GetCcdBalance getCcdBalanceFromJson(String str) =>
+    GetCcdBalance.fromJson(json.decode(str));
 
-String getCryptoBalanceToJson(GetCryptoBalance data) =>
+String getCcdBalanceToJson(GetCcdBalance data) =>
     json.encode(data.toJson());
 
-class GetCryptoBalance {
+class GetCcdBalance {
   bool? success;
   String? cryptoWalletBalanceInNgn;
-  String? cryptoWalletBalanceInEth;
+  String? cryptoWalletBalanceInCcd;
 
-  GetCryptoBalance({
+  GetCcdBalance({
     this.success,
     this.cryptoWalletBalanceInNgn,
-    this.cryptoWalletBalanceInEth,
+    this.cryptoWalletBalanceInCcd,
   });
 
-  factory GetCryptoBalance.fromJson(Map<String, dynamic> json) =>
-      GetCryptoBalance(
+  factory GetCcdBalance.fromJson(Map<String, dynamic> json) =>
+      GetCcdBalance(
         success: json["success"],
         cryptoWalletBalanceInNgn: json["cryptoWalletBalanceInNgn"],
-        cryptoWalletBalanceInEth: json["cryptoWalletBalanceInCcd"],
+        cryptoWalletBalanceInCcd: json["cryptoWalletBalanceInCcd"],
       );
 
   Map<String, dynamic> toJson() => {
         "success": success,
         "cryptoWalletBalanceInNgn": cryptoWalletBalanceInNgn,
-        "cryptoWalletBalanceInCcd": cryptoWalletBalanceInEth,
+        "cryptoWalletBalanceInCcd": cryptoWalletBalanceInCcd,
       };
+}
+
+
+GetEthBalance getEthBalanceFromJson(String str) =>
+    GetEthBalance.fromJson(json.decode(str));
+
+String getEthBalanceToJson(GetCcdBalance data) =>
+    json.encode(data.toJson());
+
+class GetEthBalance {
+  bool? success;
+  String? cryptoWalletBalanceInNgn;
+  String? cryptoWalletBalanceInEth;
+
+  GetEthBalance({
+    this.success,
+    this.cryptoWalletBalanceInNgn,
+    this.cryptoWalletBalanceInEth,
+  });
+
+  factory GetEthBalance.fromJson(Map<String, dynamic> json) =>
+      GetEthBalance(
+        success: json["success"],
+        cryptoWalletBalanceInNgn: json["cryptoWalletBalanceInNgn"],
+        cryptoWalletBalanceInEth: json["cryptoWalletBalanceInEth"],
+      );
+
+  Map<String, dynamic> toJson() => {
+    "success": success,
+    "cryptoWalletBalanceInNgn": cryptoWalletBalanceInNgn,
+    "cryptoWalletBalanceInEth": cryptoWalletBalanceInEth,
+  };
 }

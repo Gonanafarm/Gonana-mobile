@@ -48,19 +48,19 @@ class _CryptoPayState extends State<CryptoPay> {
   @override
   void initState() {
     super.initState();
-    getCCDPrice();
+    cryptoPayController.getTokenPrice();
   }
 
-  double converted = 0.0;
-  getCCDPrice() async {
-    converted = await transactionController.ngnToToken("$totalPriceInNaira");
-    if (converted != 0.0) {
-      setState(() {
-        converted = converted;
-      });
-    }
-    return converted;
-  }
+  // double converted = cryptoPayController.converted.value;
+  // getCCDPrice() async {
+  //   converted = await transactionController.ngnToToken("$totalPriceInNaira");
+  //   if (converted != 0.0) {
+  //     setState(() {
+  //       converted = converted;
+  //     });
+  //   }
+  //   return converted;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -107,11 +107,11 @@ class _CryptoPayState extends State<CryptoPay> {
                     children: [
                       SizedBox(
                           width: MediaQuery.of(context).size.width * 0.3,
-                          child: converted != 0.0
+                          child: cryptoPayController.converted.value != 0.0
                               ? TextField(
                                   controller: TextEditingController(
                                       text:
-                                          "CCD ${CryptoPay.formatAmount(converted)}"),
+                                          "${cryptoPayController.tokenName.value} ${CryptoPay.formatAmount(cryptoPayController.converted.value)}"),
                                   enabled: false,
                                   decoration: const InputDecoration(
                                     hintText: "Amount",

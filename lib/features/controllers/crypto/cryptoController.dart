@@ -4,15 +4,30 @@ import 'dart:developer';
 import 'package:get/get.dart';
 
 import '../../data/models/order_model.dart';
+import '../../presentation/page/market/product_checkout.dart';
 import '../../presentation/widgets/widgets.dart';
 import '../../utilities/api_routes.dart';
 import '../../utilities/network.dart';
+import '../fiat_wallet/transaction_controller.dart';
 
 class CryptoPayController extends GetxController {
   RxString tokenName = "CCD".obs;
   RxList<String> tokenNamesList = <String>[].obs;
   RxString tokenLogo = "ccd".obs;
   RxString tokenValue = "0".obs;
+
+  final transactionController = Get.find<TransactionController>();
+
+  RxDouble converted = 0.0.obs;
+  getTokenPrice() async {
+    converted.value =
+        await transactionController.ngnToToken("$totalPriceInNaira");
+    if (converted != 0.0) {
+      converted.value = converted.value;
+      update();
+    }
+    // return converted.value;
+  }
 
   void updateTokens(String newTokenName, String newTokenLogo) {
     tokenName.value = newTokenName;
