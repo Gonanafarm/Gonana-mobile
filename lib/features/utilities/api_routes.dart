@@ -102,8 +102,9 @@ class ApiRoute {
   static const recoverBvn = 'api/transaction/recover-virtual-account';
 
   static const ngnToCCD = 'api/transaction/ngn-ccd';
+  static const ngnToETH = 'api/transaction/ngn-eth';
   static const ccdToDolls = 'api/transaction/ccd-usd';
-  static const ethToDolls = 'api/transaction/ccd-usd';
+  static const ethToDolls = 'api/transaction/eth-usd';
 
   // get wallet balance
   static const getWalletBalance = 'api/transaction/user-balance';

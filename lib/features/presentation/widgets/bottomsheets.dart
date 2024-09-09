@@ -21,6 +21,7 @@ import '../page/home.dart';
 import '../page/market/product_checkout.dart';
 import '../page/swap/swap_page.dart';
 import '../page/verification/verification.dart';
+import '../page/wallet/wallet_page.dart';
 import 'CheckoutButton.dart';
 import 'DeliveryCard.dart';
 import 'PaymentCard.dart';
@@ -397,7 +398,7 @@ checkout(BuildContext context, var courier) {
                                     // ),
                                     // sizeHor(10),
                                     Text(
-                                      "Crypto balance: ${roundToDecimalPlaces(double.tryParse(transactionController.ccdBalanceModel.cryptoWalletBalanceInCcd ?? '0.0') ?? 0.0, 4)}",
+                                      "Crypto balance: ${roundToDecimalPlaces((double.tryParse(transactionController.ccdBalanceModel.cryptoWalletBalanceInCcd ?? '0.0') ?? 0.0) + (double.tryParse(transactionController.ethBalanceModel.cryptoWalletBalanceInEth ?? '0.0') ?? 0.0), 4)}",
                                       style: GoogleFonts.montserrat(
                                         fontSize: 10,
                                         color: darkColor,
@@ -601,9 +602,10 @@ cryptoPayBottomSheet(BuildContext context) {
                             padding: const EdgeInsets.all(10.0),
                             child: InkWell(
                               onTap: () async {
-                                await cryptoPayController.getTokenPrice();
-                                cryptoPayController.updateTokens(
+                                await cryptoPayController.updateTokens(
                                     tokenNames[index], tokenLogo[index]);
+                                await cryptoPayController.getTokenPrice(
+                                    index == 0 ? Coin.CCD : Coin.ETH);
                                 Get.back();
                               },
                               child: Container(

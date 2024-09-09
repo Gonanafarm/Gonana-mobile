@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import '../../data/models/order_model.dart';
 import '../../presentation/page/market/product_checkout.dart';
+import '../../presentation/page/wallet/wallet_page.dart';
 import '../../presentation/widgets/widgets.dart';
 import '../../utilities/api_routes.dart';
 import '../../utilities/network.dart';
@@ -19,17 +20,17 @@ class CryptoPayController extends GetxController {
   final transactionController = Get.find<TransactionController>();
 
   RxDouble converted = 0.0.obs;
-  getTokenPrice() async {
-    converted.value =
-        await transactionController.ngnToToken("$totalPriceInNaira");
-    if (converted != 0.0) {
-      converted.value = converted.value;
-      update();
-    }
+  getTokenPrice(Coin coin) async {
+    converted.value = await transactionController.ngnToToken(
+        "$totalPriceInNaira", coin == Coin.ETH ? Coin.ETH : Coin.CCD);
+
+    converted.value = converted.value;
+    update();
+
     // return converted.value;
   }
 
-  void updateTokens(String newTokenName, String newTokenLogo) {
+  updateTokens(String newTokenName, String newTokenLogo) {
     tokenName.value = newTokenName;
     tokenLogo.value = newTokenLogo;
     update();

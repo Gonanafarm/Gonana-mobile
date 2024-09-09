@@ -11,6 +11,7 @@ import '../../../controllers/crypto/cryptoController.dart';
 import '../../../controllers/fiat_wallet/transaction_controller.dart';
 import '../../widgets/bottomsheets.dart';
 import '../market/product_checkout.dart';
+import '../wallet/wallet_page.dart';
 
 class CryptoPay extends StatefulWidget {
   CryptoPay({Key? key}) : super(key: key);
@@ -48,7 +49,7 @@ class _CryptoPayState extends State<CryptoPay> {
   @override
   void initState() {
     super.initState();
-    cryptoPayController.getTokenPrice();
+    cryptoPayController.getTokenPrice(Coin.CCD);
   }
 
   // double converted = cryptoPayController.converted.value;
@@ -107,20 +108,20 @@ class _CryptoPayState extends State<CryptoPay> {
                     children: [
                       SizedBox(
                           width: MediaQuery.of(context).size.width * 0.3,
-                          child: cryptoPayController.converted.value != 0.0
-                              ? TextField(
-                                  controller: TextEditingController(
-                                      text:
-                                          "${cryptoPayController.tokenName.value} ${CryptoPay.formatAmount(cryptoPayController.converted.value)}"),
-                                  enabled: false,
-                                  decoration: const InputDecoration(
-                                    hintText: "Amount",
-                                    hintStyle: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400),
-                                    border: InputBorder.none,
-                                  ),
-                                )
+                          child: cryptoPayController.converted.value != null
+                              ? Obx(() => TextField(
+                                    controller: TextEditingController(
+                                        text:
+                                            "${cryptoPayController.tokenName.value} ${CryptoPay.formatAmount(cryptoPayController.converted.value)}"),
+                                    enabled: false,
+                                    decoration: const InputDecoration(
+                                      hintText: "Amount",
+                                      hintStyle: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400),
+                                      border: InputBorder.none,
+                                    ),
+                                  ))
                               : Padding(
                                   padding: EdgeInsets.symmetric(
                                       horizontal:

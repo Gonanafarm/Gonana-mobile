@@ -120,17 +120,17 @@ class TransactionController extends GetxController {
     }
   }
 
-  Future ngnToToken(String ngn) async {
+  Future ngnToToken(String ngn, Coin coin) async {
     try {
       var data = {
-        'ngn': ngn,
+        'ngn': coin == Coin.CCD ? ngn : int.tryParse(ngn),
       };
       print(data);
-      var responseBody =
-          await NetworkApi().authPostData(data, ApiRoute.ngnToCCD);
+      var responseBody = await NetworkApi().authPostData(
+          data, coin == Coin.CCD ? ApiRoute.ngnToCCD : ApiRoute.ngnToETH);
       var response = jsonDecode(responseBody.body);
       // log("added cart items || $responseBody");
-      log("Conversion verification|| $response");
+      log("Conversion verification|| ${response}");
       if (responseBody.statusCode == 201) {
         print(responseBody.statusCode);
         // SuccessSnackbar.show(context, "${response['responseMessage']}");
@@ -308,7 +308,12 @@ class TransactionController extends GetxController {
             };
       print(data);
       var responseBody = await NetworkApi().authPostData(
-          data, withdraw && coin == Coin.CCD ? ApiRoute.withdrawCCD : coin == Coin.ETH ? ApiRoute.transferETH :ApiRoute.transferCCD);
+          data,
+          withdraw && coin == Coin.CCD
+              ? ApiRoute.withdrawCCD
+              : coin == Coin.ETH
+                  ? ApiRoute.transferETH
+                  : ApiRoute.transferCCD);
       var response = jsonDecode(responseBody.body);
       // log("added cart items || $responseBody");
       log("crypto transfer || $response");

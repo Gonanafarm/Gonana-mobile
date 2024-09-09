@@ -133,16 +133,19 @@ class _SendChartState extends State<SendChart> {
                                                   withdraw: false,
                                                 ));
                                           }),
-                                      ShortWhiteButton(
-                                          title: 'Withdraw',
-                                          onPressed: () {
-                                            Get.to(() => SendPage(
-                                                  coin: widget.coin == Coin.ETH
-                                                      ? Coin.ETH
-                                                      : Coin.CCD,
-                                                  withdraw: true,
-                                                ));
-                                          }),
+                                      widget.coin == Coin.CCD
+                                          ? ShortWhiteButton(
+                                              title: 'Withdraw',
+                                              onPressed: () {
+                                                Get.to(() => SendPage(
+                                                      coin: widget.coin ==
+                                                              Coin.ETH
+                                                          ? Coin.ETH
+                                                          : Coin.CCD,
+                                                      withdraw: true,
+                                                    ));
+                                              })
+                                          : Container(),
                                       // ShortWhiteButton(
                                       //     title: 'Stake',
                                       //     onPressed: () {
