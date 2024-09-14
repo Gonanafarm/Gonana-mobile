@@ -38,7 +38,7 @@ class _WalletPageState extends State<WalletPage> {
     BVNisSubmited = prefs.getBool('bvnSubmission');
   }
 
-  int totalAmountNgn = 0;
+  double totalAmountNgn = 0.0;
   getBalance() async {
     await transactionController.fetchBalance();
     // Get the raw string values
@@ -59,7 +59,7 @@ class _WalletPageState extends State<WalletPage> {
         double.tryParse(nairaBalanceStr?.trim() ?? '0.0') ?? 0.0;
 
 // Add the parsed integer values together
-    int calculatedAmount = (cryptoAmount + nairaAmount).toInt();
+    double calculatedAmount = (cryptoAmount + nairaAmount);
 
     setState(() {
       totalAmountNgn = calculatedAmount;
@@ -94,7 +94,7 @@ class _WalletPageState extends State<WalletPage> {
   }
 
   static String formatAmount(dynamic amount) {
-    final value = NumberFormat('#,##0.00', 'en_US');
+    final value = NumberFormat('#,##0.0000', 'en_US');
 
     // Handle null values early
     if (amount == null) {
@@ -120,8 +120,8 @@ class _WalletPageState extends State<WalletPage> {
       "NGN ${formatAmount(transactionController.balanceModel.value.balance) ?? 0}"
     ];
     List amountInCrypto = [
-      "CCD ${formatAmount(double.tryParse(transactionController.ccdBalanceModel.cryptoWalletBalanceInCcd ?? '0.0'))}",
-      "ETH ${formatAmount(double.tryParse(transactionController.ethBalanceModel.cryptoWalletBalanceInEth ?? '0.0'))}",
+      "CCD ${formatAmount(transactionController.ccdBalanceModel.cryptoWalletBalanceInCcd ?? 0)}",
+      "ETH ${formatAmount(transactionController.ethBalanceModel.cryptoWalletBalanceInEth ?? 0)}",
       ""
     ];
 
