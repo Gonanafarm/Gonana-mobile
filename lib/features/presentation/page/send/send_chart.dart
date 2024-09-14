@@ -95,7 +95,8 @@ class _SendChartState extends State<SendChart> {
                           ),
                           widget.coin == Coin.ETH
                               ? Text(
-                                  'ETH ${formatAmount(transactionController.ccdBalanceModel.cryptoWalletBalanceInCcd ?? 0)}',
+                                  'ETH ${formatAmount(transactionController.ethBalanceModel.cryptoWalletBalanceInEth ?? 0)}',
+                                  textAlign: TextAlign.center,
                                   style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 35,

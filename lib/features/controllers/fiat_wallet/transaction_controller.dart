@@ -175,7 +175,7 @@ class TransactionController extends GetxController {
       var responseBody2 =
           await NetworkApi().authGetData(ApiRoute.getEthWalletBalance);
       final response1 = jsonDecode(responseBody1.body);
-      final response2 = jsonDecode(responseBody1.body);
+      final response2 = jsonDecode(responseBody2.body);
       print("crypto wallet balance");
       if (responseBody1.statusCode == 200 && responseBody2.statusCode == 200) {
         ccdBalanceModel = getCcdBalanceFromJson(responseBody1.body);

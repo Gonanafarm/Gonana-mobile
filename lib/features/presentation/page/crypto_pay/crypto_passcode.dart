@@ -13,6 +13,7 @@ import '../../../controllers/cart/cart_controller.dart';
 import '../../../controllers/crypto/cryptoController.dart';
 import '../../widgets/numpad.dart';
 import '../../widgets/widgets.dart';
+import '../wallet/wallet_page.dart';
 
 class CryptoPasscode extends StatefulWidget {
   const CryptoPasscode({Key? key}) : super(key: key);
@@ -28,6 +29,7 @@ class _CryptoPasscodeState extends State<CryptoPasscode> {
   dynamic argument = Get.arguments;
   late String courier = argument['courier'];
   late String totalPrice = argument['productPrice'];
+  late Coin coin = argument['coin'];
   bool isLoading = false;
   CryptoPayController cryptoPayController = Get.put(CryptoPayController());
   String get passCode => _passCodeController.text;
@@ -130,7 +132,7 @@ class _CryptoPasscodeState extends State<CryptoPasscode> {
                         passCode, context);
                     if (created) {
                       bool isSuccess = await cryptoPayController
-                          .cryptoPlaceOrder(orderList, courier, context);
+                          .cryptoPlaceOrder(orderList, courier, context, coin);
                       setState(() {
                         isLoading = false;
                       });

@@ -12,7 +12,8 @@ class ApiRoute {
   static const updateCart = "api/catalog/cart";
   static const getRates = "api/catalog/cart/get-rates";
   static const placeOrder = "api/catalog/cart/place-order";
-  static const cryptoPlaceOrder = "api/catalog/cart/pay-with-eth";
+  static const ethPlaceOrder = "api/catalog/cart/pay-with-eth";
+  static const ccdPlaceOrder = "api/catalog/cart/pay-with-ccd";
 
   //
   static const fetchNotifications = "api/user/notifications";

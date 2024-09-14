@@ -37,7 +37,7 @@ class CryptoPayController extends GetxController {
   }
 
   Future<bool> cryptoPlaceOrder(
-      List<Order> order, String serviceCode, var context) async {
+      List<Order> order, String serviceCode, var context, Coin coin) async {
     try {
       var data = {"orders": order, "service_code": serviceCode};
       log("data: $data");
@@ -45,8 +45,8 @@ class CryptoPayController extends GetxController {
         print('Order ID: ${item.id}');
         print('Units: ${item.units}');
       }
-      var res =
-          await NetworkApi().authPostData(data, ApiRoute.cryptoPlaceOrder);
+      var res = await NetworkApi().authPostData(data,
+          coin == Coin.ETH ? ApiRoute.ethPlaceOrder : ApiRoute.ccdPlaceOrder);
       var response = jsonDecode(res.body);
       print("got here");
       log('Message: $response');

@@ -182,7 +182,10 @@ class _CryptoPayState extends State<CryptoPay> {
                       onPressed: () {
                         Get.to(() => const CryptoPasscode(), arguments: {
                           "courier": courier,
-                          "productPrice": totalPrice
+                          "productPrice": totalPrice,
+                          "coin": cryptoPayController.tokenName.value == "CCD"
+                              ? Coin.CCD
+                              : Coin.ETH
                         });
                       }))
             ],
