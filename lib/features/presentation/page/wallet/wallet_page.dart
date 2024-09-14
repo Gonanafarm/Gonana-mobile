@@ -43,7 +43,7 @@ class _WalletPageState extends State<WalletPage> {
     await transactionController.fetchBalance();
     // Get the raw string values
     String? cryptoBalanceStr =
-        transactionController.ccdBalanceModel.cryptoWalletBalanceInNgn;
+        "${(double.tryParse(transactionController.ccdBalanceModel.cryptoWalletBalanceInNgn ?? '0') ?? 0) + (double.tryParse(transactionController.ethBalanceModel.cryptoWalletBalanceInNgn ?? '0') ?? 0)}";
     String? nairaBalanceStr = transactionController.balanceModel.value.balance;
 
 // Print raw values for debugging
@@ -116,12 +116,12 @@ class _WalletPageState extends State<WalletPage> {
   Widget build(BuildContext context) {
     List amountInNaira = [
       "NGN ${formatAmount(transactionController.ccdBalanceModel.cryptoWalletBalanceInNgn) ?? 0}",
-      "NGN ${formatAmount(transactionController.ccdBalanceModel.cryptoWalletBalanceInNgn) ?? 0}",
+      "NGN ${formatAmount(transactionController.ethBalanceModel.cryptoWalletBalanceInNgn) ?? 0}",
       "NGN ${formatAmount(transactionController.balanceModel.value.balance) ?? 0}"
     ];
     List amountInCrypto = [
-      "CCD ${roundToDecimalPlaces(double.tryParse(transactionController.ccdBalanceModel.cryptoWalletBalanceInCcd ?? '0.0') ?? 0.0, 4)}",
-      "ETH ${roundToDecimalPlaces(double.tryParse(transactionController.ccdBalanceModel.cryptoWalletBalanceInCcd ?? '0.0') ?? 0.0, 4)}",
+      "CCD ${formatAmount(double.tryParse(transactionController.ccdBalanceModel.cryptoWalletBalanceInCcd ?? '0.0'))}",
+      "ETH ${formatAmount(double.tryParse(transactionController.ethBalanceModel.cryptoWalletBalanceInEth ?? '0.0'))}",
       ""
     ];
 

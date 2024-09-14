@@ -398,7 +398,7 @@ checkout(BuildContext context, var courier) {
                                     // ),
                                     // sizeHor(10),
                                     Text(
-                                      "Crypto balance: ${roundToDecimalPlaces((double.tryParse(transactionController.ccdBalanceModel.cryptoWalletBalanceInCcd ?? '0.0') ?? 0.0) + (double.tryParse(transactionController.ethBalanceModel.cryptoWalletBalanceInEth ?? '0.0') ?? 0.0), 4)}",
+                                      "Crypto balance: ${formatAmount((double.tryParse(transactionController.ccdBalanceModel.cryptoWalletBalanceInCcd ?? '0.0') ?? 0.0) + (double.tryParse(transactionController.ethBalanceModel.cryptoWalletBalanceInEth ?? '0.0') ?? 0.0))}",
                                       style: GoogleFonts.montserrat(
                                         fontSize: 10,
                                         color: darkColor,
@@ -546,9 +546,10 @@ cryptoPayBottomSheet(BuildContext context) {
   var ethDoubleValue = double.tryParse(ethStringValue ?? "0.0");
   var ccdTokenValueInDec;
   var ethTokenValueInDec;
-  if (doubleValue != null) {
+  print(ethDoubleValue);
+  if (doubleValue != null && ethDoubleValue != null) {
     ccdTokenValueInDec = doubleValue.toStringAsFixed(3);
-    ethTokenValueInDec = doubleValue.toStringAsFixed(3);
+    ethTokenValueInDec = ethDoubleValue.toStringAsFixed(3);
     // Rest of your code...
   } else {
     // Handle the case where the conversion to double fails
