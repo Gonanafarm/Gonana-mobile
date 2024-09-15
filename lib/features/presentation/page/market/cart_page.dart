@@ -451,8 +451,16 @@ class _CartCardState extends State<CartCard> {
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Image.network(
-                        cartController
-                            .cartModel!.value.products![widget.index].image![0],
+                        // First check if products exists, and image exists and is not empty
+                        (cartController.cartModel.value.products != null &&
+                                cartController.cartModel.value
+                                        .products![widget.index].image !=
+                                    null &&
+                                cartController.cartModel.value
+                                    .products![widget.index].image!.isNotEmpty)
+                            ? cartController.cartModel.value
+                                .products![widget.index].image![0]
+                            : "https://placeholder.url/placeholder.png", // Fallback image
                         fit: BoxFit.cover,
                         errorBuilder: (BuildContext context, Object error,
                             StackTrace? stackTrace) {
