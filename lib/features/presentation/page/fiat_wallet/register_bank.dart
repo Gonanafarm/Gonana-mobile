@@ -123,40 +123,46 @@ class _RegisterBankState extends State<RegisterBank> {
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          FutureBuilder(
-                              future: fetchData(),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  // Return a loading indicator while data is being fetched
-                                  return Container(
-                                      child: CircularProgressIndicator());
-                                } else if (snapshot.hasError) {
-                                  // Handle error
-                                  return Text('Error: ${snapshot.error}');
-                                } else if (!snapshot.hasData ||
-                                    snapshot.data!.isEmpty) {
-                                  // Handle the case where data is empty
-                                  return Text('No data available');
-                                } else {
-                                  return CustomDropDown(
-                                    labelText: "Bank",
-                                    options: bankController.banks,
-                                    onChanged: (option) {
-                                      setState(() {
-                                        selectedBank = option;
-                                      });
-                                    },
-                                    hintText: 'Select your bank',
-                                    fillColor: Colors.transparent,
-                                    elevation: 2,
-                                    margin: EdgeInsetsDirectional.fromSTEB(
-                                        12, 10, 15, 4),
-                                    hidesUnderline: true,
-                                    initialOption: selectedBank,
-                                  );
-                                }
-                              }),
+                          Obx(() {
+                            if (bankController.bankModel.value == null) {
+                              return CircularProgressIndicator(); // Show a loader until data is available
+                            }
+                              return FutureBuilder(
+                                  future: fetchData(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      // Return a loading indicator while data is being fetched
+                                      return Container(
+                                          child: CircularProgressIndicator());
+                                    } else if (snapshot.hasError) {
+                                      // Handle error
+                                      return Text('Error: ${snapshot.error}');
+                                    } else if (!snapshot.hasData ||
+                                        snapshot.data!.isEmpty) {
+                                      // Handle the case where data is empty
+                                      return Text('No data available');
+                                    } else {
+                                      return CustomDropDown(
+                                        labelText: "Bank",
+                                        options: bankController.banks,
+                                        onChanged: (option) {
+                                          setState(() {
+                                            selectedBank = option;
+                                          });
+                                        },
+                                        hintText: 'Select your bank',
+                                        fillColor: Colors.transparent,
+                                        elevation: 2,
+                                        margin: EdgeInsetsDirectional.fromSTEB(
+                                            12, 10, 15, 4),
+                                        hidesUnderline: true,
+                                        initialOption: selectedBank,
+                                      );
+                                    }
+                                  });
+                            }
+                          ),
                           Text(
                             dropDownError,
                             style: const TextStyle(color: Colors.red),
@@ -254,7 +260,7 @@ class _RegisterBankState extends State<RegisterBank> {
                           sizeVer(10),
                           EnterFormText(
                             controller: _narration,
-                            keyboardType: TextInputType.number,
+                            keyboardType: TextInputType.text,
                             label: 'Narration (optional)',
                             hint: 'Enter your narration',
                           ),
@@ -277,11 +283,9 @@ class _RegisterBankState extends State<RegisterBank> {
                           });
                     String balance =
                         transactionController.balanceModel!.value.balance ?? '';
-                    if (int.parse(_amount.text) < 0) {
+                    if (int.parse(_amount.text) < 1) {
                       ErrorSnackbar.show(
                           context, "You can't withdraw this amount");
-                    } else if (_amount.text.compareTo(balance) > 0) {
-                      ErrorSnackbar.show(context, "Insufficient fund");
                     } else {
                       bool isValid = _sendBankKey.currentState!.validate();
                       if (bankController.resolveBankModel != null &&
@@ -536,6 +540,7 @@ class _SendPasscodeState extends State<SendPasscode> {
                                         title: 'Finish',
                                         onPressed: () async {
                                           print("Proceeded");
+                                          Navigator.pop(context);
                                           Get.offAll(
                                               () => HomePage(navIndex: 1));
                                         },

@@ -259,7 +259,7 @@ tokenBottomSheet2(BuildContext context) {
 
 checkout(BuildContext context, var courier) {
   String formatAmount(dynamic amount) {
-    final value = NumberFormat('#,##0.00', 'en_US');
+    final value = NumberFormat('#,##0.0000', 'en_US');
     if (amount is! num) {
       final format = double.tryParse(amount);
       if (format == null) return '0.00';

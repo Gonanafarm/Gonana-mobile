@@ -10,17 +10,18 @@ import '../../utilities/api_routes.dart';
 import '../../utilities/network.dart';
 
 class BankController extends GetxController {
-  BankModel? bankModel;
+  Rx<BankModel?> bankModel = Rx<BankModel?>(null);
+
 
   Future<bool> fetchBank() async {
     try {
       var responseBody = await NetworkApi().authGetData(ApiRoute.fetchBanks);
       final response = jsonDecode(responseBody.body);
       print("Banks");
-      bankModel = await bankModelFromJson(responseBody.body);
+      bankModel.value =  bankModelFromJson(responseBody.body);
       sortBanks();
       log("All banks || $response");
-      log("All banks || $banks");
+      // log("All banks || $banks");
       if (response['statusCode'] == 200) {
         return true;
       } else {
@@ -38,8 +39,8 @@ class BankController extends GetxController {
     // this will clear the list to prevent multiple occurrence of courses
     banks.clear();
     // this will get each course and add it to the courses list i declared above
-    for (var i = 0; i < bankModel!.data!.length; i++) {
-      banks.insert(0, bankModel!.data!.elementAt(i).bankName!);
+    for (var i = 0; i < bankModel.value!.data!.length; i++) {
+      banks.insert(0, bankModel.value!.data!.elementAt(i).bankName!);
     }
   }
 

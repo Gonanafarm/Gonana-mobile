@@ -28,7 +28,11 @@ class OrderController extends GetxController {
           await NetworkApi().authGetData(ApiRoute.getIncomingOrders);
       final response = jsonDecode(responseBody.body);
       getOrderModel.value = getOrdersModelFromJson(responseBody.body);
-      log("all orders || $response");
+      getOrderModel.refresh();
+
+      log("incoming orders || ${response}");
+      log("incoming orders || ${getOrderModel.value.data![0].status}");
+
       return true;
     } catch (e) {
       print(e);
