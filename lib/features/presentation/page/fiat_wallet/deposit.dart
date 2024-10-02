@@ -345,7 +345,9 @@ Future<dynamic> successDialog(BuildContext context) {
                 child: DialogGradientButton(
                   title: 'Proceed',
                   onPressed: () {
+                    Navigator.pop(context);
                     Get.to(() => HomePage(navIndex: 1));
+
                   },
                 ),
               ),

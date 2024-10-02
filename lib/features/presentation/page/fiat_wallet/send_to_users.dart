@@ -134,11 +134,9 @@ class _SendToUsersState extends State<SendToUsers> {
                         String balance =
                             transactionController.balanceModel!.value.balance ??
                                 '';
-                        if (int.parse(_amount.text) < 0) {
+                        if (int.parse(_amount.text) < 1) {
                           ErrorSnackbar.show(
                               context, "You can't withdraw this amount");
-                        } else if (_amount.text.compareTo(balance) > 0) {
-                          ErrorSnackbar.show(context, "Insufficient fund");
                         } else {
                           bool isValid = _sendKey.currentState!.validate();
                           if (isValid!) {
@@ -377,6 +375,7 @@ class _SendPasscodeState extends State<SendPasscode> {
                                         title: 'Finish',
                                         onPressed: () async {
                                           print("here");
+                                          Navigator.pop(context);
                                           Get.offAll(
                                               () => HomePage(navIndex: 1));
                                         },
