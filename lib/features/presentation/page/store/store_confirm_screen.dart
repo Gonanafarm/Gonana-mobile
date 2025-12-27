@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart' as carousel;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -27,7 +27,8 @@ class ConfirmScreen extends StatefulWidget {
 
 class _ConfirmScreenState extends State<ConfirmScreen> {
   final taxonomyController = Get.put(TaxonomyController());
-  CarouselController customCarouselController = CarouselController();
+  carousel.CarouselController customCarouselController =
+      carousel.CarouselController();
   ProductController productController = Get.put(ProductController());
   int activeIndex = 0;
   bool isLoading = false;
@@ -89,11 +90,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                         child: Center(
                           child: Obx(() {
                             return Text(
-                              cartController
-                                          .cartModel!.value.products!.length !=
-                                      null
-                                  ? "${cartController.cartModel!.value.products!.length}"
-                                  : "",
+                              "${cartController.cartModel.value.products!.length}",
                               style: const TextStyle(
                                 color: primaryColor,
                               ),
@@ -122,10 +119,10 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                     width: MediaQuery.of(context).size.width * 1,
                     // height: 342,
                     child: Stack(children: <Widget>[
-                      CarouselSlider.builder(
+                      carousel.CarouselSlider.builder(
                         carouselController: customCarouselController,
                         itemCount: cardList.length,
-                        options: CarouselOptions(
+                        options: carousel.CarouselOptions(
                             height: 341,
                             viewportFraction: 1,
                             autoPlay: false,

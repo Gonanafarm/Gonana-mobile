@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../presentation/widgets/widgets.dart';
 import '../../utilities/api_routes.dart';
 import '../../utilities/network.dart';

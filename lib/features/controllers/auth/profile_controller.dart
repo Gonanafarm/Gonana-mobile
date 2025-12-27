@@ -1,9 +1,4 @@
-import 'dart:convert';
-import 'dart:developer';
-import 'dart:io';
-import 'package:gonana/features/utilities/network.dart';
 import 'package:get/get.dart';
-import 'package:gonana/features/utilities/api_routes.dart';
 
 class ProfileController extends GetxController {
   // Future<bool> updateProfile(

@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart' as carousel;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -11,7 +11,7 @@ import 'package:gonana/features/presentation/page/store/store_edit_product.dart'
 import 'package:gonana/features/presentation/widgets/widgets.dart';
 
 import '../../../controllers/market/market_controllers.dart';
-import '../../widgets/image_slider_discount.dart';
+
 import '../../widgets/image_slider_user.dart';
 
 late Datum imageUserModel;
@@ -29,7 +29,8 @@ class StoreViewProducts extends StatefulWidget {
 }
 
 class _StoreViewProductsState extends State<StoreViewProducts> {
-  CarouselController customCarouselController = CarouselController();
+  carousel.CarouselController customCarouselController =
+      carousel.CarouselController();
   int activeIndex = 0;
   final cardList = [
     const Card1(),
@@ -108,10 +109,10 @@ class _StoreViewProductsState extends State<StoreViewProducts> {
                               width: 140,
                               child: RichText(
                                   text: TextSpan(
-                                      text: widget.userPostModel!.amount != null
-                                          ? "NGN ${widget.userPostModel!.amount}"
+                                      text: widget.userPostModel.amount != null
+                                          ? "NGN ${widget.userPostModel.amount}"
                                           : "NGN ",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.w600,
                                           color: Color(0xff29844B)),
@@ -237,10 +238,10 @@ class _StoreViewProductsState extends State<StoreViewProducts> {
                               child: Padding(
                                 padding: EdgeInsets.all(3.0),
                                 child: Text(
-                                  widget.userPostModel!.title!.isNotEmpty
-                                      ? "${widget.userPostModel!.title}"
+                                  widget.userPostModel.title!.isNotEmpty
+                                      ? "${widget.userPostModel.title}"
                                       : "",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
@@ -256,10 +257,10 @@ class _StoreViewProductsState extends State<StoreViewProducts> {
                                   child: SizedBox(
                                       height: 36,
                                       child: Text(
-                                        widget.userPostModel!.body!.isNotEmpty
-                                            ? "  ${widget.userPostModel!.body}"
+                                        widget.userPostModel.body!.isNotEmpty
+                                            ? "  ${widget.userPostModel.body}"
                                             : "",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 10,
                                             fontWeight: FontWeight.w400),
                                       )),
@@ -278,10 +279,10 @@ class _StoreViewProductsState extends State<StoreViewProducts> {
                                 //       children: productRating(5),
                                 //     )),
                                 Text(
-                                  widget.userPostModel!.quantity! != null
-                                      ? "${widget.userPostModel!.quantity} pieces available"
+                                  widget.userPostModel.quantity != null
+                                      ? "${widget.userPostModel.quantity} pieces available"
                                       : "0 pieces available",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 10,
                                       fontWeight: FontWeight.w600),
                                 )
@@ -597,7 +598,7 @@ class Card1 extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(4.59),
       child: Image.network(
-        imageUserModel!.images![0],
+        imageUserModel.images![0],
         fit: BoxFit.cover,
       ),
     );
@@ -611,9 +612,9 @@ class Card2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
         borderRadius: BorderRadius.circular(4.59),
-        child: imageUserModel!.images![1] == null
+        child: imageUserModel.images![1] == null
             ? Image.network(
-                imageUserModel!.images![1], // height: 341,
+                imageUserModel.images![1], // height: 341,
                 // width: 341,
                 fit: BoxFit.fill,
               )
@@ -629,7 +630,7 @@ class Card3 extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(4.59),
       child: Image.network(
-        imageUserModel!.images![2],
+        imageUserModel.images![2],
         height: 341,
         width: 341,
         fit: BoxFit.fill,
@@ -680,7 +681,7 @@ Future<dynamic> deleteDialog(BuildContext context) {
                   onPressed: () async {
                     bool created = false;
                     created = await marketController
-                        .deleteProductItem(usrPostModel!.id);
+                        .deleteProductItem(usrPostModel.id);
                     if (created) {
                       await marketController.fetchUserProduct();
                       await marketController.fetchProduct();

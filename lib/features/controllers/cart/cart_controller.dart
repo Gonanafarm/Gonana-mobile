@@ -14,7 +14,6 @@ import '../../data/models/cart_model.dart';
 import '../../presentation/widgets/widgets.dart';
 import '../../utilities/api_routes.dart';
 import '../../utilities/network.dart';
-import 'package:dio/dio.dart';
 
 class CartController extends GetxController {
   Rx<CartModel> cartModel = Rx<CartModel>(CartModel());

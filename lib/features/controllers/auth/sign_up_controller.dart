@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../presentation/page/auth/emailverification.dart';
-import '../../presentation/page/auth/number_verification_screen.dart';
 import '../../presentation/widgets/widgets.dart';
 import '../user/user_controller.dart';
 
