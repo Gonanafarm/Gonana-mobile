@@ -19,10 +19,10 @@ class GonanaV2App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Gonana V2',
+      title: 'Gonana',
       debugShowCheckedModeBanner: false,
-      theme: ThemeConfig.lightTheme,
-      darkTheme: ThemeConfig.darkTheme,
+      theme: AppThemeConfig.lightTheme,
+      darkTheme: AppThemeConfig.darkTheme,
       themeMode: ThemeMode.system,
       home: const SplashScreen(),
     );
